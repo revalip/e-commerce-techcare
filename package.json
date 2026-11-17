@@ -1,0 +1,11 @@
+{
+  "name": "techcare-ecommerce",
+  "version": "1.0.0",
+  "description": "TechCare E-Commerce Perangkat IT",
+  "scripts": {
+    "dev": "npm run dev --prefix client",
+    "server": "npm run dev --prefix server",
+    "seed": "npm run seed --prefix server",
+    "build": "npm run build --prefix client"
+  }
+}

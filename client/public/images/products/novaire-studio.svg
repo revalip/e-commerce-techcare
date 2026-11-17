@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="leatherBand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5a2b"/>
+      <stop offset="50%" stop-color="#5c3a21"/>
+      <stop offset="100%" stop-color="#4a2e1b"/>
+    </linearGradient>
+    <linearGradient id="chromeMetal" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="30%" stop-color="#a6a6a6"/>
+      <stop offset="70%" stop-color="#555555"/>
+      <stop offset="100%" stop-color="#e0e0e0"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#shadow)" transform="translate(10, 10)">
+    <!-- Headband Arc Leather -->
+    <path d="M 60 160 C 60 55, 240 55, 240 160" fill="none" stroke="url(#leatherBand)" stroke-width="28" stroke-linecap="round"/>
+    <path d="M 70 150 C 70 70, 230 70, 230 150" fill="none" stroke="#d4a373" stroke-width="2" stroke-dasharray="6,4" stroke-linecap="round"/>
+
+    <!-- Metal Pivot Stems -->
+    <rect x="52" y="145" width="16" height="42" rx="4" fill="url(#chromeMetal)"/>
+    <rect x="232" y="145" width="16" height="42" rx="4" fill="url(#chromeMetal)"/>
+
+    <!-- Left Ear Cup: Retro-Modern Squircle -->
+    <rect x="24" y="155" width="72" height="84" rx="28" fill="#2d2d2d" stroke="url(#chromeMetal)" stroke-width="4"/>
+    <rect x="36" y="167" width="48" height="60" rx="20" fill="#1f1f1f"/>
+    <circle cx="60" cy="197" r="10" fill="url(#chromeMetal)"/>
+
+    <!-- Right Ear Cup: Retro-Modern Squircle -->
+    <rect x="204" y="155" width="72" height="84" rx="28" fill="#2d2d2d" stroke="url(#chromeMetal)" stroke-width="4"/>
+    <rect x="216" y="167" width="48" height="60" rx="20" fill="#1f1f1f"/>
+    <circle cx="240" cy="197" r="10" fill="url(#chromeMetal)"/>
+  </g>
+</svg>

@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="100%" height="100%">
+  <rect width="400" height="480" fill="#ffffff" rx="16"/>
+  <!-- Header -->
+  <rect x="24" y="24" width="352" height="64" rx="8" fill="#111113"/>
+  <text x="200" y="52" fill="#ffffff" font-family="'Playfair Display', serif" font-size="20" font-weight="bold" text-anchor="middle" letter-spacing="4">NOVAIRE</text>
+  <text x="200" y="72" fill="#a1a1aa" font-family="sans-serif" font-size="10" text-anchor="middle" letter-spacing="1">QRIS PEMBAYARAN NASIONAL</text>
+  
+  <!-- Merchant Info -->
+  <text x="200" y="115" fill="#111113" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">PT NOVAIRE INDONESIA</text>
+  <text x="200" y="132" fill="#71717a" font-family="sans-serif" font-size="11" text-anchor="middle">NMID: ID1020261117948</text>
+  
+  <!-- QR Border Box -->
+  <rect x="48" y="148" width="304" height="280" fill="#f8f8fa" rx="12" stroke="#e4e4e7" stroke-width="2"/>
+  
+  <!-- Stylized QR Code Pattern -->
+  <g fill="#111113">
+    <!-- Top Left Finder Pattern -->
+    <rect x="72" y="172" width="64" height="64" rx="8" fill="#111113"/>
+    <rect x="80" y="180" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="88" y="188" width="32" height="32" rx="4" fill="#111113"/>
+    
+    <!-- Top Right Finder Pattern -->
+    <rect x="264" y="172" width="64" height="64" rx="8" fill="#111113"/>
+    <rect x="272" y="180" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="280" y="188" width="32" height="32" rx="4" fill="#111113"/>
+    
+    <!-- Bottom Left Finder Pattern -->
+    <rect x="72" y="340" width="64" height="64" rx="8" fill="#111113"/>
+    <rect x="80" y="348" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="88" y="356" width="32" height="32" rx="4" fill="#111113"/>
+
+    <!-- Decorative QR Data Dots -->
+    <rect x="156" y="172" width="16" height="32" rx="2"/>
+    <rect x="180" y="172" width="32" height="16" rx="2"/>
+    <rect x="228" y="172" width="16" height="20" rx="2"/>
+    <rect x="156" y="220" width="24" height="16" rx="2"/>
+    <rect x="196" y="204" width="16" height="32" rx="2"/>
+    <rect x="228" y="212" width="16" height="24" rx="2"/>
+
+    <!-- Center QRIS badge inside QR -->
+    <rect x="160" y="252" width="80" height="72" rx="8" fill="#111113"/>
+    <circle cx="200" cy="288" r="24" fill="#ffffff"/>
+    <text x="200" y="293" fill="#111113" font-family="'Playfair Display', serif" font-size="12" font-weight="900" text-anchor="middle">N</text>
+
+    <!-- Bottom Right Data Dots -->
+    <rect x="264" y="260" width="24" height="24" rx="2"/>
+    <rect x="304" y="260" width="24" height="16" rx="2"/>
+    <rect x="264" y="300" width="16" height="40" rx="2"/>
+    <rect x="296" y="292" width="32" height="16" rx="2"/>
+    <rect x="264" y="356" width="24" height="24" rx="2"/>
+    <rect x="304" y="348" width="24" height="32" rx="2"/>
+    <rect x="156" y="348" width="32" height="16" rx="2"/>
+    <rect x="204" y="348" width="16" height="32" rx="2"/>
+    <rect x="156" y="380" width="16" height="24" rx="2"/>
+    <rect x="188" y="388" width="32" height="16" rx="2"/>
+  </g>
+  
+  <!-- Footer Note -->
+  <text x="200" y="450" fill="#71717a" font-family="sans-serif" font-size="10" text-anchor="middle">BCA • Mandiri • BRI • BNI • GoPay • OVO • ShopeePay • DANA</text>
+</svg>

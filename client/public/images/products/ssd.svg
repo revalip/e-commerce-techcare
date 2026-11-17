@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="ssdHeatsink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#27272a"/>
+      <stop offset="50%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+    <filter id="shadowSSD" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="12" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadowSSD)" transform="translate(45, 60)">
+    <!-- PCB Green/Black Board -->
+    <rect x="20" y="30" width="230" height="85" rx="6" fill="#18181b" stroke="#3f3f46" stroke-width="2"/>
+    <!-- Gold M.2 Connector Pins -->
+    <rect x="250" y="45" width="18" height="55" rx="2" fill="#eab308"/>
+
+    <!-- Aluminum Ribbed Heatsink -->
+    <rect x="30" y="36" width="205" height="73" rx="4" fill="url(#ssdHeatsink)"/>
+    <!-- Cooling Fins -->
+    <line x1="50" y1="42" x2="220" y2="42" stroke="#3f3f46" stroke-width="2"/>
+    <line x1="50" y1="52" x2="220" y2="52" stroke="#3f3f46" stroke-width="2"/>
+    <line x1="50" y1="62" x2="220" y2="62" stroke="#3f3f46" stroke-width="2"/>
+    <line x1="50" y1="72" x2="220" y2="72" stroke="#3f3f46" stroke-width="2"/>
+    <line x1="50" y1="82" x2="220" y2="82" stroke="#3f3f46" stroke-width="2"/>
+    <line x1="50" y1="92" x2="220" y2="92" stroke="#3f3f46" stroke-width="2"/>
+
+    <!-- Badge / Label -->
+    <rect x="75" y="55" width="110" height="34" rx="4" fill="#000000" stroke="#3b82f6" stroke-width="1.5"/>
+    <text x="130" y="70" fill="#ffffff" font-family="sans-serif" font-size="9" font-weight="bold" text-anchor="middle">TECHCARE PCIe 4.0</text>
+    <text x="130" y="82" fill="#60a5fa" font-family="sans-serif" font-size="8" text-anchor="middle">7400 MB/s NVMe</text>
+  </g>
+</svg>

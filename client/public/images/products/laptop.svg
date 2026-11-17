@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="laptopScreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="50%" stop-color="#09090b"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </linearGradient>
+    <linearGradient id="laptopBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e4e4e7"/>
+      <stop offset="50%" stop-color="#d4d4d8"/>
+      <stop offset="100%" stop-color="#a1a1aa"/>
+    </linearGradient>
+    <linearGradient id="wallpaperGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <filter id="shadowL" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadowL)" transform="translate(10, 10)">
+    <!-- Lid Back / Screen Frame -->
+    <rect x="50" y="40" width="240" height="155" rx="10" fill="#27272a" stroke="url(#laptopBody)" stroke-width="3"/>
+    
+    <!-- Screen Display Area -->
+    <rect x="60" y="50" width="220" height="135" rx="6" fill="url(#laptopScreen)"/>
+    
+    <!-- Stylized Futuristic OS Wallpaper Graphic -->
+    <path d="M 60 140 Q 140 80, 200 130 T 280 110 L 280 185 L 60 185 Z" fill="url(#wallpaperGlow)" opacity="0.85"/>
+    <circle cx="170" cy="117" r="16" fill="#ffffff" opacity="0.9"/>
+    
+    <!-- Webcam Dot -->
+    <circle cx="170" cy="45" r="2.5" fill="#71717a"/>
+
+    <!-- Bottom Base / Keyboard Deck -->
+    <path d="M 20 195 L 320 195 L 305 245 L 35 245 Z" fill="url(#laptopBody)"/>
+    <!-- Keyboard Well -->
+    <path d="M 45 200 L 295 200 L 285 228 L 55 228 Z" fill="#18181b" opacity="0.8"/>
+    <!-- Keys Grid representation -->
+    <rect x="65" y="204" width="210" height="18" rx="2" fill="#27272a"/>
+    <!-- Trackpad -->
+    <rect x="135" y="232" width="70" height="10" rx="3" fill="#ffffff" opacity="0.3"/>
+    <!-- Front Lip Opening Notch -->
+    <rect x="155" y="243" width="30" height="3" rx="1.5" fill="#71717a"/>
+  </g>
+</svg>

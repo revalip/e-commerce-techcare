@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="monitorStand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#52525b"/>
+      <stop offset="100%" stop-color="#27272a"/>
+    </linearGradient>
+    <linearGradient id="screenDisplay" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <filter id="shadowM" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#000000" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadowM)" transform="translate(15, 20)">
+    <!-- Stand Neck & Base -->
+    <path d="M 155 180 L 175 180 L 180 255 L 150 255 Z" fill="url(#monitorStand)"/>
+    <!-- V-Shape Modern Stand Feet -->
+    <path d="M 165 250 L 90 275 L 105 278 L 165 255 L 225 278 L 240 275 Z" fill="#18181b"/>
+
+    <!-- Curved Monitor Outer Frame -->
+    <rect x="20" y="45" width="290" height="145" rx="12" fill="#18181b" stroke="#3f3f46" stroke-width="3"/>
+    
+    <!-- Screen Glass Active Matrix -->
+    <rect x="26" y="51" width="278" height="133" rx="8" fill="url(#screenDisplay)"/>
+
+    <!-- Ambient Grid & Horizon Art on Screen -->
+    <path d="M 26 130 Q 165 110, 304 130 L 304 184 L 26 184 Z" fill="#4338ca" opacity="0.4"/>
+    <circle cx="165" cy="100" r="24" fill="#a855f7" opacity="0.6"/>
+    <line x1="26" y1="135" x2="304" y2="135" stroke="#ec4899" stroke-width="1.5" opacity="0.6"/>
+
+    <!-- Bottom Bezel Logo Dot -->
+    <circle cx="165" cy="188" r="2" fill="#e4e4e7"/>
+  </g>
+</svg>

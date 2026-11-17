@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="100%" height="100%">
+  <defs>
+    <linearGradient id="silverBand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0f0f2"/>
+      <stop offset="50%" stop-color="#d1d1d6"/>
+      <stop offset="100%" stop-color="#e5e5ea"/>
+    </linearGradient>
+    <linearGradient id="whiteCup" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e8e8ed"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  
+  <g filter="url(#shadow)" transform="translate(10, 10)">
+    <!-- Headband Arc -->
+    <path d="M 60 160 C 60 60, 240 60, 240 160" fill="none" stroke="url(#silverBand)" stroke-width="26" stroke-linecap="round"/>
+    <path d="M 75 145 C 75 80, 225 80, 225 145" fill="none" stroke="#fcfcfd" stroke-width="8" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Left Fork / Stem -->
+    <rect x="52" y="150" width="16" height="40" rx="8" fill="#c7c7cc"/>
+    <!-- Right Fork / Stem -->
+    <rect x="232" y="150" width="16" height="40" rx="8" fill="#c7c7cc"/>
+
+    <!-- Left Ear Cushion -->
+    <ellipse cx="60" cy="195" rx="36" ry="48" fill="url(#whiteCup)" stroke="#d1d1d6" stroke-width="2"/>
+    <ellipse cx="60" cy="195" rx="20" ry="30" fill="#f2f2f7"/>
+    <!-- Left Detail Dot -->
+    <circle cx="60" cy="195" r="4" fill="#8e8e93"/>
+
+    <!-- Right Ear Cushion -->
+    <ellipse cx="240" cy="195" rx="36" ry="48" fill="url(#whiteCup)" stroke="#d1d1d6" stroke-width="2"/>
+    <ellipse cx="240" cy="195" rx="20" ry="30" fill="#f2f2f7"/>
+    <!-- Right Detail Dot -->
+    <circle cx="240" cy="195" r="4" fill="#8e8e93"/>
+  </g>
+</svg>
