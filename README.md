@@ -134,6 +134,107 @@ Buka peramban Anda di **`http://localhost:5173`**.
 
 ---
 
+## 👥 Panduan Git & Kolaborasi Tim (Tutorial Push & Pull)
+
+Bagian ini ditujukan sebagai panduan teknis bagi anggota tim pengembang untuk melakukan *clone*, *pull*, *commit*, dan *push* ke repository GitHub **TechCare**.
+
+### 1. Kloning Repository Pertama Kali
+
+Gunakan salah satu cara di bawah ini untuk mengunduh proyek ke komputer lokal Anda:
+
+**Menggunakan Personal Access Token (PAT):**
+```bash
+git clone https://<GITHUB_TOKEN>@github.com/revalip/e-commerce-techcare.git
+cd e-commerce-techcare
+```
+
+> **Catatan**: Jika menggunakan URL HTTPS standar (`git clone https://github.com/revalip/e-commerce-techcare.git`), Anda akan diminta login via pop-up browser Git Credential Manager atau memasukkan Personal Access Token sebagai password.
+
+---
+
+### 2. Konfigurasi Identitas Git Anggota Tim
+
+Sebelum membuat commit, pastikan identitas Anda sudah diatur agar riwayat commit tercatat atas nama Anda:
+
+```bash
+git config user.name "Nama Lengkap Anda"
+git config user.email "emailanda@example.com"
+```
+
+---
+
+### 3. Alur Kerja Harian (Workflow Koding)
+
+#### Langkah A: Selalu Tarik Update Terbaru Sebelum Koding
+Agar tidak terjadi bentrok kode (*merge conflict*), selalu jalankan pull sebelum mulai bekerja:
+```bash
+git pull origin main
+```
+
+#### Langkah B: Periksa File yang Diubah
+Untuk melihat file apa saja yang telah Anda modifikasi atau tambahkan:
+```bash
+git status
+```
+
+#### Langkah C: Simpan Perubahan (Stage & Commit)
+Tambahkan perubahan ke dalam staging area dan berikan pesan commit yang deskriptif:
+```bash
+git add .
+git commit -m "feat: tambahkan fitur filter harga di halaman shop"
+```
+
+*Contoh format pesan commit yang dianjurkan:*
+- `feat:` penambahan fitur baru
+- `fix:` perbaikan bug atau error
+- `refactor:` perapihan struktur kode tanpa mengubah fungsi
+- `style:` perbaikan tampilan UI, margin, atau styling CSS
+
+---
+
+### 4. Melakukan Push ke GitHub
+
+Untuk mengirim commit lokal Anda ke repository GitHub:
+
+```bash
+git push origin main
+```
+
+> **Tips Jika Terjadi Error Otentikasi (Password Authentication Failed / Permission Denied):**  
+> GitHub tidak lagi mendukung password akun biasa untuk push via terminal. Set remote URL dengan token yang telah disediakan:
+> ```bash
+> git remote set-url origin https://<GITHUB_TOKEN>@github.com/revalip/e-commerce-techcare.git
+> git push origin main
+> ```
+
+---
+
+### 5. Mengambil Update di Server (aaPanel / VPS / PC Lain)
+
+Jika server atau komputer lain membutuhkan versi kode paling baru:
+
+```bash
+cd /path/ke/proyek/e-commerce-techcare
+git pull origin main
+```
+Jika ada perubahan dependensi baru, jangan lupa jalankan:
+```bash
+# Update backend
+cd server && npm install
+
+# Update frontend
+cd ../client && npm install && npm run build
+```
+
+---
+
+### ⚠️ Aturan Keamanan Bersama
+1. **Dilarang Menghapus File `.gitignore`**: File ini melindungi file sensitif seperti `.env` (kredensial database) dan folder `node_modules` agar tidak bocor ke publik.
+2. **Jangan Mengedit File `.env` Langsung di Repository**: Buat file `.env` lokal berdasarkan `.env.example`.
+3. **Selalu Uji Coba Build Sebelum Push**: Pastikan perintah `npm run build` di dalam folder `client` berhasil tanpa error sebelum melakukan push ke branch `main`.
+
+---
+
 ## 📄 Lisensi
 Hak Cipta © 2026 **TECHCARE**. Seluruh hak dilindungi undang-undang.
 Didedikasikan untuk solusi perangkat IT & digital UMKM Indonesia.
