@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  ShieldCheck,
-  Wrench,
-  Truck,
-  Star,
-  Search,
-  Laptop,
-  Cpu,
-  HardDrive,
-  Monitor,
-  Mouse,
-  LayoutGrid,
-  CheckCircle2,
-  Zap
-} from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Search } from 'lucide-react';
 import Reveal from './Reveal';
+
+const BRANDS = [
+  'LENOVO THINKPAD',
+  'APPLE',
+  'ASUS',
+  'DELL',
+  'MSI',
+  'LG',
+  'LOGITECH',
+  'FANTECH',
+  'CORSAIR',
+  'KINGSTON',
+  'SAMSUNG'
+];
 
 export default function HeroSection({
   onShopClick,
@@ -25,14 +24,22 @@ export default function HeroSection({
   onSelectCollection
 }) {
   const [heroSearch, setHeroSearch] = useState('');
+  const heroRef = useRef(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start']
+  });
+  const specimenY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 28]);
 
   const quickCategories = [
-    { label: 'Laptop Second', slug: 'laptop-second', icon: Laptop },
-    { label: 'RAM & Memori', slug: 'ram-memori', icon: Cpu },
-    { label: 'SSD NVMe', slug: 'ssd-storage', icon: HardDrive },
-    { label: 'Monitor', slug: 'display-monitor', icon: Monitor },
-    { label: 'Peripherals', slug: 'peripherals', icon: Mouse },
-    { label: 'Semua Produk', slug: '', icon: LayoutGrid }
+    { label: 'Semua', slug: '' },
+    { label: 'Laptop Second', slug: 'laptop-second' },
+    { label: 'RAM & Memori', slug: 'ram-memori' },
+    { label: 'SSD NVMe', slug: 'ssd-storage' },
+    { label: 'Monitor', slug: 'display-monitor' },
+    { label: 'Peripherals', slug: 'peripherals' }
   ];
 
   const handleSearchSubmit = (e) => {
@@ -45,177 +52,204 @@ export default function HeroSection({
   };
 
   return (
-    <section className="w-full bg-[#F4F6FA] pt-4 sm:pt-6 pb-8 sm:pb-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
-        {/* Bold Tech-Retail Hero Card (Midnight Navy + Cobalt Spotlight) */}
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0B1220] via-[#0F1B33] to-[#0D2149] text-white border border-slate-800 shadow-tc-float">
-          {/* Subtle Architectural Tech Grid & Cobalt Glow */}
-          <div className="absolute inset-0 tc-tech-grid opacity-80 pointer-events-none" />
-          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#0B5FFF]/30 blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-24 left-1/3 w-72 h-72 rounded-full bg-[#38BDF8]/15 blur-3xl pointer-events-none" />
+    <section ref={heroRef} className="w-full">
+      {/* 1. Matte Carbon Architectural Hero (Solara + Lightweight Crosshair DNA — ZERO Gradients/Glow) */}
+      <div className="bg-[#111111] text-[#F2F1EC] border-b border-[#2A2A27]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
+          <div className="relative border border-[#2A2A27] p-5 sm:p-8 lg:p-12">
+            {/* Subtle Architectural Crosshair Markers (+) */}
+            <span aria-hidden="true" className="absolute -top-[9px] -left-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
+            <span aria-hidden="true" className="absolute -top-[9px] -right-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
+            <span aria-hidden="true" className="absolute -bottom-[9px] -left-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
+            <span aria-hidden="true" className="absolute -bottom-[9px] -right-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
 
-          <div className="relative z-10 p-5 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-            {/* Left Copy & CTAs */}
-            <div className="lg:col-span-7 space-y-5">
-              <Reveal delay={0.04}>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B5FFF]/20 border border-[#38BDF8]/30 text-sky-200 text-[11px] font-semibold">
-                  <Zap size={13} className="text-[#F97316] shrink-0" />
-                  <span>Retail IT UMKM • Certified Pre-Owned &lt; Rp 10 Juta</span>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.1}>
-                <h1 className="font-display text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight leading-[1.07] text-white">
-                  Hardware IT Berkualitas,{' '}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38BDF8] to-[#60A5FA]">
-                    Teruji 32 Titik QC.
-                  </span>
-                </h1>
-              </Reveal>
-
-              <Reveal delay={0.16}>
-                <p className="text-xs sm:text-base text-slate-300 leading-relaxed max-w-xl">
-                  Laptop bisnis Lenovo ThinkPad, ASUS OLED, monitor MSI &amp; LG, peripheral Logitech &amp; Fantech, hingga upgrade RAM/SSD — siap pakai, bergaransi toko, dan bisa pasang langsung di workshop.
-                </p>
-              </Reveal>
-
-              <Reveal delay={0.22}>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
-                  <button
-                    onClick={onShopClick}
-                    className="tc-btn-primary text-xs sm:text-sm px-6 py-3.5 rounded-xl"
-                  >
-                    <span>Belanja Sekarang</span>
-                    <ArrowRight size={16} />
-                  </button>
-
-                  <button
-                    onClick={onTrackClick}
-                    className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-all"
-                  >
-                    <Truck size={15} className="text-[#38BDF8]" />
-                    <span>Lacak Pesanan</span>
-                  </button>
-                </div>
-              </Reveal>
-
-              {/* Micro Trust Metrics */}
-              <Reveal delay={0.26}>
-                <div className="grid grid-cols-3 gap-3 pt-3 border-t border-white/10 max-w-lg">
-                  <div>
-                    <p className="font-display text-lg sm:text-2xl font-bold text-white tabular-nums">1.200+</p>
-                    <p className="text-[10px] sm:text-xs text-slate-400">Unit Terjual &amp; QC</p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+              {/* Left Typographic Centerpiece */}
+              <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+                <Reveal delay={0.03}>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-[#A8A69E]">
+                    <span className="inline-flex items-center gap-1.5 text-[#F2F1EC]">
+                      <span className="w-2 h-2 bg-[#E63B19]" />
+                      TECHCARE // 2026
+                    </span>
+                    <span className="text-[#4A4A45]">/</span>
+                    <span>CERTIFIED PRE-OWNED &lt; RP 10 JUTA</span>
                   </div>
-                  <div>
-                    <p className="font-display text-lg sm:text-2xl font-bold text-[#38BDF8] tabular-nums flex items-center gap-1">
-                      4.9 <Star size={14} className="fill-amber-400 text-amber-400" />
-                    </p>
-                    <p className="text-[10px] sm:text-xs text-slate-400">Rating Pelanggan</p>
-                  </div>
-                  <div>
-                    <p className="font-display text-lg sm:text-2xl font-bold text-emerald-400 tabular-nums">30–90 Hr</p>
-                    <p className="text-[10px] sm:text-xs text-slate-400">Garansi Toko Resmi</p>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
+                </Reveal>
 
-            {/* Right Featured Hardware Showcase Card */}
-            <div className="lg:col-span-5">
+                <Reveal delay={0.08}>
+                  <h1 className="font-display text-[36px] sm:text-6xl lg:text-[70px] font-black uppercase tracking-[-0.04em] leading-[0.94] text-[#F2F1EC]">
+                    PERANGKAT IT.
+                    <br />
+                    STANDAR{' '}
+                    <span className="text-[#E63B19]">TEKNISI.</span>
+                  </h1>
+                </Reveal>
+
+                <Reveal delay={0.14}>
+                  <p className="text-xs sm:text-sm md:text-base text-[#A8A69E] leading-relaxed max-w-xl">
+                    Laptop bisnis ThinkPad, MacBook Air M1, ASUS OLED, monitor MSI &amp; LG, peripheral Logitech &amp; Fantech, hingga upgrade RAM/SSD — seluruh unit melalui 32 titik pengecekan fisik, thermal, dan baterai di workshop kami.
+                  </p>
+                </Reveal>
+
+                <Reveal delay={0.18}>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+                    <button
+                      type="button"
+                      onClick={onShopClick}
+                      className="tc-btn-bone"
+                    >
+                      <span>Lihat Katalog</span>
+                      <ArrowUpRight size={15} strokeWidth={2.2} />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={onTrackClick}
+                      className="inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#F2F1EC] border border-[#3A3A36] hover:border-[#F2F1EC] transition-colors"
+                    >
+                      <span>Lacak Pesanan</span>
+                    </button>
+                  </div>
+                </Reveal>
+
+                {/* Honest Factual Spec Strip (Zero Fabricated Ratings/Sales Counts) */}
+                <Reveal delay={0.22}>
+                  <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-5 border-t border-[#2A2A27] max-w-lg">
+                    <div>
+                      <p className="font-mono text-base sm:text-xl font-bold text-[#F2F1EC] tabular-nums">
+                        13 UNIT
+                      </p>
+                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
+                        Katalog Terkurasi
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-base sm:text-xl font-bold text-[#F2F1EC] tabular-nums">
+                        32 TITIK
+                      </p>
+                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
+                        Cek QC Teknisi
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-mono text-base sm:text-xl font-bold text-[#E63B19] tabular-nums">
+                        30–90 HR
+                      </p>
+                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
+                        Garansi Toko
+                      </p>
+                    </div>
+                  </div>
+                </Reveal>
+              </div>
+
+              {/* Right Hardware Specimen Plate (Lightweight Desktop Scroll Parallax) */}
               <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 space-y-4 shadow-2xl"
+                style={{ y: specimenY }}
+                className="lg:col-span-5"
               >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="px-2.5 py-1 rounded-lg bg-[#F97316] text-white text-[10px] font-bold uppercase tracking-wider">
-                    Unggulan Minggu Ini
-                  </span>
-                  <span className="text-[11px] font-semibold text-sky-200 inline-flex items-center gap-1">
-                    <ShieldCheck size={13} /> Grade A+ • 97% Mulus
-                  </span>
-                </div>
-
-                {/* Clean Product Preview Stage */}
                 <div
                   onClick={onShopClick}
-                  className="bg-gradient-to-b from-white to-[#EEF2F7] rounded-xl p-5 flex items-center justify-center aspect-[16/10] cursor-pointer group overflow-hidden"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && onShopClick()}
+                  className="bg-[#1C1C1A] border border-[#2A2A27] hover:border-[#6E6D68] transition-colors cursor-pointer group"
                 >
-                  <img
-                    src="/images/products/thinkpad-x1-carbon-front.jpg"
-                    alt="Lenovo ThinkPad X1 Carbon Gen 9 TECHCARE"
-                    className="max-h-full max-w-[88%] object-contain group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-
-                <div className="flex items-end justify-between gap-3">
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-semibold text-sky-300 uppercase tracking-wider">
-                      Lenovo ThinkPad
-                    </p>
-                    <p className="font-display text-base sm:text-lg font-bold text-white truncate">
-                      X1 Carbon Gen 9 • Custom RAM/SSD
-                    </p>
+                  {/* Specimen Header */}
+                  <div className="px-4 py-2.5 border-b border-[#2A2A27] flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.08em]">
+                    <span className="text-[#F2F1EC]">TC_01 // FLAGSHIP UNIT</span>
+                    <span className="text-[#E63B19] font-semibold">GRADE A+ • 97%</span>
                   </div>
-                  <div className="text-right shrink-0">
-                    <span className="text-[10px] text-slate-400 line-through block tabular-nums">
-                      Rp 9.500.000
-                    </span>
-                    <span className="font-display text-base sm:text-lg font-bold text-[#38BDF8] tabular-nums">
-                      Rp 7.850.000
-                    </span>
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-2 gap-2 pt-1 text-[11px] text-slate-200">
-                  <span className="inline-flex items-center gap-1.5 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/10">
-                    <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
-                    <span className="truncate">RAM 8–32GB / SSD 1TB</span>
-                  </span>
-                  <span className="inline-flex items-center gap-1.5 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/10">
-                    <Wrench size={12} className="text-[#38BDF8] shrink-0" />
-                    <span className="truncate">Free Pasang &amp; OS</span>
-                  </span>
+                  {/* Full-Bleed Hardware Studio Plate */}
+                  <div className="bg-[#E7E5DE] aspect-[16/10] w-full flex items-center justify-center overflow-hidden">
+                    <img
+                      src="/images/products/thinkpad-x1-carbon-front.jpg"
+                      alt="Lenovo ThinkPad X1 Carbon Gen 9 TECHCARE"
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+
+                  {/* Specimen Technical Spec Sheet */}
+                  <div className="p-4 sm:p-5 space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#8A8880]">
+                          LENOVO THINKPAD
+                        </p>
+                        <p className="font-display text-base sm:text-lg font-bold text-[#F2F1EC] leading-snug">
+                          X1 Carbon Gen 9
+                        </p>
+                      </div>
+                      <div className="text-right shrink-0">
+                        <span className="font-mono text-[10px] text-[#787771] line-through block tabular-nums">
+                          Rp 9.500.000
+                        </span>
+                        <span className="font-mono text-sm sm:text-base font-bold text-[#F2F1EC] tabular-nums">
+                          Rp 7.850.000
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-3 border-t border-[#2A2A27] flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.06em] text-[#A8A69E]">
+                      <span>RAM 8–32GB / SSD 256GB–1TB</span>
+                      <span className="text-[#F2F1EC] inline-flex items-center gap-1 group-hover:text-[#E63B19] transition-colors">
+                        <span>DETAIL</span>
+                        <ArrowUpRight size={12} />
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Search Bar + Quick Category Pills (Mobile-First) */}
-        <div className="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-tc-card flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
+      {/* 2. Lightweight CSS-Only Infinite Brand Marquee */}
+      <div className="bg-[#E7E5DE] border-b border-[#D6D4CC] py-3 overflow-hidden tc-marquee-wrap">
+        <div className="tc-marquee-track font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#3A3A36]">
+          {[...BRANDS, ...BRANDS].map((brand, i) => (
+            <span key={`${brand}-${i}`} className="inline-flex items-center whitespace-nowrap">
+              <span className="px-5 sm:px-7">{brand}</span>
+              <span className="w-1.5 h-1.5 bg-[#E63B19] inline-block" aria-hidden="true" />
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Dimwit-Style Hairline Search & Quick Category Index Bar */}
+      <div className="bg-[#F2F1EC] border-b border-[#D6D4CC]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           <form onSubmit={handleSearchSubmit} className="relative w-full lg:w-96 flex-shrink-0">
-            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6D68]" />
             <input
               type="text"
               value={heroSearch}
               onChange={(e) => setHeroSearch(e.target.value)}
-              placeholder="Cari laptop ASUS, ThinkPad, MSI, Logitech, RAM..."
-              className="w-full min-h-[44px] pl-11 pr-24 py-2.5 bg-[#F4F6FA] border border-slate-200 rounded-xl text-xs sm:text-sm outline-none focus:bg-white focus:border-[#0B5FFF] transition-all"
+              placeholder="Cari ThinkPad, ASUS, MSI, Logitech, RAM..."
+              className="tc-input pl-10 pr-20"
             />
             <button
               type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[34px] px-4 rounded-lg bg-[#0B5FFF] hover:bg-[#0847C4] text-white text-xs font-semibold transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[34px] px-3.5 rounded-[2px] bg-[#111111] hover:bg-[#E63B19] text-[#F2F1EC] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors"
             >
               Cari
             </button>
           </form>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-0.5 lg:pb-0 flex-1 no-scrollbar">
-            {quickCategories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.label}
-                  onClick={() => onSelectCollection(cat.slug)}
-                  className="inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-xl bg-[#F4F6FA] border border-slate-200 hover:border-[#0B5FFF] hover:bg-[#EEF4FF] hover:text-[#0B5FFF] text-slate-700 text-xs font-semibold whitespace-nowrap transition-all"
-                >
-                  <Icon size={14} />
-                  <span>{cat.label}</span>
-                </button>
-              );
-            })}
+          <div className="flex items-center gap-4 sm:gap-5 overflow-x-auto pb-0.5 lg:pb-0 no-scrollbar">
+            {quickCategories.map((cat) => (
+              <button
+                key={cat.label}
+                type="button"
+                onClick={() => onSelectCollection(cat.slug)}
+                className="min-h-[40px] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#3A3A36] hover:text-[#E63B19] border-b-2 border-transparent hover:border-[#E63B19] whitespace-nowrap transition-colors"
+              >
+                {cat.label}
+              </button>
+            ))}
           </div>
         </div>
       </div>

@@ -171,7 +171,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F4F6FA] text-[#0F172A] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#F2F1EC] text-[#111111] overflow-x-hidden">
       <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
 
       <main className="flex-1 pb-20 md:pb-0">

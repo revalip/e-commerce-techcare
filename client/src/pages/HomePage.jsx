@@ -40,8 +40,8 @@ export default function HomePage({
   }, []);
 
   return (
-    <div className="bg-[#F4F6FA]">
-      {/* 1. Hero Tech-Retail Kuat + Search & Quick Category Bar */}
+    <div className="bg-[#F2F1EC]">
+      {/* 1. Solara-Inspired Carbon Matte Hero + Brand Marquee + Quick Search */}
       <HeroSection
         onShopClick={() => onNavigate('shop')}
         onTrackClick={() => onNavigate('orders')}
@@ -49,13 +49,13 @@ export default function HomePage({
         onSelectCollection={onSelectCollection}
       />
 
-      {/* 2. Kategori Produk */}
+      {/* 2. Asymmetric Numbered Category Bento */}
       <CollectionsSection
         collections={collections}
         onSelectCollection={onSelectCollection}
       />
 
-      {/* 3. Produk Unggulan / Bestsellers */}
+      {/* 3. Asymmetric Editorial Bestsellers Bento */}
       <BestsellersSection
         products={products}
         loading={loading}
@@ -63,13 +63,13 @@ export default function HomePage({
         onExploreAll={() => onNavigate('shop')}
       />
 
-      {/* 4. Promo & Voucher Aktif */}
+      {/* 4. Swiss Architectural Voucher Strip */}
       <PromoBannerSection
         discounts={discounts}
         onExploreShop={() => onNavigate('shop')}
       />
 
-      {/* 5. Keunggulan Toko & Banner Jasa IT */}
+      {/* 5. Numbered Operational Spec Grid & Carbon Workshop CTA */}
       <FeatureStrip
         onNavigateAbout={() => onNavigate('about')}
         onNavigateShop={() => onNavigate('shop')}

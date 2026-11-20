@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tag, Copy, Check, Sparkles, ArrowRight } from 'lucide-react';
+import { Copy, Check, ArrowUpRight } from 'lucide-react';
 import { formatIDR } from '../utils/format';
 import Reveal from './Reveal';
 
@@ -16,22 +16,26 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
   };
 
   return (
-    <section className="bg-[#F4F6FA] py-10 sm:py-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <section className="bg-[#F2F1EC] py-14 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-[#111111]">
             <div>
-              <span className="inline-flex items-center gap-1.5 text-[11px] uppercase tracking-wider font-bold text-[#0B5FFF] mb-1">
-                <Sparkles size={13} className="text-[#F97316]" />
-                <span>PROMO &amp; VOUCHER AKTIF</span>
+              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#6E6D68] block mb-2">
+                [ 03 // KUPON AKTIF CHECKOUT ]
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1220]">
-                Hemat Lebih Banyak Saat Checkout
+              <h2 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-[-0.04em] text-[#111111] leading-[0.96]">
+                VOUCHER TOKO
               </h2>
             </div>
-            <button onClick={onExploreShop} className="tc-btn-secondary self-start sm:self-auto">
-              <span>Pakai Voucher Sekarang</span>
-              <ArrowRight size={15} />
+
+            <button
+              type="button"
+              onClick={onExploreShop}
+              className="tc-btn-secondary self-start sm:self-auto"
+            >
+              <span>Pakai di Katalog</span>
+              <ArrowUpRight size={15} />
             </button>
           </div>
         </Reveal>
@@ -39,51 +43,47 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {activeDiscounts.map((d, idx) => {
             const isCopied = copiedCode === d.kode;
-            return (
-              <Reveal key={d.id} delay={idx * 0.06}>
-                <div className="bg-white rounded-2xl p-5 border border-slate-200/90 hover:border-[#0B5FFF] shadow-tc-card transition-all flex flex-col justify-between gap-4 h-full relative overflow-hidden">
-                  {/* Top Accent Bar */}
-                  <span
-                    className={`absolute top-0 inset-x-0 h-1 ${
-                      idx === 0
-                        ? 'bg-[#0B5FFF]'
-                        : idx === 1
-                        ? 'bg-[#F97316]'
-                        : 'bg-emerald-500'
-                    }`}
-                  />
+            const bigValue =
+              d.tipe === 'persen' ? `${d.nilai}%` : formatIDR(d.nilai).replace(',00', '');
 
-                  <div className="space-y-2 pt-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#EEF4FF] text-[#0B5FFF] text-[11px] font-bold">
-                        <Tag size={12} />
-                        {d.tipe === 'persen' ? `Diskon ${d.nilai}%` : `Potongan ${formatIDR(d.nilai)}`}
-                      </span>
-                      <span className="text-[11px] text-slate-400 font-medium">
-                        Min. {formatIDR(d.minBelanja)}
-                      </span>
+            return (
+              <Reveal key={d.id} delay={idx * 0.05}>
+                <div className="bg-[#FAF9F6] rounded-[2px] border border-[#D6D4CC] hover:border-[#111111] transition-colors flex flex-col justify-between h-full">
+                  <div className="p-5 space-y-3">
+                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[#6E6D68]">
+                      <span>VOUCHER_0{idx + 1}</span>
+                      <span className="tabular-nums">MIN. {formatIDR(d.minBelanja)}</span>
                     </div>
 
-                    <h3 className="font-display text-base font-bold text-[#0B1220] leading-snug">
+                    <p
+                      className={`font-display text-3xl sm:text-4xl font-black tracking-[-0.04em] leading-none tabular-nums ${
+                        idx === 0 ? 'text-[#E63B19]' : 'text-[#111111]'
+                      }`}
+                    >
+                      {d.tipe === 'persen' ? `DISKON ${bigValue}` : bigValue}
+                    </p>
+
+                    <h3 className="text-xs sm:text-sm font-semibold text-[#3A3A36] leading-snug">
                       {d.nama}
                     </h3>
                   </div>
 
-                  <div className="flex items-center justify-between gap-2 pt-3 border-t border-dashed border-slate-200">
-                    <span className="font-mono text-xs sm:text-sm font-bold tracking-wider text-[#0B1220] bg-[#F4F6FA] px-3 py-2 rounded-xl border border-slate-200">
+                  <div className="px-5 py-3.5 border-t border-dashed border-[#B8B6AE] bg-[#F2F1EC]/60 flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-bold tracking-[0.1em] text-[#111111] bg-[#FAF9F6] px-3 py-2 border border-[#D6D4CC]">
                       {d.kode}
                     </span>
+
                     <button
                       type="button"
                       onClick={() => handleCopy(d.kode)}
-                      className={`min-h-[40px] px-4 rounded-xl text-xs font-semibold inline-flex items-center gap-1.5 transition-all ${
+                      className={`min-h-[44px] px-4 rounded-[2px] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] inline-flex items-center gap-1.5 transition-colors ${
                         isCopied
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-[#0B1220] hover:bg-[#0B5FFF] text-white'
+                          ? 'bg-emerald-700 text-white'
+                          : 'bg-[#111111] hover:bg-[#E63B19] text-[#F2F1EC]'
                       }`}
                     >
                       {isCopied ? <Check size={13} /> : <Copy size={13} />}
-                      <span>{isCopied ? 'Tersalin!' : 'Salin Kode'}</span>
+                      <span>{isCopied ? 'Tersalin' : 'Salin'}</span>
                     </button>
                   </div>
                 </div>

@@ -1,122 +1,124 @@
 import React from 'react';
-import {
-  ShieldCheck,
-  Wrench,
-  Cpu,
-  HardDrive,
-  Truck,
-  Headphones,
-  ArrowRight,
-  CheckCircle2
-} from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Reveal from './Reveal';
 
 export default function FeatureStrip({ onNavigateAbout, onNavigateShop }) {
   const pillars = [
     {
-      icon: ShieldCheck,
+      code: '01',
       title: 'Lulus 32 Titik QC',
-      desc: 'Cek layar, baterai, port, suhu, dan stress-test sebelum masuk stok.'
+      desc: 'Cek layar bebas dead pixel, kesehatan baterai, port I/O, suhu, dan stress-test sebelum masuk stok.'
     },
     {
-      icon: Cpu,
+      code: '02',
       title: 'Custom RAM & SSD',
-      desc: 'Bebas pilih upgrade RAM 8–32GB & SSD 256GB–1TB sesuai kebutuhan.'
+      desc: 'Bebas konfigurasi upgrade RAM 8–32GB & SSD 256GB–1TB sesuai kebutuhan kerja.'
     },
     {
-      icon: Wrench,
+      code: '03',
       title: 'Jasa Service IT',
-      desc: 'Pembersihan kipas, repasta thermal, dan instalasi OS oleh teknisi.'
+      desc: 'Pembersihan kipas, repasta thermal baru, dan instalasi OS langsung oleh teknisi.'
     },
     {
-      icon: HardDrive,
+      code: '04',
       title: 'Tested MemTest86',
-      desc: 'Komponen RAM & SSD teruji 0-error dan Health 97%+ CrystalDiskInfo.'
+      desc: 'Komponen RAM & SSD diuji 0-error serta Health 97%+ melalui CrystalDiskInfo.'
     },
     {
-      icon: Truck,
-      title: 'Ongkir & Resi Jelas',
-      desc: 'Dukung JNE, J&T, SiCepat dengan estimasi tarif lokal & tracking.'
+      code: '05',
+      title: 'Ongkir & Resi Lokal',
+      desc: 'Mendukung JNE, J&T, SiCepat, dan ambil di workshop dengan estimasi ongkir transparan.'
     },
     {
-      icon: Headphones,
-      title: 'Garansi Toko Resmi',
-      desc: 'Garansi tukar unit & servis toko 30–90 hari tanpa proses berbelit.'
+      code: '06',
+      title: 'Garansi Toko 30–90 Hr',
+      desc: 'Garansi tukar unit & servis langsung di workshop tanpa alur klaim yang berbelit.'
     }
   ];
 
   return (
-    <section className="bg-white border-t border-slate-200/80 py-12 sm:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* 6-Pillar Trust Grid */}
-        <div className="space-y-7">
+    <section className="bg-[#FAF9F6] border-t border-[#D6D4CC] py-14 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
+        {/* 04 // Numbered Architectural Spec Grid (Shared Hairline Borders) */}
+        <div className="space-y-8">
           <Reveal>
-            <div className="text-center sm:text-left">
-              <span className="text-[11px] uppercase tracking-wider font-bold text-[#0B5FFF] block mb-1">
-                KEUNGGULAN TOKO TECHCARE
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1220]">
-                Standar Teknisi di Setiap Unit
-              </h2>
+            <div className="pb-5 border-b border-[#111111] flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+              <div>
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#6E6D68] block mb-2">
+                  [ 04 // STANDAR OPERASIONAL ]
+                </span>
+                <h2 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-[-0.04em] text-[#111111] leading-[0.96]">
+                  STANDAR TEKNISI
+                </h2>
+              </div>
+              <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6E6D68]">
+                TERVERIFIKASI DI WORKSHOP JAKARTA BARAT
+              </p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-            {pillars.map((item, idx) => {
-              const Icon = item.icon;
-              return (
-                <Reveal key={idx} delay={idx * 0.04}>
-                  <div className="bg-[#F4F6FA] hover:bg-[#EEF4FF]/70 border border-slate-200/80 hover:border-[#C7DCFF] rounded-2xl p-4 space-y-2.5 h-full transition-colors">
-                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#0B5FFF] shadow-2xs">
-                      <Icon size={18} strokeWidth={2} />
-                    </div>
-                    <h4 className="font-display text-xs sm:text-sm font-bold text-[#0B1220]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-[#D6D4CC]">
+            {pillars.map((item, idx) => (
+              <Reveal key={item.code} delay={idx * 0.03}>
+                <div className="p-5 sm:p-6 border-r border-b border-[#D6D4CC] bg-[#FAF9F6] hover:bg-[#F2F1EC] transition-colors h-full flex flex-col justify-between gap-4">
+                  <span className="font-mono text-xs font-bold text-[#E63B19] tabular-nums">
+                    /{item.code}
+                  </span>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display text-base sm:text-lg font-bold uppercase tracking-[-0.02em] text-[#111111]">
                       {item.title}
-                    </h4>
-                    <p className="text-[11px] leading-relaxed text-slate-600">{item.desc}</p>
+                    </h3>
+                    <p className="text-xs text-[#6E6D68] leading-relaxed">{item.desc}</p>
                   </div>
-                </Reveal>
-              );
-            })}
+                </div>
+              </Reveal>
+            ))}
           </div>
         </div>
 
-        {/* Workshop & IT Service Banner */}
+        {/* Solid Matte Carbon Workshop CTA Band (Zero Gradients/Glow) */}
         <Reveal>
-          <div className="relative overflow-hidden bg-gradient-to-r from-[#0B1220] via-[#111F3A] to-[#0E295A] text-white rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-tc-float flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-            <div className="absolute inset-0 tc-tech-grid opacity-50 pointer-events-none" />
-            <div className="relative z-10 space-y-3 max-w-2xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#0B5FFF]/25 border border-[#38BDF8]/30 text-sky-200 text-[11px] font-bold">
-                <Wrench size={12} /> WORKSHOP &amp; KONSULTASI TEKNISI
+          <div className="relative bg-[#111111] text-[#F2F1EC] border border-[#2A2A27] p-6 sm:p-10 lg:p-12 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
+            <span aria-hidden="true" className="absolute top-2.5 left-3 font-mono text-xs text-[#6E6D68] select-none">+</span>
+            <span aria-hidden="true" className="absolute top-2.5 right-3 font-mono text-xs text-[#6E6D68] select-none">+</span>
+
+            <div className="space-y-4 max-w-2xl">
+              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#E63B19] font-semibold block">
+                WORKSHOP &amp; KONSULTASI TEKNISI
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-tight">
-                Butuh Upgrade RAM/SSD, Repasta, atau Service Laptop?
+              <h3 className="font-display text-2xl sm:text-4xl font-black uppercase tracking-[-0.03em] text-[#F2F1EC] leading-[1.02]">
+                BUTUH UPGRADE RAM/SSD, REPASTA, ATAU SERVICE LAPTOP?
               </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
                 Selain menjual perangkat IT second bergaransi di bawah Rp 10 juta, teknisi TECHCARE melayani upgrade hardware, cloning OS tanpa hilang data, hingga pembersihan thermal secara transparan.
               </p>
-              <div className="flex flex-wrap gap-x-5 gap-y-2 pt-1 text-xs font-semibold text-sky-200">
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 size={14} className="text-emerald-400" /> Gratis Cek Kerusakan
+              <div className="flex flex-wrap gap-2 pt-1 font-mono text-[10px] uppercase tracking-[0.06em] text-[#D6D4CC]">
+                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
+                  GRATIS CEK KERUSAKAN
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 size={14} className="text-emerald-400" /> Gratis Pasang RAM/SSD
+                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
+                  GRATIS PASANG RAM/SSD
                 </span>
-                <span className="inline-flex items-center gap-1.5">
-                  <CheckCircle2 size={14} className="text-emerald-400" /> Bisa Ditunggu di Workshop
+                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
+                  BISA DITUNGGU DI WORKSHOP
                 </span>
               </div>
             </div>
 
-            <div className="relative z-10 flex flex-wrap gap-3 w-full lg:w-auto shrink-0">
-              <button onClick={onNavigateAbout} className="tc-btn-primary flex-1 lg:flex-initial">
+            <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto shrink-0">
+              <button
+                type="button"
+                onClick={onNavigateAbout}
+                className="tc-btn-bone"
+              >
                 <span>Info Jasa IT</span>
-                <ArrowRight size={15} />
+                <ArrowUpRight size={15} />
               </button>
               {onNavigateShop && (
                 <button
+                  type="button"
                   onClick={onNavigateShop}
-                  className="flex-1 lg:flex-initial inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs sm:text-sm font-semibold transition-all"
+                  className="inline-flex items-center justify-center min-h-[46px] px-6 py-3 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#F2F1EC] border border-[#3A3A36] hover:border-[#F2F1EC] transition-colors"
                 >
                   Lihat Katalog
                 </button>

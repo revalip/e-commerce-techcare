@@ -48,9 +48,9 @@ export default function MobileBottomNav({ currentPage, onNavigate }) {
   return (
     <nav
       aria-label="Navigasi Mobile"
-      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-[0_-6px_24px_rgba(11,18,32,0.08)]"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 bg-[#F2F1EC] border-t border-[#111111]"
     >
-      <div className="grid grid-cols-5 h-16 max-w-md mx-auto px-1">
+      <div className="grid grid-cols-5 h-16 max-w-md mx-auto divide-x divide-[#D6D4CC]/70">
         {items.map((item) => {
           const Icon = item.icon;
           const isActive = item.activeMatch
@@ -62,23 +62,26 @@ export default function MobileBottomNav({ currentPage, onNavigate }) {
               key={item.key}
               type="button"
               onClick={item.onClick}
-              className={`relative flex flex-col items-center justify-center gap-1 min-h-[48px] rounded-xl transition-colors ${
-                isActive ? 'text-[#0B5FFF] font-bold' : 'text-slate-500 hover:text-slate-800 font-medium'
+              className={`relative flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
+                isActive
+                  ? 'text-[#111111] bg-[#E7E5DE]/60'
+                  : 'text-[#6E6D68] hover:text-[#111111]'
               }`}
             >
-              <span
-                className={`relative flex items-center justify-center w-10 h-7 rounded-full transition-colors ${
-                  isActive ? 'bg-[#EEF4FF]' : ''
-                }`}
-              >
-                <Icon size={18} strokeWidth={isActive ? 2.4 : 1.9} />
+              {isActive && (
+                <span className="absolute top-0 inset-x-0 h-[2px] bg-[#E63B19]" />
+              )}
+              <span className="relative flex items-center justify-center">
+                <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />
                 {item.badge > 0 && (
-                  <span className="absolute -top-1 -right-0.5 bg-[#F97316] text-white text-[9px] font-bold min-w-[15px] h-[15px] px-1 rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1.5 -right-2.5 bg-[#E63B19] text-white font-mono text-[9px] font-bold min-w-[15px] h-[15px] px-1 flex items-center justify-center tabular-nums">
                     {item.badge}
                   </span>
                 )}
               </span>
-              <span className="text-[10px] leading-none">{item.label}</span>
+              <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.06em] leading-none">
+                {item.label}
+              </span>
             </button>
           );
         })}
