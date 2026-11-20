@@ -3,7 +3,8 @@ import HeroSection from '../components/HeroSection';
 import FeatureStrip from '../components/FeatureStrip';
 import BestsellersSection from '../components/BestsellersSection';
 import CollectionsSection from '../components/CollectionsSection';
-import { getProducts, getCollections } from '../services/api';
+import PromoBannerSection from '../components/PromoBannerSection';
+import { getProducts, getCollections, getDiscounts } from '../services/api';
 
 export default function HomePage({
   onSelectProduct,
@@ -13,19 +14,22 @@ export default function HomePage({
 }) {
   const [products, setProducts] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
     async function loadData() {
       setLoading(true);
-      const [prodRes, colRes] = await Promise.all([
+      const [prodRes, colRes, discRes] = await Promise.all([
         getProducts({ bestseller: true }),
-        getCollections()
+        getCollections(),
+        getDiscounts()
       ]);
       if (isMounted) {
         if (prodRes.success) setProducts(prodRes.data);
         if (colRes.success) setCollections(colRes.data);
+        if (discRes.success) setDiscounts(discRes.data);
         setLoading(false);
       }
     }
@@ -36,8 +40,8 @@ export default function HomePage({
   }, []);
 
   return (
-    <div className="bg-[#f9f9f8]">
-      {/* 1. Editorial Clean Hero + Search & Quick Category Pill Bar */}
+    <div className="bg-[#F4F6FA]">
+      {/* 1. Hero Tech-Retail Kuat + Search & Quick Category Bar */}
       <HeroSection
         onShopClick={() => onNavigate('shop')}
         onTrackClick={() => onNavigate('orders')}
@@ -45,7 +49,13 @@ export default function HomePage({
         onSelectCollection={onSelectCollection}
       />
 
-      {/* 2. Bestsellers (Unit Second < 10jt + RAM) */}
+      {/* 2. Kategori Produk */}
+      <CollectionsSection
+        collections={collections}
+        onSelectCollection={onSelectCollection}
+      />
+
+      {/* 3. Produk Unggulan / Bestsellers */}
       <BestsellersSection
         products={products}
         loading={loading}
@@ -53,13 +63,13 @@ export default function HomePage({
         onExploreAll={() => onNavigate('shop')}
       />
 
-      {/* 3. Editorial Category Showcase */}
-      <CollectionsSection
-        collections={collections}
-        onSelectCollection={onSelectCollection}
+      {/* 4. Promo & Voucher Aktif */}
+      <PromoBannerSection
+        discounts={discounts}
+        onExploreShop={() => onNavigate('shop')}
       />
 
-      {/* 4. Standar QC 32 Titik & Jasa IT Banner */}
+      {/* 5. Keunggulan Toko & Banner Jasa IT */}
       <FeatureStrip
         onNavigateAbout={() => onNavigate('about')}
         onNavigateShop={() => onNavigate('shop')}

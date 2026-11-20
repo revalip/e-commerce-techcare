@@ -12,7 +12,9 @@ import {
   HardDrive,
   Monitor,
   Mouse,
-  LayoutGrid
+  LayoutGrid,
+  CheckCircle2,
+  Zap
 } from 'lucide-react';
 import Reveal from './Reveal';
 
@@ -27,7 +29,7 @@ export default function HeroSection({
   const quickCategories = [
     { label: 'Laptop Second', slug: 'laptop-second', icon: Laptop },
     { label: 'RAM & Memori', slug: 'ram-memori', icon: Cpu },
-    { label: 'SSD & Storage', slug: 'ssd-storage', icon: HardDrive },
+    { label: 'SSD NVMe', slug: 'ssd-storage', icon: HardDrive },
     { label: 'Monitor', slug: 'display-monitor', icon: Monitor },
     { label: 'Peripherals', slug: 'peripherals', icon: Mouse },
     { label: 'Semua Produk', slug: '', icon: LayoutGrid }
@@ -43,169 +45,171 @@ export default function HeroSection({
   };
 
   return (
-    <section className="w-full bg-[#f9f9f8] pt-4 sm:pt-6 pb-6 sm:pb-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5 sm:space-y-6">
-        {/* Main Editorial Hero Card (AERO STEP + adidas.co.id Clean Reference) */}
-        <div className="relative rounded-3xl sm:rounded-4xl overflow-hidden bg-[#ededeb] border border-neutral-200/80 shadow-[0_8px_36px_rgba(0,0,0,0.04)] min-h-[460px] sm:min-h-[520px] lg:min-h-[560px] flex items-center">
-          {/* Background Studio Image */}
-          <div className="absolute inset-0">
-            <img
-              src="/images/hero-techcare.jpg"
-              alt="TECHCARE Certified Second-Hand IT Hardware & Services"
-              className="w-full h-full object-cover object-center sm:object-right"
-            />
-            {/* Soft Left Gradient for Guaranteed Typography Contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#f5f5f3]/95 via-[#f5f5f3]/80 to-[#f5f5f3]/15 sm:via-[#f5f5f3]/65 sm:to-transparent" />
-          </div>
+    <section className="w-full bg-[#F4F6FA] pt-4 sm:pt-6 pb-8 sm:pb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-5">
+        {/* Bold Tech-Retail Hero Card (Midnight Navy + Cobalt Spotlight) */}
+        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0B1220] via-[#0F1B33] to-[#0D2149] text-white border border-slate-800 shadow-tc-float">
+          {/* Subtle Architectural Tech Grid & Cobalt Glow */}
+          <div className="absolute inset-0 tc-tech-grid opacity-80 pointer-events-none" />
+          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#0B5FFF]/30 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 left-1/3 w-72 h-72 rounded-full bg-[#38BDF8]/15 blur-3xl pointer-events-none" />
 
-          {/* Content Grid */}
-          <div className="relative z-10 w-full p-6 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Left Typography & CTAs */}
-            <div className="lg:col-span-7 space-y-5 max-w-xl">
-              <Reveal delay={0.05}>
-                <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] uppercase tracking-[0.2em] font-bold text-neutral-700 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-neutral-200/80 shadow-2xs">
-                  <ShieldCheck size={13} className="text-neutral-900" />
-                  <span>Jasa IT & Barang Second Berkualitas • Semua &lt; Rp 10 Juta</span>
-                </span>
+          <div className="relative z-10 p-5 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+            {/* Left Copy & CTAs */}
+            <div className="lg:col-span-7 space-y-5">
+              <Reveal delay={0.04}>
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#0B5FFF]/20 border border-[#38BDF8]/30 text-sky-200 text-[11px] font-semibold">
+                  <Zap size={13} className="text-[#F97316] shrink-0" />
+                  <span>Retail IT UMKM • Certified Pre-Owned &lt; Rp 10 Juta</span>
+                </div>
               </Reveal>
 
-              <Reveal delay={0.12}>
-                <h1 className="font-serif text-3xl sm:text-5xl lg:text-[54px] text-neutral-950 font-medium tracking-tight leading-[1.08]">
-                  PERFORMA IT SECOND, STANDAR TEKNISI.
+              <Reveal delay={0.1}>
+                <h1 className="font-display text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight leading-[1.07] text-white">
+                  Hardware IT Berkualitas,{' '}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#38BDF8] to-[#60A5FA]">
+                    Teruji 32 Titik QC.
+                  </span>
                 </h1>
               </Reveal>
 
-              <Reveal delay={0.18}>
-                <p className="text-xs sm:text-sm text-neutral-600 leading-relaxed max-w-md">
-                  Laptop second bisnis, RAM DDR4/DDR5, SSD NVMe, hingga peripheral pilihan — seluruhnya lulus <strong>32 titik QC</strong>, bebas pilih spec RAM & SSD, dan siap pasang oleh tim jasa IT TECHCARE.
+              <Reveal delay={0.16}>
+                <p className="text-xs sm:text-base text-slate-300 leading-relaxed max-w-xl">
+                  Laptop bisnis Lenovo ThinkPad, ASUS OLED, monitor MSI &amp; LG, peripheral Logitech &amp; Fantech, hingga upgrade RAM/SSD — siap pakai, bergaransi toko, dan bisa pasang langsung di workshop.
                 </p>
               </Reveal>
 
-              <Reveal delay={0.24}>
-                <div className="flex flex-wrap items-center gap-3 pt-1">
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
+              <Reveal delay={0.22}>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+                  <button
                     onClick={onShopClick}
-                    className="bg-neutral-900 text-white hover:bg-black transition-all text-xs font-bold tracking-[0.14em] uppercase px-6 sm:px-7 py-3.5 rounded-full inline-flex items-center gap-2 shadow-md"
+                    className="tc-btn-primary text-xs sm:text-sm px-6 py-3.5 rounded-xl"
                   >
-                    <span>Lihat Katalog</span>
-                    <ArrowRight size={15} />
-                  </motion.button>
+                    <span>Belanja Sekarang</span>
+                    <ArrowRight size={16} />
+                  </button>
 
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.97 }}
+                  <button
                     onClick={onTrackClick}
-                    className="bg-white/90 hover:bg-white text-neutral-900 border border-neutral-300 hover:border-black transition-all text-xs font-bold tracking-[0.12em] uppercase px-6 py-3.5 rounded-full"
+                    className="inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold text-white bg-white/10 hover:bg-white/15 border border-white/20 transition-all"
                   >
-                    Lacak Pesanan
-                  </motion.button>
+                    <Truck size={15} className="text-[#38BDF8]" />
+                    <span>Lacak Pesanan</span>
+                  </button>
+                </div>
+              </Reveal>
+
+              {/* Micro Trust Metrics */}
+              <Reveal delay={0.26}>
+                <div className="grid grid-cols-3 gap-3 pt-3 border-t border-white/10 max-w-lg">
+                  <div>
+                    <p className="font-display text-lg sm:text-2xl font-bold text-white tabular-nums">1.200+</p>
+                    <p className="text-[10px] sm:text-xs text-slate-400">Unit Terjual &amp; QC</p>
+                  </div>
+                  <div>
+                    <p className="font-display text-lg sm:text-2xl font-bold text-[#38BDF8] tabular-nums flex items-center gap-1">
+                      4.9 <Star size={14} className="fill-amber-400 text-amber-400" />
+                    </p>
+                    <p className="text-[10px] sm:text-xs text-slate-400">Rating Pelanggan</p>
+                  </div>
+                  <div>
+                    <p className="font-display text-lg sm:text-2xl font-bold text-emerald-400 tabular-nums">30–90 Hr</p>
+                    <p className="text-[10px] sm:text-xs text-slate-400">Garansi Toko Resmi</p>
+                  </div>
                 </div>
               </Reveal>
             </div>
 
-            {/* Right Floating Frosted Trust Pills (matching AERO STEP reference) */}
-            <div className="hidden lg:flex lg:col-span-5 flex-col items-end justify-between gap-3 self-stretch">
-              <div className="space-y-2.5 w-64">
-                {[
-                  {
-                    icon: ShieldCheck,
-                    title: 'Lulus 32 Titik QC',
-                    sub: 'Cek layar, baterai & stress-test'
-                  },
-                  {
-                    icon: Wrench,
-                    title: 'Jasa Upgrade & Service',
-                    sub: 'Gratis pasang RAM / SSD di workshop'
-                  },
-                  {
-                    icon: Truck,
-                    title: 'Tracking Real-Time',
-                    sub: 'Packing aman & garansi toko 60 hari'
-                  }
-                ].map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 + i * 0.08, duration: 0.35 }}
-                      className="bg-white/85 backdrop-blur-md rounded-2xl p-3.5 border border-white shadow-sm flex items-center gap-3"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-900 flex-shrink-0">
-                        <Icon size={17} />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-neutral-900 leading-tight">{item.title}</p>
-                        <p className="text-[10px] text-neutral-500 mt-0.5">{item.sub}</p>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {/* Bottom Social Proof Pill */}
+            {/* Right Featured Hardware Showcase Card */}
+            <div className="lg:col-span-5">
               <motion.div
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45, duration: 0.35 }}
-                className="bg-white/90 backdrop-blur-md rounded-full px-4 py-2.5 border border-white shadow-sm flex items-center gap-3 mt-auto"
+                transition={{ duration: 0.4, delay: 0.15 }}
+                className="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-4 sm:p-5 space-y-4 shadow-2xl"
               >
-                <div className="flex -space-x-2">
-                  {['BS', 'SR', 'AR'].map((init, idx) => (
-                    <span
-                      key={idx}
-                      className="w-7 h-7 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center ring-2 ring-white"
-                    >
-                      {init}
-                    </span>
-                  ))}
+                <div className="flex items-center justify-between gap-2">
+                  <span className="px-2.5 py-1 rounded-lg bg-[#F97316] text-white text-[10px] font-bold uppercase tracking-wider">
+                    Unggulan Minggu Ini
+                  </span>
+                  <span className="text-[11px] font-semibold text-sky-200 inline-flex items-center gap-1">
+                    <ShieldCheck size={13} /> Grade A+ • 97% Mulus
+                  </span>
                 </div>
-                <div className="text-left">
-                  <p className="text-[11px] font-bold text-neutral-900 leading-none">
-                    1.200+ Unit Terjual & Terservis
-                  </p>
-                  <p className="text-[10px] text-neutral-500 flex items-center gap-1 mt-1">
-                    <span className="font-bold text-neutral-800">4.9</span>
-                    <Star size={10} className="fill-amber-400 text-amber-400" />
-                    <span>Rating Pelanggan</span>
-                  </p>
+
+                {/* Clean Product Preview Stage */}
+                <div
+                  onClick={onShopClick}
+                  className="bg-gradient-to-b from-white to-[#EEF2F7] rounded-xl p-5 flex items-center justify-center aspect-[16/10] cursor-pointer group overflow-hidden"
+                >
+                  <img
+                    src="/images/products/thinkpad-x1-carbon-front.jpg"
+                    alt="Lenovo ThinkPad X1 Carbon Gen 9 TECHCARE"
+                    className="max-h-full max-w-[88%] object-contain group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+
+                <div className="flex items-end justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold text-sky-300 uppercase tracking-wider">
+                      Lenovo ThinkPad
+                    </p>
+                    <p className="font-display text-base sm:text-lg font-bold text-white truncate">
+                      X1 Carbon Gen 9 • Custom RAM/SSD
+                    </p>
+                  </div>
+                  <div className="text-right shrink-0">
+                    <span className="text-[10px] text-slate-400 line-through block tabular-nums">
+                      Rp 9.500.000
+                    </span>
+                    <span className="font-display text-base sm:text-lg font-bold text-[#38BDF8] tabular-nums">
+                      Rp 7.850.000
+                    </span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2 pt-1 text-[11px] text-slate-200">
+                  <span className="inline-flex items-center gap-1.5 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/10">
+                    <CheckCircle2 size={12} className="text-emerald-400 shrink-0" />
+                    <span className="truncate">RAM 8–32GB / SSD 1TB</span>
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 bg-white/5 px-2.5 py-1.5 rounded-lg border border-white/10">
+                    <Wrench size={12} className="text-[#38BDF8] shrink-0" />
+                    <span className="truncate">Free Pasang &amp; OS</span>
+                  </span>
                 </div>
               </motion.div>
             </div>
           </div>
         </div>
 
-        {/* Search + Quick Category Pill Bar (Reference-inspired, Mobile-First Scrollable) */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
-          <form onSubmit={handleSearchSubmit} className="relative w-full lg:w-80 flex-shrink-0">
-            <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+        {/* Search Bar + Quick Category Pills (Mobile-First) */}
+        <div className="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200/90 shadow-tc-card flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
+          <form onSubmit={handleSearchSubmit} className="relative w-full lg:w-96 flex-shrink-0">
+            <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
               value={heroSearch}
               onChange={(e) => setHeroSearch(e.target.value)}
-              placeholder="Cari ThinkPad, RAM DDR4, SSD 1TB..."
-              className="w-full pl-10 pr-11 py-3 bg-white border border-neutral-200 rounded-full text-xs outline-none focus:border-black transition-all shadow-2xs"
+              placeholder="Cari laptop ASUS, ThinkPad, MSI, Logitech, RAM..."
+              className="w-full min-h-[44px] pl-11 pr-24 py-2.5 bg-[#F4F6FA] border border-slate-200 rounded-xl text-xs sm:text-sm outline-none focus:bg-white focus:border-[#0B5FFF] transition-all"
             />
             <button
               type="submit"
-              aria-label="Cari produk"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-neutral-900 text-white hover:bg-black flex items-center justify-center transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[34px] px-4 rounded-lg bg-[#0B5FFF] hover:bg-[#0847C4] text-white text-xs font-semibold transition-colors"
             >
-              <Search size={13} />
+              Cari
             </button>
           </form>
 
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0 flex-1 no-scrollbar">
+          <div className="flex items-center gap-2 overflow-x-auto pb-0.5 lg:pb-0 flex-1 no-scrollbar">
             {quickCategories.map((cat) => {
               const Icon = cat.icon;
               return (
                 <button
                   key={cat.label}
                   onClick={() => onSelectCollection(cat.slug)}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white border border-neutral-200 hover:border-black hover:bg-neutral-900 hover:text-white text-neutral-700 text-xs font-semibold whitespace-nowrap transition-all shadow-2xs"
+                  className="inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-xl bg-[#F4F6FA] border border-slate-200 hover:border-[#0B5FFF] hover:bg-[#EEF4FF] hover:text-[#0B5FFF] text-slate-700 text-xs font-semibold whitespace-nowrap transition-all"
                 >
                   <Icon size={14} />
                   <span>{cat.label}</span>

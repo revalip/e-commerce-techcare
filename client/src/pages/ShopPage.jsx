@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Heart, SlidersHorizontal, Tag, RotateCcw, AlertCircle } from 'lucide-react';
+import { Search, Heart, SlidersHorizontal, Tag, RotateCcw, AlertCircle, PackageSearch } from 'lucide-react';
 import { getProducts, getCollections } from '../services/api';
 import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
@@ -21,7 +21,7 @@ export default function ShopPage({
   const [search, setSearch] = useState(initialSearch);
   const [selectedBrand, setSelectedBrand] = useState('');
   const [sortBy, setSortBy] = useState('featured');
-  const [priceRange, setPriceRange] = useState('all'); // 'all' | 'under1' | '1to5' | '5to10'
+  const [priceRange, setPriceRange] = useState('all');
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [visibleCount, setVisibleCount] = useState(8);
 
@@ -49,7 +49,6 @@ export default function ShopPage({
     fetchData();
   }, []);
 
-  // Daftar brand unik secara dinamis dari katalog aktif
   const availableBrands = useMemo(() => {
     const set = new Set();
     products.forEach((p) => {
@@ -79,7 +78,6 @@ export default function ShopPage({
     return products
       .filter((item) => {
         const matchesCategory = !selectedCategory || item.koleksiSlug === selectedCategory;
-
         const matchesBrand =
           !selectedBrand || (item.brand || '').toLowerCase() === selectedBrand.toLowerCase();
 
@@ -103,14 +101,14 @@ export default function ShopPage({
             : price > 5000000;
 
         const matchesFav = !onlyFavorites || isWishlisted(item.id);
-
         return matchesCategory && matchesBrand && matchesSearch && matchesPrice && matchesFav;
       })
       .sort((a, b) => {
         if (sortBy === 'price_asc') return a.harga - b.harga;
         if (sortBy === 'price_desc') return b.harga - a.harga;
         if (sortBy === 'rating_desc') return (Number(b.rating) || 0) - (Number(a.rating) || 0);
-        if (sortBy === 'newest') return String(b.id).localeCompare(String(a.id), undefined, { numeric: true });
+        if (sortBy === 'newest')
+          return String(b.id).localeCompare(String(a.id), undefined, { numeric: true });
         return (b.isBestseller ? 1 : 0) - (a.isBestseller ? 1 : 0);
       });
   }, [products, selectedCategory, selectedBrand, search, sortBy, priceRange, onlyFavorites, isWishlisted]);
@@ -119,31 +117,34 @@ export default function ShopPage({
   const hasMore = visibleCount < filteredProducts.length;
 
   return (
-    <div className="bg-[#f9f9f8] min-h-screen py-6 sm:py-14">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <div className="bg-[#F4F6FA] min-h-screen py-6 sm:py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        {/* Crisp Retail Catalog Header */}
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-2.5">
-            <div>
-              <span className="text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-400 block mb-1">
-                KATALOG CERTIFIED SECOND-HAND • SEMUA &lt; RP 10 JUTA
+          <div className="bg-gradient-to-r from-[#0B1220] to-[#12264A] text-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 border border-slate-800 relative overflow-hidden">
+            <div className="absolute inset-0 tc-tech-grid opacity-40 pointer-events-none" />
+            <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+              <div>
+                <span className="text-[11px] uppercase tracking-wider font-bold text-[#38BDF8] block mb-1">
+                  KATALOG PERANGKAT IT • SEMUA &lt; RP 10 JUTA
+                </span>
+                <h1 className="font-display text-2xl sm:text-4xl font-bold text-white">
+                  Katalog Hardware &amp; Upgrade
+                </h1>
+              </div>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/10 border border-white/15 text-xs font-semibold text-sky-100 self-start sm:self-auto tabular-nums">
+                Menampilkan <strong>{filteredProducts.length}</strong> produk lulus QC
               </span>
-              <h1 className="font-serif text-2xl sm:text-4xl text-neutral-900 tracking-tight">
-                Perangkat IT Second & Komponen Upgrade
-              </h1>
             </div>
-            <span className="text-xs text-neutral-500 font-medium">
-              Menampilkan <strong className="text-neutral-900">{filteredProducts.length}</strong> produk lulus QC
-            </span>
           </div>
         </Reveal>
 
-        {/* Clean Filter & Search Toolbar (Mobile-First) */}
-        <div className="bg-white rounded-3xl p-4 sm:p-5 shadow-xs border border-neutral-200/70 mb-6 sm:mb-8 space-y-3.5">
+        {/* Mobile-First Filter & Search Toolbar */}
+        <div className="bg-white rounded-2xl p-4 sm:p-5 shadow-tc-card border border-slate-200/90 space-y-3.5">
           <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
             {/* Search Input */}
             <div className="relative w-full lg:w-80">
-              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 placeholder="Cari ThinkPad, ASUS, MSI, Logitech, RAM..."
@@ -152,15 +153,14 @@ export default function ShopPage({
                   setSearch(e.target.value);
                   setVisibleCount(8);
                 }}
-                className="w-full pl-10 pr-4 py-2.5 min-h-[42px] bg-[#f5f5f4] rounded-full text-xs outline-none border border-transparent focus:border-black focus:bg-white transition-all"
+                className="tc-input pl-10"
               />
             </div>
 
-            {/* Brand, Price, Favorite & Sort Controls */}
+            {/* Filter Selects & Favorite Toggle */}
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
-              {/* Brand Filter */}
-              <div className="flex items-center gap-1.5 bg-[#f5f5f4] px-3 py-2 min-h-[40px] rounded-full border border-neutral-200/70">
-                <Tag size={12} className="text-neutral-500 shrink-0" />
+              <div className="flex items-center gap-1.5 bg-[#F8FAFC] px-3 min-h-[44px] rounded-xl border border-slate-200 focus-within:border-[#0B5FFF]">
+                <Tag size={13} className="text-[#0B5FFF] shrink-0" />
                 <select
                   aria-label="Filter Brand"
                   value={selectedBrand}
@@ -168,7 +168,7 @@ export default function ShopPage({
                     setSelectedBrand(e.target.value);
                     setVisibleCount(8);
                   }}
-                  className="bg-transparent text-xs font-semibold text-neutral-800 outline-none cursor-pointer w-full truncate"
+                  className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer w-full truncate focus:ring-0"
                 >
                   <option value="">Semua Brand</option>
                   {availableBrands.map((brand) => (
@@ -179,9 +179,8 @@ export default function ShopPage({
                 </select>
               </div>
 
-              {/* Price Filter */}
-              <div className="flex items-center gap-1.5 bg-[#f5f5f4] px-3 py-2 min-h-[40px] rounded-full border border-neutral-200/70">
-                <SlidersHorizontal size={12} className="text-neutral-500 shrink-0" />
+              <div className="flex items-center gap-1.5 bg-[#F8FAFC] px-3 min-h-[44px] rounded-xl border border-slate-200 focus-within:border-[#0B5FFF]">
+                <SlidersHorizontal size={13} className="text-[#0B5FFF] shrink-0" />
                 <select
                   aria-label="Filter Harga"
                   value={priceRange}
@@ -189,7 +188,7 @@ export default function ShopPage({
                     setPriceRange(e.target.value);
                     setVisibleCount(8);
                   }}
-                  className="bg-transparent text-xs font-semibold text-neutral-800 outline-none cursor-pointer w-full truncate"
+                  className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer w-full truncate focus:ring-0"
                 >
                   <option value="all">Semua Harga</option>
                   <option value="under1">&lt; Rp 1 Juta</option>
@@ -198,48 +197,48 @@ export default function ShopPage({
                 </select>
               </div>
 
-              {/* Sort */}
-              <select
-                aria-label="Urutkan Produk"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="bg-[#f5f5f4] text-xs font-semibold py-2 px-3.5 min-h-[40px] rounded-full outline-none border border-neutral-200/70 cursor-pointer"
-              >
-                <option value="featured">Terlaris</option>
-                <option value="newest">Terbaru</option>
-                <option value="price_asc">Harga Terendah</option>
-                <option value="price_desc">Harga Tertinggi</option>
-                <option value="rating_desc">Rating Tertinggi</option>
-              </select>
+              <div className="flex items-center bg-[#F8FAFC] px-3 h-[44px] rounded-xl border border-slate-200 focus-within:border-[#0B5FFF]">
+                <select
+                  aria-label="Urutkan Produk"
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="bg-transparent text-xs font-semibold text-slate-800 outline-none cursor-pointer w-full truncate focus:ring-0"
+                >
+                  <option value="featured">Urut: Terlaris</option>
+                  <option value="newest">Urut: Terbaru</option>
+                  <option value="price_asc">Harga Terendah</option>
+                  <option value="price_desc">Harga Tertinggi</option>
+                  <option value="rating_desc">Rating Tertinggi</option>
+                </select>
+              </div>
 
-              {/* Favorites Toggle */}
               <button
                 type="button"
                 onClick={() => setOnlyFavorites((prev) => !prev)}
-                className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-full text-xs font-semibold border transition-all ${
+                className={`inline-flex items-center justify-center gap-1.5 px-3.5 min-h-[44px] rounded-xl text-xs font-semibold border transition-all ${
                   onlyFavorites
-                    ? 'bg-neutral-900 text-white border-neutral-900'
-                    : 'bg-white text-neutral-700 border-neutral-200 hover:border-black'
+                    ? 'bg-[#FFF7ED] text-[#F97316] border-[#FDBA74]'
+                    : 'bg-white text-slate-700 border-slate-200 hover:border-[#0B5FFF] hover:text-[#0B5FFF]'
                 }`}
               >
-                <Heart size={13} className={onlyFavorites ? 'fill-white' : ''} />
+                <Heart size={14} className={onlyFavorites ? 'fill-[#F97316]' : ''} />
                 <span>Favorit</span>
               </button>
             </div>
           </div>
 
-          {/* Category Pills + Quick Reset */}
-          <div className="flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 flex-1">
+          {/* Scrollable Category Pills + Reset */}
+          <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-100">
+            <div className="flex items-center gap-2 overflow-x-auto pb-0.5 flex-1 no-scrollbar">
               <button
                 onClick={() => {
                   onSelectCategory('');
                   setVisibleCount(8);
                 }}
-                className={`text-[11px] font-bold tracking-wider px-4 py-2 min-h-[36px] rounded-full uppercase whitespace-nowrap transition-all ${
+                className={`text-xs font-semibold px-4 min-h-[40px] rounded-xl whitespace-nowrap transition-all ${
                   !selectedCategory
-                    ? 'bg-black text-white'
-                    : 'bg-[#f4f4f5] text-neutral-600 hover:text-black'
+                    ? 'bg-[#0B5FFF] text-white shadow-tc-primary'
+                    : 'bg-[#F4F6FA] text-slate-600 hover:bg-[#EEF4FF] hover:text-[#0B5FFF]'
                 }`}
               >
                 Semua Kategori
@@ -251,10 +250,10 @@ export default function ShopPage({
                     onSelectCategory(col.slug);
                     setVisibleCount(8);
                   }}
-                  className={`text-[11px] font-bold tracking-wider px-4 py-2 min-h-[36px] rounded-full uppercase whitespace-nowrap transition-all ${
+                  className={`text-xs font-semibold px-4 min-h-[40px] rounded-xl whitespace-nowrap transition-all ${
                     selectedCategory === col.slug
-                      ? 'bg-black text-white'
-                      : 'bg-[#f4f4f5] text-neutral-600 hover:text-black'
+                      ? 'bg-[#0B5FFF] text-white shadow-tc-primary'
+                      : 'bg-[#F4F6FA] text-slate-600 hover:bg-[#EEF4FF] hover:text-[#0B5FFF]'
                   }`}
                 >
                   {col.nama}
@@ -266,51 +265,49 @@ export default function ShopPage({
               <button
                 type="button"
                 onClick={resetAllFilters}
-                className="shrink-0 inline-flex items-center gap-1 text-[11px] font-bold text-neutral-600 hover:text-black px-3 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 transition-colors"
-                title="Reset semua filter"
+                className="shrink-0 inline-flex items-center gap-1.5 min-h-[40px] text-xs font-semibold text-rose-600 hover:bg-rose-50 px-3 rounded-xl border border-rose-200 transition-colors"
               >
-                <RotateCcw size={12} />
+                <RotateCcw size={13} />
                 <span className="hidden sm:inline">Reset</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Error State */}
+        {/* Product Grid / States */}
         {error ? (
-          <div className="bg-white rounded-3xl border border-rose-200 text-center py-16 px-4 space-y-3">
-            <AlertCircle size={32} className="text-rose-500 mx-auto" />
-            <p className="font-serif text-xl text-neutral-900">Gagal Memuat Katalog</p>
-            <p className="text-xs text-neutral-500">{error}</p>
-            <button
-              onClick={fetchData}
-              className="mt-2 px-6 py-2.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider"
-            >
+          <div className="bg-white rounded-2xl border border-rose-200 text-center py-14 px-4 space-y-3 shadow-tc-card">
+            <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+              <AlertCircle size={28} />
+            </div>
+            <p className="font-display text-xl font-bold text-[#0B1220]">Gagal Memuat Katalog</p>
+            <p className="text-xs text-slate-500">{error}</p>
+            <button onClick={fetchData} className="tc-btn-primary">
               Coba Lagi
             </button>
           </div>
         ) : loading ? (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5">
             {Array.from({ length: 8 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-neutral-200/70 text-center py-16 sm:py-20 px-4 space-y-3">
-            <p className="font-serif text-2xl text-neutral-800">Produk Tidak Ditemukan</p>
-            <p className="text-xs text-neutral-500 max-w-sm mx-auto">
-              Coba ganti kata kunci, pilih brand lain, ubah rentang harga, atau reset filter kategori.
+          <div className="bg-white rounded-2xl border border-slate-200 text-center py-16 px-4 space-y-3 shadow-tc-card">
+            <div className="w-14 h-14 rounded-2xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center mx-auto">
+              <PackageSearch size={28} />
+            </div>
+            <p className="font-display text-xl font-bold text-[#0B1220]">Produk Tidak Ditemukan</p>
+            <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+              Coba ubah kata kunci pencarian, pilih brand lain, atau atur ulang filter harga dan kategori.
             </p>
-            <button
-              onClick={resetAllFilters}
-              className="mt-2 px-6 py-3 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider"
-            >
+            <button onClick={resetAllFilters} className="tc-btn-primary">
               Reset Semua Filter
             </button>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5">
               {displayedProducts.map((product, idx) => (
                 <Reveal key={product.id} delay={(idx % 4) * 0.04}>
                   <ProductCard product={product} onSelect={onSelectProduct} />
@@ -319,12 +316,12 @@ export default function ShopPage({
             </div>
 
             {hasMore && (
-              <div className="text-center mt-10">
+              <div className="text-center pt-4">
                 <button
                   onClick={() => setVisibleCount((prev) => prev + 8)}
-                  className="bg-white hover:bg-neutral-900 hover:text-white text-neutral-900 border border-neutral-300 hover:border-neutral-900 text-xs font-bold tracking-wider uppercase px-8 py-3.5 rounded-full transition-all active:scale-95"
+                  className="tc-btn-secondary px-8"
                 >
-                  Tampilkan Lebih Banyak ({filteredProducts.length - visibleCount} lagi)
+                  Tampilkan Lebih Banyak ({filteredProducts.length - visibleCount} produk lagi)
                 </button>
               </div>
             )}

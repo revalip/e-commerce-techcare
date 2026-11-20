@@ -5,92 +5,58 @@ import Reveal from './Reveal';
 
 export default function CollectionsSection({ collections, onSelectCollection }) {
   return (
-    <section className="bg-[#f9f9f8] py-12 sm:py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-[#F4F6FA] py-10 sm:py-14">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
             <div>
-              <span className="text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-400 block mb-1">
-                EKSPLORASI KATEGORI SECOND
+              <span className="text-[11px] uppercase tracking-wider font-bold text-[#0B5FFF] block mb-1">
+                KATEGORI PILIHAN
               </span>
-              <h2 className="font-serif text-2xl sm:text-4xl text-neutral-900 tracking-tight">
-                Pilih Berdasarkan Kebutuhan IT
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1220]">
+                Belanja Berdasarkan Kategori
               </h2>
             </div>
-            <p className="text-xs text-neutral-500 max-w-sm">
-              Semua kategori berisi unit second pilihan di bawah Rp 10 juta dengan opsi upgrade RAM & SSD.
+            <p className="text-xs sm:text-sm text-slate-500 max-w-md">
+              Semua perangkat IT pilihan di bawah Rp 10 juta dengan opsi upgrade RAM &amp; SSD langsung dari teknisi.
             </p>
           </div>
         </Reveal>
 
-        {/* Clean Horizontal Split Editorial Cards (2-col on md+, inspired by AERO STEP reference) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-          {collections.slice(0, 4).map((col, idx) => (
-            <Reveal key={col.id} delay={idx * 0.07}>
-              <motion.div
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.99 }}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+          {collections.map((col, idx) => (
+            <Reveal key={col.id} delay={idx * 0.05}>
+              <motion.button
+                type="button"
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => onSelectCollection(col.slug)}
-                className="group relative bg-white rounded-3xl border border-neutral-200/80 hover:border-neutral-900 overflow-hidden cursor-pointer shadow-xs hover:shadow-md transition-all p-6 sm:p-7 flex items-center justify-between gap-4 min-h-[175px] sm:min-h-[205px]"
+                className="w-full text-left group bg-white rounded-2xl border border-slate-200/90 hover:border-[#0B5FFF] p-3.5 sm:p-4 flex flex-col justify-between gap-3 shadow-tc-card hover:shadow-tc-hover transition-all h-full"
               >
-                <div className="flex-1 space-y-2.5 z-10 max-w-[58%]">
-                  <h3 className="font-serif text-xl sm:text-2xl font-medium text-neutral-900 uppercase tracking-tight">
-                    {col.nama}
-                  </h3>
-                  <p className="text-xs text-neutral-500 leading-relaxed line-clamp-2">
-                    {col.tagline}
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-neutral-900 group-hover:gap-2.5 transition-all pt-1">
-                    <span>Lihat Kategori</span>
-                    <ArrowRight size={14} />
-                  </span>
-                </div>
-
-                <div className="w-32 h-28 sm:w-44 sm:h-36 rounded-2xl bg-[#f4f4f5] p-3 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <div className="w-full aspect-[4/3] rounded-xl bg-gradient-to-b from-[#F1F5F9] to-[#E8EEF6] p-3 flex items-center justify-center overflow-hidden">
                   <img
                     src={col.gambar}
                     alt={col.nama}
-                    className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-500"
+                    loading="lazy"
+                    className="max-h-full max-w-[85%] object-contain group-hover:scale-108 transition-transform duration-300"
                   />
                 </div>
-              </motion.div>
+                <div className="space-y-1">
+                  <h3 className="font-display text-sm sm:text-base font-bold text-[#0B1220] group-hover:text-[#0B5FFF] transition-colors line-clamp-1">
+                    {col.nama}
+                  </h3>
+                  <p className="text-[11px] text-slate-500 line-clamp-2 leading-snug">
+                    {col.tagline}
+                  </p>
+                </div>
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#0B5FFF] pt-1">
+                  <span>Lihat Produk</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </motion.button>
             </Reveal>
           ))}
         </div>
-
-        {/* 5th Category Banner (Peripherals Second) */}
-        {collections[4] && (
-          <Reveal delay={0.2}>
-            <motion.div
-              whileHover={{ y: -3 }}
-              onClick={() => onSelectCollection(collections[4].slug)}
-              className="mt-4 sm:mt-6 group bg-white rounded-3xl border border-neutral-200/80 hover:border-neutral-900 p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5 cursor-pointer shadow-xs hover:shadow-md transition-all"
-            >
-              <div className="space-y-1.5 text-center sm:text-left">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400">
-                  AKSESORIS & WORKSPACE
-                </span>
-                <h3 className="font-serif text-xl sm:text-2xl font-medium text-neutral-900 uppercase">
-                  {collections[4].nama}
-                </h3>
-                <p className="text-xs text-neutral-500">{collections[4].tagline}</p>
-              </div>
-              <div className="flex items-center gap-5">
-                <div className="w-28 h-20 rounded-2xl bg-[#f4f4f5] p-2 flex items-center justify-center">
-                  <img
-                    src={collections[4].gambar}
-                    alt={collections[4].nama}
-                    className="max-h-full max-w-full object-contain group-hover:scale-108 transition-transform duration-500"
-                  />
-                </div>
-                <span className="px-5 py-2.5 rounded-full bg-black text-white text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5">
-                  <span>Lihat</span>
-                  <ArrowRight size={13} />
-                </span>
-              </div>
-            </motion.div>
-          </Reveal>
-        )}
       </div>
     </section>
   );

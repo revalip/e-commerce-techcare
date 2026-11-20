@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Lock, Mail, User, Phone, ShieldCheck, ShoppingBag } from 'lucide-react';
+import { X, Lock, Mail, User, Phone, ShieldCheck, ShoppingBag, Cpu, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthModal() {
@@ -30,7 +30,6 @@ export default function AuthModal() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
     try {
       if (authModalTab === 'login') {
         await login(email, password);
@@ -70,195 +69,197 @@ export default function AuthModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Backdrop */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
         onClick={closeAuthModal}
       />
 
-      {/* Modal Box */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 15 }}
+        initial={{ opacity: 0, scale: 0.95, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 15 }}
-        transition={{ duration: 0.22, ease: 'easeOut' }}
-        className="relative bg-white rounded-3xl sm:rounded-4xl max-w-md w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl border border-neutral-100 z-10 space-y-5"
+        exit={{ opacity: 0, scale: 0.95, y: 12 }}
+        transition={{ duration: 0.2, ease: 'easeOut' }}
+        className="relative bg-white rounded-3xl max-w-md w-full max-h-[92vh] overflow-y-auto shadow-tc-float border border-slate-200 z-10"
       >
-        <button
-          onClick={closeAuthModal}
-          className="absolute top-5 right-5 text-neutral-400 hover:text-black p-1.5 rounded-full transition-colors"
-          aria-label="Tutup"
-        >
-          <X size={18} />
-        </button>
-
-        {/* Modal Header */}
-        <div className="text-center pt-1">
-          <span className="text-[10px] uppercase font-bold tracking-[0.24em] text-neutral-400 block mb-1">
-            AKUN PENGGUNA • TECHCARE
-          </span>
-          <h2 className="font-serif text-2xl text-neutral-900 font-normal">
-            {authModalTab === 'login' ? 'Masuk ke TechCare' : 'Daftar Akun Buyer'}
-          </h2>
-        </div>
-
-        {/* Notice (misalnya jika dari checkout) */}
-        {authNotice && (
-          <div className="p-3.5 bg-neutral-50 border border-neutral-200/80 rounded-2xl text-xs text-neutral-700 leading-relaxed text-center">
-            {authNotice}
-          </div>
-        )}
-
-        {/* Tab switch */}
-        <div className="flex border-b border-neutral-100 pb-2 space-x-6 text-xs font-semibold tracking-wider justify-center">
+        {/* Top Navy Accent Banner */}
+        <div className="bg-gradient-to-r from-[#0B1220] to-[#112447] text-white px-6 py-5 relative">
           <button
-            onClick={() => {
-              setAuthModalTab('login');
-              setError('');
-            }}
-            className={`pb-2 transition-colors relative ${
-              authModalTab === 'login' ? 'text-black' : 'text-neutral-400 hover:text-neutral-700'
-            }`}
+            onClick={closeAuthModal}
+            className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            aria-label="Tutup"
           >
-            MASUK
-            {authModalTab === 'login' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black rounded-full" />
-            )}
+            <X size={18} />
           </button>
 
-          <button
-            onClick={() => {
-              setAuthModalTab('register');
-              setError('');
-            }}
-            className={`pb-2 transition-colors relative ${
-              authModalTab === 'register' ? 'text-black' : 'text-neutral-400 hover:text-neutral-700'
-            }`}
-          >
-            BUAT AKUN (BUYER)
+          <div className="flex items-center gap-3">
+            <span className="w-10 h-10 rounded-xl bg-[#0B5FFF] text-white flex items-center justify-center shadow-tc-primary shrink-0">
+              <Cpu size={20} />
+            </span>
+            <div>
+              <span className="text-[10px] uppercase font-bold tracking-wider text-sky-300 block">
+                AKUN PENGGUNA TECHCARE
+              </span>
+              <h2 className="font-display text-xl font-bold text-white leading-tight">
+                {authModalTab === 'login' ? 'Masuk ke Akun Anda' : 'Daftar Akun Buyer'}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-5 sm:p-6 space-y-5">
+          {authNotice && (
+            <div className="p-3.5 bg-[#EEF4FF] border border-[#C7DCFF] rounded-xl text-xs text-[#0B1220] leading-relaxed">
+              {authNotice}
+            </div>
+          )}
+
+          {/* Segmented Tab Switcher */}
+          <div className="grid grid-cols-2 p-1 bg-[#F4F6FA] rounded-xl border border-slate-200">
+            <button
+              type="button"
+              onClick={() => {
+                setAuthModalTab('login');
+                setError('');
+              }}
+              className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
+                authModalTab === 'login'
+                  ? 'bg-white text-[#0B5FFF] shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              Masuk
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAuthModalTab('register');
+                setError('');
+              }}
+              className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
+                authModalTab === 'register'
+                  ? 'bg-white text-[#0B5FFF] shadow-xs'
+                  : 'text-slate-500 hover:text-slate-900'
+              }`}
+            >
+              Daftar Buyer
+            </button>
+          </div>
+
+          {error && (
+            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs flex items-start gap-2">
+              <AlertCircle size={15} className="shrink-0 mt-0.5" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-3.5">
             {authModalTab === 'register' && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-black rounded-full" />
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Nama Lengkap *
+                </label>
+                <div className="relative">
+                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Contoh: Budi Pratama"
+                    className="tc-input pl-10"
+                  />
+                </div>
+              </div>
             )}
-          </button>
-        </div>
 
-        {error && (
-          <div className="p-3 bg-red-50 text-red-600 rounded-2xl text-xs leading-relaxed">
-            {error}
-          </div>
-        )}
-
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-3.5 text-xs">
-          {authModalTab === 'register' && (
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-neutral-600 mb-1">
-                Nama Lengkap *
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Alamat Email *
               </label>
               <div className="relative">
-                <User size={15} className="absolute left-3.5 top-3 text-neutral-400" />
+                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
-                  type="text"
+                  type="email"
                   required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Contoh: Budi Pratama"
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#f9f9fb] border border-neutral-200 rounded-2xl text-xs focus:bg-white focus:border-black outline-none transition-all"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="nama@email.com"
+                  className="tc-input pl-10"
                 />
               </div>
             </div>
-          )}
 
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-neutral-600 mb-1">
-              Alamat Email *
-            </label>
-            <div className="relative">
-              <Mail size={15} className="absolute left-3.5 top-3 text-neutral-400" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@example.com"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#f9f9fb] border border-neutral-200 rounded-2xl text-xs focus:bg-white focus:border-black outline-none transition-all"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-[10px] font-bold uppercase tracking-wider text-neutral-600 mb-1">
-              Password *
-            </label>
-            <div className="relative">
-              <Lock size={15} className="absolute left-3.5 top-3 text-neutral-400" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 bg-[#f9f9fb] border border-neutral-200 rounded-2xl text-xs focus:bg-white focus:border-black outline-none transition-all"
-              />
-            </div>
-          </div>
-
-          {authModalTab === 'register' && (
             <div>
-              <label className="block text-[10px] font-bold uppercase tracking-wider text-neutral-600 mb-1">
-                Nomor WhatsApp / HP (Opsional)
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Password *
               </label>
               <div className="relative">
-                <Phone size={15} className="absolute left-3.5 top-3 text-neutral-400" />
+                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  placeholder="081234567890"
-                  className="w-full pl-10 pr-4 py-2.5 bg-[#f9f9fb] border border-neutral-200 rounded-2xl text-xs focus:bg-white focus:border-black outline-none transition-all"
+                  type="password"
+                  required
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Minimal 6 karakter"
+                  className="tc-input pl-10"
                 />
               </div>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full mt-2 bg-black text-white hover:bg-neutral-800 transition-all py-3 rounded-full text-xs font-semibold tracking-widest uppercase active:scale-[0.99] disabled:opacity-50"
-          >
-            {loading
-              ? 'Memproses...'
-              : authModalTab === 'login'
-              ? 'Masuk Sekarang'
-              : 'Daftar Akun Buyer'}
-          </button>
-        </form>
+            {authModalTab === 'register' && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Nomor WhatsApp (Opsional)
+                </label>
+                <div className="relative">
+                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="081234567890"
+                    className="tc-input pl-10"
+                  />
+                </div>
+              </div>
+            )}
 
-        {/* Quick Demo Logins untuk kemudahan pengetesan */}
-        <div className="pt-3 border-t border-neutral-100 text-center space-y-2">
-          <p className="text-[10px] uppercase font-bold tracking-wider text-neutral-400">
-            Akses Cepat (Demo Testing)
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
-            <button
-              type="button"
-              onClick={handleQuickAdmin}
-              className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[10px] font-bold tracking-wider uppercase transition-colors"
-            >
-              <ShieldCheck size={13} className="text-neutral-700" />
-              <span>Masuk Admin Demo</span>
+            <button type="submit" disabled={loading} className="tc-btn-primary w-full py-3.5 mt-1">
+              {loading
+                ? 'Memproses...'
+                : authModalTab === 'login'
+                ? 'Masuk Sekarang'
+                : 'Buat Akun Buyer'}
             </button>
-            <button
-              type="button"
-              onClick={handleQuickBuyer}
-              className="inline-flex items-center justify-center space-x-1.5 px-3 py-2 rounded-full bg-neutral-100 hover:bg-neutral-200 text-neutral-800 text-[10px] font-bold tracking-wider uppercase transition-colors"
-            >
-              <ShoppingBag size={13} className="text-neutral-700" />
-              <span>Masuk Buyer Demo</span>
-            </button>
+          </form>
+
+          {/* Quick Demo Access */}
+          <div className="pt-4 border-t border-slate-100 space-y-2.5">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 text-center">
+              Akses Cepat Demo Pengujian
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={handleQuickAdmin}
+                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#0B1220] hover:bg-[#162238] text-white text-xs font-semibold transition-colors"
+              >
+                <ShieldCheck size={14} className="text-[#38BDF8]" />
+                <span>Masuk Admin Demo</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleQuickBuyer}
+                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#EEF4FF] hover:bg-[#DCE8FF] text-[#0B5FFF] border border-[#C7DCFF] text-xs font-semibold transition-colors"
+              >
+                <ShoppingBag size={14} />
+                <span>Masuk Buyer Demo</span>
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>

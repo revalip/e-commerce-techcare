@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
-import { ArrowRight, RotateCcw } from 'lucide-react';
+import { ArrowRight, RotateCcw, CheckCircle2 } from 'lucide-react';
 
 export default function CartToast({ onOpenCart }) {
   const { toast, setToast, undoAddToCart } = useCart();
@@ -19,26 +19,29 @@ export default function CartToast({ onOpenCart }) {
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
-            className="pointer-events-auto bg-[#111113] text-white px-5 py-3.5 rounded-2xl shadow-2xl border border-neutral-800 flex items-center space-x-4 max-w-sm"
+            exit={{ opacity: 0, y: 16, scale: 0.96 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+            className="pointer-events-auto bg-[#0B1220] text-white px-4 py-3 rounded-2xl shadow-tc-float border border-slate-700/80 flex items-center gap-3 max-w-md w-full sm:w-auto"
           >
+            <CheckCircle2 size={18} className="text-emerald-400 shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-xs font-medium truncate">{toast.message}</p>
-              <p className="text-[10px] text-neutral-400 truncate">
-                {[toast.specLabel, toast.warna].filter(Boolean).join(' • ')}
-              </p>
+              <p className="text-xs font-semibold truncate">{toast.message}</p>
+              {(toast.specLabel || toast.warna) && (
+                <p className="text-[10px] text-slate-400 truncate">
+                  {[toast.specLabel, toast.warna].filter(Boolean).join(' • ')}
+                </p>
+              )}
             </div>
 
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
               <button
                 onClick={() => undoAddToCart(toast)}
-                className="text-[11px] font-semibold text-neutral-300 hover:text-white px-2 py-1 rounded-lg hover:bg-neutral-800 transition-colors flex items-center space-x-1"
+                className="min-h-[34px] text-[11px] font-semibold text-slate-300 hover:text-white px-2.5 rounded-lg hover:bg-white/10 transition-colors inline-flex items-center gap-1"
               >
                 <RotateCcw size={12} />
-                <span>Urungkan</span>
+                <span>Batal</span>
               </button>
 
               <button
@@ -46,7 +49,7 @@ export default function CartToast({ onOpenCart }) {
                   setToast(null);
                   onOpenCart();
                 }}
-                className="text-[11px] font-bold text-white bg-white/10 hover:bg-white/20 px-3 py-1 rounded-lg transition-colors flex items-center space-x-1"
+                className="min-h-[34px] text-[11px] font-bold text-white bg-[#0B5FFF] hover:bg-[#0847C4] px-3 rounded-lg transition-colors inline-flex items-center gap-1"
               >
                 <span>Buka</span>
                 <ArrowRight size={12} />
