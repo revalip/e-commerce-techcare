@@ -85,7 +85,7 @@ export default function AuthModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 15 }}
         transition={{ duration: 0.22, ease: 'easeOut' }}
-        className="relative bg-white rounded-4xl max-w-md w-full p-6 sm:p-8 shadow-2xl border border-neutral-100 z-10 space-y-5"
+        className="relative bg-white rounded-3xl sm:rounded-4xl max-w-md w-full max-h-[92vh] overflow-y-auto p-5 sm:p-8 shadow-2xl border border-neutral-100 z-10 space-y-5"
       >
         <button
           onClick={closeAuthModal}

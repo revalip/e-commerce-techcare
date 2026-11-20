@@ -1,53 +1,93 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 
-export default function Footer({ onNavigate }) {
+export default function Footer({ onNavigate, onSelectCollection }) {
   const { isAdmin, openAuthModal } = useAuth();
 
+  const goCategory = (slug) => {
+    if (onSelectCollection) {
+      onSelectCollection(slug);
+    } else {
+      onNavigate('shop');
+    }
+  };
+
   return (
-    <footer className="bg-white border-t border-neutral-200 pt-16 pb-12">
+    <footer className="bg-white border-t border-neutral-200 pt-12 sm:pt-14 pb-24 md:pb-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-neutral-100">
-          
-          {/* Brand Col */}
-          <div className="space-y-4 md:col-span-1">
-            <span className="font-serif text-2xl tracking-[0.18em] font-normal text-black block">
-              TECHCARE
-            </span>
-            <p className="text-xs text-neutral-500 leading-relaxed font-light">
-              Toko retail UMKM hardware IT, laptop kerja & gaming, peripheral berkualitas tinggi, dan aksesoris digital terpercaya di Indonesia dari brand ASUS, Logitech, Lenovo, Fantech, dan MSI.
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-neutral-100">
+          {/* Brand */}
+          <div className="space-y-3">
+            <div>
+              <span className="font-serif text-2xl tracking-[0.16em] font-medium text-black block">
+                TECHCARE
+              </span>
+              <span className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-bold">
+                IT Service & Certified Second
+              </span>
+            </div>
+            <p className="text-xs text-neutral-500 leading-relaxed">
+              Spesialis jasa IT, upgrade hardware, dan penjualan perangkat IT second berkualitas di bawah Rp 10 juta. Setiap unit lulus 32 titik QC teknisi dan bergaransi toko.
             </p>
           </div>
 
-          {/* Links 1 */}
+          {/* Katalog */}
           <div className="space-y-3">
-            <h5 className="text-[11px] font-bold tracking-[0.18em] uppercase text-neutral-900">
-              Kategori Hardware
+            <h5 className="text-[11px] font-bold tracking-[0.16em] uppercase text-neutral-900">
+              Katalog Second
             </h5>
             <ul className="space-y-2 text-xs text-neutral-500">
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-black transition-colors">Laptop ASUS ROG & Legion</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-black transition-colors">Monitor MSI QD-OLED</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-black transition-colors">Keyboard Fantech & ROG</button></li>
-              <li><button onClick={() => onNavigate('shop')} className="hover:text-black transition-colors">Mouse Logitech G Superlight</button></li>
+              <li>
+                <button onClick={() => goCategory('laptop-second')} className="hover:text-black transition-colors">
+                  Laptop Second (&lt; Rp 10 Juta)
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goCategory('ram-memori')} className="hover:text-black transition-colors">
+                  RAM Desktop & Laptop SODIMM
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goCategory('ssd-storage')} className="hover:text-black transition-colors">
+                  SSD NVMe Health 97%+
+                </button>
+              </li>
+              <li>
+                <button onClick={() => goCategory('display-monitor')} className="hover:text-black transition-colors">
+                  Monitor IPS & Peripherals
+                </button>
+              </li>
             </ul>
           </div>
 
-          {/* Links 2 */}
+          {/* Layanan & Pelacakan */}
           <div className="space-y-3">
-            <h5 className="text-[11px] font-bold tracking-[0.18em] uppercase text-neutral-900">
+            <h5 className="text-[11px] font-bold tracking-[0.16em] uppercase text-neutral-900">
               Layanan & Akun
             </h5>
             <ul className="space-y-2 text-xs text-neutral-500">
-              <li><button onClick={() => onNavigate('orders')} className="hover:text-black transition-colors">Lacak Status Pesanan</button></li>
-              <li><button onClick={() => onNavigate('about')} className="hover:text-black transition-colors">Tentang TechCare</button></li>
-              <li><span className="text-neutral-700">100% Garansi Resmi Unit Baru</span></li>
+              <li>
+                <button onClick={() => onNavigate('orders')} className="hover:text-black transition-colors">
+                  Lacak Pesanan & Resi
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('about')} className="hover:text-black transition-colors">
+                  Jasa Service & Upgrade IT
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('learn')} className="hover:text-black transition-colors">
+                  Panduan QC & Pilih Spec
+                </button>
+              </li>
               <li>
                 <button
                   onClick={() => {
                     if (isAdmin) {
                       onNavigate('admin');
                     } else {
-                      openAuthModal('login', 'Silakan masuk menggunakan akun admin.');
+                      openAuthModal('login', 'Silakan masuk menggunakan akun admin TECHCARE.');
                     }
                   }}
                   className="hover:text-black text-neutral-900 font-semibold"
@@ -58,31 +98,28 @@ export default function Footer({ onNavigate }) {
             </ul>
           </div>
 
-          {/* Contact Col */}
+          {/* Kontak */}
           <div className="space-y-3">
-            <h5 className="text-[11px] font-bold tracking-[0.18em] uppercase text-neutral-900">
-              Pusat Layanan & Kontak
+            <h5 className="text-[11px] font-bold tracking-[0.16em] uppercase text-neutral-900">
+              Workshop & Kontak
             </h5>
             <p className="text-xs text-neutral-500 leading-relaxed">
               care@techcare.id<br />
-              TECHCARE IT STORE (UMKM)<br />
-              Layanan: Senin – Sabtu (08:00 – 21:00 WIB)<br />
-              Jakarta, Indonesia
+              WhatsApp: +62 812-3456-7890<br />
+              Senin – Sabtu (09:00 – 20:00 WIB)<br />
+              Sentra Niaga IT, Jakarta Barat
             </p>
           </div>
-
         </div>
 
-        {/* Bottom Bar: Clean Minimalism */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-400 gap-4">
-          <p>© 2026 TECHCARE. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <span className="hover:text-neutral-600 transition-colors cursor-pointer">Kebijakan Privasi</span>
-            <span className="hover:text-neutral-600 transition-colors cursor-pointer">Syarat & Ketentuan</span>
-            <span className="hover:text-neutral-600 transition-colors cursor-pointer">Klaim Garansi</span>
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-neutral-400 gap-3">
+          <p>© 2026 TECHCARE — Jasa IT & Perangkat Second Berkualitas.</p>
+          <div className="flex space-x-5">
+            <span>Garansi Toko 30–90 Hari</span>
+            <span>•</span>
+            <span>Lulus 32 Titik QC</span>
           </div>
         </div>
-
       </div>
     </footer>
   );

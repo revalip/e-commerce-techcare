@@ -15,7 +15,7 @@ export default function CartToast({ onOpenCart }) {
   }, [toast, setToast]);
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 pointer-events-none">
+    <div className="fixed bottom-20 md:bottom-6 right-4 left-4 sm:left-auto sm:right-6 z-50 pointer-events-none flex justify-center sm:justify-end">
       <AnimatePresence>
         {toast && (
           <motion.div
@@ -27,7 +27,9 @@ export default function CartToast({ onOpenCart }) {
           >
             <div className="flex-1 min-w-0">
               <p className="text-xs font-medium truncate">{toast.message}</p>
-              <p className="text-[10px] text-neutral-400">Varian: {toast.warna}</p>
+              <p className="text-[10px] text-neutral-400 truncate">
+                {[toast.specLabel, toast.warna].filter(Boolean).join(' • ')}
+              </p>
             </div>
 
             <div className="flex items-center space-x-2 flex-shrink-0">
