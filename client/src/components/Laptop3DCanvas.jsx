@@ -1,18 +1,55 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 
 /**
- * Procedural Studio Environment Map (pure Three.js softboxes — zero external HDRI fetch)
- * Gives anodized aluminum & slate surfaces authentic Apple/Airform specular reflections.
+ * 3D Model Credit:
+ * "MacBook Pro M3 16-inch 2024" by jackbaeten (CC-BY 4.0),
+ * pre-rigged via william-laverty/rigged-macbook-3d (MIT License).
+ */
+const MODEL_URL = '/models/macbook-rigged.glb';
+const FIT_SIZE = 4.2;
+const DEFAULT_LID = { OPEN_X: 0, CLOSED_X: 1.94 };
+const DEFAULT_SEAT = {
+  HINGE_Y: -0.5,
+  HINGE_Z: -12.2,
+  SCREEN_BOTTOM_Y: 1.25,
+  SCREEN_BOTTOM_Z: -13.2,
+  TARGET_Y: 0.7
+};
+
+// Shared single-fetch GLB promise so Hero and Closer Look never download twice
+let cachedGltfPromise = null;
+function loadMacbookModel() {
+  if (!cachedGltfPromise) {
+    const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
+    cachedGltfPromise = new Promise((resolve, reject) => {
+      loader.load(MODEL_URL, resolve, undefined, reject);
+    });
+  }
+  return cachedGltfPromise;
+}
+
+/**
+ * Apple / Airform One High-Contrast Metallic Studio Environment Map
+ * Dark studio enclosure with crisp bright softbox streaks so Space-Black
+ * anodized aluminum catches real specular glints instead of looking flat.
  */
 function createStudioEnvMap(renderer) {
   const pmrem = new THREE.PMREMGenerator(renderer);
   const envScene = new THREE.Scene();
-  envScene.background = new THREE.Color('#E8EDF3');
+  envScene.background = new THREE.Color('#1B1F27');
 
-  const panelGeo = new THREE.PlaneGeometry(10, 10);
-  const addSoftbox = (color, pos, rot, scale = [1, 1, 1]) => {
-    const mat = new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide });
+  const panelGeo = new THREE.PlaneGeometry(1, 1);
+  const addLightformer = (color, intensity, pos, rot, scale) => {
+    const c = new THREE.Color(color).multiplyScalar(intensity);
+    const mat = new THREE.MeshBasicMaterial({
+      color: c,
+      side: THREE.DoubleSide,
+      toneMapped: false
+    });
     const mesh = new THREE.Mesh(panelGeo, mat);
     mesh.position.set(...pos);
     mesh.rotation.set(...rot);
@@ -20,16 +57,18 @@ function createStudioEnvMap(renderer) {
     envScene.add(mesh);
   };
 
-  // Overhead key softbox
-  addSoftbox('#FFFFFF', [0, 8, 0], [Math.PI / 2, 0, 0], [1.6, 1.2, 1]);
-  // Left cool silver rim light
-  addSoftbox('#DCE6F2', [-9, 2, 4], [0, Math.PI / 2.4, 0], [1.2, 0.9, 1]);
-  // Right bright studio fill
-  addSoftbox('#FFFFFF', [9, 3, 2], [0, -Math.PI / 2.2, 0], [1.1, 0.8, 1]);
-  // Subtle dark floor bounce for crisp metallic contrast
-  addSoftbox('#5A6778', [0, -7, 0], [-Math.PI / 2, 0, 0], [2.2, 2.2, 1]);
+  // Overhead bright linear softbox streak (paints crisp reflection across lid bevel)
+  addLightformer('#FFFFFF', 2.4, [0, 8, 1.5], [Math.PI / 2, 0, 0], [16, 4.5, 1]);
+  // Front-upper studio fill band
+  addLightformer('#F4F8FF', 1.6, [1.5, 3.5, 7], [0, Math.PI, 0], [11, 3.2, 1]);
+  // Left cool-silver rim streak
+  addLightformer('#D7E6FF', 2.2, [-8, 3.2, 2], [0, Math.PI / 2.2, 0], [10, 3.8, 1]);
+  // Right warm-white softbox
+  addLightformer('#FFF4E6', 1.9, [8, 2.8, 3], [0, -Math.PI / 2.3, 0], [9, 3.4, 1]);
+  // Back edge highlight rim
+  addLightformer('#E8F0FF', 2.0, [-1, 5.5, -7.5], [0.25, 0, 0], [14, 2.6, 1]);
 
-  const rt = pmrem.fromScene(envScene, 0.04);
+  const rt = pmrem.fromScene(envScene, 0.035);
   panelGeo.dispose();
   envScene.traverse((obj) => {
     if (obj.material) obj.material.dispose();
@@ -39,340 +78,253 @@ function createStudioEnvMap(renderer) {
 }
 
 /**
- * High-res procedural display CanvasTexture (TechCare 32-Point QC Hardware Telemetry)
+ * Live Animated High-Res TechCare OS Display Screen (Redraws smooth live telemetry waveform)
  */
-function createScreenTexture() {
+function createAnimatedScreenCanvas() {
   const canvas = document.createElement('canvas');
   canvas.width = 1024;
-  canvas.height = 640;
+  canvas.height = 660;
   const ctx = canvas.getContext('2d');
-
-  // Deep matte obsidian display canvas
-  const bg = ctx.createLinearGradient(0, 0, 1024, 640);
-  bg.addColorStop(0, '#10141B');
-  bg.addColorStop(0.55, '#171E29');
-  bg.addColorStop(1, '#0D1016');
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, 1024, 640);
-
-  // Subtle architectural studio grid
-  ctx.strokeStyle = 'rgba(255,255,255,0.045)';
-  ctx.lineWidth = 1;
-  for (let x = 0; x <= 1024; x += 64) {
-    ctx.beginPath();
-    ctx.moveTo(x, 0);
-    ctx.lineTo(x, 640);
-    ctx.stroke();
-  }
-  for (let y = 0; y <= 640; y += 64) {
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    ctx.lineTo(1024, y);
-    ctx.stroke();
-  }
-
-  // Top macOS/Pro status bar
-  ctx.fillStyle = 'rgba(255,255,255,0.06)';
-  ctx.fillRect(0, 0, 1024, 44);
-  ctx.fillStyle = '#E6ECF5';
-  ctx.font = '600 18px "Space Grotesk", sans-serif';
-  ctx.fillText('TECHCARE // QC DIAGNOSTIC OS', 32, 28);
-  ctx.fillStyle = '#8FA3BD';
-  ctx.font = '500 15px "IBM Plex Mono", monospace';
-  ctx.fillText('32 / 32 POINTS PASSED', 780, 28);
-
-  // Hero telemetry title
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = '700 54px "Space Grotesk", sans-serif';
-  ctx.fillText('CERTIFIED', 56, 152);
-  ctx.fillStyle = '#9BB0C9';
-  ctx.font = '300 54px "Space Grotesk", sans-serif';
-  ctx.fillText('WORKSTATION', 56, 212);
-
-  // 3 clean hardware metric cards
-  const metrics = [
-    { label: 'CPU THERMAL', value: '41°C', sub: 'Repasted Noctua NT-H1', x: 56 },
-    { label: 'BATTERY HEALTH', value: '94%', sub: 'Verified Cycle Count', x: 372 },
-    { label: 'NVME READ', value: '7,100', sub: 'MB/s • 0 Bad Sectors', x: 688 }
-  ];
-
-  metrics.forEach((m) => {
-    ctx.fillStyle = 'rgba(255,255,255,0.05)';
-    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.roundRect(m.x, 280, 280, 176, 16);
-    ctx.fill();
-    ctx.stroke();
-
-    ctx.fillStyle = '#8FA3BD';
-    ctx.font = '500 14px "IBM Plex Mono", monospace';
-    ctx.fillText(m.label, m.x + 24, 318);
-
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = '600 46px "Space Grotesk", sans-serif';
-    ctx.fillText(m.value, m.x + 24, 384);
-
-    ctx.fillStyle = '#A8B7CA';
-    ctx.font = '400 15px "Plus Jakarta Sans", sans-serif';
-    ctx.fillText(m.sub, m.x + 24, 426);
-  });
-
-  // Clean thermal waveform bar at bottom
-  ctx.fillStyle = 'rgba(255,255,255,0.04)';
-  ctx.beginPath();
-  ctx.roundRect(56, 490, 912, 92, 16);
-  ctx.fill();
-
-  ctx.strokeStyle = '#B8CBE0';
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  for (let i = 0; i <= 40; i++) {
-    const px = 88 + (i / 40) * 848;
-    const py = 540 + Math.sin(i * 0.45) * 14 + Math.cos(i * 0.9) * 6;
-    if (i === 0) ctx.moveTo(px, py);
-    else ctx.lineTo(px, py);
-  }
-  ctx.stroke();
-
-  ctx.fillStyle = '#8FA3BD';
-  ctx.font = '500 13px "IBM Plex Mono", monospace';
-  ctx.fillText('STRESS TEST 60M • MEMTEST86 0 ERRORS • GARANSI TOKO 30-90 HARI', 88, 570);
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.anisotropy = 4;
-  return texture;
+
+  const drawFrame = (time) => {
+    // Deep OLED obsidian gradient
+    const bg = ctx.createLinearGradient(0, 0, 1024, 660);
+    bg.addColorStop(0, '#0B0E14');
+    bg.addColorStop(0.5, '#131924');
+    bg.addColorStop(1, '#090C11');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, 1024, 660);
+
+    // Subtle precision telemetry grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= 1024; x += 64) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, 660);
+      ctx.stroke();
+    }
+    for (let y = 0; y <= 660; y += 64) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(1024, y);
+      ctx.stroke();
+    }
+
+    // Top macOS-style status bar
+    ctx.fillStyle = 'rgba(255,255,255,0.05)';
+    ctx.fillRect(0, 0, 1024, 44);
+
+    // Live pulsing green status dot
+    const pulse = 0.65 + 0.35 * Math.sin(time * 3.2);
+    ctx.fillStyle = `rgba(52, 211, 153, ${pulse})`;
+    ctx.beginPath();
+    ctx.arc(32, 22, 5, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#E8EEF6';
+    ctx.font = '600 16px "Space Grotesk", sans-serif';
+    ctx.fillText('TECHCARE // CERTIFIED HARDWARE OS', 48, 27);
+
+    ctx.fillStyle = '#9BB0C9';
+    ctx.font = '500 14px "IBM Plex Mono", monospace';
+    ctx.fillText('32 / 32 QC VERIFIED', 810, 27);
+
+    // Main Editorial Display Typography
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = '600 58px "Space Grotesk", sans-serif';
+    ctx.fillText('TechCare', 56, 152);
+    ctx.fillStyle = '#8FA3BD';
+    ctx.font = '300 58px "Space Grotesk", sans-serif';
+    ctx.fillText('Workstation', 322, 152);
+
+    ctx.fillStyle = '#94A3B8';
+    ctx.font = '400 19px "Plus Jakarta Sans", sans-serif';
+    ctx.fillText('Real-Time Hardware Diagnostics • Thermal Repasted • Ready Stock < Rp 10 Juta', 56, 198);
+
+    // 3 Glass Hardware Metric Cards
+    const tempVal = (40.6 + Math.sin(time * 1.4) * 0.4).toFixed(1);
+    const metrics = [
+      { label: 'CPU THERMAL', value: `${tempVal}°C`, sub: 'Repasted • Kipas Senyap', x: 56 },
+      { label: 'BATTERY HEALTH', value: '94%', sub: 'Verified Low Cycle Count', x: 372 },
+      { label: 'NVME PCIe GEN4', value: '7,100', sub: 'MB/s • Health 99%', x: 688 }
+    ];
+
+    metrics.forEach((m) => {
+      ctx.fillStyle = 'rgba(255,255,255,0.045)';
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.roundRect(m.x, 250, 280, 178, 18);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#8FA3BD';
+      ctx.font = '500 13px "IBM Plex Mono", monospace';
+      ctx.fillText(m.label, m.x + 24, 288);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = '600 46px "Space Grotesk", sans-serif';
+      ctx.fillText(m.value, m.x + 24, 354);
+
+      ctx.fillStyle = '#9BAAC0';
+      ctx.font = '400 14px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText(m.sub, m.x + 24, 398);
+    });
+
+    // Live Animated Thermal Telemetry Waveform Panel
+    ctx.fillStyle = 'rgba(255,255,255,0.035)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.09)';
+    ctx.beginPath();
+    ctx.roundRect(56, 462, 912, 138, 18);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.strokeStyle = '#C8D8EC';
+    ctx.lineWidth = 2.6;
+    ctx.beginPath();
+    for (let i = 0; i <= 60; i++) {
+      const px = 88 + (i / 60) * 848;
+      const py =
+        526 +
+        Math.sin(i * 0.28 - time * 2.2) * 16 +
+        Math.cos(i * 0.62 - time * 1.3) * 7;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    ctx.fillStyle = '#8FA3BD';
+    ctx.font = '500 13px "IBM Plex Mono", monospace';
+    ctx.fillText('LIVE STRESS BENCHMARK • MEMTEST86 0 ERRORS • GARANSI TOKO 30–90 HARI', 88, 576);
+
+    texture.needsUpdate = true;
+  };
+
+  drawFrame(0);
+  return { texture, drawFrame };
 }
 
 /**
- * Soft radial contact shadow texture for realistic studio floor grounding
+ * Soft radial contact shadow underneath the floating MacBook Pro
  */
 function createShadowTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 256;
   canvas.height = 256;
   const ctx = canvas.getContext('2d');
-  const grad = ctx.createRadialGradient(128, 128, 14, 128, 128, 124);
-  grad.addColorStop(0, 'rgba(29, 33, 41, 0.24)');
-  grad.addColorStop(0.5, 'rgba(29, 33, 41, 0.09)');
-  grad.addColorStop(1, 'rgba(29, 33, 41, 0)');
+  const grad = ctx.createRadialGradient(128, 128, 16, 128, 128, 124);
+  grad.addColorStop(0, 'rgba(18, 22, 30, 0.30)');
+  grad.addColorStop(0.5, 'rgba(18, 22, 30, 0.11)');
+  grad.addColorStop(1, 'rgba(18, 22, 30, 0)');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 256, 256);
-  const tex = new THREE.CanvasTexture(canvas);
-  return tex;
+  return new THREE.CanvasTexture(canvas);
 }
 
 /**
- * Helper to create a rounded-corner slab shape for precision CNC aluminum chassis
+ * Rig cloned GLB scene: attach pivot, fit normalization, screen material, and space-black metallic finish
  */
-function createRoundedRectShape(w, h, r) {
-  const s = new THREE.Shape();
-  const hw = w / 2;
-  const hh = h / 2;
-  s.moveTo(-hw + r, -hh);
-  s.lineTo(hw - r, -hh);
-  s.quadraticCurveTo(hw, -hh, hw, -hh + r);
-  s.lineTo(hw, hh - r);
-  s.quadraticCurveTo(hw, hh, hw - r, hh);
-  s.lineTo(-hw + r, hh);
-  s.quadraticCurveTo(-hw, hh, -hw, hh - r);
-  s.lineTo(-hw, -hh + r);
-  s.quadraticCurveTo(-hw, -hh, -hw + r, -hh);
-  return s;
+function rigMacbookClone(sourceScene, screenTexture) {
+  const modelScene = sourceScene.clone(true);
+  const pivot = modelScene.getObjectByName('LidPivot');
+  const screenMesh = modelScene.getObjectByName('Screen');
+
+  const screenMat = new THREE.MeshBasicMaterial({
+    map: screenTexture,
+    color: new THREE.Color('#FFFFFF'),
+    toneMapped: false
+  });
+  if (screenMesh && screenMesh.isMesh) {
+    screenMesh.material = screenMat;
+  }
+
+  // Tune PBR envMapIntensity for crisp anodized aluminum highlights
+  const seen = new Set();
+  modelScene.traverse((o) => {
+    if (!o.isMesh) return;
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    mats.forEach((m) => {
+      if (!m || seen.has(m)) return;
+      seen.add(m);
+      if ('envMapIntensity' in m) {
+        m.envMapIntensity = m.userData?.spaceBlack ? 1.1 : 0.95;
+      }
+    });
+  });
+
+  modelScene.updateMatrixWorld(true);
+  const box = new THREE.Box3().setFromObject(modelScene);
+  const center = box.getCenter(new THREE.Vector3());
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z) || 1;
+  const scale = FIT_SIZE / maxDim;
+
+  const wrapper = new THREE.Group();
+  const normGroup = new THREE.Group();
+  normGroup.scale.setScalar(scale);
+  normGroup.position.set(-center.x * scale, -center.y * scale, -center.z * scale);
+  normGroup.add(modelScene);
+  wrapper.add(normGroup);
+
+  const e = pivot?.userData || {};
+  const hingeY = pivot ? pivot.position.y : DEFAULT_SEAT.HINGE_Y;
+  const hingeZ = pivot ? pivot.position.z : DEFAULT_SEAT.HINGE_Z;
+  const seat = {
+    hingeY,
+    hingeZ,
+    relY: (e.screenBottomY ?? DEFAULT_SEAT.SCREEN_BOTTOM_Y) - hingeY,
+    relZ: (e.screenBottomZ ?? DEFAULT_SEAT.SCREEN_BOTTOM_Z) - hingeZ,
+    targetY: e.seatTargetY ?? DEFAULT_SEAT.TARGET_Y,
+    openX: e.lidOpenX ?? DEFAULT_LID.OPEN_X,
+    closedX: e.lidClosedX ?? DEFAULT_LID.CLOSED_X
+  };
+
+  return { wrapper, pivot, screenMat, seat };
+}
+
+function applyLidOpen(rig, openAmount) {
+  if (!rig || !rig.pivot) return;
+  const clamped = Math.max(0, Math.min(1, openAmount));
+  const { openX, closedX, hingeY, relY, relZ, targetY } = rig.seat;
+  const theta = closedX + (openX - closedX) * clamped;
+  rig.pivot.rotation.x = theta;
+
+  // Seat-lift keeps closed screen edge seated cleanly above the keycaps
+  const edgeY = hingeY + relY * Math.cos(theta) - relZ * Math.sin(theta);
+  rig.pivot.position.y = hingeY + Math.max(0, targetY - edgeY);
+
+  // Smooth screen brightness wake as lid opens past 18%
+  const wake = Math.max(0, Math.min(1, (clamped - 0.16) / 0.35));
+  rig.screenMat.color.setScalar(wake);
 }
 
 /**
- * Builds the procedural CNC Aluminum Ultrabook 3D Model
- */
-function buildProceduralLaptop() {
-  const root = new THREE.Group();
-
-  // Anodized silver-slate aluminum (Airform One industrial finish)
-  const aluminumMat = new THREE.MeshStandardMaterial({
-    color: '#D9E0E8',
-    metalness: 0.78,
-    roughness: 0.24
-  });
-
-  const darkMetalMat = new THREE.MeshStandardMaterial({
-    color: '#262C36',
-    metalness: 0.55,
-    roughness: 0.35
-  });
-
-  const keycapMat = new THREE.MeshStandardMaterial({
-    color: '#1C2028',
-    metalness: 0.2,
-    roughness: 0.55
-  });
-
-  const glassBezelMat = new THREE.MeshStandardMaterial({
-    color: '#0E1117',
-    metalness: 0.15,
-    roughness: 0.08
-  });
-
-  const accentCopperMat = new THREE.MeshStandardMaterial({
-    color: '#C87D55',
-    metalness: 0.85,
-    roughness: 0.22
-  });
-
-  const W = 3.2;
-  const D = 2.15;
-  const baseThick = 0.11;
-  const lidThick = 0.065;
-
-  // 1. CNC Unibody Base
-  const baseShape = createRoundedRectShape(W, D, 0.14);
-  const baseGeo = new THREE.ExtrudeGeometry(baseShape, {
-    depth: baseThick,
-    bevelEnabled: true,
-    bevelThickness: 0.022,
-    bevelSize: 0.022,
-    bevelSegments: 4
-  });
-  baseGeo.rotateX(Math.PI / 2);
-  const baseMesh = new THREE.Mesh(baseGeo, aluminumMat);
-  baseMesh.position.y = baseThick / 2;
-  root.add(baseMesh);
-
-  // Recessed dark keyboard well
-  const wellGeo = new THREE.BoxGeometry(W - 0.36, 0.014, 0.96);
-  const wellMesh = new THREE.Mesh(wellGeo, darkMetalMat);
-  wellMesh.position.set(0, baseThick + 0.015, -0.2);
-  root.add(wellMesh);
-
-  // Sculpted 5x12 keyboard matrix (InstancedMesh for ultra-lightweight 1 draw call!)
-  const keyGeo = new THREE.BoxGeometry(0.185, 0.024, 0.145);
-  const rows = 5;
-  const cols = 12;
-  const keyInstances = new THREE.InstancedMesh(keyGeo, keycapMat, rows * cols);
-  const dummy = new THREE.Object3D();
-  let idx = 0;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < cols; c++) {
-      const kx = -1.24 + c * 0.225;
-      const kz = -0.56 + r * 0.18;
-      dummy.position.set(kx, baseThick + 0.028, kz);
-      dummy.scale.set(r === 4 && c >= 4 && c <= 7 ? 1.12 : 1, 1, 1);
-      dummy.updateMatrix();
-      keyInstances.setMatrixAt(idx++, dummy.matrix);
-    }
-  }
-  root.add(keyInstances);
-
-  // Subtle Precision Glass Trackpad
-  const trackpadMat = new THREE.MeshStandardMaterial({
-    color: '#C7D0DC',
-    metalness: 0.6,
-    roughness: 0.18
-  });
-  const trackpadGeo = new THREE.BoxGeometry(1.06, 0.008, 0.62);
-  const trackpad = new THREE.Mesh(trackpadGeo, trackpadMat);
-  trackpad.position.set(0, baseThick + 0.021, 0.64);
-  root.add(trackpad);
-
-  // Precision Side I/O Ports (Dual Thunderbolt USB-C + Audio + HDMI)
-  const portGeo = new THREE.BoxGeometry(0.02, 0.036, 0.13);
-  [-0.52, -0.32, 0.2].forEach((pz) => {
-    const leftPort = new THREE.Mesh(portGeo, glassBezelMat);
-    leftPort.position.set(-W / 2 - 0.015, baseThick * 0.2, pz);
-    root.add(leftPort);
-  });
-  [-0.45, -0.18].forEach((pz) => {
-    const rightPort = new THREE.Mesh(portGeo, glassBezelMat);
-    rightPort.position.set(W / 2 + 0.015, baseThick * 0.2, pz);
-    root.add(rightPort);
-  });
-
-  // Rear Thermal Exhaust Louvers + Copper Heat-Pipe Accent (Visible on Thermal View!)
-  const ventGroup = new THREE.Group();
-  const ventGeo = new THREE.BoxGeometry(0.06, 0.042, 0.025);
-  for (let v = -10; v <= 10; v++) {
-    const fin = new THREE.Mesh(ventGeo, darkMetalMat);
-    fin.position.set(v * 0.11, baseThick * 0.25, -D / 2 - 0.012);
-    ventGroup.add(fin);
-  }
-  const copperPipeGeo = new THREE.BoxGeometry(1.85, 0.022, 0.02);
-  const copperPipe = new THREE.Mesh(copperPipeGeo, accentCopperMat);
-  copperPipe.position.set(0, baseThick * 0.25, -D / 2 - 0.005);
-  ventGroup.add(copperPipe);
-  root.add(ventGroup);
-
-  // Central Hinge Cylinder
-  const hingeGeo = new THREE.CylinderGeometry(0.052, 0.052, 2.25, 20);
-  hingeGeo.rotateZ(Math.PI / 2);
-  const hinge = new THREE.Mesh(hingeGeo, darkMetalMat);
-  hinge.position.set(0, baseThick + 0.01, -D / 2 + 0.06);
-  root.add(hinge);
-
-  // 2. Articulated Hinged Display Lid
-  const lidPivot = new THREE.Group();
-  lidPivot.position.set(0, baseThick + 0.02, -D / 2 + 0.05);
-  root.add(lidPivot);
-
-  const lidShape = createRoundedRectShape(W, D, 0.14);
-  const lidGeo = new THREE.ExtrudeGeometry(lidShape, {
-    depth: lidThick,
-    bevelEnabled: true,
-    bevelThickness: 0.018,
-    bevelSize: 0.018,
-    bevelSegments: 4
-  });
-  const lidBack = new THREE.Mesh(lidGeo, aluminumMat);
-  lidBack.position.set(0, D / 2, -lidThick);
-  lidPivot.add(lidBack);
-
-  // Glossy Dark Display Bezel
-  const bezelGeo = new THREE.PlaneGeometry(W - 0.1, D - 0.1);
-  const bezel = new THREE.Mesh(bezelGeo, glassBezelMat);
-  bezel.position.set(0, D / 2, 0.019);
-  lidPivot.add(bezel);
-
-  // Active Illuminated Display Panel (TechCare QC Diagnostic OS)
-  const screenTex = createScreenTexture();
-  const screenMat = new THREE.MeshBasicMaterial({ map: screenTex });
-  const screenGeo = new THREE.PlaneGeometry(W - 0.26, D - 0.28);
-  const screenMesh = new THREE.Mesh(screenGeo, screenMat);
-  screenMesh.position.set(0, D / 2 + 0.02, 0.022);
-  lidPivot.add(screenMesh);
-
-  // Subtle machined silver stripe badge on outer lid
-  const emblemGeo = new THREE.BoxGeometry(0.42, 0.045, 0.01);
-  const emblem = new THREE.Mesh(emblemGeo, darkMetalMat);
-  emblem.position.set(0, D / 2 + 0.12, -lidThick - 0.02);
-  lidPivot.add(emblem);
-
-  // Center the laptop vertically for balanced rotation
-  root.position.y = -0.35;
-
-  return { root, lidPivot, screenTex };
-}
-
-/**
- * Camera presets for Airform One "Take a Closer Look" interactive explorer
+ * Interactive Camera Presets for Airform One "Lihat Lebih Dekat" 3D Explorer
  */
 const EXPLORER_PRESETS = {
-  overview: { rotY: -0.45, rotX: 0.22, lidOpen: 1.88, camZ: 6.1, camY: 0.85, offsetX: 0 },
-  display: { rotY: 0.05, rotX: 0.06, lidOpen: 1.72, camZ: 5.25, camY: 0.95, offsetX: 0 },
-  ram: { rotY: -0.25, rotX: 0.62, lidOpen: 2.02, camZ: 5.2, camY: 1.55, offsetX: 0 },
-  ssd: { rotY: 0.38, rotX: 0.52, lidOpen: 1.98, camZ: 5.3, camY: 1.35, offsetX: 0 },
-  thermal: { rotY: 2.68, rotX: 0.28, lidOpen: 1.82, camZ: 5.4, camY: 0.85, offsetX: 0 },
-  ports: { rotY: -1.48, rotX: 0.14, lidOpen: 1.78, camZ: 5.3, camY: 0.55, offsetX: 0 },
-  qc: { rotY: 0.55, rotX: 0.24, lidOpen: 1.9, camZ: 5.8, camY: 0.85, offsetX: 0 }
+  overview: { rotY: -0.45, rotX: 0.18, open: 0.96, camZ: 6.4, camY: 0.72 },
+  display: { rotY: 0.04, rotX: 0.05, open: 0.98, camZ: 5.1, camY: 0.55 },
+  ram: { rotY: -0.22, rotX: 0.56, open: 1.0, camZ: 5.2, camY: 1.45 },
+  ssd: { rotY: 0.42, rotX: 0.46, open: 1.0, camZ: 5.3, camY: 1.25 },
+  thermal: { rotY: 2.72, rotX: 0.24, open: 0.92, camZ: 5.6, camY: 0.75 },
+  ports: { rotY: -1.46, rotX: 0.12, open: 0.88, camZ: 5.4, camY: 0.42 },
+  qc: { rotY: 0.54, rotX: 0.2, open: 0.96, camZ: 6.0, camY: 0.72 }
 };
 
 export default function Laptop3DCanvas({
   mode = 'hero', // 'hero' | 'explorer'
-  scrollTargetRef = null, // Direct DOM ref of sticky scroll container for guaranteed 60fps scroll sync
+  scrollTargetRef = null,
   activePreset = 'overview',
   className = ''
 }) {
   const containerRef = useRef(null);
   const presetRef = useRef(activePreset);
-  const [webglFailed, setWebglFailed] = useState(false);
+  const [status, setStatus] = useState('loading'); // 'loading' | 'ready' | 'error'
 
   useEffect(() => {
     presetRef.current = activePreset;
@@ -390,7 +342,7 @@ export default function Laptop3DCanvas({
         powerPreference: 'high-performance'
       });
     } catch {
-      setWebglFailed(true);
+      setStatus('error');
       return;
     }
 
@@ -400,10 +352,10 @@ export default function Laptop3DCanvas({
 
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.12;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
 
-    const width = container.clientWidth || 600;
+    const width = container.clientWidth || 640;
     const height = container.clientHeight || 500;
     renderer.setSize(width, height);
     container.innerHTML = '';
@@ -413,37 +365,55 @@ export default function Laptop3DCanvas({
     const envRT = createStudioEnvMap(renderer);
     scene.environment = envRT.texture;
 
-    const camera = new THREE.PerspectiveCamera(34, width / height, 0.1, 100);
-    camera.position.set(0, 0.65, 5.6);
+    const camera = new THREE.PerspectiveCamera(32, width / height, 0.1, 100);
+    camera.position.set(0, 0.6, 6.2);
 
-    // Crisp Apple/Airform Studio 3-Point Lighting
-    const ambient = new THREE.AmbientLight('#FFFFFF', 0.55);
-    scene.add(ambient);
+    // Calibrated Apple Studio 3-Point Lighting Rig
+    scene.add(new THREE.AmbientLight('#FFFFFF', 0.28));
 
-    const keyLight = new THREE.DirectionalLight('#FFFFFF', 1.35);
-    keyLight.position.set(4, 7, 5);
+    const keyLight = new THREE.DirectionalLight('#FFEEDA', 1.35);
+    keyLight.position.set(5, 8, 6);
     scene.add(keyLight);
 
-    const rimLight = new THREE.DirectionalLight('#CBD9EA', 0.85);
-    rimLight.position.set(-5, 3, -4);
+    const fillLight = new THREE.DirectionalLight('#C4D2FF', 0.35);
+    fillLight.position.set(-7, 3, 4);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight('#E6EEFF', 1.25);
+    rimLight.position.set(-2, 6, -7);
     scene.add(rimLight);
 
-    const { root, lidPivot, screenTex } = buildProceduralLaptop();
-    scene.add(root);
-
-    // Soft studio contact shadow underneath floating laptop
+    // Contact shadow plane
     const shadowTex = createShadowTexture();
     const shadowMat = new THREE.MeshBasicMaterial({
       map: shadowTex,
       transparent: true,
       depthWrite: false
     });
-    const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(4.4, 3.2), shadowMat);
+    const shadowPlane = new THREE.Mesh(new THREE.PlaneGeometry(5.2, 3.8), shadowMat);
     shadowPlane.rotation.x = -Math.PI / 2;
-    shadowPlane.position.y = -1.18;
+    shadowPlane.position.y = -1.35;
     scene.add(shadowPlane);
 
-    // Pointer tilt & explorer drag state
+    // Live animated OS screen texture
+    const { texture: screenTexture, drawFrame: drawScreen } = createAnimatedScreenCanvas();
+
+    let rig = null;
+    let disposed = false;
+
+    loadMacbookModel()
+      .then((gltf) => {
+        if (disposed) return;
+        rig = rigMacbookClone(gltf.scene, screenTexture);
+        scene.add(rig.wrapper);
+        applyLidOpen(rig, mode === 'hero' ? 0.08 : 0.96);
+        setStatus('ready');
+      })
+      .catch(() => {
+        if (!disposed) setStatus('error');
+      });
+
+    // Pointer tilt & explorer 360° drag
     const pointer = { x: 0, y: 0 };
     let isDragging = false;
     let dragStartX = 0;
@@ -460,7 +430,7 @@ export default function Laptop3DCanvas({
       if (mode === 'explorer' && isDragging) {
         const dx = e.clientX - dragStartX;
         dragStartX = e.clientX;
-        dragVelocity = dx * 0.0085;
+        dragVelocity = dx * 0.009;
         dragOffsetY += dragVelocity;
       }
     };
@@ -479,10 +449,8 @@ export default function Laptop3DCanvas({
     container.addEventListener('pointerdown', onPointerDown);
     window.addEventListener('pointerup', onPointerUp);
 
-    // Reset drag smoothly whenever explorer preset changes
     let lastPreset = presetRef.current;
 
-    // ResizeObserver keeps 3D crisp across 360px / 768px / 1280px
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         const w = entry.contentRect.width;
@@ -496,7 +464,6 @@ export default function Laptop3DCanvas({
     });
     resizeObserver.observe(container);
 
-    // Visibility pause for battery & performance
     let isVisible = true;
     const io = new IntersectionObserver(
       (entries) => {
@@ -506,23 +473,19 @@ export default function Laptop3DCanvas({
     );
     io.observe(container);
 
-    // Smooth lerped animation state
-    // Note: lidPivot.rotation.x = Math.PI/2 means closed flat; ~ -0.15..0.1 means open ~105°
-    // Specifically: at lidPivot.rotation.x = 0, lid stands vertically 90° up.
-    // Closed onto base (towards +Z): lidPivot.rotation.x = +Math.PI/2 (1.57 rad)
-    // Open comfortable 108°: lidPivot.rotation.x = -0.32 rad
     const state = {
-      rotY: mode === 'hero' ? -1.18 : -0.45,
-      rotX: mode === 'hero' ? 0.14 : 0.22,
-      rotZ: 0,
+      rotY: mode === 'hero' ? -0.78 : -0.45,
+      rotX: mode === 'hero' ? 0.26 : 0.18,
+      rotZ: mode === 'hero' ? -0.06 : 0,
       posX: 0,
-      posY: -0.25,
-      lidAngle: mode === 'hero' ? 1.42 : -0.26,
-      camZ: 5.5,
-      camY: 0.65
+      posY: -0.15,
+      open: mode === 'hero' ? 0.08 : 0.96,
+      camZ: 6.2,
+      camY: 0.6
     };
 
     let rafId = 0;
+    let lastScreenDraw = 0;
     const clock = new THREE.Clock();
 
     const animate = () => {
@@ -531,7 +494,6 @@ export default function Laptop3DCanvas({
 
       const t = clock.getElapsedTime();
       const cw = container.clientWidth || 800;
-      const ch = container.clientHeight || 600;
       const isNarrow = cw < 768;
       const portraitBoost = camera.aspect < 1 ? 1 / Math.max(camera.aspect, 0.52) : 1;
 
@@ -543,38 +505,36 @@ export default function Laptop3DCanvas({
           p = Math.max(0, Math.min(1, -rect.top / scrollable));
         }
 
-        // Phase 1 (0 -> 0.52): Sleek Airform-style monolithic profile opens & rotates to 3/4 hero
-        // Phase 2 (0.4 -> 0.95): Glides cleanly to right side on desktop to frame editorial headline
-        const openT = Math.min(1, p / 0.52);
-        const glideT = Math.max(0, Math.min(1, (p - 0.36) / 0.54));
+        const openT = Math.min(1, p / 0.42);
+        const glideT = Math.max(0, Math.min(1, (p - 0.3) / 0.52));
         const smoothOpen = openT * openT * (3 - 2 * openT);
         const smoothGlide = glideT * glideT * (3 - 2 * glideT);
 
-        // Target transforms
-        const baseRotY = -1.2 + smoothOpen * 0.96 + smoothGlide * 0.12;
-        const baseRotX = 0.08 + smoothOpen * 0.14;
-        const baseRotZ = -0.16 * (1 - smoothOpen);
-        const targetLid = 1.44 - smoothOpen * 1.72; // 1.44 (almost closed) -> -0.28 (open ~106°)
-        const targetPosX = isNarrow ? 0 : smoothGlide * 1.32;
+        // Dramatic Airform × Apple scroll choreography
+        const targetRotY = -0.82 + smoothOpen * 0.56 + smoothGlide * 0.08;
+        const targetRotX = 0.26 - smoothOpen * 0.14;
+        const targetRotZ = -0.06 * (1 - smoothOpen);
+        const targetOpen = 0.08 + smoothOpen * 0.92; // 8% cracked shut -> 100% wide open!
+        const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
         const targetPosY =
-          (isNarrow ? 0.32 - smoothGlide * 0.25 : -0.32) +
-          (prefersReducedMotion ? 0 : Math.sin(t * 1.4) * 0.05);
-        const baseZ = (isNarrow ? 5.9 * portraitBoost : 5.75) - smoothOpen * 0.2 + smoothGlide * 0.45;
-        const targetCamY = 0.55 + smoothOpen * 0.25;
+          (isNarrow ? 0.18 + smoothGlide * 1.05 : -0.14) +
+          (prefersReducedMotion ? 0 : Math.sin(t * 1.35) * 0.05);
+        const targetCamZ =
+          (isNarrow ? 8.2 * portraitBoost : 6.35) - smoothOpen * 0.25 + smoothGlide * 0.45;
+        const targetCamY = (isNarrow ? 0.45 + smoothGlide * 0.35 : 0.52) + smoothOpen * 0.16;
 
         const tiltX = prefersReducedMotion ? 0 : pointer.y * 0.08;
-        const tiltY = prefersReducedMotion ? 0 : pointer.x * 0.15;
+        const tiltY = prefersReducedMotion ? 0 : pointer.x * 0.16;
 
-        state.rotY += (baseRotY + tiltY - state.rotY) * 0.12;
-        state.rotX += (baseRotX + tiltX - state.rotX) * 0.12;
-        state.rotZ += (baseRotZ - state.rotZ) * 0.12;
-        state.lidAngle += (targetLid - state.lidAngle) * 0.14;
-        state.posX += (targetPosX - state.posX) * 0.12;
-        state.posY += (targetPosY - state.posY) * 0.12;
-        state.camZ += (baseZ - state.camZ) * 0.12;
-        state.camY += (targetCamY - state.camY) * 0.12;
+        state.rotY += (targetRotY + tiltY - state.rotY) * 0.1;
+        state.rotX += (targetRotX + tiltX - state.rotX) * 0.1;
+        state.rotZ += (targetRotZ - state.rotZ) * 0.1;
+        state.open += (targetOpen - state.open) * 0.11;
+        state.posX += (targetPosX - state.posX) * 0.1;
+        state.posY += (targetPosY - state.posY) * 0.1;
+        state.camZ += (targetCamZ - state.camZ) * 0.1;
+        state.camY += (targetCamY - state.camY) * 0.1;
       } else {
-        // Explorer interactive camera choreography
         if (presetRef.current !== lastPreset) {
           lastPreset = presetRef.current;
           dragOffsetY = 0;
@@ -586,30 +546,40 @@ export default function Laptop3DCanvas({
         }
 
         const preset = EXPLORER_PRESETS[presetRef.current] || EXPLORER_PRESETS.overview;
-        const targetLid = -(preset.lidOpen - Math.PI / 2);
-        const floatY = prefersReducedMotion ? 0 : Math.sin(t * 1.3) * 0.035;
-        const targetCamZ = isNarrow ? preset.camZ * Math.min(portraitBoost, 1.45) : preset.camZ;
+        const floatY = prefersReducedMotion ? 0 : Math.sin(t * 1.25) * 0.04;
+        const targetCamZ = isNarrow ? preset.camZ * Math.min(portraitBoost, 1.55) : preset.camZ;
 
-        state.rotY += (preset.rotY + dragOffsetY + (prefersReducedMotion ? 0 : pointer.x * 0.06) - state.rotY) * 0.1;
-        state.rotX += (preset.rotX + (prefersReducedMotion ? 0 : pointer.y * 0.035) - state.rotX) * 0.1;
+        state.rotY +=
+          (preset.rotY + dragOffsetY + (prefersReducedMotion ? 0 : pointer.x * 0.06) - state.rotY) *
+          0.1;
+        state.rotX +=
+          (preset.rotX + (prefersReducedMotion ? 0 : pointer.y * 0.035) - state.rotX) * 0.1;
         state.rotZ += (0 - state.rotZ) * 0.1;
-        state.lidAngle += (targetLid - state.lidAngle) * 0.1;
-        state.posX += (preset.offsetX - state.posX) * 0.1;
-        state.posY += (-0.42 + floatY - state.posY) * 0.1;
+        state.open += (preset.open - state.open) * 0.1;
+        state.posX += (0 - state.posX) * 0.1;
+        state.posY += (-0.18 + floatY - state.posY) * 0.1;
         state.camZ += (targetCamZ - state.camZ) * 0.1;
         state.camY += (preset.camY - state.camY) * 0.1;
       }
 
-      root.rotation.set(state.rotX, state.rotY, state.rotZ);
-      root.position.set(state.posX, state.posY, 0);
-      lidPivot.rotation.x = state.lidAngle;
+      if (rig) {
+        rig.wrapper.rotation.set(state.rotX, state.rotY, state.rotZ);
+        rig.wrapper.position.set(state.posX, state.posY, 0);
+        applyLidOpen(rig, state.open);
+
+        // Animate live screen waveform at ~20fps only while screen is awake
+        if (!prefersReducedMotion && state.open > 0.22 && t - lastScreenDraw > 0.05) {
+          lastScreenDraw = t;
+          drawScreen(t);
+        }
+      }
 
       shadowPlane.position.x = state.posX;
-      const shadowScale = 1 - Math.abs(state.posY + 0.35) * 0.22;
+      const shadowScale = 1 - Math.abs(state.posY + 0.15) * 0.18;
       shadowPlane.scale.set(shadowScale, shadowScale, 1);
 
       camera.position.set(0, state.camY, state.camZ);
-      camera.lookAt(state.posX * 0.32, 0.18, 0);
+      camera.lookAt(state.posX * 0.28, 0.05, 0);
 
       renderer.render(scene, camera);
     };
@@ -617,27 +587,24 @@ export default function Laptop3DCanvas({
     animate();
 
     return () => {
+      disposed = true;
       cancelAnimationFrame(rafId);
       resizeObserver.disconnect();
       io.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerdown', onPointerDown);
       window.removeEventListener('pointerup', onPointerUp);
-      screenTex.dispose();
+      screenTexture.dispose();
       shadowTex.dispose();
       envRT.dispose();
-      scene.traverse((obj) => {
-        if (obj.geometry) obj.geometry.dispose();
-        if (obj.material) {
-          if (Array.isArray(obj.material)) obj.material.forEach((m) => m.dispose());
-          else obj.material.dispose();
-        }
-      });
+      if (rig?.screenMat) rig.screenMat.dispose();
+      shadowPlane.geometry.dispose();
+      shadowMat.dispose();
       renderer.dispose();
     };
   }, [mode, scrollTargetRef]);
 
-  if (webglFailed) {
+  if (status === 'error') {
     return (
       <div className={`flex items-center justify-center ${className}`}>
         <img
@@ -650,12 +617,21 @@ export default function Laptop3DCanvas({
   }
 
   return (
-    <div
-      ref={containerRef}
-      className={`w-full h-full select-none ${
-        mode === 'explorer' ? 'cursor-grab active:cursor-grabbing' : ''
-      } ${className}`}
-      aria-label="Visualisasi 3D interaktif laptop TechCare"
-    />
+    <div className={`relative w-full h-full select-none ${className}`}>
+      {status === 'loading' && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="px-4 py-2 rounded-full bg-white/85 border border-[#E2E7EE] font-mono text-[10px] uppercase tracking-[0.1em] text-[#647082]">
+            Memuat Model 3D...
+          </div>
+        </div>
+      )}
+      <div
+        ref={containerRef}
+        className={`w-full h-full ${
+          mode === 'explorer' ? 'cursor-grab active:cursor-grabbing' : ''
+        }`}
+        aria-label="Visualisasi 3D interaktif MacBook Pro TechCare"
+      />
+    </div>
   );
 }
