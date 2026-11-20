@@ -1,8 +1,60 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'models/macbook-rigged.glb'],
+      manifest: {
+        name: 'TechCare — Retail IT & Hardware Studio',
+        short_name: 'TechCare',
+        description:
+          'Toko retail IT, laptop second bergaransi 32 titik QC, dan jasa upgrade RAM/SSD.',
+        theme_color: '#F7F8FA',
+        background_color: '#F7F8FA',
+        display: 'standalone',
+        orientation: 'portrait-primary',
+        start_url: '/',
+        scope: '/',
+        lang: 'id',
+        icons: [
+          {
+            src: '/pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          },
+          {
+            src: '/pwa-maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
+          }
+        ]
+      },
+      workbox: {
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
+        globPatterns: ['**/*.{js,css,html,svg,png,webp,jpg,glb}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'techcare-google-fonts',
+              expiration: { maxEntries: 16, maxAgeSeconds: 60 * 60 * 24 * 365 }
+            }
+          }
+        ]
+      }
+    })
+  ],
   build: {
     rollupOptions: {
       output: {

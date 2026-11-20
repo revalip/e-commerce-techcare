@@ -13,6 +13,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import TechCareLogo from './TechCareLogo';
 
 function ScrollProgressRing() {
   const [progress, setProgress] = useState(0);
@@ -101,7 +102,7 @@ export default function Navbar({ onNavigate, currentPage }) {
             onClick={() => handleLinkClick('home')}
             className="flex items-center gap-2 text-left group shrink-0"
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-[#1D2129] group-hover:scale-110 transition-transform" />
+            <TechCareLogo size={26} className="group-hover:scale-105 transition-transform" />
             <span className="font-display text-base sm:text-lg font-semibold tracking-[-0.04em] text-[#1D2129]">
               TechCare
             </span>

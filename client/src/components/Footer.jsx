@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight, MapPin, Phone, Mail } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import TechCareLogo from './TechCareLogo';
 
 export default function Footer({ onNavigate, onSelectCollection }) {
   const { isAdmin, openAuthModal } = useAuth();
@@ -22,9 +23,12 @@ export default function Footer({ onNavigate, onSelectCollection }) {
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8692A3] block">
               Certified Hardware &amp; Workshop UMKM
             </span>
-            <p className="font-display text-4xl sm:text-5xl font-medium tracking-[-0.04em] text-white leading-none">
-              TechCare
-            </p>
+            <div className="flex items-center gap-3">
+              <TechCareLogo size={36} dark />
+              <p className="font-display text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-white leading-none">
+                TechCare
+              </p>
+            </div>
           </div>
           <p className="text-xs sm:text-sm text-[#9BA6B8] leading-relaxed max-w-md">
             Toko retail IT &amp; perangkat bisnis certified pre-owned di bawah Rp 10 juta. Setiap unit laptop, RAM, SSD, monitor, dan peripheral lulus 32 titik inspeksi teknisi sebelum dijual.
