@@ -11,42 +11,38 @@ export default function BestsellersSection({
   onExploreAll
 }) {
   return (
-    <section className="bg-[#f5f5f7] py-16 sm:py-24">
+    <section className="bg-[#f9f9f8] py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header row matching visual design */}
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 sm:mb-16 gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-3">
             <div>
-              <span className="text-[11px] uppercase tracking-[0.24em] font-medium text-neutral-500 block mb-1">
-                SHOP BY
+              <span className="text-[10px] uppercase tracking-[0.22em] font-bold text-neutral-400 block mb-1">
+                UNIT TERLARIS &lt; RP 10 JUTA
               </span>
-              <h2 className="font-serif text-3xl sm:text-4xl text-neutral-900 tracking-tight">
-                Bestsellers
+              <h2 className="font-serif text-2xl sm:text-4xl text-neutral-900 tracking-tight">
+                Best Sellers Second & RAM
               </h2>
             </div>
 
             <button
               onClick={onExploreAll}
-              className="self-start sm:self-auto bg-black text-white hover:bg-neutral-800 transition-all text-[11px] font-semibold tracking-[0.16em] uppercase px-6 py-3 rounded-full flex items-center space-x-2 active:scale-95 shadow-xs"
+              className="self-start sm:self-auto bg-white hover:bg-black hover:text-white text-neutral-900 border border-neutral-300 hover:border-black transition-all text-[11px] font-bold tracking-[0.14em] uppercase px-5 py-2.5 rounded-full flex items-center space-x-1.5 active:scale-95"
             >
-              <span>EXPLORE ALL</span>
+              <span>Lihat Semua</span>
               <ArrowUpRight size={14} />
             </button>
           </div>
         </Reveal>
 
-        {/* 4 Rounded Cards Grid with 80ms Stagger */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {loading
             ? Array.from({ length: 4 }).map((_, i) => <ProductCardSkeleton key={i} />)
             : products.slice(0, 4).map((product, idx) => (
-                <Reveal key={product.id} delay={idx * 0.08}>
+                <Reveal key={product.id} delay={idx * 0.06}>
                   <ProductCard product={product} onSelect={onSelectProduct} />
                 </Reveal>
               ))}
         </div>
-
       </div>
     </section>
   );

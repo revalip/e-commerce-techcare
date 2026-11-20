@@ -1,318 +1,602 @@
 /**
  * ============================================================================
- * TECHCARE DATA STORE (MOCK)
- * Toko Resmi Perangkat IT & Elektronik (ASUS, Logitech, Fantech, Lenovo, MSI, dll)
+ * TECHCARE DATA STORE (CERTIFIED PRE-OWNED IT HARDWARE & IT SERVICES)
+ * Semua produk merupakan perangkat IT Second Berkualitas (< Rp 10.000.000)
+ * yang telah melalui 30+ titik Quality Control oleh teknisi TECHCARE.
  * ============================================================================
- * 
- * Tipe Data Produk:
- * @typedef {Object} Product
- * @property {number} id - Unique identifier produk
- * @property {string} brand - Merek resmi (ASUS, LOGITECH, FANTECH, LENOVO, MSI)
- * @property {string} nama - Nama lengkap resmi produk
- * @property {string} slug - URL slug unik
- * @property {string} tagline - Tagline kategori produk
- * @property {number} harga - Harga jual aktif (dalam Rupiah)
- * @property {number} [hargaCoret] - Harga ritel resmi sebelum diskon
- * @property {number} [diskonPersen] - Persentase potongan harga
- * @property {number} stok - Jumlah inventaris tersedia
- * @property {string} koleksi - Nama kategori
- * @property {string} koleksiSlug - Slug kategori
- * @property {string[]} gambar - Array URL gambar produk
- * @property {Array<{nama: string, hex: string}>} varianWarna - Varian warna produk
- * @property {string} deskripsi - Deskripsi detail produk
- * @property {string[]} fitur - Spesifikasi resmi dari manufaktur
- * @property {boolean} isBestseller - Ditampilkan di strip Bestsellers
- * @property {number} rating - Skor ulasan pembeli (1-5)
- * @property {number} ulasan - Jumlah review pembeli terverifikasi
  */
 
 export const mockProducts = [
   {
     id: 1,
-    brand: 'ASUS ROG',
-    nama: 'ASUS ROG Zephyrus G16 (2024)',
-    slug: 'asus-rog-zephyrus-g16-2024',
-    tagline: 'ULTRA-SLIM OLED WORKSTATION & GAMING',
-    harga: 38999000,
-    hargaCoret: 42999000,
-    diskonPersen: 9,
-    stok: 8,
-    koleksi: 'Laptop & PC',
-    koleksiSlug: 'laptop-pc',
+    brand: 'LENOVO THINKPAD',
+    nama: 'Lenovo ThinkPad X1 Carbon Gen 9',
+    slug: 'lenovo-thinkpad-x1-carbon-gen-9',
+    tagline: 'ULTRABOOK BISNIS CARBON • GRADE A+',
+    kondisi: 'Grade A+ • Mulus 97%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Battery Health 91% • Thermal Repasted',
+    harga: 7850000,
+    hargaCoret: 9500000,
+    diskonPersen: 17,
+    stok: 5,
+    beratGram: 1850,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/laptop.svg',
-      '/images/products/laptop.svg'
+      '/images/products/thinkpad-x1-carbon-front.jpg',
+      '/images/products/thinkpad-x1-carbon-side.jpg'
     ],
     varianWarna: [
-      { nama: 'Eclipse Gray', hex: '#2b2b2e' },
-      { nama: 'Platinum White', hex: '#ebebef' }
+      { nama: 'Carbon Matte Black', hex: '#1c1c1e' }
     ],
-    deskripsi: 'Laptop workstation & gaming ultra-tipis dengan sasis aluminium unibody CNC presisi tinggi. Menggabungkan performa AI prosesor Intel Core Ultra 9 dengan grafis NVIDIA GeForce RTX 4080 serta layar ROG Nebula OLED 2.5K 240Hz pertama di kelasnya.',
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB', priceDelta: 0 },
+        { label: 'RAM 16GB', priceDelta: 550000 },
+        { label: 'RAM 32GB', priceDelta: 1150000 }
+      ],
+      ssd: [
+        { label: 'SSD 256GB NVMe', priceDelta: 0 },
+        { label: 'SSD 512GB NVMe', priceDelta: 350000 },
+        { label: 'SSD 1TB NVMe', priceDelta: 750000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-32GB • SSD 256GB-1TB',
+    deskripsi: 'Laptop bisnis flagship bekas korporat dengan bodi carbon fiber super ringan (1,13 kg). Sudah melalui pembersihan kipas, penggantian thermal paste baru oleh teknisi TECHCARE, dan pengecekan layar 100% bebas dead pixel.',
     fitur: [
-      'Intel Core Ultra 9 185H (16 Cores, 22 Threads, NPU Intel AI Boost)',
-      'NVIDIA GeForce RTX 4080 12GB GDDR6 (TGP 115W dengan Dynamic Boost)',
-      '32GB LPDDR5X 7467MHz Dual-Channel onboard',
-      '2TB PCIe 4.0 NVMe M.2 Performance SSD',
-      '16" 2.5K (2560 x 1600) OLED 240Hz 0.2ms, 100% DCI-P3, G-SYNC, VESA DisplayHDR 500',
-      'Bobot hanya 1.85 kg dengan ketebalan 1.49 cm, baterai 90WHrs'
+      'Intel Core i5-1145G7 vPro (4 Core / 8 Thread, Turbo 4.4GHz)',
+      'Layar 14" FHD+ (1920x1200) IPS Anti-Glare 16:10, 400 nits',
+      'Kondisi fisik Grade A+ (97% mulus), engsel kokoh & keyboard backlit responsif',
+      'Dual Thunderbolt 4, HDMI 2.0, USB-A, Fingerprint Sensor',
+      'Free instalasi Windows 11 Pro Original & software produktivitas',
+      'Termasuk charger USB-C 65W original & garansi toko 60 hari'
     ],
     isBestseller: true,
     rating: 4.9,
-    ulasan: 156
+    ulasan: 128
   },
   {
     id: 2,
-    brand: 'LENOVO LEGION',
-    nama: 'Lenovo Legion Pro 7i Gen 9',
-    slug: 'lenovo-legion-pro-7i-gen-9',
-    tagline: 'AI-TUNED FLAGSHIP WORKSTATION LAPTOP',
-    harga: 46499000,
-    hargaCoret: 49999000,
-    diskonPersen: 7,
-    stok: 6,
-    koleksi: 'Laptop & PC',
-    koleksiSlug: 'laptop-pc',
+    brand: 'APPLE',
+    nama: 'MacBook Air M1 (2020) 13"',
+    slug: 'macbook-air-m1-2020-second',
+    tagline: 'APPLE SILICON FANLESS • GRADE A+',
+    kondisi: 'Grade A+ • Mulus 96%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Battery Cycle 142 (BH 92%) • TrueTone Aktif',
+    harga: 8250000,
+    hargaCoret: 9900000,
+    diskonPersen: 17,
+    stok: 4,
+    beratGram: 1950,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/laptop.svg'
+      '/images/products/macbook-air-m1.jpg',
+      '/images/products/macbook-air-m1.jpg'
     ],
     varianWarna: [
-      { nama: 'Onyx Grey', hex: '#1f2022' }
+      { nama: 'Space Gray', hex: '#4a4a4e' },
+      { nama: 'Silver', hex: '#d4d4d8' }
     ],
-    deskripsi: 'Laptop performa ekstrem bertenaga Intel Core i9 Gen-14HX dan kartu grafis RTX 4090 16GB. Didukung chip Lenovo AI LA-2Q untuk tuning performa thermal dinamis dan sistem pendingin Legion ColdFront: Vapor Chamber ganda.',
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB Unified', priceDelta: 0 },
+        { label: 'RAM 16GB Unified', priceDelta: 1100000 }
+      ],
+      ssd: [
+        { label: 'SSD 256GB', priceDelta: 0 },
+        { label: 'SSD 512GB', priceDelta: 550000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
+    deskripsi: 'MacBook Air M1 second pilihan terbaik untuk mahasiswa, programmer, dan kreator konten. Baterai super awet hingga 12 jam pemakaian nyata, hening tanpa kipas, dan telah lolos pengecekan iCloud Clean serta MDM Free oleh teknisi TECHCARE.',
     fitur: [
-      'Intel Core i9-14900HX (24 Cores / 32 Threads, Turbo Boost hingga 5.8 GHz)',
-      'NVIDIA GeForce RTX 4090 16GB GDDR6 (Maksimum TGP 175W)',
-      '32GB (2x 16GB) SO-DIMM DDR5-5600MHz (Bisa upgrade hingga 64GB)',
-      '2TB (2x 1TB) SSD M.2 2280 PCIe 4.0x4 NVMe RAID 0 Ready',
-      '16" WQXGA (2560x1600) IPS 500 nits Anti-glare, 100% DCI-P3, 240Hz, HDR 400',
-      'Keyboard Legion TrueStrike per-key RGB ditenagai Corsair iCUE'
+      'Chip Apple M1 (8-Core CPU, 7-Core GPU, 16-Core Neural Engine)',
+      'Layar 13.3" Retina Display P3 Wide Color dengan True Tone aktif',
+      'Dijamin Clean iCloud, Bebas MDM, & Touch ID normal 100%',
+      'Battery Cycle rendah (<180 CC) dengan Battery Health di atas 90%',
+      'Gratis konsultasi migrasi data & setup aplikasi di workshop TECHCARE',
+      'Kelengkapan: Unit, Charger 30W USB-C, & Garansi Toko 60 Hari'
     ],
     isBestseller: true,
     rating: 5.0,
-    ulasan: 94
+    ulasan: 164
   },
   {
     id: 3,
-    brand: 'LOGITECH G',
-    nama: 'Logitech G PRO X SUPERLIGHT 2 DEX',
-    slug: 'logitech-g-pro-x-superlight-2-dex',
-    tagline: 'WIRELESS ESPORTS ERGONOMIC MOUSE',
-    harga: 2390000,
-    hargaCoret: 2690000,
-    diskonPersen: 11,
-    stok: 24,
-    koleksi: 'Peripherals & Aksesoris',
-    koleksiSlug: 'peripherals',
+    brand: 'ASUS',
+    nama: 'ASUS ZenBook 14 OLED UX3402',
+    slug: 'asus-zenbook-14-oled-ux3402',
+    tagline: '2.8K OLED ULTRABOOK • GRADE A',
+    kondisi: 'Grade A • Mulus 95%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Layar OLED Bebas Burn-In • Repasta Baru',
+    harga: 7450000,
+    hargaCoret: 8950000,
+    diskonPersen: 17,
+    stok: 6,
+    beratGram: 1900,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/mouse.svg',
-      '/images/products/mouse.svg'
+      '/images/products/asus-zenbook-14-oled.jpg'
     ],
     varianWarna: [
-      { nama: 'Matte Black', hex: '#111113' },
-      { nama: 'Ghost White', hex: '#f7f7f9' },
-      { nama: 'Magenta Pink', hex: '#ec4899' }
+      { nama: 'Aqua Celadon Silver', hex: '#cbd5e1' },
+      { nama: 'Ponder Blue', hex: '#283446' }
     ],
-    deskripsi: 'Mouse nirkabel esports generasi terbaru rancangan para atlet profesional dunia. Menggunakan desain bentuk asimetris ergonomis tangan kanan dengan bobot hanya 60 gram dan sensor mutakhir HERO 2 berpresisi 44.000 DPI.',
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB LPDDR5', priceDelta: 0 },
+        { label: 'RAM 16GB LPDDR5', priceDelta: 750000 }
+      ],
+      ssd: [
+        { label: 'SSD 512GB NVMe', priceDelta: 0 },
+        { label: 'SSD 1TB NVMe', priceDelta: 550000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-16GB • SSD 512GB-1TB',
+    deskripsi: 'Ultrabook tipis layar 2.8K OLED 90Hz dengan akurasi warna Pantone Validated 100% DCI-P3 — cocok untuk desainer grafis dan mahasiswa kreatif. Unit bekas pemakaian ringan, sudah di-tuning thermal oleh tim teknisi TECHCARE.',
     fitur: [
-      'Sensor HERO 2: Akurasi sub-mikron hingga 44.000 DPI, 888 IPS, akselerasi 88G',
-      'Polling rate nirkabel true 8000Hz (8K Hz) dengan dongle LIGHTSPEED USB-C',
-      'Switch hibrida optik-mekanikal LIGHTFORCE respons instan anti double-click',
-      'Bobot sangat ringan 60 gram tanpa lubang honeycomb',
-      'Daya tahan baterai hingga 95 jam pemakaian kompetitif non-stop'
+      'Intel Core i5-1240P Gen-12 (12 Cores / 16 Threads)',
+      'Layar 14" 2.8K (2880x1800) OLED 90Hz, 100% DCI-P3 (lolos cek anti burn-in)',
+      'Audio Harman Kardon dengan Dolby Atmos jernih',
+      'Bodi aluminium presisi berbobot 1,39 kg dengan NumberPad 2.0',
+      'Free instalasi OS bersih + pengecekan kesehatan SSD (98% Health)',
+      'Garansi Toko TECHCARE 60 Hari + free konsultasi upgrade'
     ],
     isBestseller: true,
     rating: 4.9,
-    ulasan: 312
+    ulasan: 89
   },
   {
     id: 4,
-    brand: 'FANTECH',
-    nama: 'Fantech MAXFIT81 Frost Wireless',
-    slug: 'fantech-maxfit81-frost-wireless',
-    tagline: '75% GASKET MOUNT OLED MECHANICAL KEYBOARD',
-    harga: 1150000,
-    hargaCoret: 1450000,
+    brand: 'DELL',
+    nama: 'Dell Latitude 7420 Core i7 Gen-11',
+    slug: 'dell-latitude-7420-i7-second',
+    tagline: 'EX-CORPORATE WORKHORSE • GRADE A',
+    kondisi: 'Grade A • Mulus 94%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Stress-Test 4 Jam Stabil • SSD Health 97%',
+    harga: 5450000,
+    hargaCoret: 6900000,
     diskonPersen: 21,
-    stok: 35,
-    koleksi: 'Peripherals & Aksesoris',
-    koleksiSlug: 'peripherals',
+    stok: 9,
+    beratGram: 2100,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/keyboard.svg'
+      '/images/products/dell-latitude-7420.jpg'
     ],
     varianWarna: [
-      { nama: 'Frost Translucent', hex: '#94a3b8' },
-      { nama: 'Smoky Black', hex: '#1e293b' }
+      { nama: 'Carbon Fiber Grey', hex: '#2f3237' }
     ],
-    deskripsi: 'Keyboard mekanikal 75% modular dengan layar OLED interaktif 1 inci dan kenop putar volume aluminium. Menggunakan struktur gasket mount multi-lapisan peredam busa untuk menghasilkan suara ketikan thocky yang empuk.',
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB', priceDelta: 0 },
+        { label: 'RAM 16GB', priceDelta: 450000 },
+        { label: 'RAM 32GB', priceDelta: 1050000 }
+      ],
+      ssd: [
+        { label: 'SSD 256GB NVMe', priceDelta: 0 },
+        { label: 'SSD 512GB NVMe', priceDelta: 300000 },
+        { label: 'SSD 1TB NVMe', priceDelta: 700000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-32GB • SSD 256GB-1TB',
+    deskripsi: 'Laptop ex-kantor kelas enterprise paling worth-it di bawah 6 jutaan. Tangguh dipakai coding, multitasking puluhan tab, dan kuliah harian. Sudah dibersihkan tuntas luar dalam oleh teknisi jasa IT TECHCARE.',
     fitur: [
-      'Layar OLED Interaktif kustom untuk info baterai, jam, dan animasi GIF',
-      'Struktur Gasket Mount dengan plate busa silikon dan poron case dampener',
-      'Koneksi Tri-Mode: 2.4GHz Wireless, Bluetooth 5.0 (3 perangkat), Kabel Type-C',
-      'Universal Hot-Swappable 5-Pin South-Facing RGB PCB',
-      'Keycaps PBT Dyesub / Translucent Retro Profile, Baterai 4000mAh'
+      'Intel Core i7-1185G7 (4 Core / 8 Thread, Turbo hingga 4.8GHz)',
+      'Layar 14" Full HD IPS Anti-Glare nyaman untuk menatap layar lama',
+      'Dual Thunderbolt 4, HDMI 2.0, MicroSD Reader, Webcam Privacy Shutter',
+      'Baterai 63Wh sehat (ketahanan 6–8 jam pemakaian kerja normal)',
+      'Siap custom upgrade RAM & SSD sebelum unit dikirim',
+      'Garansi Toko 60 Hari + free service cleaning 1x di workshop'
     ],
     isBestseller: true,
-    rating: 4.8,
-    ulasan: 188
+    rating: 4.9,
+    ulasan: 215
   },
   {
     id: 5,
-    brand: 'MSI',
-    nama: 'MSI MAG 341CQP QD-OLED',
-    slug: 'msi-mag-341cqp-qd-oled',
-    tagline: '34" CURVED QD-OLED 175HZ 0.03MS MONITOR',
-    harga: 14999000,
-    hargaCoret: 17500000,
-    diskonPersen: 14,
-    stok: 9,
-    koleksi: 'Monitor & Display',
-    koleksiSlug: 'display-monitor',
+    brand: 'CORSAIR',
+    nama: 'Corsair Vengeance LPX Desktop RAM',
+    slug: 'corsair-vengeance-lpx-desktop-ram',
+    tagline: 'DESKTOP MEMORY KIT • TESTED MEMTEST86',
+    kondisi: 'Second Tested 100%',
+    garansi: 'Garansi Tukar Unit 90 Hari',
+    qcSummary: 'Lulus MemTest86 4-Pass 0 Error • Pin Emas Bersih • XMP Stabil',
+    harga: 385000,
+    hargaCoret: 520000,
+    diskonPersen: 26,
+    stok: 24,
+    beratGram: 180,
+    koleksi: 'RAM & Memori',
+    koleksiSlug: 'ram-memori',
     gambar: [
-      '/images/products/monitor.svg'
+      '/images/products/corsair-vengeance-ram.jpg'
     ],
     varianWarna: [
-      { nama: 'Titan Black', hex: '#18181b' }
+      { nama: 'Anodized Matte Black', hex: '#18181b' }
     ],
-    deskripsi: 'Monitor gaming ultrawide 34 inci lengkung berpanel Quantum Dot OLED generasi terbaru. Menawarkan rasio kontras tak terbatas, waktu respons 0.03ms instan, dan cakupan warna sinematik 99% DCI-P3 dengan garansi anti burn-in 3 tahun.',
+    specOptions: {
+      ram: [
+        { label: '8GB (1x8GB)', priceDelta: 0 },
+        { label: '16GB (2x8GB Dual)', priceDelta: 340000 },
+        { label: '32GB (2x16GB Dual)', priceDelta: 865000 }
+      ],
+      tier: [
+        { label: 'DDR4 3200MHz', priceDelta: 0 },
+        { label: 'DDR5 5200MHz', priceDelta: 320000 }
+      ]
+    },
+    specRangeLabel: '8GB-32GB • DDR4 / DDR5',
+    deskripsi: 'RAM PC Desktop second pilihan dengan heatspreader aluminium low-profile yang muat di hampir semua CPU cooler. Setiap keping sudah melewati uji MemTest86 penuh oleh teknisi TECHCARE untuk menjamin bebas blue-screen (BSOD).',
     fitur: [
-      'Panel 34" UWQHD (3440 x 1440) Next-Gen QD-OLED, Kurvatur 1800R',
-      'Refresh rate 175Hz dengan waktu respon 0.03ms (GtG)',
-      'Sertifikasi VESA DisplayHDR True Black 400 & ClearMR 9000',
-      'Port USB Type-C dengan 90W Power Delivery untuk laptop',
-      'Built-in KVM Switch untuk kontrol 2 PC menggunakan 1 mouse & keyboard',
-      'MSI OLED Care 2.0 dengan proteksi pendingin pasif grafena tanpa kipas bising'
+      'Lolos uji MemTest86 4-pass dengan hasil 0 error sebelum masuk stok',
+      'Mendukung Intel XMP 2.0 / 3.0 & AMD EXPO otomatis di BIOS',
+      'Heatspreader aluminium murni untuk pembuangan panas lebih cepat',
+      'Bisa sekalian pasang & setting dual-channel gratis di workshop TECHCARE',
+      'Garansi ganti unit langsung 90 hari (tidak perlu tunggu RMA lama)'
     ],
-    isBestseller: false,
-    rating: 5.0,
-    ulasan: 47
+    isBestseller: true,
+    rating: 4.9,
+    ulasan: 173
   },
   {
     id: 6,
-    brand: 'ASUS ROG',
-    nama: 'ASUS ROG Azoth 75% Wireless',
-    slug: 'asus-rog-azoth-75-wireless',
-    tagline: 'CUSTOM DIY MECHANICAL GAMING KEYBOARD',
-    harga: 3999000,
-    hargaCoret: 4499000,
-    diskonPersen: 11,
-    stok: 15,
-    koleksi: 'Peripherals & Aksesoris',
+    brand: 'KINGSTON FURY',
+    nama: 'Kingston FURY Impact Laptop SODIMM RAM',
+    slug: 'kingston-fury-impact-sodimm-ram',
+    tagline: 'UPGRADE RAM LAPTOP • PLUG N PLAY',
+    kondisi: 'Second Tested 100%',
+    garansi: 'Garansi Tukar Unit 90 Hari',
+    qcSummary: 'Lulus MemTest86 0 Error • Low Voltage 1.2V • Kompatibel Luas',
+    harga: 345000,
+    hargaCoret: 475000,
+    diskonPersen: 27,
+    stok: 30,
+    beratGram: 150,
+    koleksi: 'RAM & Memori',
+    koleksiSlug: 'ram-memori',
+    gambar: [
+      '/images/products/kingston-fury-sodimm-ram.jpg'
+    ],
+    varianWarna: [
+      { nama: 'FURY Stealth Black', hex: '#141416' }
+    ],
+    specOptions: {
+      ram: [
+        { label: '8GB SODIMM', priceDelta: 0 },
+        { label: '16GB SODIMM', priceDelta: 310000 },
+        { label: '32GB (2x16GB Kit)', priceDelta: 890000 }
+      ],
+      tier: [
+        { label: 'DDR4 3200MHz', priceDelta: 0 },
+        { label: 'DDR5 4800MHz', priceDelta: 290000 }
+      ]
+    },
+    specRangeLabel: '8GB-32GB • DDR4 / DDR5',
+    deskripsi: 'Solusi paling hemat dan instan bikin laptop lemot jadi ngebut lagi! RAM laptop SODIMM second copotan unit grade A dengan fitur Plug N Play overclocking otomatis tanpa ribet setting BIOS.',
+    fitur: [
+      'Kompatibel untuk laptop ASUS, Lenovo ThinkPad, Dell, HP, Acer, & Mini PC',
+      'Plug N Play otomatis berjalan di kecepatan optimal motherboard',
+      'Konsumsi daya rendah (1.2V / 1.1V) menjaga baterai laptop tetap awet',
+      'Gratis jasa pemasangan + pembersihan slot RAM jika ambil di workshop TECHCARE',
+      'Garansi Tukar Unit Langsung 90 Hari dari TECHCARE'
+    ],
+    isBestseller: false,
+    rating: 4.9,
+    ulasan: 142
+  },
+  {
+    id: 7,
+    brand: 'SAMSUNG',
+    nama: 'Samsung 990 PRO NVMe M.2 SSD',
+    slug: 'samsung-990-pro-nvme-ssd-second',
+    tagline: 'PCIE 4.0 NVME • HEALTH 97%+',
+    kondisi: 'Second Health 97%+',
+    garansi: 'Garansi Toko 90 Hari',
+    qcSummary: 'CrystalDiskInfo Health 97-99% • TBW Rendah • Zero Bad Sector',
+    harga: 980000,
+    hargaCoret: 1350000,
+    diskonPersen: 27,
+    stok: 16,
+    beratGram: 160,
+    koleksi: 'SSD & Storage',
+    koleksiSlug: 'ssd-storage',
+    gambar: [
+      '/images/products/samsung-990-pro-heatsink.png'
+    ],
+    varianWarna: [
+      { nama: 'Stealth Heatsink Black', hex: '#18181b' }
+    ],
+    specOptions: {
+      ssd: [
+        { label: 'SSD 512GB', priceDelta: 0 },
+        { label: 'SSD 1TB', priceDelta: 620000 },
+        { label: 'SSD 2TB', priceDelta: 1590000 }
+      ]
+    },
+    specRangeLabel: '512GB / 1TB / 2TB NVMe',
+    deskripsi: 'SSD NVMe PCIe Gen4 kencang bekas pemakaian singkat dengan persentase kesehatan (Health) terverifikasi minimal 97% lewat CrystalDiskInfo & Samsung Magician. Ideal untuk upgrade laptop, PC desktop, atau PS5.',
+    fitur: [
+      'Kecepatan baca hingga 7.450 MB/s & tulis hingga 6.900 MB/s',
+      'Laporan screenshot CrystalDiskInfo & Health >97% disertakan di paket',
+      'Mendukung jasa cloning Windows/data lama tanpa install ulang di TECHCARE',
+      'Zero bad sector & lolos uji transfer data kontinu oleh teknisi',
+      'Garansi Toko 90 Hari Tukar Unit'
+    ],
+    isBestseller: false,
+    rating: 4.9,
+    ulasan: 118
+  },
+  {
+    id: 8,
+    brand: 'LG ULTRAGEAR',
+    nama: 'LG UltraGear 27" IPS 144Hz Monitor',
+    slug: 'lg-ultragear-27-ips-144hz-second',
+    tagline: 'FRAMELESS IPS • NO DEAD PIXEL',
+    kondisi: 'Grade A • Layar 100% Bersih',
+    garansi: 'Garansi Toko 30 Hari',
+    qcSummary: 'Lolos Uji Warna RGB/White • 0 Dead Pixel • 0 Whitespot',
+    harga: 2150000,
+    hargaCoret: 2990000,
+    diskonPersen: 28,
+    stok: 7,
+    beratGram: 4800,
+    koleksi: 'Monitor Second',
+    koleksiSlug: 'display-monitor',
+    gambar: [
+      '/images/products/lg-ultragear-27-ips.jpg'
+    ],
+    varianWarna: [
+      { nama: 'Matte Black', hex: '#18181b' }
+    ],
+    specOptions: {
+      tier: [
+        { label: '24" FHD 144Hz', priceDelta: 0 },
+        { label: '27" QHD 165Hz', priceDelta: 700000 }
+      ]
+    },
+    specRangeLabel: '24" FHD / 27" QHD IPS',
+    deskripsi: 'Monitor IPS frameless bekas setup studio desain dengan panel bersih bebas dead pixel, bebas whitespot, dan bebas garis. Cocok untuk layar kedua coding, editing warna sRGB 99%, maupun gaming mulus.',
+    fitur: [
+      'Panel IPS 1ms (GtG) dengan cakupan warna sRGB 99% akurat',
+      'Sudah dicek teliti di ruang gelap: 0 dead pixel & 0 backlight bleed parah',
+      'Port lengkap DisplayPort 1.4, Dual HDMI, & Audio Out + VESA Mount',
+      'Termasuk kabel DisplayPort & adaptor power original',
+      'Packing kayu opsional gratis untuk pengiriman luar kota'
+    ],
+    isBestseller: false,
+    rating: 4.8,
+    ulasan: 74
+  },
+  {
+    id: 9,
+    brand: 'LOGITECH',
+    nama: 'Logitech MX Master 3S Wireless',
+    slug: 'logitech-mx-master-3s-second',
+    tagline: 'PRODUCTIVITY MOUSE • GRADE A+',
+    kondisi: 'Grade A+ • Karet Mulus',
+    garansi: 'Garansi Toko 30 Hari',
+    qcSummary: 'Switch Normal Anti Double-Click • Scroll MagSpeed Halus • Sanitized',
+    harga: 1090000,
+    hargaCoret: 1689000,
+    diskonPersen: 35,
+    stok: 11,
+    beratGram: 320,
+    koleksi: 'Peripherals Second',
     koleksiSlug: 'peripherals',
     gambar: [
-      '/images/products/keyboard.svg'
+      '/images/products/logitech-mx-master-3s-graphite.png',
+      '/images/products/logitech-mx-master-3s-grey.png'
+    ],
+    varianWarna: [
+      { nama: 'Graphite Black', hex: '#1f2937' },
+      { nama: 'Pale Grey', hex: '#9ca3af' }
+    ],
+    specRangeLabel: 'Include Logi Bolt Receiver',
+    deskripsi: 'Mouse produktivitas favorit programmer dan editor video dalam kondisi second mulus Grade A+. Sudah dibersihkan higienis (ultrasonic sanitized), karet grip utuh tidak lengket, dan klik 100% aman dari double-click.',
+    fitur: [
+      'Sensor Darkfield 8.000 DPI bekerja mulus di kaca maupun meja kayu',
+      'Quiet Clicks & MagSpeed Electromagnetic Scroll 1.000 baris/detik',
+      'Koneksi Bluetooth + USB Logi Bolt Receiver (multi-device hingga 3 perangkat)',
+      'Sudah disterilisasi & dicek daya baterai minimal 85%+ awet berminggu-minggu',
+      'Garansi Toko TECHCARE 30 Hari'
+    ],
+    isBestseller: false,
+    rating: 4.9,
+    ulasan: 204
+  },
+  {
+    id: 10,
+    brand: 'LOGITECH G',
+    nama: 'Logitech G PRO X Superlight 2 DEX',
+    slug: 'logitech-g-pro-x-superlight-2-dex-second',
+    tagline: '60G ESPORTS MOUSE • GRADE A',
+    kondisi: 'Grade A • Mulus 95%',
+    garansi: 'Garansi Toko 30 Hari',
+    qcSummary: 'Switch Lightforce Normal • Feet PTFE Baru • Dongle 8K Lengkap',
+    harga: 1590000,
+    hargaCoret: 2390000,
+    diskonPersen: 33,
+    stok: 8,
+    beratGram: 280,
+    koleksi: 'Peripherals Second',
+    koleksiSlug: 'peripherals',
+    gambar: [
+      '/images/products/logitech-superlight-2-dex-black.png',
+      '/images/products/logitech-superlight-2-dex-white.png'
+    ],
+    varianWarna: [
+      { nama: 'Matte Black', hex: '#111113' },
+      { nama: 'Ghost White', hex: '#f4f4f6' }
+    ],
+    specRangeLabel: 'Free New PTFE Skates',
+    deskripsi: 'Mouse gaming kompetitif super ringan 60 gram bekas pemakaian terawat. Telah dipasangi mouse feet PTFE baru oleh tim TECHCARE dan diuji tracking sensor HERO 2 tanpa spin-out.',
+    fitur: [
+      'Sensor HERO 2 hingga 44.000 DPI dengan dongle LIGHTSPEED USB-C',
+      'Switch hybrid optik-mekanikal LIGHTFORCE responsif anti double-click',
+      'Sudah ganti PTFE mouse skates baru & dibersihkan menyeluruh',
+      'Kelengkapan fullset kabel charging & dongle receiver original',
+      'Garansi Toko TECHCARE 30 Hari'
+    ],
+    isBestseller: false,
+    rating: 4.9,
+    ulasan: 97
+  },
+  {
+    id: 11,
+    brand: 'FANTECH',
+    nama: 'Fantech MAXFIT81 Frost Wireless',
+    slug: 'fantech-maxfit81-frost-second',
+    tagline: '75% GASKET OLED KEYBOARD • GRADE A+',
+    kondisi: 'Grade A+ • Keycaps Bersih',
+    garansi: 'Garansi Toko 30 Hari',
+    qcSummary: 'Semua Tombol & OLED Normal • Keycaps Ultrasonic Clean • Hot-Swap',
+    harga: 740000,
+    hargaCoret: 1150000,
+    diskonPersen: 36,
+    stok: 12,
+    beratGram: 1150,
+    koleksi: 'Peripherals Second',
+    koleksiSlug: 'peripherals',
+    gambar: [
+      '/images/products/fantech-maxfit81-frost.webp'
+    ],
+    varianWarna: [
+      { nama: 'Frost White PBT', hex: '#e2e8f0' }
+    ],
+    specRangeLabel: 'Tri-Mode • Hot-Swap 5-Pin',
+    deskripsi: 'Keyboard mekanikal 75% gasket mount dengan layar OLED mini & rotary knob dalam kondisi second sangat terawat. Keycaps sudah dicuci ultrasonic dan seluruh socket hot-swap teruji aktif 100%.',
+    fitur: [
+      'Layar OLED 1" terang normal + knob volume aluminium lancar',
+      'Koneksi Tri-Mode (2.4GHz Wireless, Bluetooth 5.0, Kabel USB-C)',
+      'Universal Hot-Swappable 5-pin PCB & baterai 4000mAh sehat',
+      'Keycaps & case sudah dibersihkan higienis sebelum dikemas',
+      'Garansi Toko TECHCARE 30 Hari'
+    ],
+    isBestseller: false,
+    rating: 4.8,
+    ulasan: 81
+  },
+  {
+    id: 12,
+    brand: 'ASUS ROG',
+    nama: 'ASUS ROG Azoth 75% Custom Wireless',
+    slug: 'asus-rog-azoth-75-second',
+    tagline: 'CUSTOM DIY KEYBOARD • GRADE A',
+    kondisi: 'Grade A • Fullset Lube Kit',
+    garansi: 'Garansi Toko 30 Hari',
+    qcSummary: 'OLED & 3-Way Knob Normal • Switch NX Red Smooth • Sanitized',
+    harga: 2450000,
+    hargaCoret: 3999000,
+    diskonPersen: 39,
+    stok: 5,
+    beratGram: 1350,
+    koleksi: 'Peripherals Second',
+    koleksiSlug: 'peripherals',
+    gambar: [
+      '/images/products/asus-rog-azoth-2.png',
+      '/images/products/asus-rog-azoth.png'
     ],
     varianWarna: [
       { nama: 'Gunmetal Gray', hex: '#374151' },
       { nama: 'Moonlight White', hex: '#f3f4f6' }
     ],
-    deskripsi: 'Keyboard mekanikal premium dengan nuansa custom keyboard rakitan sendiri. Dilengkapi layar OLED 2 inci, tombol navigasi three-way knob, gasket mount silikon 3 lapis, dan switch ROG NX pre-lubed dari pabrik.',
+    specRangeLabel: 'OLED 2" • ROG NX Red',
+    deskripsi: 'Keyboard mekanikal kelas enthusiast dengan gasket silikon 3-lapis dan layar OLED 2 inci. Unit second mulus terawat, switch ROG NX linear terasa sangat halus, cocok untuk setup kerja maupun gaming minimalis.',
     fitur: [
-      'Layar OLED 2" intuitif untuk pemantau suhu CPU/GPU dan status baterai',
-      'Silicon Gasket Mount dengan 3 lapisan busa peredam akustik metalik',
-      'Teknologi nirkabel ROG SpeedNova 2.4GHz dengan daya tahan baterai 2.000+ jam',
-      'Switch mekanikal ROG NX Red Linear pre-lubed dengan krytox',
-      'Dilengkapi paket lengkap alat lube DIY: Krytox GPL-205-GD0, switch opener & brush'
+      'Layar OLED 2" + 3-way control knob berfungsi 100%',
+      'Koneksi ROG SpeedNova 2.4GHz super irit baterai, Bluetooth, & USB-C',
+      'Switch ROG NX Red Linear pre-lubed halus tanpa chattering',
+      'Kelengkapan kabel braided, dongle, & keycap puller lengkap',
+      'Garansi Toko TECHCARE 30 Hari'
     ],
     isBestseller: false,
     rating: 4.9,
-    ulasan: 73
+    ulasan: 62
   },
   {
-    id: 7,
-    brand: 'LOGITECH',
-    nama: 'Logitech MX Master 3S Performance',
-    slug: 'logitech-mx-master-3s-performance',
-    tagline: 'FLAGSHIP PRODUCTIVITY ERGONOMIC MOUSE',
-    harga: 1689000,
-    hargaCoret: 1899000,
-    diskonPersen: 11,
-    stok: 40,
-    koleksi: 'Peripherals & Aksesoris',
-    koleksiSlug: 'peripherals',
+    id: 13,
+    brand: 'MSI',
+    nama: 'MSI MAG 341CQP 34" Curved Ultrawide',
+    slug: 'msi-mag-341cqp-34-curved-second',
+    tagline: '34" UWQHD 175HZ CURVED • GRADE A+',
+    kondisi: 'Grade A+ • Bebas Burn-In',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lolos Uji Warna DCI-P3 99% • 0 Dead Pixel • Stand Ergonomis Utuh',
+    harga: 7650000,
+    hargaCoret: 9850000,
+    diskonPersen: 22,
+    stok: 3,
+    beratGram: 6800,
+    koleksi: 'Monitor Second',
+    koleksiSlug: 'display-monitor',
     gambar: [
-      '/images/products/mouse.svg'
+      '/images/products/msi-mag-341cqp-qd-oled.webp'
     ],
     varianWarna: [
-      { nama: 'Graphite Black', hex: '#1f2937' },
-      { nama: 'Pale Gray', hex: '#e5e7eb' }
+      { nama: 'Metallic Obsidian Black', hex: '#18181b' }
     ],
-    deskripsi: 'Standar emas mouse produktivitas para programmer, analis data, dan desainer profesional. Menghadirkan klik hening Quiet Clicks 90%, scroll elektromagnetik MagSpeed berkecepatan 1.000 baris per detik, dan sensor 8K DPI optik.',
+    specRangeLabel: '34" UWQHD • 175Hz • USB-C PD',
+    deskripsi: 'Monitor lengkung ultrawide MSI 34 inci resolusi UWQHD (3440x1440) 175Hz bekas studio video editing. Telah lulus kalibrasi warna dan uji panel bebas dead pixel oleh tim teknisi TECHCARE.',
     fitur: [
-      'Sensor Darkfield 8.000 DPI yang dapat melacak di semua permukaan termasuk kaca',
-      'Quiet Clicks: 90% lebih hening dibanding seri pendahulu dengan feel taktil empuk',
-      'Roda gulir MagSpeed Electromagnetic: scrolling ultra-cepat dan ultra-presisi',
-      'Roda gulir samping (thumb wheel) khusus untuk timeline video atau spreadsheet lebar',
-      'Teknologi Logitech Flow: copy-paste teks dan file antar 3 komputer secara seamless'
-    ],
-    isBestseller: true,
-    rating: 4.9,
-    ulasan: 420
-  },
-  {
-    id: 8,
-    brand: 'FANTECH',
-    nama: 'Fantech Aria XD7 Pro Wireless',
-    slug: 'fantech-aria-xd7-pro-wireless',
-    tagline: 'ULTRA-LIGHTWEIGHT 59G ESPORTS MOUSE',
-    harga: 780000,
-    hargaCoret: 990000,
-    diskonPersen: 21,
-    stok: 50,
-    koleksi: 'Peripherals & Aksesoris',
-    koleksiSlug: 'peripherals',
-    gambar: [
-      '/images/products/mouse.svg'
-    ],
-    varianWarna: [
-      { nama: 'Solid Black', hex: '#111827' },
-      { nama: 'Solid White', hex: '#ffffff' }
-    ],
-    deskripsi: 'Mouse gaming nirkabel berbentuk telur klasik dengan bobot super ringan 59 gram tanpa lubang bodi. Ditenagai sensor flagship PixArt PAW3395 26.000 DPI dan switch optik Kailh GM 8.0 Black Mamba.',
-    fitur: [
-      'Sensor PixArt PAW3395 Flagship (26.000 DPI, 650 IPS, 50G Akselerasi)',
-      'Switch mekanikal Kailh GM 8.0 daya tahan 80 juta klik',
-      'Bobot ultra-ringan 59 gram dengan penutup belakang yang dapat diganti',
-      'Koneksi Tri-Mode: StrikeSpeed Wireless, Bluetooth 5.0, Kabel Paracord Type-C',
-      'Pure virgin PTFE mouse skates untuk gliding super mulus'
+      'Resolusi 3440x1440 (21:9) Curved 1800R untuk produktivitas multitasking',
+      'Refresh rate 175Hz 0.03ms GtG super mulus untuk kerja & gaming',
+      'Port HDMI 2.1, DisplayPort 1.4a, dan USB-C Power Delivery + KVM Switch',
+      'Disertai laporan QC panel & packing kayu opsional untuk luar Jabodetabek',
+      'Garansi Toko TECHCARE 60 Hari'
     ],
     isBestseller: false,
-    rating: 4.8,
-    ulasan: 265
+    rating: 4.9,
+    ulasan: 41
   }
 ];
 
 export const mockCollections = [
   {
     id: 1,
-    nama: 'Laptop & PC',
-    slug: 'laptop-pc',
-    tagline: 'ASUS ROG, Lenovo Legion & Workstation',
-    gambar: '/images/products/laptop.svg',
-    buttonText: 'LAPTOP & PC +'
+    nama: 'Laptop Second',
+    slug: 'laptop-second',
+    tagline: 'ThinkPad, MacBook Air, ZenBook & Dell di bawah 10 Juta',
+    gambar: '/images/products/thinkpad-x1-carbon-front.jpg',
+    buttonText: 'LIHAT LAPTOP →'
   },
   {
     id: 2,
-    nama: 'Peripherals & Aksesoris',
-    slug: 'peripherals',
-    tagline: 'Logitech G, Fantech & ROG Gear',
-    gambar: '/images/products/keyboard.svg',
-    buttonText: 'PERIPHERALS +'
+    nama: 'RAM & Memori',
+    slug: 'ram-memori',
+    tagline: 'Corsair Vengeance & Kingston FURY DDR4/DDR5 Tested',
+    gambar: '/images/products/corsair-vengeance-ram.jpg',
+    buttonText: 'LIHAT RAM →'
   },
   {
     id: 3,
-    nama: 'Monitor & Display',
-    slug: 'display-monitor',
-    tagline: 'MSI QD-OLED & ASUS Pro Displays',
-    gambar: '/images/products/monitor.svg',
-    buttonText: 'MONITOR & DISPLAY +'
+    nama: 'SSD & Storage',
+    slug: 'ssd-storage',
+    tagline: 'Samsung NVMe PCIe Gen4 Health 97%+ Siap Upgrade',
+    gambar: '/images/products/samsung-990-pro-heatsink.png',
+    buttonText: 'LIHAT SSD →'
   },
   {
     id: 4,
-    nama: 'Komponen & Storage',
-    slug: 'storage-components',
-    tagline: 'SSD PCIe Gen4, RAM DDR5 & Hub',
-    gambar: '/images/products/ssd.svg',
-    buttonText: 'KOMPONEN & STORAGE +'
+    nama: 'Monitor Second',
+    slug: 'display-monitor',
+    tagline: 'Monitor IPS Frameless Bebas Dead Pixel & Garansi Toko',
+    gambar: '/images/products/lg-ultragear-27-ips.jpg',
+    buttonText: 'LIHAT MONITOR →'
+  },
+  {
+    id: 5,
+    nama: 'Peripherals Second',
+    slug: 'peripherals',
+    tagline: 'Mouse Logitech MX/Superlight & Keyboard Mechanical Grade A',
+    gambar: '/images/products/logitech-mx-master-3s-graphite.png',
+    buttonText: 'LIHAT PERIPHERAL →'
   }
 ];
 
@@ -320,41 +604,41 @@ export const mockDiscounts = [
   {
     id: 1,
     kode: 'TECHCARE10',
-    nama: 'Diskon Sambutan Pelanggan Baru 10%',
+    nama: 'Diskon Pelanggan Baru 10% (Maks. Rp 300rb)',
     tipe: 'persen',
     nilai: 10,
-    minBelanja: 1000000,
-    maksDiskon: 500000,
+    minBelanja: 500000,
+    maksDiskon: 300000,
     aktif: true,
     kuota: 100,
-    terpakai: 42,
+    terpakai: 38,
     berlakuSampai: '2026-12-31'
   },
   {
     id: 2,
-    kode: 'HEMATROGG',
-    nama: 'Potongan Khusus Laptop ASUS ROG & Legion',
+    kode: 'UPGRADERAM',
+    nama: 'Potongan Rp 50.000 Khusus Upgrade RAM & SSD',
     tipe: 'nominal',
-    nilai: 1000000,
-    minBelanja: 25000000,
-    maksDiskon: 1000000,
+    nilai: 50000,
+    minBelanja: 300000,
+    maksDiskon: 50000,
     aktif: true,
-    kuota: 25,
-    terpakai: 11,
+    kuota: 80,
+    terpakai: 24,
     berlakuSampai: '2026-12-31'
   },
   {
     id: 3,
-    kode: 'LOGITECH50K',
-    nama: 'Voucher Mouse & Keyboard Logitech/Fantech',
+    kode: 'LAPTOP250K',
+    nama: 'Hemat Rp 250.000 Pembelian Laptop Second',
     tipe: 'nominal',
-    nilai: 150000,
-    minBelanja: 1200000,
-    maksDiskon: 150000,
+    nilai: 250000,
+    minBelanja: 5000000,
+    maksDiskon: 250000,
     aktif: true,
-    kuota: 50,
-    terpakai: 29,
-    berlakuSampai: '2026-11-30'
+    kuota: 40,
+    terpakai: 15,
+    berlakuSampai: '2026-12-31'
   }
 ];
 
@@ -363,40 +647,143 @@ export const mockOrders = [
     id: 'ord-101',
     nomorPesanan: 'TC-261117-9102',
     tanggal: '2026-11-17T07:15:00Z',
+    userEmail: 'buyer@techcare.id',
     customer: {
-      nama: 'Budi Pratama',
-      email: 'budi.pratama@email.com',
-      telepon: '081289102911',
+      nama: 'Budi Santoso',
+      email: 'buyer@techcare.id',
+      telepon: '081298765432',
       alamat: 'Jl. Senopati No. 42, Kebayoran Baru',
       kota: 'Jakarta Selatan',
       kodePos: '12190'
     },
     items: [
       {
-        id: 3,
-        nama: 'Logitech G PRO X SUPERLIGHT 2 DEX',
-        brand: 'LOGITECH G',
-        slug: 'logitech-g-pro-x-superlight-2-dex',
-        harga: 2390000,
+        id: 1,
+        nama: 'Lenovo ThinkPad X1 Carbon Gen 9',
+        brand: 'LENOVO THINKPAD',
+        slug: 'lenovo-thinkpad-x1-carbon-gen-9',
+        harga: 8750000,
         jumlah: 1,
-        warna: 'Ghost White',
-        gambar: '/images/products/mouse.svg'
+        warna: 'Carbon Matte Black',
+        specLabel: 'RAM 16GB • SSD 512GB NVMe',
+        gambar: '/images/products/thinkpad-x1-carbon-front.jpg'
       }
     ],
-    subtotal: 2390000,
-    diskon: 239000,
-    kodeDiskon: 'TECHCARE10',
-    ongkir: 0,
-    total: 2151000,
-    metodeBayar: 'QRIS Instan TechCare',
-    status: 'Diproses',
-    statusKey: 'processing',
-    resi: 'JNE9812739182ID'
+    subtotal: 8750000,
+    diskon: 250000,
+    kodeDiskon: 'LAPTOP250K',
+    ongkir: 48000,
+    uniqueCode: 214,
+    total: 8548214,
+    totalWeightGram: 1850,
+    shippingZone: 'Jabodetabek',
+    paymentDeadline: '2026-11-18T07:15:00Z',
+    metodeBayar: 'QRIS Instan',
+    paymentMethodKey: 'qris',
+    paymentStatus: 'paid',
+    paymentProofUrl: null,
+    paymentNotes: 'Pembayaran QRIS terverifikasi oleh Admin TECHCARE.',
+    kurir: 'JNE YES + Packing Kayu (Gratis)',
+    resi: 'JNE9812739182ID',
+    status: 'Sedang Dikirim',
+    statusKey: 'shipped',
+    trackingHistory: [
+      {
+        waktu: '2026-11-18T02:30:00Z',
+        status: 'Sedang Diantar Kurir',
+        lokasi: 'Jakarta Selatan (Hub Kebayoran)',
+        keterangan: 'Paket sedang dibawa kurir JNE menuju alamat penerima.'
+      },
+      {
+        waktu: '2026-11-17T16:40:00Z',
+        status: 'Paket Diserahkan ke Kurir',
+        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        keterangan: 'Paket diserahkan ke JNE YES dengan resi JNE9812739182ID + asuransi penuh.'
+      },
+      {
+        waktu: '2026-11-17T11:20:00Z',
+        status: 'Upgrade Spec & 32 Titik QC Teknisi',
+        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        keterangan: 'Upgrade RAM 16GB + SSD 512GB selesai, lulus stress-test thermal & layar.'
+      },
+      {
+        waktu: '2026-11-17T08:00:00Z',
+        status: 'Pembayaran Diverifikasi',
+        lokasi: 'Sistem TECHCARE',
+        keterangan: 'Pembayaran QRIS sebesar Rp 8.500.000 telah diverifikasi admin.'
+      },
+      {
+        waktu: '2026-11-17T07:15:00Z',
+        status: 'Pesanan Dibuat',
+        lokasi: 'Online Store TECHCARE',
+        keterangan: 'Pesanan #TC-261117-9102 berhasil dibuat.'
+      }
+    ]
   },
   {
     id: 'ord-102',
-    nomorPesanan: 'TC-261116-4310',
-    tanggal: '2026-11-16T14:30:00Z',
+    nomorPesanan: 'TC-261118-5521',
+    tanggal: '2026-11-18T01:05:00Z',
+    userEmail: 'buyer@techcare.id',
+    customer: {
+      nama: 'Budi Santoso',
+      email: 'buyer@techcare.id',
+      telepon: '081298765432',
+      alamat: 'Jl. Senopati No. 42, Kebayoran Baru',
+      kota: 'Jakarta Selatan',
+      kodePos: '12190'
+    },
+    items: [
+      {
+        id: 5,
+        nama: 'Corsair Vengeance LPX Desktop RAM',
+        brand: 'CORSAIR',
+        slug: 'corsair-vengeance-lpx-desktop-ram',
+        harga: 725000,
+        jumlah: 1,
+        warna: 'Anodized Matte Black',
+        specLabel: '16GB (2x8GB Dual) • DDR4 3200MHz',
+        gambar: '/images/products/corsair-vengeance-ram.jpg'
+      }
+    ],
+    subtotal: 725000,
+    diskon: 50000,
+    kodeDiskon: 'UPGRADERAM',
+    ongkir: 16000,
+    uniqueCode: 487,
+    total: 691487,
+    totalWeightGram: 180,
+    shippingZone: 'Jabodetabek',
+    paymentDeadline: new Date(Date.now() + 18 * 60 * 60 * 1000).toISOString(),
+    metodeBayar: 'Transfer Bank (BCA)',
+    paymentMethodKey: 'bank_transfer',
+    paymentStatus: 'awaiting_verification',
+    paymentProofUrl: '/images/qris-techcare.svg',
+    paymentNotes: 'Transfer BCA a.n. Budi Santoso pukul 08:10 WIB',
+    kurir: 'SiCepat BEST (Gratis Ongkir)',
+    resi: null,
+    status: 'Menunggu Verifikasi',
+    statusKey: 'awaiting_verification',
+    trackingHistory: [
+      {
+        waktu: '2026-11-18T01:12:00Z',
+        status: 'Bukti Pembayaran Diunggah',
+        lokasi: 'Online Store TECHCARE',
+        keterangan: 'Pembeli mengunggah bukti transfer BCA. Menunggu verifikasi Admin.'
+      },
+      {
+        waktu: '2026-11-18T01:05:00Z',
+        status: 'Pesanan Dibuat',
+        lokasi: 'Online Store TECHCARE',
+        keterangan: 'Pesanan #TC-261118-5521 berhasil dibuat, menunggu pembayaran.'
+      }
+    ]
+  },
+  {
+    id: 'ord-103',
+    nomorPesanan: 'TC-261115-4310',
+    tanggal: '2026-11-15T14:30:00Z',
+    userEmail: 'siti.rahma@email.com',
     customer: {
       nama: 'Siti Rahmawati',
       email: 'siti.rahma@email.com',
@@ -407,24 +794,60 @@ export const mockOrders = [
     },
     items: [
       {
-        id: 4,
-        nama: 'Fantech MAXFIT81 Frost Wireless',
-        brand: 'FANTECH',
-        slug: 'fantech-maxfit81-frost-wireless',
-        harga: 1150000,
+        id: 9,
+        nama: 'Logitech MX Master 3S Wireless',
+        brand: 'LOGITECH',
+        slug: 'logitech-mx-master-3s-second',
+        harga: 1090000,
         jumlah: 1,
-        warna: 'Frost Translucent',
-        gambar: '/images/products/keyboard.svg'
+        warna: 'Graphite Black',
+        specLabel: 'Grade A+ • Include Logi Bolt',
+        gambar: '/images/products/logitech-mx-master-3s-graphite.png'
       }
     ],
-    subtotal: 1150000,
-    diskon: 115000,
+    subtotal: 1090000,
+    diskon: 109000,
     kodeDiskon: 'TECHCARE10',
-    ongkir: 0,
-    total: 1035000,
-    metodeBayar: 'Transfer Bank BCA TechCare',
+    ongkir: 16000,
+    uniqueCode: 319,
+    total: 997319,
+    totalWeightGram: 320,
+    shippingZone: 'Jawa Barat & Banten',
+    paymentDeadline: '2026-11-16T14:30:00Z',
+    metodeBayar: 'Transfer Bank (BCA)',
+    paymentMethodKey: 'bank_transfer',
+    paymentStatus: 'paid',
+    paymentProofUrl: null,
+    paymentNotes: 'Pembayaran lunas terverifikasi.',
+    kurir: 'JNE Reguler (Gratis Ongkir)',
+    resi: 'JNE7712093811ID',
     status: 'Selesai',
     statusKey: 'completed',
-    resi: 'JNE7712093811ID'
+    trackingHistory: [
+      {
+        waktu: '2026-11-17T06:20:00Z',
+        status: 'Pesanan Diterima & Selesai',
+        lokasi: 'Bandung',
+        keterangan: 'Pembeli mengonfirmasi barang diterima dalam kondisi mulus.'
+      },
+      {
+        waktu: '2026-11-16T04:10:00Z',
+        status: 'Paket Dikirim',
+        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        keterangan: 'Diserahkan ke JNE Reguler dengan resi JNE7712093811ID.'
+      },
+      {
+        waktu: '2026-11-15T15:00:00Z',
+        status: 'Pembayaran Diverifikasi & QC',
+        lokasi: 'Workshop TECHCARE',
+        keterangan: 'Pembayaran dikonfirmasi admin, unit disterilisasi & dikemas.'
+      },
+      {
+        waktu: '2026-11-15T14:30:00Z',
+        status: 'Pesanan Dibuat',
+        lokasi: 'Online Store TECHCARE',
+        keterangan: 'Pesanan #TC-261115-4310 berhasil dibuat.'
+      }
+    ]
   }
 ];

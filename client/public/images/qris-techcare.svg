@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 490" width="100%" height="100%">
+  <rect width="400" height="490" fill="#ffffff" rx="20"/>
+  <!-- Header -->
+  <rect x="24" y="20" width="352" height="68" rx="12" fill="#111113"/>
+  <text x="200" y="49" fill="#ffffff" font-family="Georgia, serif" font-size="22" font-weight="bold" text-anchor="middle" letter-spacing="4">TECHCARE</text>
+  <text x="200" y="70" fill="#d4d4d8" font-family="sans-serif" font-size="10" text-anchor="middle" letter-spacing="1.5">QRIS PEMBAYARAN NASIONAL (SIMULASI)</text>
+
+  <!-- Merchant Info -->
+  <text x="200" y="112" fill="#111113" font-family="sans-serif" font-size="13" font-weight="700" text-anchor="middle">PT TECHCARE SOLUSI TEKNOLOGI</text>
+  <text x="200" y="129" fill="#71717a" font-family="monospace" font-size="10.5" text-anchor="middle">NMID: ID102026TECHCARE01 • DEMO MODE</text>
+
+  <!-- QR Border Box -->
+  <rect x="48" y="144" width="304" height="284" fill="#f8f8fa" rx="14" stroke="#e4e4e7" stroke-width="2"/>
+
+  <!-- Stylized QR Code Pattern -->
+  <g fill="#111113">
+    <!-- Top Left Finder Pattern -->
+    <rect x="72" y="168" width="64" height="64" rx="8"/>
+    <rect x="80" y="176" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="88" y="184" width="32" height="32" rx="4"/>
+
+    <!-- Top Right Finder Pattern -->
+    <rect x="264" y="168" width="64" height="64" rx="8"/>
+    <rect x="272" y="176" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="280" y="184" width="32" height="32" rx="4"/>
+
+    <!-- Bottom Left Finder Pattern -->
+    <rect x="72" y="340" width="64" height="64" rx="8"/>
+    <rect x="80" y="348" width="48" height="48" rx="4" fill="#f8f8fa"/>
+    <rect x="88" y="356" width="32" height="32" rx="4"/>
+
+    <!-- Data Modules -->
+    <rect x="152" y="168" width="16" height="32" rx="2"/>
+    <rect x="176" y="168" width="32" height="16" rx="2"/>
+    <rect x="220" y="168" width="24" height="20" rx="2"/>
+    <rect x="152" y="212" width="28" height="16" rx="2"/>
+    <rect x="192" y="198" width="18" height="34" rx="2"/>
+    <rect x="224" y="204" width="20" height="24" rx="2"/>
+    <rect x="72" y="248" width="20" height="28" rx="2"/>
+    <rect x="104" y="248" width="32" height="16" rx="2"/>
+    <rect x="72" y="288" width="36" height="18" rx="2"/>
+    <rect x="120" y="280" width="20" height="40" rx="2"/>
+    <rect x="72" y="316" width="24" height="14" rx="2"/>
+
+    <!-- Center TC Badge -->
+    <rect x="160" y="250" width="80" height="72" rx="10"/>
+    <circle cx="200" cy="286" r="24" fill="#ffffff"/>
+    <text x="200" y="292" fill="#111113" font-family="Georgia, serif" font-size="15" font-weight="900" text-anchor="middle">TC</text>
+
+    <!-- Bottom Right Data Modules -->
+    <rect x="260" y="252" width="24" height="24" rx="2"/>
+    <rect x="296" y="252" width="32" height="16" rx="2"/>
+    <rect x="260" y="292" width="18" height="42" rx="2"/>
+    <rect x="292" y="284" width="36" height="18" rx="2"/>
+    <rect x="292" y="314" width="20" height="22" rx="2"/>
+    <rect x="260" y="352" width="28" height="24" rx="2"/>
+    <rect x="300" y="346" width="28" height="34" rx="2"/>
+    <rect x="260" y="388" width="48" height="16" rx="2"/>
+    <rect x="152" y="344" width="32" height="16" rx="2"/>
+    <rect x="200" y="344" width="18" height="34" rx="2"/>
+    <rect x="152" y="376" width="18" height="28" rx="2"/>
+    <rect x="184" y="386" width="44" height="18" rx="2"/>
+  </g>
+
+  <!-- Footer Note -->
+  <text x="200" y="452" fill="#52525b" font-family="sans-serif" font-size="10" font-weight="600" text-anchor="middle">BCA • Mandiri • BRI • BNI • GoPay • OVO • ShopeePay • DANA</text>
+  <text x="200" y="472" fill="#a1a1aa" font-family="sans-serif" font-size="9" text-anchor="middle">QRIS ini hanya untuk simulasi demo e-commerce kuliah</text>
+</svg>

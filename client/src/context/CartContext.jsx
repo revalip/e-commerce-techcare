@@ -2,10 +2,16 @@ import React, { createContext, useContext, useState, useEffect, useRef } from 'r
 
 const CartContext = createContext();
 
+const STORAGE_KEY_CART = 'techcare_cart_state_v2';
+
+function buildVariantKey(itemId, warna, specLabel = '') {
+  return `${itemId}__${warna || 'Standard'}__${specLabel || 'Default'}`;
+}
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
     try {
-      const saved = localStorage.getItem('novaire_cart_state');
+      const saved = localStorage.getItem(STORAGE_KEY_CART);
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
@@ -13,13 +19,13 @@ export function CartProvider({ children }) {
   });
 
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [toast, setToast] = useState(null); // { message, lastRemovedItem, visible }
+  const [toast, setToast] = useState(null);
   const [cartBadgeBounce, setCartBadgeBounce] = useState(false);
   const prevCount = useRef(items.reduce((acc, i) => acc + i.jumlah, 0));
 
   useEffect(() => {
     try {
-      localStorage.setItem('novaire_cart_state', JSON.stringify(items));
+      localStorage.setItem(STORAGE_KEY_CART, JSON.stringify(items));
     } catch (e) {
       console.error(e);
     }
@@ -33,55 +39,75 @@ export function CartProvider({ children }) {
     prevCount.current = currentCount;
   }, [items]);
 
-  // Tambah item ke keranjang + munculkan Toast dengan opsi Undo
-  const addToCart = (product, jumlah = 1, warna = null) => {
+  // Tambah item ke keranjang dengan dukungan warna, konfigurasi spec (RAM/SSD), dan harga dinamis
+  const addToCart = (product, jumlah = 1, warna = null, options = {}) => {
     const selectedColor = warna || (product.varianWarna && product.varianWarna[0]?.nama) || 'Standard';
 
+    // Default spec jika ditambahkan langsung dari kartu katalog
+    const defaultRam = product.specOptions?.ram?.[0]?.label || null;
+    const defaultSsd = product.specOptions?.ssd?.[0]?.label || null;
+    const defaultTier = product.specOptions?.tier?.[0]?.label || null;
+
+    const selectedRam = options.ram !== undefined ? options.ram : defaultRam;
+    const selectedSsd = options.ssd !== undefined ? options.ssd : defaultSsd;
+    const selectedTier = options.tier !== undefined ? options.tier : defaultTier;
+
+    const specParts = [selectedRam, selectedSsd, selectedTier].filter(Boolean);
+    const specLabel = options.specLabel || specParts.join(' • ');
+    const unitPrice = options.harga !== undefined ? Number(options.harga) : Number(product.harga);
+    const variantKey = buildVariantKey(product.id, selectedColor, specLabel);
+
     setItems((prev) => {
-      const existingIdx = prev.findIndex(
-        (i) => i.id === product.id && i.warna === selectedColor
-      );
+      const existingIdx = prev.findIndex((i) => i.variantKey === variantKey);
 
       if (existingIdx > -1) {
         const copy = [...prev];
-        copy[existingIdx].jumlah += jumlah;
+        copy[existingIdx] = {
+          ...copy[existingIdx],
+          jumlah: copy[existingIdx].jumlah + jumlah
+        };
         return copy;
       }
 
       return [
         ...prev,
         {
+          variantKey,
           id: product.id,
+          brand: product.brand || 'TECHCARE',
           nama: product.nama,
           slug: product.slug,
-          harga: product.harga,
-          gambar: product.gambar ? product.gambar[0] : '/images/products/novaire-air.svg',
+          harga: unitPrice,
+          beratGram: Number(product.beratGram) || 1000,
+          stokTersedia: Number(product.stok) || 10,
+          gambar: product.gambar ? product.gambar[0] : '/images/products/thinkpad-x1-carbon-front.jpg',
           warna: selectedColor,
-          jumlah: jumlah
+          specLabel,
+          kondisi: product.kondisi || 'Second Grade A',
+          jumlah
         }
       ];
     });
 
-    // Tampilkan Toast
     setToast({
       id: Date.now(),
-      message: `"${product.nama}" ditambahkan ke keranjang`,
-      product: product,
-      jumlah: jumlah,
-      warna: selectedColor
+      message: `"${product.nama}"${specLabel ? ` (${specLabel})` : ''} masuk keranjang`,
+      variantKey,
+      product,
+      jumlah,
+      warna: selectedColor,
+      specLabel
     });
   };
 
   const undoAddToCart = (toastItem) => {
     if (!toastItem) return;
     setItems((prev) => {
-      const idx = prev.findIndex(
-        (i) => i.id === toastItem.product.id && i.warna === toastItem.warna
-      );
+      const idx = prev.findIndex((i) => i.variantKey === toastItem.variantKey);
       if (idx > -1) {
         const copy = [...prev];
         if (copy[idx].jumlah > toastItem.jumlah) {
-          copy[idx].jumlah -= toastItem.jumlah;
+          copy[idx] = { ...copy[idx], jumlah: copy[idx].jumlah - toastItem.jumlah };
         } else {
           copy.splice(idx, 1);
         }
@@ -92,18 +118,18 @@ export function CartProvider({ children }) {
     setToast(null);
   };
 
-  const updateQuantity = (itemId, warna, newQty) => {
+  const updateQuantity = (variantKey, newQty) => {
     if (newQty <= 0) {
-      removeFromCart(itemId, warna);
+      removeFromCart(variantKey);
       return;
     }
     setItems((prev) =>
-      prev.map((i) => (i.id === itemId && i.warna === warna ? { ...i, jumlah: newQty } : i))
+      prev.map((i) => (i.variantKey === variantKey ? { ...i, jumlah: newQty } : i))
     );
   };
 
-  const removeFromCart = (itemId, warna) => {
-    setItems((prev) => prev.filter((i) => !(i.id === itemId && i.warna === warna)));
+  const removeFromCart = (variantKey) => {
+    setItems((prev) => prev.filter((i) => i.variantKey !== variantKey));
   };
 
   const clearCart = () => {

@@ -5,7 +5,12 @@ import BestsellersSection from '../components/BestsellersSection';
 import CollectionsSection from '../components/CollectionsSection';
 import { getProducts, getCollections } from '../services/api';
 
-export default function HomePage({ onSelectProduct, onNavigate, onSelectCollection }) {
+export default function HomePage({
+  onSelectProduct,
+  onNavigate,
+  onSelectCollection,
+  onQuickSearch
+}) {
   const [products, setProducts] = useState([]);
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,14 +36,16 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
   }, []);
 
   return (
-    <div>
-      {/* 1. Hero Banner */}
-      <HeroSection onShopClick={() => onNavigate('shop')} />
+    <div className="bg-[#f9f9f8]">
+      {/* 1. Editorial Clean Hero + Search & Quick Category Pill Bar */}
+      <HeroSection
+        onShopClick={() => onNavigate('shop')}
+        onTrackClick={() => onNavigate('orders')}
+        onQuickSearch={onQuickSearch}
+        onSelectCollection={onSelectCollection}
+      />
 
-      {/* 2. Strip Keunggulan (4 Points) */}
-      <FeatureStrip />
-
-      {/* 3. Bestsellers (4 Cards) */}
+      {/* 2. Bestsellers (Unit Second < 10jt + RAM) */}
       <BestsellersSection
         products={products}
         loading={loading}
@@ -46,10 +53,16 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
         onExploreAll={() => onNavigate('shop')}
       />
 
-      {/* 4. Shop by Collection (4 Tall Cards) */}
+      {/* 3. Editorial Category Showcase */}
       <CollectionsSection
         collections={collections}
         onSelectCollection={onSelectCollection}
+      />
+
+      {/* 4. Standar QC 32 Titik & Jasa IT Banner */}
+      <FeatureStrip
+        onNavigateAbout={() => onNavigate('about')}
+        onNavigateShop={() => onNavigate('shop')}
       />
     </div>
   );
