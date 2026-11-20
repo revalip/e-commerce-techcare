@@ -7,14 +7,21 @@ require('dotenv').config({ path: path.join(__dirname, '../.env') });
 async function seed() {
   console.log('--- TECHCARE Database Migration & Seeder ---');
   const host = process.env.DB_HOST || '127.0.0.1';
-  const port = parseInt(process.env.DB_PORT || '3306');
+  const port = parseInt(process.env.DB_PORT || '3306', 10);
   const user = process.env.DB_USER || 'root';
   const password = process.env.DB_PASS || '';
   const database = process.env.DB_NAME || 'techcare';
 
+  const adminPass = process.env.SEED_ADMIN_PASSWORD;
+  const buyerPass = process.env.SEED_BUYER_PASSWORD;
+
+  if (!adminPass || !buyerPass) {
+    console.warn('[!] Set SEED_ADMIN_PASSWORD dan SEED_BUYER_PASSWORD di server/.env untuk seeding akun demo.');
+    return;
+  }
+
   let connection;
   try {
-    // 1. Connect with multipleStatements enabled
     connection = await mysql.createConnection({
       host,
       port,
@@ -23,11 +30,12 @@ async function seed() {
       multipleStatements: true
     });
 
-    await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`);
+    await connection.query(
+      `CREATE DATABASE IF NOT EXISTS \`${database}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;`
+    );
     console.log(`[OK] Database '${database}' checked/created.`);
     await connection.changeUser({ database });
 
-    // 2. Read and execute schema.sql in one go
     const schemaPath = path.join(__dirname, '../../database/schema.sql');
     if (fs.existsSync(schemaPath)) {
       const sql = fs.readFileSync(schemaPath, 'utf8');
@@ -35,19 +43,29 @@ async function seed() {
       console.log('[OK] Schema and seed data successfully applied.');
     }
 
-    // 3. Ensure admin account with valid bcrypt hash exists
-    const adminPassword = 'admin123';
-    const adminEmail = 'admin@novaire.com';
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(adminPassword, salt);
+    const adminHash = await bcrypt.hash(adminPass, salt);
+    const buyerHash = await bcrypt.hash(buyerPass, salt);
 
-    await connection.query(`
+    await connection.query(
+      `
       INSERT INTO users (name, email, password_hash, role, phone)
-      VALUES ('TechCare Administrator', ?, ?, 'admin', '081234567890')
-      ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash);
-    `, [adminEmail, hash]);
+      VALUES ('Admin TechCare', 'admin@techcare.id', ?, 'admin', '081234567890')
+      ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash), role = 'admin';
+    `,
+      [adminHash]
+    );
 
-    console.log(`[OK] Admin user ensured: ${adminEmail} (password: ${adminPassword})`);
+    await connection.query(
+      `
+      INSERT INTO users (name, email, password_hash, role, phone)
+      VALUES ('Budi Santoso', 'buyer@techcare.id', ?, 'customer', '081298765432')
+      ON DUPLICATE KEY UPDATE password_hash = VALUES(password_hash);
+    `,
+      [buyerHash]
+    );
+
+    console.log('[OK] Demo users ensured: admin@techcare.id & buyer@techcare.id');
     console.log('--- Migration & Seeding Completed Successfully! ---');
   } catch (err) {
     console.error('[Error] Seeding failed:', err.message);

@@ -4,16 +4,24 @@ const orderController = require('../controllers/orderController');
 const { optionalAuth, authenticateToken } = require('../middleware/auth');
 const { upload } = require('../middleware/upload');
 
-// Create order (works for both guest and authenticated user)
+// Static route first
+router.get('/my/all', authenticateToken, orderController.getMyOrders);
+
+// Create order
 router.post('/', optionalAuth, orderController.createOrder);
 
-// Get order by unique order number (publicly accessible with order number, e.g. from checkout redirect)
-router.get('/:orderNumber', orderController.getOrderByNumber);
+// Get order by unique order number (verifikasi kepemilikan user/admin atau email tamu)
+router.get('/:orderNumber', optionalAuth, orderController.getOrderByNumber);
 
 // Upload payment proof for an order
-router.post('/:orderNumber/payment-proof', upload.single('payment_proof'), orderController.uploadPaymentProof);
+router.post(
+  '/:orderNumber/payment-proof',
+  optionalAuth,
+  upload.single('payment_proof'),
+  orderController.uploadPaymentProof
+);
 
-// List logged-in user's orders
-router.get('/my/all', authenticateToken, orderController.getMyOrders);
+// Cancel unpaid order and restore stock
+router.post('/:orderNumber/cancel', authenticateToken, orderController.cancelOrder);
 
 module.exports = router;

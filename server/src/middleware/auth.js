@@ -1,25 +1,37 @@
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'novaire_secret_jwt_key_super_secure_2026';
+const ENV_JWT_SECRET = process.env.JWT_SECRET;
+if (!ENV_JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('FATAL: Environment variable JWT_SECRET wajib diatur pada mode production!');
+}
+
+// Pada development tanpa .env, buat secret acak per-sesi agar tidak ada hardcoded secret di kode
+const JWT_SECRET = ENV_JWT_SECRET || crypto.randomBytes(32).toString('hex');
 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
   if (!token) {
-    return res.status(401).json({ success: false, message: 'Akses ditolak: Token autentikasi tidak ditemukan.' });
+    return res.status(401).json({
+      success: false,
+      message: 'Akses ditolak: Token autentikasi tidak ditemukan.'
+    });
   }
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ success: false, message: 'Token kedaluwarsa atau tidak valid.' });
+      return res.status(403).json({
+        success: false,
+        message: 'Token kedaluwarsa atau tidak valid.'
+      });
     }
     req.user = user;
     next();
   });
 }
 
-// Optional auth for endpoints that work for both guest and logged in users (e.g. checkout)
 function optionalAuth(req, res, next) {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -30,11 +42,7 @@ function optionalAuth(req, res, next) {
   }
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (!err) {
-      req.user = user;
-    } else {
-      req.user = null;
-    }
+    req.user = err ? null : user;
     next();
   });
 }
@@ -42,10 +50,12 @@ function optionalAuth(req, res, next) {
 function requireAdmin(req, res, next) {
   authenticateToken(req, res, () => {
     if (req.user && req.user.role === 'admin') {
-      next();
-    } else {
-      return res.status(403).json({ success: false, message: 'Akses ditolak: Hanya untuk Administrator.' });
+      return next();
     }
+    return res.status(403).json({
+      success: false,
+      message: 'Akses ditolak: Hanya untuk Administrator.'
+    });
   });
 }
 

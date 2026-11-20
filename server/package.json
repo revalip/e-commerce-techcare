@@ -1,7 +1,7 @@
 {
-  "name": "novaire-server",
+  "name": "techcare-server",
   "version": "1.0.0",
-  "description": "Backend API for NOVAIRE E-Commerce (aaPanel + MySQL)",
+  "description": "Backend REST API for TECHCARE E-Commerce (Express + MySQL + Local Payments)",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
