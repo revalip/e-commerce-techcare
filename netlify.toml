@@ -1,0 +1,27 @@
+# Konfigurasi Deploy TECHCARE ke Netlify (Gratis & 1-Klik)
+# Frontend React + Vite dijalankan dalam mode standalone demo (VITE_API_MODE=demo)
+# agar seluruh fitur (katalog, checkout, QRIS/transfer simulasi, ongkir, admin) dapat diuji tanpa server berbayar.
+
+[build]
+  base = "client"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  VITE_API_MODE = "demo"
+
+# SPA Routing Fallback (agar /shop, /orders, /admin tidak 404 saat di-refresh)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Basic Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
