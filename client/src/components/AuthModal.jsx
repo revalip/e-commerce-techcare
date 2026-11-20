@@ -73,7 +73,7 @@ export default function AuthModal() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="absolute inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+        className="absolute inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
         onClick={closeAuthModal}
       />
 
@@ -82,10 +82,10 @@ export default function AuthModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 12 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="relative bg-white rounded-3xl max-w-md w-full max-h-[92vh] overflow-y-auto shadow-tc-float border border-slate-200 z-10"
+        className="relative bg-white rounded-[24px] max-w-md w-full max-h-[92vh] overflow-y-auto shadow-tc-lift border border-[#E2E7EE] z-10"
       >
         {/* Top Navy Accent Banner */}
-        <div className="bg-gradient-to-r from-[#0B1220] to-[#112447] text-white px-6 py-5 relative">
+        <div className="bg-[#1D2129] text-white px-6 py-5 relative">
           <button
             onClick={closeAuthModal}
             className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
@@ -95,11 +95,11 @@ export default function AuthModal() {
           </button>
 
           <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-[#0B5FFF] text-white flex items-center justify-center shadow-tc-primary shrink-0">
+            <span className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
               <Cpu size={20} />
             </span>
             <div>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-sky-300 block">
+              <span className="text-[10px] uppercase font-bold tracking-wider text-[#9BB0C9] block">
                 AKUN PENGGUNA TECHCARE
               </span>
               <h2 className="font-display text-xl font-bold text-white leading-tight">
@@ -111,13 +111,13 @@ export default function AuthModal() {
 
         <div className="p-5 sm:p-6 space-y-5">
           {authNotice && (
-            <div className="p-3.5 bg-[#EEF4FF] border border-[#C7DCFF] rounded-xl text-xs text-[#0B1220] leading-relaxed">
+            <div className="p-3.5 bg-[#ECEFF4] border border-[#D4DBE5] rounded-xl text-xs text-[#1D2129] leading-relaxed">
               {authNotice}
             </div>
           )}
 
           {/* Segmented Tab Switcher */}
-          <div className="grid grid-cols-2 p-1 bg-[#F4F6FA] rounded-xl border border-slate-200">
+          <div className="grid grid-cols-2 p-1 bg-[#F7F8FA] rounded-xl border border-[#E2E7EE]">
             <button
               type="button"
               onClick={() => {
@@ -126,8 +126,8 @@ export default function AuthModal() {
               }}
               className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
                 authModalTab === 'login'
-                  ? 'bg-white text-[#0B5FFF] shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-white text-[#1D2129] shadow-xs'
+                  : 'text-[#647082] hover:text-[#1D2129]'
               }`}
             >
               Masuk
@@ -140,8 +140,8 @@ export default function AuthModal() {
               }}
               className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
                 authModalTab === 'register'
-                  ? 'bg-white text-[#0B5FFF] shadow-xs'
-                  : 'text-slate-500 hover:text-slate-900'
+                  ? 'bg-white text-[#1D2129] shadow-xs'
+                  : 'text-[#647082] hover:text-[#1D2129]'
               }`}
             >
               Daftar Buyer
@@ -158,11 +158,11 @@ export default function AuthModal() {
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {authModalTab === 'register' && (
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#323846] mb-1">
                   Nama Lengkap *
                 </label>
                 <div className="relative">
-                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                   <input
                     type="text"
                     required
@@ -176,11 +176,11 @@ export default function AuthModal() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-[#323846] mb-1">
                 Alamat Email *
               </label>
               <div className="relative">
-                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                 <input
                   type="email"
                   required
@@ -193,11 +193,11 @@ export default function AuthModal() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
+              <label className="block text-xs font-semibold text-[#323846] mb-1">
                 Password *
               </label>
               <div className="relative">
-                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                 <input
                   type="password"
                   required
@@ -212,11 +212,11 @@ export default function AuthModal() {
 
             {authModalTab === 'register' && (
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-semibold text-[#323846] mb-1">
                   Nomor WhatsApp (Opsional)
                 </label>
                 <div className="relative">
-                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                   <input
                     type="tel"
                     value={phone}
@@ -238,23 +238,23 @@ export default function AuthModal() {
           </form>
 
           {/* Quick Demo Access */}
-          <div className="pt-4 border-t border-slate-100 space-y-2.5">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 text-center">
+          <div className="pt-4 border-t border-[#ECEFF4] space-y-2.5">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-[#8692A3] text-center">
               Akses Cepat Demo Pengujian
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={handleQuickAdmin}
-                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#0B1220] hover:bg-[#162238] text-white text-xs font-semibold transition-colors"
+                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#1D2129] hover:bg-[#323846] text-white text-xs font-semibold transition-colors"
               >
-                <ShieldCheck size={14} className="text-[#38BDF8]" />
+                <ShieldCheck size={14} className="text-[#9BB0C9]" />
                 <span>Masuk Admin Demo</span>
               </button>
               <button
                 type="button"
                 onClick={handleQuickBuyer}
-                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#EEF4FF] hover:bg-[#DCE8FF] text-[#0B5FFF] border border-[#C7DCFF] text-xs font-semibold transition-colors"
+                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#ECEFF4] hover:bg-[#D4DBE5] text-[#1D2129] border border-[#D4DBE5] text-xs font-semibold transition-colors"
               >
                 <ShoppingBag size={14} />
                 <span>Masuk Buyer Demo</span>

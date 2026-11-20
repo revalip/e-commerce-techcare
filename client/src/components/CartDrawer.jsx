@@ -54,7 +54,7 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => setIsCartOpen(false)}
-            className="absolute inset-0 bg-[#0B1220]/55 backdrop-blur-xs"
+            className="absolute inset-0 bg-[#1D2129]/55 backdrop-blur-xs"
           />
 
           <div className="fixed inset-0 pointer-events-none flex sm:justify-end justify-center sm:items-stretch items-end">
@@ -63,30 +63,30 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
               animate={isMobile ? { y: 0 } : { x: 0 }}
               exit={isMobile ? { y: '100%' } : { x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="pointer-events-auto w-full sm:max-w-md bg-white shadow-2xl flex flex-col sm:h-full max-h-[90vh] sm:rounded-none rounded-t-3xl overflow-hidden border-l border-slate-200"
+              className="pointer-events-auto w-full sm:max-w-md bg-white shadow-2xl flex flex-col sm:h-full max-h-[90vh] sm:rounded-none rounded-t-3xl overflow-hidden border-l border-[#E2E7EE]"
             >
               {isMobile && (
                 <div className="w-full flex justify-center pt-3 pb-1">
-                  <span className="w-10 h-1 rounded-full bg-slate-300" />
+                  <span className="w-10 h-1 rounded-full bg-[#BAC4D2]" />
                 </div>
               )}
 
               {/* Header */}
-              <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between bg-[#F8FAFC]">
+              <div className="px-5 py-4 border-b border-[#E2E7EE] flex items-center justify-between bg-[#F7F8FA]">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-9 h-9 rounded-xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center">
+                  <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
                     <ShoppingBag size={18} />
                   </span>
                   <div>
-                    <h2 className="font-display text-base font-bold text-[#0B1220] leading-tight">
+                    <h2 className="font-display text-base font-bold text-[#1D2129] leading-tight">
                       Keranjang Belanja
                     </h2>
-                    <p className="text-[11px] text-slate-500">{totalItems} item siap checkout</p>
+                    <p className="text-[11px] text-[#647082]">{totalItems} item siap checkout</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="w-10 h-10 rounded-xl text-slate-500 hover:text-slate-900 hover:bg-slate-200/70 flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-xl text-[#647082] hover:text-[#1D2129] hover:bg-[#E2E7EE]/70 flex items-center justify-center transition-colors"
                   aria-label="Tutup Keranjang"
                 >
                   <X size={18} />
@@ -95,9 +95,9 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
 
               {/* Free Shipping Progress Strip */}
               {items.length > 0 && (
-                <div className="px-5 py-3 bg-[#EEF4FF]/70 border-b border-[#C7DCFF]/70 space-y-1.5">
-                  <div className="flex items-center gap-2 text-[11px] font-semibold text-[#0B1220]">
-                    <Truck size={14} className="text-[#0B5FFF] shrink-0" />
+                <div className="px-5 py-3 bg-[#ECEFF4]/70 border-b border-[#D4DBE5]/70 space-y-1.5">
+                  <div className="flex items-center gap-2 text-[11px] font-semibold text-[#1D2129]">
+                    <Truck size={14} className="text-[#1D2129] shrink-0" />
                     {remainingForFree === 0 ? (
                       <span className="text-emerald-700">
                         Selamat! Anda mendapat <strong>Gratis Ongkir Jabodetabek</strong> (JNE Reg / J&amp;T).
@@ -108,10 +108,10 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                       </span>
                     )}
                   </div>
-                  <div className="h-1.5 w-full bg-white rounded-full overflow-hidden border border-[#C7DCFF]">
+                  <div className="h-1.5 w-full bg-white rounded-full overflow-hidden border border-[#D4DBE5]">
                     <div
                       className={`h-full rounded-full transition-all duration-300 ${
-                        remainingForFree === 0 ? 'bg-emerald-500' : 'bg-[#0B5FFF]'
+                        remainingForFree === 0 ? 'bg-emerald-500' : 'bg-[#1D2129]'
                       }`}
                       style={{ width: `${freeShippingProgress}%` }}
                     />
@@ -120,15 +120,15 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
               )}
 
               {/* Items List */}
-              <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-slate-100">
+              <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-[#ECEFF4]">
                 {items.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-14 space-y-4">
-                    <div className="w-16 h-16 rounded-2xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-[20px] bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
                       <ShoppingBag size={28} />
                     </div>
                     <div className="space-y-1">
-                      <p className="font-display text-lg font-bold text-[#0B1220]">Keranjang Masih Kosong</p>
-                      <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+                      <p className="font-display text-lg font-bold text-[#1D2129]">Keranjang Masih Kosong</p>
+                      <p className="text-xs text-[#647082] max-w-xs leading-relaxed">
                         Temukan laptop bisnis, monitor, peripheral, RAM DDR4/DDR5, dan SSD NVMe bergaransi toko di bawah Rp 10 juta.
                       </p>
                     </div>
@@ -148,7 +148,7 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                     const key = item.variantKey || `${item.id}-${item.warna}`;
                     return (
                       <div key={key} className="py-4 flex gap-3.5">
-                        <div className="w-20 h-20 bg-[#EEF2F7] rounded-xl flex items-center justify-center p-2 flex-shrink-0 border border-slate-200/70">
+                        <div className="w-20 h-20 bg-[#ECEFF4] rounded-xl flex items-center justify-center p-2 flex-shrink-0 border border-[#E2E7EE]/70">
                           <img
                             src={item.gambar}
                             alt={item.nama}
@@ -159,32 +159,32 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                         <div className="flex-1 flex flex-col justify-between min-w-0">
                           <div>
                             <div className="flex justify-between items-start gap-2">
-                              <h4 className="font-display font-bold text-sm text-[#0B1220] line-clamp-1">
+                              <h4 className="font-display font-bold text-sm text-[#1D2129] line-clamp-1">
                                 {item.nama}
                               </h4>
                               <button
                                 onClick={() => removeFromCart(key)}
-                                className="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-colors shrink-0"
+                                className="w-8 h-8 rounded-lg text-[#8692A3] hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center transition-colors shrink-0"
                                 aria-label="Hapus item"
                               >
                                 <Trash2 size={14} />
                               </button>
                             </div>
                             {item.specLabel && (
-                              <span className="inline-block mt-1 px-2 py-0.5 rounded-md bg-[#EEF4FF] text-[#0B5FFF] text-[10px] font-bold">
+                              <span className="inline-block mt-1 px-2 py-0.5 rounded-md bg-[#ECEFF4] text-[#1D2129] text-[10px] font-bold">
                                 {item.specLabel}
                               </span>
                             )}
-                            <p className="text-[11px] text-slate-500 mt-0.5">
+                            <p className="text-[11px] text-[#647082] mt-0.5">
                               {item.warna} • {item.kondisi || 'Second Grade A'}
                             </p>
                           </div>
 
                           <div className="flex items-center justify-between gap-2 mt-2.5">
-                            <div className="inline-flex items-center border border-slate-200 rounded-xl bg-[#F8FAFC]">
+                            <div className="inline-flex items-center border border-[#E2E7EE] rounded-xl bg-[#F7F8FA]">
                               <button
                                 onClick={() => updateQuantity(key, item.jumlah - 1)}
-                                className="w-9 h-9 flex items-center justify-center text-slate-600 hover:text-[#0B5FFF]"
+                                className="w-9 h-9 flex items-center justify-center text-[#4F627A] hover:text-[#1D2129]"
                                 aria-label="Kurangi jumlah"
                               >
                                 <Minus size={13} />
@@ -194,14 +194,14 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                               </span>
                               <button
                                 onClick={() => updateQuantity(key, item.jumlah + 1)}
-                                className="w-9 h-9 flex items-center justify-center text-slate-600 hover:text-[#0B5FFF]"
+                                className="w-9 h-9 flex items-center justify-center text-[#4F627A] hover:text-[#1D2129]"
                                 aria-label="Tambah jumlah"
                               >
                                 <Plus size={13} />
                               </button>
                             </div>
 
-                            <span className="font-display text-sm font-bold text-[#0B1220] tabular-nums">
+                            <span className="font-display text-sm font-bold text-[#1D2129] tabular-nums">
                               {formatIDR(item.harga * item.jumlah)}
                             </span>
                           </div>
@@ -214,15 +214,15 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
 
               {/* Footer */}
               {items.length > 0 && (
-                <div className="p-5 border-t border-slate-200 bg-[#F8FAFC] space-y-3.5">
-                  <div className="flex justify-between items-center text-xs text-slate-500">
+                <div className="p-5 border-t border-[#E2E7EE] bg-[#F7F8FA] space-y-3.5">
+                  <div className="flex justify-between items-center text-xs text-[#647082]">
                     <span>Ongkir &amp; Kurir</span>
-                    <span className="text-slate-800 font-semibold">Dihitung di Checkout</span>
+                    <span className="text-[#23272F] font-semibold">Dihitung di Checkout</span>
                   </div>
 
                   <div className="flex justify-between items-center pt-1">
-                    <span className="font-display text-sm font-bold text-slate-700">Subtotal Produk</span>
-                    <span className="font-display text-lg font-bold text-[#0B1220] tabular-nums">
+                    <span className="font-display text-sm font-bold text-[#323846]">Subtotal Produk</span>
+                    <span className="font-display text-lg font-bold text-[#1D2129] tabular-nums">
                       {formatIDR(subtotal)}
                     </span>
                   </div>

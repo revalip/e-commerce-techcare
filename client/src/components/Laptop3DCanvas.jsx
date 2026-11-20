@@ -350,7 +350,10 @@ export default function Laptop3DCanvas({
       typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    // Adaptive quality: weaker phones/laptops render at 1x and skip the animated screen redraw
+    const lowEnd =
+      (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 2;
+    renderer.setPixelRatio(lowEnd ? 1 : Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.12;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -568,7 +571,7 @@ export default function Laptop3DCanvas({
         applyLidOpen(rig, state.open);
 
         // Animate live screen waveform at ~20fps only while screen is awake
-        if (!prefersReducedMotion && state.open > 0.22 && t - lastScreenDraw > 0.05) {
+        if (!prefersReducedMotion && !lowEnd && state.open > 0.22 && t - lastScreenDraw > 0.05) {
           lastScreenDraw = t;
           drawScreen(t);
         }

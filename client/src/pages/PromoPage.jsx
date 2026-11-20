@@ -17,7 +17,7 @@ export default function PromoPage({ products, onSelectProduct, onExploreShop }) 
   const discountedProducts = products.filter(p => p.discount_percentage > 0);
 
   return (
-    <div className="bg-[#fcfcfd] min-h-screen py-12 sm:py-20">
+    <div className="bg-[#F7F8FA] min-h-screen py-12 sm:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
         {/* Header */}
@@ -46,7 +46,7 @@ export default function PromoPage({ products, onSelectProduct, onExploreShop }) 
             {promoVouchers.map((voucher) => (
               <div
                 key={voucher.code}
-                className="bg-white rounded-3xl p-6 border-2 border-dashed border-neutral-200 shadow-sm relative overflow-hidden flex flex-col justify-between hover:border-black transition-colors"
+                className="bg-white rounded-[24px] p-6 border-2 border-dashed border-neutral-200 shadow-sm relative overflow-hidden flex flex-col justify-between hover:border-black transition-colors"
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -67,7 +67,7 @@ export default function PromoPage({ products, onSelectProduct, onExploreShop }) 
                 </div>
 
                 <div className="pt-6 border-t border-neutral-100 mt-4 flex items-center justify-between gap-3">
-                  <div className="bg-[#f8f8fa] px-3.5 py-2 rounded-xl border border-neutral-200 font-mono text-xs font-bold text-neutral-900 tracking-wider">
+                  <div className="bg-[#F7F8FA] px-3.5 py-2 rounded-xl border border-neutral-200 font-mono text-xs font-bold text-neutral-900 tracking-wider">
                     {voucher.code}
                   </div>
 

@@ -128,10 +128,10 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F4F6FA]">
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F8FA]">
         <div className="text-center space-y-3">
-          <div className="w-9 h-9 border-2 border-[#0B5FFF] border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-slate-500 font-semibold uppercase tracking-wider">
+          <div className="w-9 h-9 border-2 border-[#1D2129] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-[#647082] font-semibold uppercase tracking-wider">
             Memuat Detail &amp; Tracking Pesanan...
           </p>
         </div>
@@ -141,11 +141,11 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
   if (error || !order) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F4F6FA] px-4">
-        <div className="max-w-md w-full bg-white p-8 rounded-3xl border border-slate-200 shadow-tc-card text-center space-y-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F8FA] px-4">
+        <div className="max-w-md w-full bg-white p-8 rounded-[24px] border border-[#E2E7EE] shadow-tc-studio text-center space-y-4">
           <AlertCircle size={36} className="text-rose-500 mx-auto" />
-          <h2 className="font-display text-xl font-bold text-[#0B1220]">Pesanan Tidak Ditemukan</h2>
-          <p className="text-xs text-slate-500">{error}</p>
+          <h2 className="font-display text-xl font-bold text-[#1D2129]">Pesanan Tidak Ditemukan</h2>
+          <p className="text-xs text-[#647082]">{error}</p>
           <button onClick={onBackToOrders || onBackToShop} className="tc-btn-primary">
             Kembali ke Daftar Pesanan
           </button>
@@ -192,32 +192,32 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.24 }}
-      className="bg-[#F4F6FA] min-h-screen py-6 sm:py-10"
+      className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10"
     >
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Navigation & Invoice Header */}
-        <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-tc-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-white rounded-[24px] p-5 sm:p-6 border border-[#E2E7EE]/90 shadow-tc-studio flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1.5">
             <button
               onClick={onBackToOrders || onBackToShop}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#0B5FFF] transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#647082] hover:text-[#1D2129] transition-colors"
             >
               <ArrowLeft size={14} />
               <span>Kembali ke Riwayat Pesanan</span>
             </button>
             <div className="flex items-center gap-2.5 flex-wrap">
-              <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#0B1220]">
+              <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#1D2129]">
                 Invoice #{order.nomorPesanan}
               </h1>
               <button
                 onClick={() => handleCopy(order.nomorPesanan, 'inv')}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#EEF4FF] hover:bg-[#DCE8FF] text-[11px] font-bold text-[#0B5FFF]"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-[#ECEFF4] hover:bg-[#D4DBE5] text-[11px] font-bold text-[#1D2129]"
               >
                 {copiedField === 'inv' ? <Check size={12} /> : <Copy size={12} />}
                 <span>{copiedField === 'inv' ? 'Tersalin' : 'Salin'}</span>
               </button>
             </div>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-[#647082]">
               {formatDate(order.tanggal)} • {order.metodeBayar}
             </p>
           </div>
@@ -240,17 +240,17 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
         </div>
 
         {actionMsg && (
-          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center gap-2.5">
+          <div className="p-4 rounded-[20px] bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs font-semibold flex items-center gap-2.5">
             <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
             <span>{actionMsg}</span>
           </div>
         )}
 
         {isCancelled && (
-          <div className="p-5 rounded-2xl bg-slate-100 border border-slate-300 flex items-center gap-3 text-xs text-slate-700">
-            <XCircle size={22} className="text-slate-600 shrink-0" />
+          <div className="p-5 rounded-[20px] bg-[#ECEFF4] border border-[#BAC4D2] flex items-center gap-3 text-xs text-[#323846]">
+            <XCircle size={22} className="text-[#4F627A] shrink-0" />
             <div>
-              <p className="font-display font-bold text-slate-900 text-sm">Pesanan Dibatalkan</p>
+              <p className="font-display font-bold text-[#1D2129] text-sm">Pesanan Dibatalkan</p>
               <p className="mt-0.5">
                 Pesanan ini telah dibatalkan dan stok perangkat telah dikembalikan otomatis ke katalog TECHCARE.
               </p>
@@ -260,13 +260,13 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
         {/* 1. 6-Step Progress & Resi */}
         {!isCancelled && (
-          <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
+          <div className="bg-white rounded-[24px] p-5 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-[#0B5FFF] block">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#1D2129] block">
                   STATUS PESANAN &amp; PENGIRIMAN
                 </span>
-                <h2 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h2 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Progres Pesanan Anda
                 </h2>
               </div>
@@ -291,27 +291,27 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 return (
                   <div
                     key={st.key}
-                    className={`flex flex-col items-center text-center p-3 rounded-2xl border transition-all ${
+                    className={`flex flex-col items-center text-center p-3 rounded-[20px] border transition-all ${
                       isCurrent
-                        ? 'bg-[#0B5FFF] text-white border-[#0B5FFF] shadow-tc-primary'
+                        ? 'bg-[#1D2129] text-white border-[#1D2129]'
                         : isPassed
-                        ? 'bg-[#EEF4FF] text-[#0B1220] border-[#C7DCFF]'
-                        : 'bg-[#F8FAFC] text-slate-400 border-slate-200/70'
+                        ? 'bg-[#ECEFF4] text-[#1D2129] border-[#D4DBE5]'
+                        : 'bg-[#F7F8FA] text-[#8692A3] border-[#E2E7EE]/70'
                     }`}
                   >
                     <div
                       className={`w-9 h-9 rounded-xl flex items-center justify-center mb-1.5 ${
                         isCurrent
-                          ? 'bg-white text-[#0B5FFF]'
+                          ? 'bg-white text-[#1D2129]'
                           : isPassed
-                          ? 'bg-[#0B5FFF] text-white'
-                          : 'bg-slate-200/80 text-slate-400'
+                          ? 'bg-[#1D2129] text-white'
+                          : 'bg-[#E2E7EE]/80 text-[#8692A3]'
                       }`}
                     >
                       {isPassed && !isCurrent ? <Check size={15} strokeWidth={2.5} /> : <Icon size={15} />}
                     </div>
                     <span className="text-[11px] font-bold leading-tight">{st.title}</span>
-                    <span className={`text-[10px] mt-0.5 ${isCurrent ? 'text-sky-100' : 'text-slate-400'}`}>
+                    <span className={`text-[10px] mt-0.5 ${isCurrent ? 'text-[#BAC4D2]' : 'text-[#8692A3]'}`}>
                       {st.sub}
                     </span>
                   </div>
@@ -320,23 +320,23 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
             </div>
 
             {/* Courier & Resi Bar */}
-            <div className="bg-[#F4F6FA] rounded-2xl p-4 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="bg-[#F7F8FA] rounded-[20px] p-4 border border-[#E2E7EE] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-start sm:items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-[#0B5FFF] shrink-0">
+                <div className="w-11 h-11 rounded-xl bg-white border border-[#E2E7EE] flex items-center justify-center text-[#1D2129] shrink-0">
                   <Truck size={19} />
                 </div>
                 <div className="text-xs">
-                  <p className="text-slate-500">
-                    Ekspedisi: <strong className="text-[#0B1220]">{order.kurir || 'JNE Reguler'}</strong>
+                  <p className="text-[#647082]">
+                    Ekspedisi: <strong className="text-[#1D2129]">{order.kurir || 'JNE Reguler'}</strong>
                   </p>
-                  <p className="text-slate-500 mt-0.5">
+                  <p className="text-[#647082] mt-0.5">
                     No. Resi:{' '}
                     {order.resi ? (
-                      <strong className="font-mono text-sm text-[#0B5FFF] tracking-wider">
+                      <strong className="font-mono text-sm text-[#1D2129] tracking-wider">
                         {order.resi}
                       </strong>
                     ) : (
-                      <span className="italic text-slate-400">
+                      <span className="italic text-[#8692A3]">
                         Menunggu proses QC &amp; penyerahan ke kurir
                       </span>
                     )}
@@ -360,18 +360,18 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
         {/* 2. Payment Instructions & Upload Proof */}
         {showPaymentSection && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-            <div className="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-tc-card space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3 gap-2">
+            <div className="lg:col-span-6 bg-white rounded-[24px] p-5 sm:p-6 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
+              <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3 gap-2">
                 <div>
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">Instruksi Pembayaran</h3>
-                  <span className="text-[11px] font-bold text-[#F97316]">Simulasi Pembayaran Lokal</span>
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">Instruksi Pembayaran</h3>
+                  <span className="text-[11px] font-bold text-[#1D2129]">Simulasi Pembayaran Lokal</span>
                 </div>
                 {countdown && (
                   <div
                     className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold inline-flex items-center gap-1.5 ${
                       countdown.expired
                         ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                        : 'bg-[#FFF7ED] text-[#C2410C] border border-[#FDBA74]'
+                        : 'bg-[#ECEFF4] text-[#323846] border border-[#D4DBE5]'
                     }`}
                   >
                     <Clock size={13} />
@@ -381,8 +381,8 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               </div>
 
               {/* Exact Transfer Amount Card */}
-              <div className="bg-gradient-to-r from-[#0B1220] to-[#12264A] text-white p-4 rounded-2xl space-y-1.5">
-                <span className="text-[10px] uppercase tracking-wider text-sky-300 font-bold block">
+              <div className="bg-[#1D2129] text-white p-4 rounded-[20px] space-y-1.5">
+                <span className="text-[10px] uppercase tracking-wider text-[#BAC4D2] font-bold block">
                   Transfer Tepat Hingga 3 Digit Kode Unik
                 </span>
                 <div className="flex items-center justify-between gap-2">
@@ -392,15 +392,15 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <button
                     type="button"
                     onClick={() => handleCopy(order.total, 'amount')}
-                    className="min-h-[38px] px-3.5 bg-[#0B5FFF] hover:bg-[#0847C4] text-white rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shrink-0"
+                    className="min-h-[38px] px-3.5 bg-white hover:bg-[#ECEFF4] text-[#1D2129] rounded-xl text-xs font-bold inline-flex items-center gap-1.5 shrink-0"
                   >
                     {copiedField === 'amount' ? <Check size={13} /> : <Copy size={13} />}
                     <span>{copiedField === 'amount' ? 'Tersalin' : 'Salin Nominal'}</span>
                   </button>
                 </div>
                 {order.uniqueCode > 0 && (
-                  <p className="text-[11px] text-slate-300">
-                    Termasuk kode unik <strong className="font-mono text-[#F97316]">+{order.uniqueCode}</strong>
+                  <p className="text-[11px] text-[#BAC4D2]">
+                    Termasuk kode unik <strong className="font-mono text-[#1D2129]">+{order.uniqueCode}</strong>
                     {order.paymentDeadline ? ` • Batas bayar ${formatDate(order.paymentDeadline)}` : ''}
                   </p>
                 )}
@@ -408,37 +408,37 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
               {isQris ? (
                 <div className="text-center space-y-3">
-                  <div className="max-w-[230px] mx-auto bg-[#F8FAFC] p-2.5 rounded-2xl border border-slate-200">
+                  <div className="max-w-[230px] mx-auto bg-[#F7F8FA] p-2.5 rounded-[20px] border border-[#E2E7EE]">
                     <img
                       src="/images/qris-techcare.svg"
                       alt="QRIS Simulasi TECHCARE"
                       className="w-full h-auto object-contain rounded-xl"
                     />
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed">
+                  <p className="text-xs text-[#4F627A] leading-relaxed">
                     Scan kode QRIS di atas lewat BCA Mobile, Livin, GoPay, OVO, Dana, atau ShopeePay sebesar{' '}
-                    <strong className="text-[#0B1220]">{formatIDR(order.total)}</strong>.
+                    <strong className="text-[#1D2129]">{formatIDR(order.total)}</strong>.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="bg-[#F4F6FA] p-4 rounded-2xl border border-slate-200 space-y-2.5">
+                  <div className="bg-[#F7F8FA] p-4 rounded-[20px] border border-[#E2E7EE] space-y-2.5">
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-[#8692A3]">
                         {bankName}
                       </p>
-                      <p className="text-xs text-[#0B1220] font-bold">
+                      <p className="text-xs text-[#1D2129] font-bold">
                         a.n. PT TECHCARE SOLUSI TEKNOLOGI
                       </p>
                     </div>
-                    <div className="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-slate-200">
-                      <span className="font-mono text-base font-bold text-[#0B1220] tracking-wider">
+                    <div className="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-[#E2E7EE]">
+                      <span className="font-mono text-base font-bold text-[#1D2129] tracking-wider">
                         {bankAccNumber}
                       </span>
                       <button
                         type="button"
                         onClick={() => handleCopy(bankAccNumber, 'rek')}
-                        className="min-h-[36px] px-3.5 bg-[#0B5FFF] hover:bg-[#0847C4] text-white rounded-lg text-xs font-semibold"
+                        className="min-h-[36px] px-3.5 bg-[#1D2129] hover:bg-[#323846] text-white rounded-lg text-xs font-semibold"
                       >
                         {copiedField === 'rek' ? 'Tersalin' : 'Salin'}
                       </button>
@@ -447,8 +447,8 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 </div>
               )}
 
-              <div className="p-3 rounded-xl bg-[#EEF4FF]/70 border border-[#C7DCFF] flex items-start gap-2 text-[11px] text-slate-700">
-                <Info size={14} className="shrink-0 mt-0.5 text-[#0B5FFF]" />
+              <div className="p-3 rounded-xl bg-[#ECEFF4]/70 border border-[#D4DBE5] flex items-start gap-2 text-[11px] text-[#323846]">
+                <Info size={14} className="shrink-0 mt-0.5 text-[#1D2129]" />
                 <span>
                   Ini adalah <strong>simulasi pembayaran</strong> demo. Unggah bukti gambar dummy lalu konfirmasi melalui akun Admin Demo.
                 </span>
@@ -456,10 +456,10 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
             </div>
 
             {/* Form Upload Bukti */}
-            <div className="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 shadow-tc-card space-y-4">
-              <div className="border-b border-slate-100 pb-3">
-                <h3 className="font-display text-lg font-bold text-[#0B1220]">Upload Bukti Pembayaran</h3>
-                <p className="text-xs text-slate-500">
+            <div className="lg:col-span-6 bg-white rounded-[24px] p-5 sm:p-6 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
+              <div className="border-b border-[#ECEFF4] pb-3">
+                <h3 className="font-display text-lg font-bold text-[#1D2129]">Upload Bukti Pembayaran</h3>
+                <p className="text-xs text-[#647082]">
                   {order.paymentStatus === 'rejected'
                     ? 'Bukti sebelumnya ditolak admin. Silakan unggah ulang bukti transfer yang jelas.'
                     : 'Unggah screenshot transfer/QRIS untuk mempercepat konfirmasi oleh Admin.'}
@@ -467,15 +467,15 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               </div>
 
               {order.paymentProofUrl && (
-                <div className="p-3 bg-[#F4F6FA] rounded-2xl border border-slate-200 text-center space-y-1.5">
-                  <p className="text-[11px] font-bold text-slate-700">Bukti yang Terunggah:</p>
+                <div className="p-3 bg-[#F7F8FA] rounded-[20px] border border-[#E2E7EE] text-center space-y-1.5">
+                  <p className="text-[11px] font-bold text-[#323846]">Bukti yang Terunggah:</p>
                   <img
                     src={order.paymentProofUrl}
                     alt="Bukti Pembayaran"
-                    className="max-h-40 mx-auto rounded-xl object-contain border border-slate-200 bg-white"
+                    className="max-h-40 mx-auto rounded-xl object-contain border border-[#E2E7EE] bg-white"
                   />
                   {order.paymentNotes && (
-                    <p className="text-[11px] text-slate-500">{order.paymentNotes}</p>
+                    <p className="text-[11px] text-[#647082]">{order.paymentNotes}</p>
                   )}
                 </div>
               )}
@@ -485,13 +485,13 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   type="file"
                   accept="image/*"
                   onChange={handleFileChange}
-                  className="block w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#0B5FFF] file:text-white hover:file:bg-[#0847C4] border border-slate-200 rounded-xl p-1.5 bg-[#F8FAFC]"
+                  className="block w-full text-xs text-[#647082] file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#1D2129] file:text-white hover:file:bg-[#323846] border border-[#E2E7EE] rounded-xl p-1.5 bg-[#F7F8FA]"
                 />
                 {proofPreview && (
                   <img
                     src={proofPreview}
                     alt="Preview Bukti"
-                    className="max-h-36 mx-auto rounded-xl object-contain border border-slate-200"
+                    className="max-h-36 mx-auto rounded-xl object-contain border border-[#E2E7EE]"
                   />
                 )}
                 <input
@@ -515,20 +515,20 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
         )}
 
         {/* 3. Tracking Timeline */}
-        <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+        <div className="bg-white rounded-[24px] p-5 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+          <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-4">
             <div className="flex items-center gap-2">
-              <MapPin size={18} className="text-[#0B5FFF]" />
-              <h3 className="font-display text-lg font-bold text-[#0B1220]">
+              <MapPin size={18} className="text-[#1D2129]" />
+              <h3 className="font-display text-lg font-bold text-[#1D2129]">
                 Riwayat Pelacakan &amp; Aktivitas Pesanan
               </h3>
             </div>
-            <span className="text-xs font-semibold text-slate-400">
+            <span className="text-xs font-semibold text-[#8692A3]">
               {(order.trackingHistory || []).length} update
             </span>
           </div>
 
-          <div className="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-[9px] before:top-2 before:bottom-2 before:w-[2px] before:bg-slate-200">
+          <div className="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-[9px] before:top-2 before:bottom-2 before:w-[2px] before:bg-[#E2E7EE]">
             {(order.trackingHistory || []).map((log, idx) => {
               const isLatest = idx === 0;
               return (
@@ -536,21 +536,21 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <span
                     className={`absolute -left-6 top-1 w-5 h-5 rounded-full flex items-center justify-center border-2 ${
                       isLatest
-                        ? 'bg-[#0B5FFF] border-[#0B5FFF] text-white ring-4 ring-[#EEF4FF]'
-                        : 'bg-white border-slate-300'
+                        ? 'bg-[#1D2129] border-[#1D2129] text-white ring-4 ring-[#ECEFF4]'
+                        : 'bg-white border-[#BAC4D2]'
                     }`}
                   >
                     {isLatest && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
                   </span>
 
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                    <h4 className={`text-xs sm:text-sm font-bold ${isLatest ? 'text-[#0B5FFF]' : 'text-slate-800'}`}>
+                    <h4 className={`text-xs sm:text-sm font-bold ${isLatest ? 'text-[#1D2129]' : 'text-[#23272F]'}`}>
                       {log.status}
                     </h4>
-                    <span className="text-[11px] text-slate-400 font-medium">{formatDate(log.waktu)}</span>
+                    <span className="text-[11px] text-[#8692A3] font-medium">{formatDate(log.waktu)}</span>
                   </div>
-                  <p className="text-[11px] font-semibold text-slate-500 mt-0.5">{log.lokasi}</p>
-                  <p className="text-xs text-slate-600 mt-1 leading-relaxed">{log.keterangan}</p>
+                  <p className="text-[11px] font-semibold text-[#647082] mt-0.5">{log.lokasi}</p>
+                  <p className="text-xs text-[#4F627A] mt-1 leading-relaxed">{log.keterangan}</p>
                 </div>
               );
             })}
@@ -558,16 +558,16 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
         </div>
 
         {/* 4. Items & Recipient Info */}
-        <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-          <h3 className="font-display text-lg font-bold text-[#0B1220] border-b border-slate-100 pb-3">
+        <div className="bg-white rounded-[24px] p-5 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+          <h3 className="font-display text-lg font-bold text-[#1D2129] border-b border-[#ECEFF4] pb-3">
             Rincian Produk &amp; Alamat Pengiriman
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-3">
               {(order.items || []).map((it, idx) => (
-                <div key={idx} className="flex items-center gap-3 py-2 border-b border-slate-100 last:border-0">
-                  <div className="w-14 h-14 rounded-xl bg-[#EEF2F7] p-1.5 flex items-center justify-center shrink-0">
+                <div key={idx} className="flex items-center gap-3 py-2 border-b border-[#ECEFF4] last:border-0">
+                  <div className="w-14 h-14 rounded-xl bg-[#ECEFF4] p-1.5 flex items-center justify-center shrink-0">
                     <img
                       src={it.gambar || '/images/products/thinkpad-x1-carbon-front.jpg'}
                       alt={it.nama}
@@ -575,22 +575,22 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                     />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-bold text-[#0B1220] truncate">{it.nama}</p>
-                    <p className="text-[11px] text-slate-500">
+                    <p className="text-xs font-bold text-[#1D2129] truncate">{it.nama}</p>
+                    <p className="text-[11px] text-[#647082]">
                       {[it.specLabel, it.warna].filter(Boolean).join(' • ')}
                     </p>
-                    <p className="text-[11px] text-slate-400">
+                    <p className="text-[11px] text-[#8692A3]">
                       {it.jumlah} x {formatIDR(it.harga)}
                     </p>
                   </div>
-                  <span className="text-xs font-bold text-[#0B1220] tabular-nums">
+                  <span className="text-xs font-bold text-[#1D2129] tabular-nums">
                     {formatIDR((it.harga || 0) * (it.jumlah || 1))}
                   </span>
                 </div>
               ))}
 
               <div className="pt-2 space-y-1.5 text-xs">
-                <div className="flex justify-between text-slate-500">
+                <div className="flex justify-between text-[#647082]">
                   <span>Subtotal</span>
                   <span className="tabular-nums">{formatIDR(order.subtotal)}</span>
                 </div>
@@ -600,50 +600,50 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                     <span className="tabular-nums">-{formatIDR(order.diskon)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-slate-500">
+                <div className="flex justify-between text-[#647082]">
                   <span>Ongkir ({formatWeight(order.totalWeightGram || 1000)})</span>
                   <span className="tabular-nums">{order.ongkir > 0 ? formatIDR(order.ongkir) : 'Gratis'}</span>
                 </div>
                 {order.uniqueCode > 0 && (
-                  <div className="flex justify-between text-slate-500">
+                  <div className="flex justify-between text-[#647082]">
                     <span>Kode Unik</span>
-                    <span className="font-mono text-[#F97316] font-bold">+{formatIDR(order.uniqueCode)}</span>
+                    <span className="font-mono text-[#1D2129] font-bold">+{formatIDR(order.uniqueCode)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-sm font-bold text-[#0B1220] pt-2 border-t border-slate-200">
+                <div className="flex justify-between text-sm font-bold text-[#1D2129] pt-2 border-t border-[#E2E7EE]">
                   <span>Total Pembayaran</span>
-                  <span className="font-display text-base text-[#0B5FFF] tabular-nums">
+                  <span className="font-display text-base text-[#1D2129] tabular-nums">
                     {formatIDR(order.total)}
                   </span>
                 </div>
               </div>
             </div>
 
-            <div className="bg-[#F4F6FA] rounded-2xl p-5 border border-slate-200 space-y-2 text-xs text-slate-600 h-fit">
-              <div className="flex items-center gap-2 text-[#0B1220] font-bold uppercase tracking-wider text-[11px] mb-2">
-                <Package size={14} className="text-[#0B5FFF]" />
+            <div className="bg-[#F7F8FA] rounded-[20px] p-5 border border-[#E2E7EE] space-y-2 text-xs text-[#4F627A] h-fit">
+              <div className="flex items-center gap-2 text-[#1D2129] font-bold uppercase tracking-wider text-[11px] mb-2">
+                <Package size={14} className="text-[#1D2129]" />
                 <span>Info Penerima &amp; Ekspedisi</span>
               </div>
               <p>
-                <strong className="text-[#0B1220]">Nama:</strong> {order.customer?.nama}
+                <strong className="text-[#1D2129]">Nama:</strong> {order.customer?.nama}
               </p>
               <p>
-                <strong className="text-[#0B1220]">WhatsApp:</strong> {order.customer?.telepon}
+                <strong className="text-[#1D2129]">WhatsApp:</strong> {order.customer?.telepon}
               </p>
               <p>
-                <strong className="text-[#0B1220]">Email:</strong> {order.customer?.email}
+                <strong className="text-[#1D2129]">Email:</strong> {order.customer?.email}
               </p>
               <p>
-                <strong className="text-[#0B1220]">Alamat:</strong> {order.customer?.alamat},{' '}
+                <strong className="text-[#1D2129]">Alamat:</strong> {order.customer?.alamat},{' '}
                 {order.customer?.kota} {order.customer?.kodePos || ''}
               </p>
               {order.shippingZone && (
                 <p>
-                  <strong className="text-[#0B1220]">Wilayah:</strong> {order.shippingZone}
+                  <strong className="text-[#1D2129]">Wilayah:</strong> {order.shippingZone}
                 </p>
               )}
               <p>
-                <strong className="text-[#0B1220]">Kurir:</strong> {order.kurir || 'JNE Reguler'}
+                <strong className="text-[#1D2129]">Kurir:</strong> {order.kurir || 'JNE Reguler'}
               </p>
             </div>
           </div>

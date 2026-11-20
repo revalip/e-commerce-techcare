@@ -197,12 +197,12 @@ export default function AdminDashboard({ onBackToShop }) {
   const orderStatusChart = useMemo(() => {
     const buckets = [
       { key: 'pending', label: 'Menunggu Bayar', color: 'bg-amber-400', count: 0 },
-      { key: 'awaiting_verification', label: 'Verifikasi', color: 'bg-sky-500', count: 0 },
+      { key: 'awaiting_verification', label: 'Verifikasi', color: 'bg-[#8692A3]', count: 0 },
       { key: 'paid', label: 'Dibayar', color: 'bg-emerald-500', count: 0 },
-      { key: 'processing', label: 'Dikemas & QC', color: 'bg-indigo-500', count: 0 },
-      { key: 'shipped', label: 'Dikirim', color: 'bg-[#0B5FFF]', count: 0 },
+      { key: 'processing', label: 'Dikemas & QC', color: 'bg-[#4F627A]', count: 0 },
+      { key: 'shipped', label: 'Dikirim', color: 'bg-[#1D2129]', count: 0 },
       { key: 'completed', label: 'Selesai', color: 'bg-emerald-700', count: 0 },
-      { key: 'cancelled', label: 'Dibatalkan', color: 'bg-slate-400', count: 0 }
+      { key: 'cancelled', label: 'Dibatalkan', color: 'bg-[#8692A3]', count: 0 }
     ];
     orders.forEach((o) => {
       const target = buckets.find((b) => b.key === (o.statusKey || 'pending'));
@@ -485,18 +485,17 @@ export default function AdminDashboard({ onBackToShop }) {
   };
 
   return (
-    <div className="bg-[#F4F6FA] min-h-screen py-6 sm:py-10">
+    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Navy Admin Header */}
         <Reveal>
-          <div className="bg-gradient-to-r from-[#0B1220] to-[#12264A] text-white rounded-3xl p-5 sm:p-7 border border-slate-800 shadow-tc-float flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
-            <div className="absolute inset-0 tc-tech-grid opacity-40 pointer-events-none" />
+          <div className="bg-[#1D2129] text-white rounded-[24px] p-5 sm:p-7 border border-[#23272F] shadow-tc-lift flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="text-[11px] uppercase font-bold tracking-wider text-[#38BDF8]">
+                <span className="text-[11px] uppercase font-bold tracking-wider text-[#9BB0C9]">
                   ADMIN DASHBOARD • TECHCARE
                 </span>
-                <span className="px-2.5 py-0.5 rounded-lg bg-[#0B5FFF] text-white text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-lg bg-[#1D2129] text-white text-[10px] font-bold">
                   {user?.name || 'Admin'}
                 </span>
               </div>
@@ -516,7 +515,7 @@ export default function AdminDashboard({ onBackToShop }) {
               </button>
               <button
                 onClick={onBackToShop}
-                className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-white text-[#0B1220] hover:bg-sky-50 text-xs font-bold transition-colors"
+                className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-white text-[#1D2129] hover:bg-[#ECEFF4] text-xs font-bold transition-colors"
               >
                 <ArrowLeft size={14} />
                 <span>Lihat Toko</span>
@@ -540,7 +539,7 @@ export default function AdminDashboard({ onBackToShop }) {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="bg-[#0B1220] text-white px-5 py-3.5 rounded-2xl text-xs font-semibold flex items-center gap-2.5 shadow-md border border-slate-700"
+              className="bg-[#1D2129] text-white px-5 py-3.5 rounded-[20px] text-xs font-semibold flex items-center gap-2.5 shadow-md border border-[#323846]"
             >
               <ShieldCheck size={17} className="text-emerald-400 shrink-0" />
               <span>{feedback}</span>
@@ -550,19 +549,19 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* 4 KPI Metric Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-tc-card space-y-2">
+          <div className="bg-white rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
                 Total Omzet
               </span>
-              <span className="w-9 h-9 rounded-xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center">
+              <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
                 <TrendingUp size={17} />
               </span>
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#0B1220] truncate tabular-nums">
+            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] truncate tabular-nums">
               {formatIDR(totalOmzet)}
             </p>
-            <span className="text-[11px] text-slate-500 block">{orders.length} pesanan masuk</span>
+            <span className="text-[11px] text-[#647082] block">{orders.length} pesanan masuk</span>
           </div>
 
           <button
@@ -571,29 +570,29 @@ export default function AdminDashboard({ onBackToShop }) {
               setActiveTab('orders');
               setOrderStatusFilter('awaiting_verification');
             }}
-            className="text-left bg-white hover:border-[#F97316] rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-tc-card space-y-2 transition-colors"
+            className="text-left bg-white hover:border-[#1D2129] rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
                 Verifikasi Bayar
               </span>
-              <span className="w-9 h-9 rounded-xl bg-[#FFF7ED] text-[#F97316] flex items-center justify-center">
+              <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
                 <Clock size={17} />
               </span>
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#F97316] tabular-nums">
+            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] tabular-nums">
               {awaitingCount} Pesanan
             </p>
-            <span className="text-[11px] text-slate-500 block">Klik untuk cek bukti →</span>
+            <span className="text-[11px] text-[#647082] block">Klik untuk cek bukti →</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('products')}
-            className="text-left bg-white hover:border-rose-400 rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-tc-card space-y-2 transition-colors"
+            className="text-left bg-white hover:border-rose-400 rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
                 Stok Menipis (≤ 5)
               </span>
               <span className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
@@ -607,42 +606,42 @@ export default function AdminDashboard({ onBackToShop }) {
             >
               {lowStockProducts.length} Produk
             </p>
-            <span className="text-[11px] text-slate-500 block">dari {products.length} katalog aktif</span>
+            <span className="text-[11px] text-[#647082] block">dari {products.length} katalog aktif</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('users')}
-            className="text-left bg-white hover:border-[#0B5FFF] rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-tc-card space-y-2 transition-colors"
+            className="text-left bg-white hover:border-[#1D2129] rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
           >
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
                 Pengguna &amp; Promo
               </span>
               <span className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                 <Users size={17} />
               </span>
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#0B1220] tabular-nums">
+            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] tabular-nums">
               {usersList.length} Akun
             </p>
-            <span className="text-[11px] text-slate-500 block">{activeDiscountsCount} kupon promo aktif</span>
+            <span className="text-[11px] text-[#647082] block">{activeDiscountsCount} kupon promo aktif</span>
           </button>
         </div>
 
         {/* Analytics Charts Row (2 Responsive Visual Charts) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* Chart 1: Distribusi Status Pesanan */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-tc-card space-y-4">
+          <div className="bg-white rounded-[20px] p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="font-display text-sm sm:text-base font-bold text-[#0B1220] flex items-center gap-2">
-                  <BarChart3 size={16} className="text-[#0B5FFF]" />
+                <h2 className="font-display text-sm sm:text-base font-bold text-[#1D2129] flex items-center gap-2">
+                  <BarChart3 size={16} className="text-[#1D2129]" />
                   <span>Grafik Distribusi Status Pesanan</span>
                 </h2>
-                <p className="text-[11px] text-slate-500">Ringkasan status transaksi secara real-time</p>
+                <p className="text-[11px] text-[#647082]">Ringkasan status transaksi secara real-time</p>
               </div>
-              <span className="text-xs font-bold text-[#0B5FFF] bg-[#EEF4FF] px-2.5 py-1 rounded-lg tabular-nums">
+              <span className="text-xs font-bold text-[#1D2129] bg-[#ECEFF4] px-2.5 py-1 rounded-lg tabular-nums">
                 {orders.length} Total
               </span>
             </div>
@@ -651,10 +650,10 @@ export default function AdminDashboard({ onBackToShop }) {
               {orderStatusChart.map((row) => (
                 <div key={row.key} className="space-y-1">
                   <div className="flex justify-between text-xs">
-                    <span className="font-medium text-slate-700">{row.label}</span>
-                    <span className="font-bold text-[#0B1220] tabular-nums">{row.count}</span>
+                    <span className="font-medium text-[#323846]">{row.label}</span>
+                    <span className="font-bold text-[#1D2129] tabular-nums">{row.count}</span>
                   </div>
-                  <div className="h-2 w-full bg-[#F1F5F9] rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-[#ECEFF4] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${row.color}`}
                       style={{ width: `${row.count > 0 ? Math.max(8, row.pct) : 0}%` }}
@@ -666,14 +665,14 @@ export default function AdminDashboard({ onBackToShop }) {
           </div>
 
           {/* Chart 2: Stok & Produk per Kategori */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-tc-card space-y-4">
+          <div className="bg-white rounded-[20px] p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h2 className="font-display text-sm sm:text-base font-bold text-[#0B1220] flex items-center gap-2">
-                  <FolderKanban size={16} className="text-[#0B5FFF]" />
+                <h2 className="font-display text-sm sm:text-base font-bold text-[#1D2129] flex items-center gap-2">
+                  <FolderKanban size={16} className="text-[#1D2129]" />
                   <span>Grafik Stok Inventaris per Kategori</span>
                 </h2>
-                <p className="text-[11px] text-slate-500">Jumlah unit stok tersedia di setiap kategori</p>
+                <p className="text-[11px] text-[#647082]">Jumlah unit stok tersedia di setiap kategori</p>
               </div>
               <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg tabular-nums">
                 {products.reduce((s, p) => s + (Number(p.stok) || 0), 0)} Unit
@@ -684,14 +683,14 @@ export default function AdminDashboard({ onBackToShop }) {
               {categoryStockChart.map((cat) => (
                 <div key={cat.name} className="space-y-1">
                   <div className="flex justify-between text-xs gap-2">
-                    <span className="font-semibold text-slate-700 truncate">{cat.name}</span>
-                    <span className="text-slate-500 shrink-0 tabular-nums">
-                      <strong className="text-[#0B1220]">{cat.stock} unit</strong> ({cat.count} SKU)
+                    <span className="font-semibold text-[#323846] truncate">{cat.name}</span>
+                    <span className="text-[#647082] shrink-0 tabular-nums">
+                      <strong className="text-[#1D2129]">{cat.stock} unit</strong> ({cat.count} SKU)
                     </span>
                   </div>
-                  <div className="h-2.5 w-full bg-[#F1F5F9] rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-[#ECEFF4] rounded-full overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-[#0B5FFF] to-[#38BDF8] transition-all duration-500"
+                      className="h-full rounded-full bg-[#1D2129] transition-all duration-500"
                       style={{ width: `${cat.stock > 0 ? Math.max(8, cat.pct) : 0}%` }}
                     />
                   </div>
@@ -703,20 +702,20 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* Low Stock Alert Strip */}
         {lowStockProducts.length > 0 && (
-          <div className="bg-[#FFF7ED] border border-[#FDBA74] rounded-2xl p-4 sm:p-5 space-y-2.5">
+          <div className="bg-[#ECEFF4] border border-[#D4DBE5] rounded-[20px] p-4 sm:p-5 space-y-2.5">
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#9A3412] uppercase tracking-wider">
-                <AlertTriangle size={15} className="text-[#F97316]" />
+              <div className="flex items-center gap-2 text-xs font-bold text-[#323846] uppercase tracking-wider">
+                <AlertTriangle size={15} className="text-[#1D2129]" />
                 <span>Peringatan Stok Menipis ({lowStockProducts.length} produk)</span>
               </div>
-              <span className="text-[11px] text-[#C2410C] font-medium">Klik produk untuk restok cepat</span>
+              <span className="text-[11px] text-[#323846] font-medium">Klik produk untuk restok cepat</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {lowStockProducts.map((p) => (
                 <button
                   key={p.id}
                   onClick={() => openEditProduct(p)}
-                  className="inline-flex items-center gap-2 min-h-[38px] px-3 rounded-xl bg-white border border-[#FDBA74] hover:border-[#0B5FFF] text-xs text-[#0B1220] transition-colors"
+                  className="inline-flex items-center gap-2 min-h-[38px] px-3 rounded-xl bg-white border border-[#D4DBE5] hover:border-[#1D2129] text-xs text-[#1D2129] transition-colors"
                 >
                   <span className="font-semibold truncate max-w-[180px]">{p.nama}</span>
                   <span
@@ -748,8 +747,8 @@ export default function AdminDashboard({ onBackToShop }) {
                 onClick={() => setActiveTab(tab.key)}
                 className={`inline-flex items-center gap-2 px-4 sm:px-5 min-h-[44px] rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
                   activeTab === tab.key
-                    ? 'bg-[#0B5FFF] text-white shadow-tc-primary'
-                    : 'bg-white border border-slate-200 text-slate-600 hover:border-[#0B5FFF] hover:text-[#0B5FFF]'
+                    ? 'bg-[#1D2129] text-white'
+                    : 'bg-white border border-[#E2E7EE] text-[#4F627A] hover:border-[#1D2129] hover:text-[#1D2129]'
                 }`}
               >
                 <Icon size={15} />
@@ -761,19 +760,19 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 1: ORDERS */}
         {activeTab === 'orders' && (
-          <div className="bg-white rounded-3xl p-4 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Manajemen Pesanan, Pembayaran &amp; Resi
                 </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-xs text-[#647082] mt-0.5">
                   Periksa bukti bayar, setujui pembayaran, dan input resi pengiriman kurir.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
                 <div className="relative">
-                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                   <input
                     type="text"
                     value={orderSearch}
@@ -800,9 +799,9 @@ export default function AdminDashboard({ onBackToShop }) {
             </div>
 
             {loading ? (
-              <p className="text-xs text-slate-400 py-10 text-center">Memuat data pesanan...</p>
+              <p className="text-xs text-[#8692A3] py-10 text-center">Memuat data pesanan...</p>
             ) : filteredOrders.length === 0 ? (
-              <p className="text-xs text-slate-500 py-10 text-center">
+              <p className="text-xs text-[#647082] py-10 text-center">
                 Tidak ada pesanan yang cocok dengan filter saat ini.
               </p>
             ) : (
@@ -812,11 +811,11 @@ export default function AdminDashboard({ onBackToShop }) {
                   return (
                     <div
                       key={ord.id}
-                      className="p-4 sm:p-5 rounded-2xl border border-slate-200 hover:border-[#0B5FFF]/50 transition-colors space-y-3 bg-[#FCFDFE]"
+                      className="p-4 sm:p-5 rounded-[20px] border border-[#E2E7EE] hover:border-[#1D2129]/50 transition-colors space-y-3 bg-[#F7F8FA]"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-sm font-bold text-[#0B5FFF]">
+                          <span className="font-mono text-sm font-bold text-[#1D2129]">
                             #{ord.nomorPesanan}
                           </span>
                           <span
@@ -824,61 +823,61 @@ export default function AdminDashboard({ onBackToShop }) {
                           >
                             {ord.status || badge.label}
                           </span>
-                          <span className="text-[11px] text-slate-400">{formatDate(ord.tanggal)}</span>
+                          <span className="text-[11px] text-[#8692A3]">{formatDate(ord.tanggal)}</span>
                         </div>
                         <div className="text-left sm:text-right">
-                          <span className="font-display text-sm sm:text-base font-bold text-[#0B1220] tabular-nums">
+                          <span className="font-display text-sm sm:text-base font-bold text-[#1D2129] tabular-nums">
                             {formatIDR(ord.total)}
                           </span>
                           {ord.uniqueCode > 0 && (
-                            <span className="block text-[10px] font-mono text-slate-500">
+                            <span className="block text-[10px] font-mono text-[#647082]">
                               Kode unik +{ord.uniqueCode} • {ord.metodeBayar}
                             </span>
                           )}
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-slate-600 pt-2 border-t border-slate-100">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[#4F627A] pt-2 border-t border-[#ECEFF4]">
                         <div>
-                          <p className="text-[10px] uppercase font-bold text-slate-400">Pembeli</p>
-                          <p className="font-bold text-[#0B1220]">{ord.customer?.nama}</p>
-                          <p className="text-[11px] text-slate-500">
+                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Pembeli</p>
+                          <p className="font-bold text-[#1D2129]">{ord.customer?.nama}</p>
+                          <p className="text-[11px] text-[#647082]">
                             {ord.customer?.kota} • {ord.customer?.telepon}
                           </p>
                         </div>
 
                         <div>
-                          <p className="text-[10px] uppercase font-bold text-slate-400">Unit &amp; Spec</p>
+                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Unit &amp; Spec</p>
                           {(ord.items || []).map((it, idx) => (
-                            <p key={idx} className="text-slate-800">
+                            <p key={idx} className="text-[#23272F]">
                               <strong>{it.nama}</strong> ({it.jumlah}x)
                               {it.specLabel && (
-                                <span className="block text-[10px] text-slate-500">{it.specLabel}</span>
+                                <span className="block text-[10px] text-[#647082]">{it.specLabel}</span>
                               )}
                             </p>
                           ))}
                         </div>
 
                         <div>
-                          <p className="text-[10px] uppercase font-bold text-slate-400">Ekspedisi &amp; Resi</p>
-                          <p className="text-slate-800">{ord.kurir || 'JNE Reguler'}</p>
-                          <p className="font-mono text-[11px] text-slate-600">
-                            Resi: {ord.resi || <span className="italic text-slate-400">Belum diinput</span>}
+                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Ekspedisi &amp; Resi</p>
+                          <p className="text-[#23272F]">{ord.kurir || 'JNE Reguler'}</p>
+                          <p className="font-mono text-[11px] text-[#4F627A]">
+                            Resi: {ord.resi || <span className="italic text-[#8692A3]">Belum diinput</span>}
                           </p>
                         </div>
                       </div>
 
                       {ord.paymentProofUrl && (
-                        <div className="p-3 rounded-xl bg-[#EEF4FF]/60 border border-[#C7DCFF] flex items-center justify-between gap-3 flex-wrap">
+                        <div className="p-3 rounded-xl bg-[#ECEFF4]/60 border border-[#D4DBE5] flex items-center justify-between gap-3 flex-wrap">
                           <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={ord.paymentProofUrl}
                               alt="Bukti bayar"
-                              className="w-12 h-12 rounded-xl object-cover bg-white border border-slate-200 shrink-0"
+                              className="w-12 h-12 rounded-xl object-cover bg-white border border-[#E2E7EE] shrink-0"
                             />
                             <div className="min-w-0 text-xs">
-                              <p className="font-bold text-[#0B1220]">Bukti Pembayaran Terlampir</p>
-                              <p className="text-[11px] text-slate-600 truncate">
+                              <p className="font-bold text-[#1D2129]">Bukti Pembayaran Terlampir</p>
+                              <p className="text-[11px] text-[#4F627A] truncate">
                                 {ord.paymentNotes || 'Siap diperiksa oleh admin.'}
                               </p>
                             </div>
@@ -886,7 +885,7 @@ export default function AdminDashboard({ onBackToShop }) {
                           <button
                             type="button"
                             onClick={() => setPreviewProofModal(ord)}
-                            className="inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-xl bg-white border border-[#C7DCFF] hover:border-[#0B5FFF] text-xs font-bold text-[#0B5FFF]"
+                            className="inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-xl bg-white border border-[#D4DBE5] hover:border-[#1D2129] text-xs font-bold text-[#1D2129]"
                           >
                             <Eye size={14} />
                             <span>Lihat Bukti</span>
@@ -894,7 +893,7 @@ export default function AdminDashboard({ onBackToShop }) {
                         </div>
                       )}
 
-                      <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-slate-100">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#ECEFF4]">
                         <div className="flex flex-wrap items-center gap-2">
                           {ord.paymentStatus === 'awaiting_verification' && (
                             <>
@@ -934,13 +933,13 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 2: PRODUCTS */}
         {activeTab === 'products' && (
-          <div className="bg-white rounded-3xl p-4 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Inventaris Perangkat IT
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-[#647082]">
                   Tambah, ubah detail lengkap (harga, stok, berat, kategori), atau hapus produk katalog.
                 </p>
               </div>
@@ -953,7 +952,7 @@ export default function AdminDashboard({ onBackToShop }) {
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <table className="w-full text-left text-xs min-w-[680px]">
                 <thead>
-                  <tr className="bg-[#F8FAFC] border-y border-slate-200 text-slate-500 uppercase tracking-wider text-[10px]">
+                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
                     <th className="py-3 pl-3">Produk</th>
                     <th className="py-3">Kategori</th>
                     <th className="py-3">Berat</th>
@@ -962,27 +961,27 @@ export default function AdminDashboard({ onBackToShop }) {
                     <th className="py-3 pr-3 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#ECEFF4]">
                   {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-[#F8FAFC]">
+                    <tr key={p.id} className="hover:bg-[#F7F8FA]">
                       <td className="py-3.5 pl-3 pr-3">
                         <div className="flex items-center gap-3">
                           <img
                             src={p.gambar?.[0]}
                             alt={p.nama}
-                            className="w-11 h-11 rounded-xl bg-[#EEF2F7] object-contain p-1 border border-slate-200 shrink-0"
+                            className="w-11 h-11 rounded-xl bg-[#ECEFF4] object-contain p-1 border border-[#E2E7EE] shrink-0"
                           />
                           <div>
-                            <p className="font-bold text-[#0B1220]">{p.nama}</p>
-                            <p className="text-[11px] text-slate-500">
-                              <span className="text-[#0B5FFF] font-semibold">{p.brand}</span> • {p.kondisi || 'Grade A'}
+                            <p className="font-bold text-[#1D2129]">{p.nama}</p>
+                            <p className="text-[11px] text-[#647082]">
+                              <span className="text-[#1D2129] font-semibold">{p.brand}</span> • {p.kondisi || 'Grade A'}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3.5 text-slate-600">{p.koleksi}</td>
-                      <td className="py-3.5 text-slate-600 tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
-                      <td className="py-3.5 font-display font-bold text-[#0B1220] tabular-nums">
+                      <td className="py-3.5 text-[#4F627A]">{p.koleksi}</td>
+                      <td className="py-3.5 text-[#4F627A] tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
+                      <td className="py-3.5 font-display font-bold text-[#1D2129] tabular-nums">
                         {formatIDR(p.harga)}
                       </td>
                       <td className="py-3.5">
@@ -1002,7 +1001,7 @@ export default function AdminDashboard({ onBackToShop }) {
                         <div className="inline-flex items-center gap-1.5">
                           <button
                             onClick={() => openEditProduct(p)}
-                            className="w-9 h-9 rounded-xl hover:bg-[#EEF4FF] text-slate-600 hover:text-[#0B5FFF] inline-flex items-center justify-center"
+                            className="w-9 h-9 rounded-xl hover:bg-[#ECEFF4] text-[#4F627A] hover:text-[#1D2129] inline-flex items-center justify-center"
                             title="Edit Produk"
                             aria-label={`Edit ${p.nama}`}
                           >
@@ -1010,7 +1009,7 @@ export default function AdminDashboard({ onBackToShop }) {
                           </button>
                           <button
                             onClick={() => handleDeleteProduct(p.id, p.nama)}
-                            className="w-9 h-9 rounded-xl hover:bg-rose-50 text-slate-400 hover:text-rose-600 inline-flex items-center justify-center"
+                            className="w-9 h-9 rounded-xl hover:bg-rose-50 text-[#8692A3] hover:text-rose-600 inline-flex items-center justify-center"
                             title="Hapus Produk"
                             aria-label={`Hapus ${p.nama}`}
                           >
@@ -1028,13 +1027,13 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 3: CATEGORIES */}
         {activeTab === 'categories' && (
-          <div className="bg-white rounded-3xl p-4 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Manajemen Kategori Produk
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-[#647082]">
                   Kelola kategori katalog yang tampil di beranda dan filter pencarian.
                 </p>
               </div>
@@ -1050,19 +1049,19 @@ export default function AdminDashboard({ onBackToShop }) {
                 return (
                   <div
                     key={col.id}
-                    className="p-4 rounded-2xl border border-slate-200 hover:border-[#0B5FFF] transition-colors flex items-start justify-between gap-3 bg-[#FCFDFE]"
+                    className="p-4 rounded-[20px] border border-[#E2E7EE] hover:border-[#1D2129] transition-colors flex items-start justify-between gap-3 bg-[#F7F8FA]"
                   >
                     <div className="flex items-start gap-3 min-w-0">
                       <img
                         src={col.gambar}
                         alt={col.nama}
-                        className="w-12 h-12 rounded-xl bg-[#EEF2F7] p-1.5 object-contain border border-slate-200 shrink-0"
+                        className="w-12 h-12 rounded-xl bg-[#ECEFF4] p-1.5 object-contain border border-[#E2E7EE] shrink-0"
                       />
                       <div className="min-w-0">
-                        <p className="font-display text-sm font-bold text-[#0B1220] truncate">{col.nama}</p>
-                        <p className="text-[10px] font-mono text-slate-400">/{col.slug}</p>
-                        <p className="text-[11px] text-slate-500 line-clamp-2 mt-1">{col.tagline}</p>
-                        <span className="inline-block mt-2 px-2.5 py-0.5 rounded-lg bg-[#EEF4FF] text-[10px] font-bold text-[#0B5FFF]">
+                        <p className="font-display text-sm font-bold text-[#1D2129] truncate">{col.nama}</p>
+                        <p className="text-[10px] font-mono text-[#8692A3]">/{col.slug}</p>
+                        <p className="text-[11px] text-[#647082] line-clamp-2 mt-1">{col.tagline}</p>
+                        <span className="inline-block mt-2 px-2.5 py-0.5 rounded-lg bg-[#ECEFF4] text-[10px] font-bold text-[#1D2129]">
                           {count} produk
                         </span>
                       </div>
@@ -1070,14 +1069,14 @@ export default function AdminDashboard({ onBackToShop }) {
                     <div className="flex flex-col gap-1 shrink-0">
                       <button
                         onClick={() => openEditCategory(col)}
-                        className="w-9 h-9 rounded-xl hover:bg-[#EEF4FF] text-slate-600 hover:text-[#0B5FFF] flex items-center justify-center"
+                        className="w-9 h-9 rounded-xl hover:bg-[#ECEFF4] text-[#4F627A] hover:text-[#1D2129] flex items-center justify-center"
                         title="Edit Kategori"
                       >
                         <Edit3 size={14} />
                       </button>
                       <button
                         onClick={() => handleDeleteCategory(col)}
-                        className="w-9 h-9 rounded-xl hover:bg-rose-50 text-slate-400 hover:text-rose-600 flex items-center justify-center"
+                        className="w-9 h-9 rounded-xl hover:bg-rose-50 text-[#8692A3] hover:text-rose-600 flex items-center justify-center"
                         title="Hapus Kategori"
                       >
                         <Trash2 size={14} />
@@ -1092,13 +1091,13 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 4: DISCOUNTS */}
         {activeTab === 'discounts' && (
-          <div className="bg-white rounded-3xl p-4 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Kupon &amp; Voucher Promo
                 </h3>
-                <p className="text-xs text-slate-500">Buat kode potongan untuk laptop, RAM, SSD, dan peripheral.</p>
+                <p className="text-xs text-[#647082]">Buat kode potongan untuk laptop, RAM, SSD, dan peripheral.</p>
               </div>
               <button onClick={() => setShowAddDiscountModal(true)} className="tc-btn-primary">
                 <Plus size={15} />
@@ -1109,7 +1108,7 @@ export default function AdminDashboard({ onBackToShop }) {
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <table className="w-full text-left text-xs min-w-[600px]">
                 <thead>
-                  <tr className="bg-[#F8FAFC] border-y border-slate-200 text-slate-500 uppercase tracking-wider text-[10px]">
+                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
                     <th className="py-3 pl-3">Kode</th>
                     <th className="py-3">Promo</th>
                     <th className="py-3">Potongan</th>
@@ -1118,19 +1117,19 @@ export default function AdminDashboard({ onBackToShop }) {
                     <th className="py-3 pr-3 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#ECEFF4]">
                   {discounts.map((d) => (
-                    <tr key={d.id} className="hover:bg-[#F8FAFC]">
-                      <td className="py-3.5 pl-3 font-mono font-bold text-[#0B5FFF]">{d.kode}</td>
-                      <td className="py-3.5 text-slate-700 font-medium">{d.nama}</td>
-                      <td className="py-3.5 font-bold text-[#0B1220] tabular-nums">
+                    <tr key={d.id} className="hover:bg-[#F7F8FA]">
+                      <td className="py-3.5 pl-3 font-mono font-bold text-[#1D2129]">{d.kode}</td>
+                      <td className="py-3.5 text-[#323846] font-medium">{d.nama}</td>
+                      <td className="py-3.5 font-bold text-[#1D2129] tabular-nums">
                         {d.tipe === 'persen' ? `${d.nilai}%` : formatIDR(d.nilai)}
                       </td>
-                      <td className="py-3.5 text-slate-600 tabular-nums">{formatIDR(d.minBelanja)}</td>
+                      <td className="py-3.5 text-[#4F627A] tabular-nums">{formatIDR(d.minBelanja)}</td>
                       <td className="py-3.5">
                         <span
                           className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${
-                            d.aktif ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-400'
+                            d.aktif ? 'bg-emerald-50 text-emerald-700' : 'bg-[#ECEFF4] text-[#8692A3]'
                           }`}
                         >
                           {d.aktif ? 'Aktif' : 'Nonaktif'}
@@ -1139,7 +1138,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       <td className="py-3.5 pr-3 text-right">
                         <button
                           onClick={() => handleToggleDiscount(d.id)}
-                          className="text-xs font-semibold text-[#0B5FFF] hover:underline"
+                          className="text-xs font-semibold text-[#1D2129] hover:underline"
                         >
                           {d.aktif ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
@@ -1154,13 +1153,13 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 5: USERS & ROLES */}
         {activeTab === 'users' && (
-          <div className="bg-white rounded-3xl p-4 sm:p-7 border border-slate-200/90 shadow-tc-card space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#0B1220]">
+                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
                   Manajemen Pengguna &amp; Role
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-[#647082]">
                   Kelola hak akses Admin &amp; Buyer, status akun, atau tambah akun tim baru.
                 </p>
               </div>
@@ -1179,7 +1178,7 @@ export default function AdminDashboard({ onBackToShop }) {
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
               <table className="w-full text-left text-xs min-w-[620px]">
                 <thead>
-                  <tr className="bg-[#F8FAFC] border-y border-slate-200 text-slate-500 uppercase tracking-wider text-[10px]">
+                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
                     <th className="py-3 pl-3">Nama &amp; Email</th>
                     <th className="py-3">WhatsApp</th>
                     <th className="py-3">Role</th>
@@ -1187,24 +1186,24 @@ export default function AdminDashboard({ onBackToShop }) {
                     <th className="py-3 pr-3 text-right">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-[#ECEFF4]">
                   {usersList.map((u) => {
                     const isSelf = user && String(user.id) === String(u.id);
                     return (
-                      <tr key={u.id} className="hover:bg-[#F8FAFC]">
+                      <tr key={u.id} className="hover:bg-[#F7F8FA]">
                         <td className="py-3.5 pl-3 pr-3">
-                          <p className="font-bold text-[#0B1220]">
-                            {u.name} {isSelf && <span className="text-[10px] text-[#0B5FFF]">(Anda)</span>}
+                          <p className="font-bold text-[#1D2129]">
+                            {u.name} {isSelf && <span className="text-[10px] text-[#1D2129]">(Anda)</span>}
                           </p>
-                          <p className="text-[11px] text-slate-500">{u.email}</p>
+                          <p className="text-[11px] text-[#647082]">{u.email}</p>
                         </td>
-                        <td className="py-3.5 text-slate-600">{u.phone || '-'}</td>
+                        <td className="py-3.5 text-[#4F627A]">{u.phone || '-'}</td>
                         <td className="py-3.5">
                           <span
                             className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${
                               u.role === 'admin'
-                                ? 'bg-[#0B1220] text-white'
-                                : 'bg-[#EEF4FF] text-[#0B5FFF]'
+                                ? 'bg-[#1D2129] text-white'
+                                : 'bg-[#ECEFF4] text-[#1D2129]'
                             }`}
                           >
                             {u.role}
@@ -1223,18 +1222,18 @@ export default function AdminDashboard({ onBackToShop }) {
                         </td>
                         <td className="py-3.5 pr-3 text-right">
                           {isSelf ? (
-                            <span className="text-[11px] text-slate-400 italic">Sesi aktif</span>
+                            <span className="text-[11px] text-[#8692A3] italic">Sesi aktif</span>
                           ) : (
                             <div className="inline-flex items-center gap-2">
                               <button
                                 onClick={() => handleChangeUserRole(u)}
-                                className="min-h-[36px] px-3 rounded-xl bg-[#EEF4FF] hover:bg-[#0B5FFF] text-[#0B5FFF] hover:text-white text-[11px] font-bold transition-colors"
+                                className="min-h-[36px] px-3 rounded-xl bg-[#ECEFF4] hover:bg-[#1D2129] text-[#1D2129] hover:text-white text-[11px] font-bold transition-colors"
                               >
                                 Jadikan {u.role === 'admin' ? 'Buyer' : 'Admin'}
                               </button>
                               <button
                                 onClick={() => handleToggleUserActive(u)}
-                                className="text-[11px] font-semibold text-slate-500 hover:text-rose-600 underline"
+                                className="text-[11px] font-semibold text-[#647082] hover:text-rose-600 underline"
                               >
                                 {u.isActive !== false ? 'Nonaktifkan' : 'Aktifkan'}
                               </button>
@@ -1259,44 +1258,44 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setPreviewProofModal(null)}
-                className="absolute inset-0 bg-[#0B1220]/70 backdrop-blur-xs"
+                className="absolute inset-0 bg-[#1D2129]/70 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-tc-float border border-slate-200 z-10 space-y-4"
+                className="relative bg-white rounded-[24px] max-w-md w-full p-6 shadow-tc-lift border border-[#E2E7EE] z-10 space-y-4"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">
                     Bukti Bayar #{previewProofModal.nomorPesanan}
                   </h3>
                   <button
                     onClick={() => setPreviewProofModal(null)}
                     aria-label="Tutup preview bukti pembayaran"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
                 </div>
-                <div className="bg-[#F4F6FA] rounded-2xl p-3 border border-slate-200 text-center">
+                <div className="bg-[#F7F8FA] rounded-[20px] p-3 border border-[#E2E7EE] text-center">
                   <img
                     src={previewProofModal.paymentProofUrl}
                     alt="Bukti Pembayaran"
                     className="max-h-72 mx-auto rounded-xl object-contain"
                   />
                 </div>
-                <div className="text-xs text-slate-600 space-y-1">
+                <div className="text-xs text-[#4F627A] space-y-1">
                   <p>
-                    <strong className="text-[#0B1220]">Total Tagihan:</strong>{' '}
+                    <strong className="text-[#1D2129]">Total Tagihan:</strong>{' '}
                     {formatIDR(previewProofModal.total)}
                   </p>
                   <p>
-                    <strong className="text-[#0B1220]">Metode:</strong> {previewProofModal.metodeBayar}
+                    <strong className="text-[#1D2129]">Metode:</strong> {previewProofModal.metodeBayar}
                   </p>
                   {previewProofModal.paymentNotes && (
                     <p>
-                      <strong className="text-[#0B1220]">Catatan Pembeli:</strong>{' '}
+                      <strong className="text-[#1D2129]">Catatan Pembeli:</strong>{' '}
                       {previewProofModal.paymentNotes}
                     </p>
                   )}
@@ -1337,25 +1336,25 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setTrackingModalOrder(null)}
-                className="fixed inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="fixed inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-tc-float z-10 space-y-4 my-8 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-md w-full p-6 shadow-tc-lift z-10 space-y-4 my-8 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
                   <div className="flex items-center gap-2">
-                    <MapPin size={17} className="text-[#0B5FFF]" />
-                    <h3 className="font-display text-lg font-bold text-[#0B1220]">
+                    <MapPin size={17} className="text-[#1D2129]" />
+                    <h3 className="font-display text-lg font-bold text-[#1D2129]">
                       Update Status #{trackingModalOrder.nomorPesanan}
                     </h3>
                   </div>
                   <button
                     onClick={() => setTrackingModalOrder(null)}
                     aria-label="Tutup modal status"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
@@ -1363,7 +1362,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                 <form onSubmit={handleSaveTracking} className="space-y-3.5 text-xs">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Tahap Status Pesanan</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Tahap Status Pesanan</label>
                     <select
                       value={trackStatusKey}
                       onChange={(e) => setTrackStatusKey(e.target.value)}
@@ -1380,7 +1379,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">
+                    <label className="block font-semibold text-[#323846] mb-1">
                       Nomor Resi Ekspedisi (JNE / J&amp;T / SiCepat)
                     </label>
                     <input
@@ -1393,7 +1392,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Lokasi Checkpoint</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Lokasi Checkpoint</label>
                     <input
                       type="text"
                       value={trackLocation}
@@ -1404,7 +1403,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Catatan (Opsional)</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Catatan (Opsional)</label>
                     <textarea
                       rows={2}
                       value={trackNote}
@@ -1432,22 +1431,22 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowAddProductModal(false)}
-                className="fixed inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="fixed inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-lg w-full p-6 shadow-tc-float z-10 space-y-4 my-8 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-lg w-full p-6 shadow-tc-lift z-10 space-y-4 my-8 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">
                     Tambah Produk IT (&lt; 10 Juta)
                   </h3>
                   <button
                     onClick={() => setShowAddProductModal(false)}
                     aria-label="Tutup modal tambah produk"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
@@ -1456,7 +1455,7 @@ export default function AdminDashboard({ onBackToShop }) {
                 <form onSubmit={handleCreateProduct} className="space-y-3 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Nama Produk *</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Nama Produk *</label>
                       <input
                         type="text"
                         required
@@ -1467,7 +1466,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Brand</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Brand</label>
                       <input
                         type="text"
                         value={newProdBrand}
@@ -1480,7 +1479,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Kategori</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Kategori</label>
                       <select
                         value={newProdCategory}
                         onChange={(e) => setNewProdCategory(e.target.value)}
@@ -1494,7 +1493,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       </select>
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Kondisi / Grade</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Kondisi / Grade</label>
                       <input
                         type="text"
                         value={newProdKondisi}
@@ -1506,7 +1505,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Harga (Rp) *</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Harga (Rp) *</label>
                       <input
                         type="number"
                         required
@@ -1519,7 +1518,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Harga Coret</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Harga Coret</label>
                       <input
                         type="number"
                         value={newProdOriginalPrice}
@@ -1529,7 +1528,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Stok</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Stok</label>
                       <input
                         type="number"
                         min={0}
@@ -1539,7 +1538,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Berat (g)</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Berat (g)</label>
                       <input
                         type="number"
                         min={50}
@@ -1551,7 +1550,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Pilih Foto Produk</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Pilih Foto Produk</label>
                     <select
                       value={newProdImagePreset}
                       onChange={(e) => setNewProdImagePreset(e.target.value)}
@@ -1566,7 +1565,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Deskripsi &amp; QC</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Deskripsi &amp; QC</label>
                     <textarea
                       rows={2}
                       value={newProdDeskripsi}
@@ -1594,20 +1593,20 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setEditingProduct(null)}
-                className="fixed inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="fixed inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-lg w-full p-6 shadow-tc-float z-10 space-y-4 my-8 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-lg w-full p-6 shadow-tc-lift z-10 space-y-4 my-8 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">Edit Produk Lengkap</h3>
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">Edit Produk Lengkap</h3>
                   <button
                     onClick={() => setEditingProduct(null)}
                     aria-label="Tutup modal edit produk"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
@@ -1616,7 +1615,7 @@ export default function AdminDashboard({ onBackToShop }) {
                 <form onSubmit={handleSaveEdit} className="space-y-3 text-xs">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Nama Produk</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Nama Produk</label>
                       <input
                         type="text"
                         required
@@ -1626,7 +1625,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Brand</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Brand</label>
                       <input
                         type="text"
                         value={editBrand}
@@ -1638,7 +1637,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Kategori</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Kategori</label>
                       <select
                         value={editCategory}
                         onChange={(e) => setEditCategory(e.target.value)}
@@ -1652,7 +1651,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       </select>
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Kondisi</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Kondisi</label>
                       <input
                         type="text"
                         value={editKondisi}
@@ -1664,7 +1663,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                   <div className="grid grid-cols-3 gap-2.5">
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Harga (Rp)</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Harga (Rp)</label>
                       <input
                         type="number"
                         min={1000}
@@ -1675,7 +1674,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Stok Unit</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Stok Unit</label>
                       <input
                         type="number"
                         min={0}
@@ -1685,7 +1684,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                     </div>
                     <div>
-                      <label className="block font-semibold text-slate-700 mb-1">Berat (g)</label>
+                      <label className="block font-semibold text-[#323846] mb-1">Berat (g)</label>
                       <input
                         type="number"
                         min={50}
@@ -1697,7 +1696,7 @@ export default function AdminDashboard({ onBackToShop }) {
                   </div>
 
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Deskripsi</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Deskripsi</label>
                     <textarea
                       rows={2}
                       value={editDeskripsi}
@@ -1725,22 +1724,22 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowCategoryModal(false)}
-                className="absolute inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="absolute inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-tc-float z-10 space-y-4 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-md w-full p-6 shadow-tc-lift z-10 space-y-4 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">
                     {editingCategory ? 'Edit Kategori' : 'Tambah Kategori Baru'}
                   </h3>
                   <button
                     onClick={() => setShowCategoryModal(false)}
                     aria-label="Tutup modal kategori"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
@@ -1748,7 +1747,7 @@ export default function AdminDashboard({ onBackToShop }) {
 
                 <form onSubmit={handleSaveCategory} className="space-y-3 text-xs">
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Nama Kategori *</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Nama Kategori *</label>
                     <input
                       type="text"
                       required
@@ -1759,7 +1758,7 @@ export default function AdminDashboard({ onBackToShop }) {
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Tagline Singkat</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Tagline Singkat</label>
                     <input
                       type="text"
                       value={catTagline}
@@ -1769,7 +1768,7 @@ export default function AdminDashboard({ onBackToShop }) {
                     />
                   </div>
                   <div>
-                    <label className="block font-semibold text-slate-700 mb-1">Foto Kategori</label>
+                    <label className="block font-semibold text-[#323846] mb-1">Foto Kategori</label>
                     <select
                       value={catImage}
                       onChange={(e) => setCatImage(e.target.value)}
@@ -1800,20 +1799,20 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowAddDiscountModal(false)}
-                className="absolute inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="absolute inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-tc-float z-10 space-y-4 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-md w-full p-6 shadow-tc-lift z-10 space-y-4 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">Buat Kupon Promo</h3>
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">Buat Kupon Promo</h3>
                   <button
                     onClick={() => setShowAddDiscountModal(false)}
                     aria-label="Tutup modal kupon"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>
@@ -1889,20 +1888,20 @@ export default function AdminDashboard({ onBackToShop }) {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowAddUserModal(false)}
-                className="absolute inset-0 bg-[#0B1220]/60 backdrop-blur-xs"
+                className="absolute inset-0 bg-[#1D2129]/60 backdrop-blur-xs"
               />
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-tc-float z-10 space-y-4 border border-slate-200"
+                className="relative bg-white rounded-[24px] max-w-md w-full p-6 shadow-tc-lift z-10 space-y-4 border border-[#E2E7EE]"
               >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">Tambah Pengguna Baru</h3>
+                <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">Tambah Pengguna Baru</h3>
                   <button
                     onClick={() => setShowAddUserModal(false)}
                     aria-label="Tutup modal pengguna"
-                    className="w-9 h-9 rounded-xl text-slate-400 hover:text-slate-900 hover:bg-slate-100 flex items-center justify-center"
+                    className="w-9 h-9 rounded-xl text-[#8692A3] hover:text-[#1D2129] hover:bg-[#ECEFF4] flex items-center justify-center"
                   >
                     <X size={18} />
                   </button>

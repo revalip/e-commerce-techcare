@@ -27,19 +27,18 @@ export default function LearnPage({ onExploreShop }) {
   ];
 
   return (
-    <div className="bg-[#F4F6FA] min-h-screen py-6 sm:py-12">
+    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-12">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <Reveal>
-          <div className="bg-gradient-to-r from-[#0B1220] to-[#112447] text-white rounded-3xl p-6 sm:p-10 text-center space-y-3 border border-slate-800 relative overflow-hidden">
-            <div className="absolute inset-0 tc-tech-grid opacity-40 pointer-events-none" />
+          <div className="bg-[#1D2129] text-white rounded-[24px] p-6 sm:p-10 text-center space-y-3 border border-[#23272F] relative overflow-hidden">
             <div className="relative z-10 max-w-2xl mx-auto space-y-3">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#0B5FFF]/25 border border-[#38BDF8]/30 text-[11px] uppercase tracking-wider font-bold text-sky-200">
+              <span className="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] uppercase tracking-wider font-bold text-[#BAC4D2]">
                 TECHCARE QC LAB &amp; EDUKASI
               </span>
               <h1 className="font-display text-2xl sm:text-4xl font-bold text-white">
                 Panduan Cerdas Beli Hardware &amp; Upgrade Spec
               </h1>
-              <p className="text-xs sm:text-sm text-slate-300">
+              <p className="text-xs sm:text-sm text-[#BAC4D2]">
                 Pahami standar pengecekan 32 titik teknisi kami dan cara memilih kombinasi RAM serta SSD yang paling pas untuk kebutuhan Anda.
               </p>
             </div>
@@ -51,12 +50,12 @@ export default function LearnPage({ onExploreShop }) {
             const Icon = t.icon;
             return (
               <Reveal key={idx} delay={idx * 0.05}>
-                <div className="bg-white p-6 rounded-2xl border border-slate-200/90 hover:border-[#0B5FFF] shadow-tc-card space-y-3 h-full transition-colors">
-                  <div className="w-11 h-11 rounded-xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center">
+                <div className="bg-white p-6 rounded-[20px] border border-[#E2E7EE]/90 hover:border-[#1D2129] shadow-tc-studio space-y-3 h-full transition-colors">
+                  <div className="w-11 h-11 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
                     <Icon size={20} />
                   </div>
-                  <h3 className="font-display text-lg font-bold text-[#0B1220]">{t.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{t.desc}</p>
+                  <h3 className="font-display text-lg font-bold text-[#1D2129]">{t.title}</h3>
+                  <p className="text-xs sm:text-sm text-[#4F627A] leading-relaxed">{t.desc}</p>
                 </div>
               </Reveal>
             );

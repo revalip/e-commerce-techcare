@@ -84,22 +84,21 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
   };
 
   return (
-    <div className="bg-[#F4F6FA] min-h-screen py-6 sm:py-10">
+    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Navy Header + Tracking Search */}
         <Reveal>
-          <div className="bg-gradient-to-r from-[#0B1220] to-[#12264A] text-white rounded-3xl p-5 sm:p-8 border border-slate-800 space-y-5 relative overflow-hidden shadow-tc-float">
-            <div className="absolute inset-0 tc-tech-grid opacity-40 pointer-events-none" />
+          <div className="bg-[#1D2129] text-white rounded-[24px] p-5 sm:p-8 border border-[#23272F] space-y-5 relative overflow-hidden shadow-tc-lift">
             <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
               <div>
-                <span className="text-[11px] uppercase tracking-wider font-bold text-[#38BDF8] block mb-1">
+                <span className="text-[11px] uppercase tracking-wider font-bold text-[#9BB0C9] block mb-1">
                   PELACAKAN PESANAN &amp; RESI REAL-TIME
                 </span>
                 <h1 className="font-display text-2xl sm:text-4xl font-bold text-white">
                   Lacak &amp; Riwayat Pesanan
                 </h1>
               </div>
-              <p className="text-xs text-slate-300">
+              <p className="text-xs text-[#BAC4D2]">
                 {isBuyer
                   ? `Akun: ${user?.email}`
                   : isAdmin
@@ -110,7 +109,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
 
             <form onSubmit={handleQuickTrackSubmit} className="relative z-10 flex flex-col sm:flex-row gap-2.5">
               <div className="relative flex-1">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8692A3]" />
                 <input
                   type="text"
                   placeholder="No. Invoice (mis. TC-261117-9102) atau No. Resi (JNE...)"
@@ -119,7 +118,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                     setSearchQuery(e.target.value);
                     setTrackError('');
                   }}
-                  className="w-full min-h-[46px] pl-11 pr-4 py-2.5 bg-white text-slate-900 rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-[#38BDF8]"
+                  className="w-full min-h-[46px] pl-11 pr-4 py-2.5 bg-white text-[#1D2129] rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-[#9BB0C9]"
                 />
               </div>
               <button type="submit" className="tc-btn-primary px-6 shrink-0">
@@ -136,14 +135,14 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
             )}
 
             {orders.length > 0 && (
-              <div className="relative z-10 flex items-center gap-2 flex-wrap text-[11px] text-slate-300">
+              <div className="relative z-10 flex items-center gap-2 flex-wrap text-[11px] text-[#BAC4D2]">
                 <span>Coba cepat:</span>
                 {orders.slice(0, 3).map((o) => (
                   <button
                     key={o.id}
                     type="button"
                     onClick={() => onSelectOrder(o.nomorPesanan)}
-                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-[#0B5FFF] border border-white/15 font-mono text-[11px] font-semibold text-white transition-colors"
+                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-[#1D2129] border border-white/15 font-mono text-[11px] font-semibold text-white transition-colors"
                   >
                     {o.nomorPesanan}
                   </button>
@@ -161,8 +160,8 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
               onClick={() => setStatusFilter(tab.key)}
               className={`px-4 min-h-[40px] rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                 statusFilter === tab.key
-                  ? 'bg-[#0B5FFF] text-white shadow-tc-primary'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:border-[#0B5FFF] hover:text-[#0B5FFF]'
+                  ? 'bg-[#1D2129] text-white'
+                  : 'bg-white border border-[#E2E7EE] text-[#4F627A] hover:border-[#1D2129] hover:text-[#1D2129]'
               }`}
             >
               {tab.label}
@@ -173,7 +172,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
         {/* Orders List */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-slate-600">
+            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-[#4F627A]">
               Daftar Pesanan ({filteredOrders.length})
             </h2>
           </div>
@@ -181,19 +180,19 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
           {loading ? (
             <div className="space-y-3">
               {[1, 2].map((n) => (
-                <div key={n} className="bg-white rounded-2xl p-5 border border-slate-200 space-y-3">
+                <div key={n} className="bg-white rounded-[20px] p-5 border border-[#E2E7EE] space-y-3">
                   <div className="h-4 w-44 rounded tc-skeleton" />
                   <div className="h-16 w-full rounded-xl tc-skeleton" />
                 </div>
               ))}
             </div>
           ) : filteredOrders.length === 0 ? (
-            <div className="bg-white rounded-2xl p-10 sm:p-14 text-center border border-slate-200 shadow-tc-card space-y-3">
-              <div className="w-14 h-14 rounded-2xl bg-[#EEF4FF] text-[#0B5FFF] flex items-center justify-center mx-auto">
+            <div className="bg-white rounded-[20px] p-10 sm:p-14 text-center border border-[#E2E7EE] shadow-tc-studio space-y-3">
+              <div className="w-14 h-14 rounded-[20px] bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center mx-auto">
                 <Package size={26} />
               </div>
-              <p className="font-display text-lg font-bold text-[#0B1220]">Pesanan Tidak Ditemukan</p>
-              <p className="text-xs text-slate-500">
+              <p className="font-display text-lg font-bold text-[#1D2129]">Pesanan Tidak Ditemukan</p>
+              <p className="text-xs text-[#647082]">
                 Belum ada pesanan yang sesuai filter atau kata kunci pencarian Anda.
               </p>
               <button onClick={onBackToShop} className="tc-btn-primary">
@@ -211,11 +210,11 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                   <Reveal key={ord.id} delay={idx * 0.03}>
                     <div
                       onClick={() => onSelectOrder(ord.nomorPesanan)}
-                      className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 hover:border-[#0B5FFF] shadow-tc-card hover:shadow-tc-hover transition-all cursor-pointer space-y-4"
+                      className="bg-white rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 hover:border-[#1D2129] shadow-tc-studio hover:shadow-tc-lift transition-all cursor-pointer space-y-4"
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-sm font-bold text-[#0B5FFF]">
+                          <span className="font-mono text-sm font-bold text-[#1D2129]">
                             #{ord.nomorPesanan}
                           </span>
                           <span
@@ -224,18 +223,18 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                             {ord.status || badge.label}
                           </span>
                           {ord.resi && (
-                            <span className="text-[11px] font-mono text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-lg">
+                            <span className="text-[11px] font-mono text-[#4F627A] bg-[#ECEFF4] px-2.5 py-0.5 rounded-lg">
                               Resi: {ord.resi}
                             </span>
                           )}
                         </div>
-                        <span className="text-xs text-slate-400">{formatDate(ord.tanggal)}</span>
+                        <span className="text-xs text-[#8692A3]">{formatDate(ord.tanggal)}</span>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-slate-100">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-[#ECEFF4]">
                         <div className="flex items-center gap-3.5 min-w-0">
                           {firstItem && (
-                            <div className="w-14 h-14 rounded-xl bg-[#EEF2F7] p-1.5 flex items-center justify-center shrink-0">
+                            <div className="w-14 h-14 rounded-xl bg-[#ECEFF4] p-1.5 flex items-center justify-center shrink-0">
                               <img
                                 src={firstItem.gambar || '/images/products/thinkpad-x1-carbon-front.jpg'}
                                 alt={firstItem.nama}
@@ -244,12 +243,12 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                             </div>
                           )}
                           <div className="min-w-0 space-y-0.5">
-                            <p className="font-display text-sm font-bold text-[#0B1220] truncate">
+                            <p className="font-display text-sm font-bold text-[#1D2129] truncate">
                               {firstItem?.nama || 'Perangkat IT TECHCARE'}
                               {ord.items.length > 1 && ` (+${ord.items.length - 1} lainnya)`}
                             </p>
                             {firstItem?.specLabel && (
-                              <p className="text-[11px] text-slate-500 truncate">{firstItem.specLabel}</p>
+                              <p className="text-[11px] text-[#647082] truncate">{firstItem.specLabel}</p>
                             )}
                             {latestTrack && (
                               <p className="text-[11px] text-emerald-700 font-medium flex items-center gap-1 pt-0.5 truncate">
@@ -264,15 +263,15 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
 
                         <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0 shrink-0">
                           <div className="sm:text-right">
-                            <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                            <span className="text-[10px] text-[#8692A3] uppercase font-bold block">
                               Total Belanja
                             </span>
-                            <span className="font-display text-base font-bold text-[#0B1220] tabular-nums">
+                            <span className="font-display text-base font-bold text-[#1D2129] tabular-nums">
                               {formatIDR(ord.total)}
                             </span>
                           </div>
 
-                          <span className="min-h-[40px] px-4 bg-[#EEF4FF] text-[#0B5FFF] border border-[#C7DCFF] rounded-xl text-xs font-bold inline-flex items-center gap-1.5">
+                          <span className="min-h-[40px] px-4 bg-[#ECEFF4] text-[#1D2129] border border-[#D4DBE5] rounded-xl text-xs font-bold inline-flex items-center gap-1.5">
                             <span>Detail</span>
                             <ArrowRight size={14} />
                           </span>
