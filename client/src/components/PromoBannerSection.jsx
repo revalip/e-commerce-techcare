@@ -16,16 +16,16 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
   };
 
   return (
-    <section className="bg-[#F2F1EC] py-14 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+    <section className="bg-white py-16 sm:py-24 border-b border-[#E2E7EE]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <Reveal>
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-5 border-b border-[#111111]">
-            <div>
-              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#6E6D68] block mb-2">
-                [ 03 // KUPON AKTIF CHECKOUT ]
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-2">
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#647082] block">
+                03 / Kupon Checkout Aktif
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-[-0.04em] text-[#111111] leading-[0.96]">
-                VOUCHER TOKO
+              <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-[-0.04em] text-[#1D2129] leading-[1.02]">
+                Potongan langsung.
               </h2>
             </div>
 
@@ -40,7 +40,7 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
           {activeDiscounts.map((d, idx) => {
             const isCopied = copiedCode === d.kode;
             const bigValue =
@@ -48,38 +48,34 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
 
             return (
               <Reveal key={d.id} delay={idx * 0.05}>
-                <div className="bg-[#FAF9F6] rounded-[2px] border border-[#D6D4CC] hover:border-[#111111] transition-colors flex flex-col justify-between h-full">
-                  <div className="p-5 space-y-3">
-                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[#6E6D68]">
-                      <span>VOUCHER_0{idx + 1}</span>
-                      <span className="tabular-nums">MIN. {formatIDR(d.minBelanja)}</span>
+                <div className="bg-[#F7F8FA] rounded-[24px] border border-[#E2E7EE] hover:border-[#B8C4D2] transition-all flex flex-col justify-between h-full overflow-hidden">
+                  <div className="p-6 space-y-3">
+                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.06em] text-[#8692A3]">
+                      <span>Voucher 0{idx + 1}</span>
+                      <span className="tabular-nums">Min. {formatIDR(d.minBelanja)}</span>
                     </div>
 
-                    <p
-                      className={`font-display text-3xl sm:text-4xl font-black tracking-[-0.04em] leading-none tabular-nums ${
-                        idx === 0 ? 'text-[#E63B19]' : 'text-[#111111]'
-                      }`}
-                    >
-                      {d.tipe === 'persen' ? `DISKON ${bigValue}` : bigValue}
+                    <p className="font-display text-3xl sm:text-4xl font-semibold tracking-[-0.04em] text-[#1D2129] leading-none tabular-nums">
+                      {d.tipe === 'persen' ? `Diskon ${bigValue}` : bigValue}
                     </p>
 
-                    <h3 className="text-xs sm:text-sm font-semibold text-[#3A3A36] leading-snug">
+                    <h3 className="text-xs sm:text-sm text-[#4F627A] leading-snug">
                       {d.nama}
                     </h3>
                   </div>
 
-                  <div className="px-5 py-3.5 border-t border-dashed border-[#B8B6AE] bg-[#F2F1EC]/60 flex items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold tracking-[0.1em] text-[#111111] bg-[#FAF9F6] px-3 py-2 border border-[#D6D4CC]">
+                  <div className="px-6 py-4 border-t border-[#E2E7EE] bg-white flex items-center justify-between gap-2">
+                    <span className="font-mono text-xs font-semibold tracking-[0.08em] text-[#1D2129] bg-[#F7F8FA] px-3.5 py-2 rounded-full border border-[#E2E7EE]">
                       {d.kode}
                     </span>
 
                     <button
                       type="button"
                       onClick={() => handleCopy(d.kode)}
-                      className={`min-h-[44px] px-4 rounded-[2px] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] inline-flex items-center gap-1.5 transition-colors ${
+                      className={`min-h-[42px] px-4 rounded-full text-xs font-medium inline-flex items-center gap-1.5 transition-colors ${
                         isCopied
                           ? 'bg-emerald-700 text-white'
-                          : 'bg-[#111111] hover:bg-[#E63B19] text-[#F2F1EC]'
+                          : 'bg-[#1D2129] hover:bg-[#323846] text-white'
                       }`}
                     >
                       {isCopied ? <Check size={13} /> : <Copy size={13} />}

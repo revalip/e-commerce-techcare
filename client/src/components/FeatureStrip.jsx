@@ -37,38 +37,40 @@ export default function FeatureStrip({ onNavigateAbout, onNavigateShop }) {
   ];
 
   return (
-    <section className="bg-[#FAF9F6] border-t border-[#D6D4CC] py-14 sm:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 sm:space-y-16">
-        {/* 04 // Numbered Architectural Spec Grid (Shared Hairline Borders) */}
-        <div className="space-y-8">
+    <section className="bg-[#F7F8FA] py-16 sm:py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-14 sm:space-y-18">
+        {/* Clean Numbered Studio Grid */}
+        <div className="space-y-10">
           <Reveal>
-            <div className="pb-5 border-b border-[#111111] flex flex-col sm:flex-row sm:items-end justify-between gap-3">
-              <div>
-                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#6E6D68] block mb-2">
-                  [ 04 // STANDAR OPERASIONAL ]
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+              <div className="space-y-2">
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#647082] block">
+                  04 / Standar Operasional
                 </span>
-                <h2 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-[-0.04em] text-[#111111] leading-[0.96]">
-                  STANDAR TEKNISI
+                <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-[-0.04em] text-[#1D2129] leading-[1.02]">
+                  Standar teknisi.
                 </h2>
               </div>
-              <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6E6D68]">
-                TERVERIFIKASI DI WORKSHOP JAKARTA BARAT
+              <p className="text-xs sm:text-sm text-[#647082]">
+                Terverifikasi langsung di workshop Jakarta Barat.
               </p>
             </div>
           </Reveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border-t border-l border-[#D6D4CC]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {pillars.map((item, idx) => (
               <Reveal key={item.code} delay={idx * 0.03}>
-                <div className="p-5 sm:p-6 border-r border-b border-[#D6D4CC] bg-[#FAF9F6] hover:bg-[#F2F1EC] transition-colors h-full flex flex-col justify-between gap-4">
-                  <span className="font-mono text-xs font-bold text-[#E63B19] tabular-nums">
-                    /{item.code}
+                <div className="p-6 rounded-[24px] bg-white border border-[#E2E7EE] h-full flex flex-col justify-between gap-5">
+                  <span className="font-mono text-xs text-[#8692A3] tabular-nums">
+                    {item.code}
                   </span>
                   <div className="space-y-1.5">
-                    <h3 className="font-display text-base sm:text-lg font-bold uppercase tracking-[-0.02em] text-[#111111]">
+                    <h3 className="font-display text-lg font-medium tracking-[-0.025em] text-[#1D2129]">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-[#6E6D68] leading-relaxed">{item.desc}</p>
+                    <p className="text-xs sm:text-[13px] text-[#647082] leading-relaxed">
+                      {item.desc}
+                    </p>
                   </div>
                 </div>
               </Reveal>
@@ -76,31 +78,28 @@ export default function FeatureStrip({ onNavigateAbout, onNavigateShop }) {
           </div>
         </div>
 
-        {/* Solid Matte Carbon Workshop CTA Band (Zero Gradients/Glow) */}
+        {/* Minimal Matte Charcoal Workshop CTA Card (Zero Gradients / Zero Glow) */}
         <Reveal>
-          <div className="relative bg-[#111111] text-[#F2F1EC] border border-[#2A2A27] p-6 sm:p-10 lg:p-12 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
-            <span aria-hidden="true" className="absolute top-2.5 left-3 font-mono text-xs text-[#6E6D68] select-none">+</span>
-            <span aria-hidden="true" className="absolute top-2.5 right-3 font-mono text-xs text-[#6E6D68] select-none">+</span>
-
+          <div className="bg-[#1D2129] text-white rounded-[28px] p-7 sm:p-11 lg:p-14 flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
-              <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.14em] text-[#E63B19] font-semibold block">
-                WORKSHOP &amp; KONSULTASI TEKNISI
+              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#9BB0C9] block">
+                Workshop &amp; Konsultasi Teknisi
               </span>
-              <h3 className="font-display text-2xl sm:text-4xl font-black uppercase tracking-[-0.03em] text-[#F2F1EC] leading-[1.02]">
-                BUTUH UPGRADE RAM/SSD, REPASTA, ATAU SERVICE LAPTOP?
+              <h3 className="font-display text-2xl sm:text-4xl font-medium tracking-[-0.04em] text-white leading-[1.06]">
+                Butuh upgrade RAM/SSD, repasta, atau service laptop?
               </h3>
-              <p className="text-xs sm:text-sm text-[#A8A69E] leading-relaxed">
-                Selain menjual perangkat IT second bergaransi di bawah Rp 10 juta, teknisi TECHCARE melayani upgrade hardware, cloning OS tanpa hilang data, hingga pembersihan thermal secara transparan.
+              <p className="text-xs sm:text-sm text-[#A5B1C2] leading-relaxed">
+                Selain menyediakan perangkat IT second bergaransi di bawah Rp 10 juta, teknisi TechCare melayani upgrade hardware, cloning OS tanpa hilang data, hingga pembersihan thermal secara transparan.
               </p>
-              <div className="flex flex-wrap gap-2 pt-1 font-mono text-[10px] uppercase tracking-[0.06em] text-[#D6D4CC]">
-                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
-                  GRATIS CEK KERUSAKAN
+              <div className="flex flex-wrap gap-2 pt-1 text-[11px] text-[#CBD3DF]">
+                <span className="px-3 py-1.5 rounded-full bg-white/8 border border-white/12">
+                  Gratis Cek Kerusakan
                 </span>
-                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
-                  GRATIS PASANG RAM/SSD
+                <span className="px-3 py-1.5 rounded-full bg-white/8 border border-white/12">
+                  Gratis Pasang RAM/SSD
                 </span>
-                <span className="px-2.5 py-1 border border-[#2A2A27] bg-[#1C1C1A]">
-                  BISA DITUNGGU DI WORKSHOP
+                <span className="px-3 py-1.5 rounded-full bg-white/8 border border-white/12">
+                  Bisa Ditunggu di Workshop
                 </span>
               </div>
             </div>
@@ -118,7 +117,7 @@ export default function FeatureStrip({ onNavigateAbout, onNavigateShop }) {
                 <button
                   type="button"
                   onClick={onNavigateShop}
-                  className="inline-flex items-center justify-center min-h-[46px] px-6 py-3 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#F2F1EC] border border-[#3A3A36] hover:border-[#F2F1EC] transition-colors"
+                  className="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium text-white border border-white/25 hover:bg-white/10 transition-colors"
                 >
                   Lihat Katalog
                 </button>

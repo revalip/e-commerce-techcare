@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Search } from 'lucide-react';
-import Reveal from './Reveal';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowUpRight, Search, ChevronDown } from 'lucide-react';
+import Laptop3DCanvas from './Laptop3DCanvas';
 
 const BRANDS = [
   'LENOVO THINKPAD',
@@ -24,14 +24,22 @@ export default function HeroSection({
   onSelectCollection
 }) {
   const [heroSearch, setHeroSearch] = useState('');
-  const heroRef = useRef(null);
-  const shouldReduceMotion = useReducedMotion();
+  const stageContainerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start']
+    target: stageContainerRef,
+    offset: ['start start', 'end end']
   });
-  const specimenY = useTransform(scrollYProgress, [0, 1], [0, shouldReduceMotion ? 0 : 28]);
+
+  // Phase 1 (Opening Airform Shot): Giant faded wordmark behind 3D laptop
+  const wordmarkOpacity = useTransform(scrollYProgress, [0, 0.36, 0.52], [1, 0.45, 0]);
+  const wordmarkScale = useTransform(scrollYProgress, [0, 0.52], [1, 1.09]);
+  const introCueOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
+
+  // Phase 2 (Airform Mid-Scroll Reveal): Editorial headline & CTAs appear beside opened 3D laptop
+  const revealOpacity = useTransform(scrollYProgress, [0.42, 0.68], [0, 1]);
+  const revealY = useTransform(scrollYProgress, [0.42, 0.68], [32, 0]);
+  const revealPointer = useTransform(scrollYProgress, (v) => (v > 0.45 ? 'auto' : 'none'));
 
   const quickCategories = [
     { label: 'Semua', slug: '' },
@@ -52,178 +60,128 @@ export default function HeroSection({
   };
 
   return (
-    <section ref={heroRef} className="w-full">
-      {/* 1. Matte Carbon Architectural Hero (Solara + Lightweight Crosshair DNA — ZERO Gradients/Glow) */}
-      <div className="bg-[#111111] text-[#F2F1EC] border-b border-[#2A2A27]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-          <div className="relative border border-[#2A2A27] p-5 sm:p-8 lg:p-12">
-            {/* Subtle Architectural Crosshair Markers (+) */}
-            <span aria-hidden="true" className="absolute -top-[9px] -left-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
-            <span aria-hidden="true" className="absolute -top-[9px] -right-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
-            <span aria-hidden="true" className="absolute -bottom-[9px] -left-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
-            <span aria-hidden="true" className="absolute -bottom-[9px] -right-[5px] font-mono text-xs text-[#6E6D68] select-none">+</span>
+    <section className="w-full bg-[#F7F8FA]">
+      {/* 1. Airform One Scroll-Choreographed 3D Hero Stage */}
+      <div
+        ref={stageContainerRef}
+        className="relative h-[170vh] sm:h-[205vh] lg:h-[225vh] bg-[#F7F8FA]"
+      >
+        <div className="sticky top-16 h-[calc(100vh-4rem)] min-h-[540px] max-h-[860px] w-full overflow-hidden flex items-center justify-center">
+          {/* Layer 1 (Back): Giant Airform-Style Silver-Mist Wordmark behind the 3D Hardware */}
+          <motion.div
+            style={{ opacity: wordmarkOpacity, scale: wordmarkScale }}
+            className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none px-4"
+            aria-hidden="true"
+          >
+            <span className="font-display font-semibold tracking-[-0.055em] leading-none text-[21vw] sm:text-[18vw] lg:text-[16.5vw] tc-airform-wordmark select-none">
+              TechCare
+            </span>
+          </motion.div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-              {/* Left Typographic Centerpiece */}
-              <div className="lg:col-span-7 space-y-5 sm:space-y-6">
-                <Reveal delay={0.03}>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.12em] text-[#A8A69E]">
-                    <span className="inline-flex items-center gap-1.5 text-[#F2F1EC]">
-                      <span className="w-2 h-2 bg-[#E63B19]" />
-                      TECHCARE // 2026
-                    </span>
-                    <span className="text-[#4A4A45]">/</span>
-                    <span>CERTIFIED PRE-OWNED &lt; RP 10 JUTA</span>
-                  </div>
-                </Reveal>
+          {/* Layer 2 (Middle): Real-Time Three.js PBR 3D Laptop Canvas */}
+          <div className="absolute inset-0 z-20 pointer-events-none">
+            <Laptop3DCanvas mode="hero" scrollTargetRef={stageContainerRef} />
+          </div>
 
-                <Reveal delay={0.08}>
-                  <h1 className="font-display text-[36px] sm:text-6xl lg:text-[70px] font-black uppercase tracking-[-0.04em] leading-[0.94] text-[#F2F1EC]">
-                    PERANGKAT IT.
-                    <br />
-                    STANDAR{' '}
-                    <span className="text-[#E63B19]">TEKNISI.</span>
-                  </h1>
-                </Reveal>
+          {/* Layer 3A (Opening Top/Bottom Minimal Cues — fades smoothly on scroll) */}
+          <motion.div
+            style={{ opacity: introCueOpacity }}
+            className="absolute inset-x-0 top-5 sm:top-9 z-30 flex justify-center px-4 pointer-events-none"
+          >
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-[#E2E7EE] font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.1em] text-[#4F627A] shadow-[0_2px_10px_rgba(29,33,41,0.04)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1D2129]" />
+              <span>Certified IT Hardware &lt; Rp 10 Juta</span>
+            </span>
+          </motion.div>
 
-                <Reveal delay={0.14}>
-                  <p className="text-xs sm:text-sm md:text-base text-[#A8A69E] leading-relaxed max-w-xl">
-                    Laptop bisnis ThinkPad, MacBook Air M1, ASUS OLED, monitor MSI &amp; LG, peripheral Logitech &amp; Fantech, hingga upgrade RAM/SSD — seluruh unit melalui 32 titik pengecekan fisik, thermal, dan baterai di workshop kami.
-                  </p>
-                </Reveal>
+          <motion.div
+            style={{ opacity: introCueOpacity }}
+            className="absolute inset-x-0 bottom-20 md:bottom-9 z-30 flex flex-col items-center gap-2.5 px-4"
+          >
+            <div className="flex items-center gap-2.5">
+              <button type="button" onClick={onShopClick} className="tc-btn-primary">
+                <span>Jelajahi Katalog</span>
+                <ArrowUpRight size={15} />
+              </button>
+              <button type="button" onClick={onTrackClick} className="tc-btn-secondary">
+                <span>Lacak Pesanan</span>
+              </button>
+            </div>
+            <span className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-[#647082]">
+              <span>Scroll untuk membuka unit 3D</span>
+              <ChevronDown size={13} className="animate-bounce" />
+            </span>
+          </motion.div>
 
-                <Reveal delay={0.18}>
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
-                    <button
-                      type="button"
-                      onClick={onShopClick}
-                      className="tc-btn-bone"
-                    >
-                      <span>Lihat Katalog</span>
-                      <ArrowUpRight size={15} strokeWidth={2.2} />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={onTrackClick}
-                      className="inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] text-[#F2F1EC] border border-[#3A3A36] hover:border-[#F2F1EC] transition-colors"
-                    >
-                      <span>Lacak Pesanan</span>
-                    </button>
-                  </div>
-                </Reveal>
-
-                {/* Honest Factual Spec Strip (Zero Fabricated Ratings/Sales Counts) */}
-                <Reveal delay={0.22}>
-                  <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-5 border-t border-[#2A2A27] max-w-lg">
-                    <div>
-                      <p className="font-mono text-base sm:text-xl font-bold text-[#F2F1EC] tabular-nums">
-                        13 UNIT
-                      </p>
-                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
-                        Katalog Terkurasi
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-mono text-base sm:text-xl font-bold text-[#F2F1EC] tabular-nums">
-                        32 TITIK
-                      </p>
-                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
-                        Cek QC Teknisi
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-mono text-base sm:text-xl font-bold text-[#E63B19] tabular-nums">
-                        30–90 HR
-                      </p>
-                      <p className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.08em] text-[#8A8880] mt-0.5">
-                        Garansi Toko
-                      </p>
-                    </div>
-                  </div>
-                </Reveal>
+          {/* Layer 3B (Airform Mid-Scroll Editorial Reveal beside opened 3D Laptop) */}
+          <motion.div
+            style={{ opacity: revealOpacity, y: revealY, pointerEvents: revealPointer }}
+            className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-24 md:pb-12 lg:items-center lg:pb-0"
+          >
+            <div className="w-full lg:w-[46%] bg-[#F7F8FA]/85 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-none p-5 sm:p-6 lg:p-0 rounded-3xl lg:rounded-none border border-[#E2E7EE] lg:border-0 space-y-4 sm:space-y-5">
+              <div className="space-y-2">
+                <h1 className="font-display text-4xl sm:text-5xl lg:text-[58px] font-medium tracking-[-0.045em] leading-[1.02] text-[#1D2129]">
+                  TechCare{' '}
+                  <span className="font-light text-[#8F9FB3]">Studio</span>
+                </h1>
+                <p className="text-sm sm:text-base lg:text-lg text-[#4F627A] leading-relaxed max-w-md">
+                  Laptop bisnis ThinkPad, MacBook Air M1, ASUS OLED, monitor &amp; upgrade RAM/SSD — seluruh unit lulus 32 titik QC teknisi.
+                </p>
               </div>
 
-              {/* Right Hardware Specimen Plate (Lightweight Desktop Scroll Parallax) */}
-              <motion.div
-                style={{ y: specimenY }}
-                className="lg:col-span-5"
-              >
-                <div
-                  onClick={onShopClick}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => e.key === 'Enter' && onShopClick()}
-                  className="bg-[#1C1C1A] border border-[#2A2A27] hover:border-[#6E6D68] transition-colors cursor-pointer group"
-                >
-                  {/* Specimen Header */}
-                  <div className="px-4 py-2.5 border-b border-[#2A2A27] flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.08em]">
-                    <span className="text-[#F2F1EC]">TC_01 // FLAGSHIP UNIT</span>
-                    <span className="text-[#E63B19] font-semibold">GRADE A+ • 97%</span>
-                  </div>
+              <div className="flex flex-wrap items-center gap-2.5 pt-1">
+                <button type="button" onClick={onShopClick} className="tc-btn-primary">
+                  <span>Lihat Katalog</span>
+                  <ArrowUpRight size={15} />
+                </button>
+                <button type="button" onClick={onTrackClick} className="tc-btn-secondary">
+                  <span>Lacak Pesanan</span>
+                </button>
+              </div>
 
-                  {/* Full-Bleed Hardware Studio Plate */}
-                  <div className="bg-[#E7E5DE] aspect-[16/10] w-full flex items-center justify-center overflow-hidden">
-                    <img
-                      src="/images/products/thinkpad-x1-carbon-front.jpg"
-                      alt="Lenovo ThinkPad X1 Carbon Gen 9 TECHCARE"
-                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-
-                  {/* Specimen Technical Spec Sheet */}
-                  <div className="p-4 sm:p-5 space-y-3">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="min-w-0">
-                        <p className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#8A8880]">
-                          LENOVO THINKPAD
-                        </p>
-                        <p className="font-display text-base sm:text-lg font-bold text-[#F2F1EC] leading-snug">
-                          X1 Carbon Gen 9
-                        </p>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className="font-mono text-[10px] text-[#787771] line-through block tabular-nums">
-                          Rp 9.500.000
-                        </span>
-                        <span className="font-mono text-sm sm:text-base font-bold text-[#F2F1EC] tabular-nums">
-                          Rp 7.850.000
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="pt-3 border-t border-[#2A2A27] flex flex-wrap items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.06em] text-[#A8A69E]">
-                      <span>RAM 8–32GB / SSD 256GB–1TB</span>
-                      <span className="text-[#F2F1EC] inline-flex items-center gap-1 group-hover:text-[#E63B19] transition-colors">
-                        <span>DETAIL</span>
-                        <ArrowUpRight size={12} />
-                      </span>
-                    </div>
-                  </div>
+              {/* Honest Factual Spec Row (Zero Fabricated Numbers) */}
+              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#E2E7EE] max-w-sm">
+                <div>
+                  <p className="font-display text-lg sm:text-xl font-semibold text-[#1D2129] tabular-nums">
+                    13 Unit
+                  </p>
+                  <p className="text-[11px] text-[#647082]">Ready Stock</p>
                 </div>
-              </motion.div>
+                <div>
+                  <p className="font-display text-lg sm:text-xl font-semibold text-[#1D2129] tabular-nums">
+                    32 Titik
+                  </p>
+                  <p className="text-[11px] text-[#647082]">Inspeksi QC</p>
+                </div>
+                <div>
+                  <p className="font-display text-lg sm:text-xl font-semibold text-[#1D2129] tabular-nums">
+                    30–90 Hr
+                  </p>
+                  <p className="text-[11px] text-[#647082]">Garansi Toko</p>
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* 2. Lightweight CSS-Only Infinite Brand Marquee */}
-      <div className="bg-[#E7E5DE] border-b border-[#D6D4CC] py-3 overflow-hidden tc-marquee-wrap">
-        <div className="tc-marquee-track font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-[#3A3A36]">
+      {/* 2. Subtle Studio Brand Marquee */}
+      <div className="bg-white border-y border-[#E2E7EE] py-3.5 overflow-hidden tc-marquee-wrap">
+        <div className="tc-marquee-track font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-[#647082]">
           {[...BRANDS, ...BRANDS].map((brand, i) => (
             <span key={`${brand}-${i}`} className="inline-flex items-center whitespace-nowrap">
-              <span className="px-5 sm:px-7">{brand}</span>
-              <span className="w-1.5 h-1.5 bg-[#E63B19] inline-block" aria-hidden="true" />
+              <span className="px-6 sm:px-8">{brand}</span>
+              <span className="w-1 h-1 rounded-full bg-[#BAC4D2] inline-block" aria-hidden="true" />
             </span>
           ))}
         </div>
       </div>
 
-      {/* 3. Dimwit-Style Hairline Search & Quick Category Index Bar */}
-      <div className="bg-[#F2F1EC] border-b border-[#D6D4CC]">
+      {/* 3. Minimal Studio Pill Search & Quick Categories */}
+      <div className="bg-[#F7F8FA] border-b border-[#E2E7EE]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
           <form onSubmit={handleSearchSubmit} className="relative w-full lg:w-96 flex-shrink-0">
-            <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6D68]" />
+            <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8692A3]" />
             <input
               type="text"
               value={heroSearch}
@@ -233,19 +191,19 @@ export default function HeroSection({
             />
             <button
               type="submit"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[34px] px-3.5 rounded-[2px] bg-[#111111] hover:bg-[#E63B19] text-[#F2F1EC] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors"
+              className="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[34px] px-4 rounded-full bg-[#1D2129] hover:bg-[#323846] text-white text-xs font-medium transition-colors"
             >
               Cari
             </button>
           </form>
 
-          <div className="flex items-center gap-4 sm:gap-5 overflow-x-auto pb-0.5 lg:pb-0 no-scrollbar">
+          <div className="flex items-center gap-2 overflow-x-auto pb-0.5 lg:pb-0 no-scrollbar">
             {quickCategories.map((cat) => (
               <button
                 key={cat.label}
                 type="button"
                 onClick={() => onSelectCollection(cat.slug)}
-                className="min-h-[40px] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] text-[#3A3A36] hover:text-[#E63B19] border-b-2 border-transparent hover:border-[#E63B19] whitespace-nowrap transition-colors"
+                className="min-h-[40px] px-4 rounded-full bg-white border border-[#E2E7EE] hover:border-[#1D2129] text-xs font-medium text-[#4F627A] hover:text-[#1D2129] whitespace-nowrap transition-colors"
               >
                 {cat.label}
               </button>

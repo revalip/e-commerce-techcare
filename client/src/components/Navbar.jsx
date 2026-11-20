@@ -14,29 +14,62 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 
+function ScrollProgressRing() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const update = () => {
+      const doc = document.documentElement;
+      const maxScroll = Math.max(doc.scrollHeight - window.innerHeight, 1);
+      setProgress(Math.min(1, Math.max(0, window.scrollY / maxScroll)));
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    return () => window.removeEventListener('scroll', update);
+  }, []);
+
+  const r = 12;
+  const circumference = 2 * Math.PI * r;
+  const dashOffset = circumference * (1 - progress);
+
+  return (
+    <button
+      type="button"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      title="Kembali ke atas"
+      aria-label="Progres scroll — kembali ke atas"
+      className="hidden sm:flex w-10 h-10 rounded-full items-center justify-center hover:bg-[#ECEFF4] transition-colors shrink-0"
+    >
+      <svg width="28" height="28" viewBox="0 0 30 30" className="-rotate-90">
+        <circle
+          cx="15"
+          cy="15"
+          r={r}
+          fill="none"
+          stroke="#DCE2EA"
+          strokeWidth="2"
+        />
+        <circle
+          cx="15"
+          cy="15"
+          r={r}
+          fill="none"
+          stroke="#1D2129"
+          strokeWidth="2"
+          strokeDasharray={circumference}
+          strokeDashoffset={dashOffset}
+          strokeLinecap="round"
+        />
+      </svg>
+    </button>
+  );
+}
+
 export default function Navbar({ onNavigate, currentPage }) {
   const { totalItems, setIsCartOpen, cartBadgeBounce } = useCart();
   const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const { user, isAdmin, isBuyer, isGuest, logout, openAuthModal } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > 140 && currentScrollY > lastScrollY) {
-        setIsVisible(false);
-      } else {
-        setIsVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   const navLinks = [
     { label: 'Beranda', page: 'home' },
@@ -52,182 +85,147 @@ export default function Navbar({ onNavigate, currentPage }) {
   };
 
   return (
-    <motion.header
-      initial={{ y: 0 }}
-      animate={{ y: isVisible ? 0 : -110 }}
-      transition={{ duration: 0.22, ease: 'easeInOut' }}
-      className="sticky top-0 z-40"
-    >
-      {/* Architectural Technical Status Strip */}
-      <div className="bg-[#111111] text-[#D6D4CC] border-b border-[#2A2A27]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-7 flex items-center justify-between gap-3 font-mono text-[10px] tracking-[0.06em] uppercase">
-          <div className="flex items-center gap-3 sm:gap-5 truncate">
-            <span className="inline-flex items-center gap-1.5 truncate text-[#F2F1EC]">
-              <span className="w-1.5 h-1.5 bg-[#E63B19] shrink-0" />
-              <span className="truncate">32 TITIK QC TEKNISI // GARANSI TOKO 30–90 HARI</span>
-            </span>
-            <span className="hidden lg:inline text-[#8A8880] shrink-0">
-              GRATIS ONGKIR JABODETABEK MIN. RP 5 JT
-            </span>
-          </div>
-          <span className="hidden sm:inline text-[#8A8880] shrink-0">
-            JKT_BARAT // MON–SAT 09–20
-          </span>
-        </div>
-      </div>
-
-      {/* Main Hairline Paper Header (Dimwit + Monolith style) */}
-      <div className="bg-[#F2F1EC]/95 backdrop-blur-sm border-b border-[#D6D4CC]">
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
-          {/* Mobile & Tablet Hamburger (< lg) */}
-          <div className="lg:hidden flex items-center shrink-0">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-11 h-11 -ml-1.5 rounded-[2px] flex items-center justify-center text-[#111111] border border-transparent hover:border-[#111111] transition-colors"
-              aria-label="Menu Navigasi"
-            >
-              {mobileMenuOpen ? <X size={20} strokeWidth={2} /> : <Menu size={20} strokeWidth={2} />}
-            </button>
-          </div>
-
-          {/* Typographic Wordmark */}
+    <header className="sticky top-0 z-40 bg-[#F7F8FA]/88 backdrop-blur-md border-b border-[#E2E7EE]/90">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+        {/* Left: Hamburger (< lg) + Minimal Airform Wordmark */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           <button
-            onClick={() => handleLinkClick('home')}
-            className="flex items-baseline gap-2 text-left group shrink-0"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden w-11 h-11 -ml-1.5 rounded-full flex items-center justify-center text-[#1D2129] hover:bg-[#ECEFF4] transition-colors"
+            aria-label="Menu Navigasi"
           >
-            <span className="font-display text-lg sm:text-xl font-black tracking-[-0.04em] uppercase text-[#111111] leading-none flex items-center gap-1.5">
-              <span>TECHCARE</span>
-              <span className="w-2 h-2 bg-[#E63B19] inline-block group-hover:scale-125 transition-transform" />
-            </span>
-            <span className="hidden xl:inline font-mono text-[10px] uppercase tracking-[0.12em] text-[#6E6D68]">
-              / IT HARDWARE
-            </span>
+            {mobileMenuOpen ? <X size={19} strokeWidth={1.9} /> : <Menu size={19} strokeWidth={1.9} />}
           </button>
 
-          {/* Desktop Inline Underlined Nav Links (lg+) */}
-          <nav className="hidden lg:flex items-center gap-6" aria-label="Navigasi Utama">
-            {navLinks.map((item) => {
-              const isActive =
-                currentPage === item.page ||
-                (item.page === 'shop' && currentPage === 'product-detail') ||
-                (item.page === 'orders' && currentPage === 'order-detail');
-              return (
-                <button
-                  key={item.page}
-                  onClick={() => handleLinkClick(item.page)}
-                  className={`relative py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] whitespace-nowrap transition-colors ${
-                    isActive
-                      ? 'text-[#111111]'
-                      : 'text-[#6E6D68] hover:text-[#111111]'
-                  }`}
-                >
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-[#E63B19]" />
-                  )}
-                </button>
-              );
-            })}
-          </nav>
+          <button
+            onClick={() => handleLinkClick('home')}
+            className="flex items-center gap-2 text-left group shrink-0"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1D2129] group-hover:scale-110 transition-transform" />
+            <span className="font-display text-base sm:text-lg font-semibold tracking-[-0.04em] text-[#1D2129]">
+              TechCare
+            </span>
+          </button>
+        </div>
 
-          {/* Right Controls — Compact & Clip-Free on 360px & 768px */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            {isGuest && (
+        {/* Center: Floating Studio Pill Navigation (Airform One DNA, lg+) */}
+        <nav
+          className="hidden lg:flex items-center gap-1 bg-white border border-[#E2E7EE] rounded-full p-1 shadow-[0_2px_10px_rgba(29,33,41,0.03)]"
+          aria-label="Navigasi Utama"
+        >
+          {navLinks.map((item) => {
+            const isActive =
+              currentPage === item.page ||
+              (item.page === 'shop' && currentPage === 'product-detail') ||
+              (item.page === 'orders' && currentPage === 'order-detail');
+            return (
               <button
-                onClick={() => openAuthModal('login')}
-                className="hidden sm:inline-flex items-center gap-1.5 min-h-[42px] px-3 rounded-[2px] border border-[#D6D4CC] hover:border-[#111111] bg-[#FAF9F6] text-[#111111] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors"
-              >
-                <User size={13} />
-                <span>Masuk</span>
-              </button>
-            )}
-
-            {isBuyer && (
-              <div className="hidden sm:flex items-center border border-[#D6D4CC] bg-[#FAF9F6] rounded-[2px] min-h-[42px] pl-3 pr-1">
-                <button
-                  onClick={() => handleLinkClick('orders')}
-                  className="font-mono text-[11px] font-semibold uppercase text-[#111111] truncate max-w-[90px] lg:max-w-[110px] hover:text-[#E63B19]"
-                  title="Lihat pesanan saya"
-                >
-                  {user?.name || 'Buyer'}
-                </button>
-                <button
-                  onClick={logout}
-                  className="w-8 h-8 ml-1 flex items-center justify-center text-[#6E6D68] hover:text-[#E63B19] transition-colors"
-                  title="Keluar"
-                  aria-label="Keluar"
-                >
-                  <LogOut size={13} />
-                </button>
-              </div>
-            )}
-
-            {isAdmin && (
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={() => handleLinkClick('admin')}
-                  className={`inline-flex items-center justify-center gap-1.5 min-h-[42px] px-2.5 sm:px-3 rounded-[2px] font-mono text-[11px] font-semibold uppercase tracking-[0.08em] transition-colors ${
-                    currentPage === 'admin'
-                      ? 'bg-[#E63B19] text-white'
-                      : 'bg-[#111111] text-[#F2F1EC] hover:bg-[#E63B19]'
-                  }`}
-                  aria-label="Dashboard Admin"
-                >
-                  <LayoutDashboard size={14} />
-                  <span className="hidden sm:inline">Admin</span>
-                </button>
-                <button
-                  onClick={logout}
-                  className="hidden sm:inline-flex w-10 h-[42px] rounded-[2px] border border-[#D6D4CC] hover:border-[#E63B19] items-center justify-center text-[#6E6D68] hover:text-[#E63B19] transition-colors"
-                  title="Keluar dari Admin"
-                  aria-label="Keluar dari Admin"
-                >
-                  <LogOut size={14} />
-                </button>
-              </div>
-            )}
-
-            {/* Wishlist Button (hidden on < sm because Favorit is in Mobile Bottom Nav) */}
-            <button
-              onClick={() => setIsWishlistOpen(true)}
-              className="hidden sm:flex relative w-[42px] h-[42px] rounded-[2px] border border-[#D6D4CC] hover:border-[#111111] bg-[#FAF9F6] text-[#111111] items-center justify-center transition-colors"
-              aria-label="Produk Favorit"
-              title="Favorit Saya"
-            >
-              <Heart
-                size={16}
-                className={wishlistCount > 0 ? 'fill-[#E63B19] text-[#E63B19]' : ''}
-              />
-              {wishlistCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-[#E63B19] text-white font-mono text-[9px] font-bold min-w-[16px] h-4 px-1 flex items-center justify-center tabular-nums">
-                  {wishlistCount}
-                </span>
-              )}
-            </button>
-
-            {/* Dimwit-Inspired 2-Cell Architectural Cart Badge */}
-            <motion.button
-              animate={cartBadgeBounce ? { scale: [1, 1.08, 0.97, 1] } : {}}
-              transition={{ duration: 0.3 }}
-              onClick={() => setIsCartOpen(true)}
-              className="inline-flex items-stretch min-h-[42px] rounded-[2px] border border-[#111111] bg-[#FAF9F6] hover:bg-[#111111] hover:text-[#F2F1EC] text-[#111111] transition-colors overflow-hidden group"
-              aria-label="Buka Keranjang"
-            >
-              <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 font-mono text-[11px] font-semibold uppercase tracking-[0.08em]">
-                <ShoppingBag size={14} strokeWidth={2} />
-                <span className="hidden xs:inline sm:inline">CART</span>
-              </span>
-              <span
-                className={`min-w-[34px] px-2 flex items-center justify-center font-mono text-xs font-bold tabular-nums border-l border-[#111111] transition-colors ${
-                  totalItems > 0
-                    ? 'bg-[#E63B19] text-white'
-                    : 'bg-[#111111] text-[#F2F1EC] group-hover:bg-[#E63B19]'
+                key={item.page}
+                onClick={() => handleLinkClick(item.page)}
+                className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                  isActive
+                    ? 'bg-[#1D2129] text-white'
+                    : 'text-[#647082] hover:text-[#1D2129] hover:bg-[#F7F8FA]'
                 }`}
               >
-                {totalItems}
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+
+        {/* Right Controls — Clean Studio Pills + Scroll Progress Ring */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {isGuest && (
+            <button
+              onClick={() => openAuthModal('login')}
+              className="hidden sm:inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-full text-xs font-medium text-[#4F627A] hover:text-[#1D2129] hover:bg-[#ECEFF4] transition-colors"
+            >
+              <User size={14} />
+              <span>Masuk</span>
+            </button>
+          )}
+
+          {isBuyer && (
+            <div className="hidden sm:flex items-center gap-1 bg-white border border-[#E2E7EE] rounded-full pl-3.5 pr-1 h-[40px]">
+              <button
+                onClick={() => handleLinkClick('orders')}
+                className="text-xs font-medium text-[#1D2129] truncate max-w-[92px] lg:max-w-[115px] hover:text-[#4F627A]"
+                title="Lihat pesanan saya"
+              >
+                {user?.name || 'Buyer'}
+              </button>
+              <button
+                onClick={logout}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#647082] hover:text-[#1D2129] hover:bg-[#F7F8FA] transition-colors"
+                title="Keluar"
+                aria-label="Keluar"
+              >
+                <LogOut size={13} />
+              </button>
+            </div>
+          )}
+
+          {isAdmin && (
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => handleLinkClick('admin')}
+                className={`inline-flex items-center justify-center gap-1.5 min-h-[40px] px-3 rounded-full text-xs font-medium transition-colors ${
+                  currentPage === 'admin'
+                    ? 'bg-[#1D2129] text-white'
+                    : 'bg-white border border-[#DCE2EA] text-[#1D2129] hover:border-[#1D2129]'
+                }`}
+                aria-label="Dashboard Admin"
+              >
+                <LayoutDashboard size={14} />
+                <span className="hidden sm:inline">Admin</span>
+              </button>
+              <button
+                onClick={logout}
+                className="hidden sm:inline-flex w-9 h-9 rounded-full items-center justify-center text-[#647082] hover:text-[#1D2129] hover:bg-[#ECEFF4] transition-colors"
+                title="Keluar dari Admin"
+                aria-label="Keluar dari Admin"
+              >
+                <LogOut size={14} />
+              </button>
+            </div>
+          )}
+
+          {/* Wishlist (hidden < sm because Favorit is in MobileBottomNav) */}
+          <button
+            onClick={() => setIsWishlistOpen(true)}
+            className="hidden sm:flex relative w-10 h-10 rounded-full bg-white border border-[#E2E7EE] hover:border-[#1D2129] text-[#1D2129] items-center justify-center transition-colors"
+            aria-label="Produk Favorit"
+            title="Favorit Saya"
+          >
+            <Heart
+              size={15}
+              className={wishlistCount > 0 ? 'fill-[#1D2129] text-[#1D2129]' : ''}
+            />
+            {wishlistCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#1D2129] text-white font-mono text-[9px] font-semibold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center tabular-nums">
+                {wishlistCount}
               </span>
-            </motion.button>
-          </div>
+            )}
+          </button>
+
+          {/* Airform One Charcoal Pill Cart Button */}
+          <motion.button
+            animate={cartBadgeBounce ? { scale: [1, 1.09, 0.96, 1] } : {}}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsCartOpen(true)}
+            className="inline-flex items-center justify-center gap-1.5 sm:gap-2 min-h-[42px] px-3.5 sm:px-4 rounded-full bg-[#1D2129] hover:bg-[#323846] text-white text-xs font-medium transition-colors"
+            aria-label="Buka Keranjang"
+          >
+            <ShoppingBag size={14} strokeWidth={2} />
+            <span className="hidden sm:inline">Order</span>
+            <span className="bg-white/15 text-white font-mono text-[11px] font-semibold min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center tabular-nums">
+              {totalItems}
+            </span>
+          </motion.button>
+
+          {/* Airform One Circular Scroll Progress Ring */}
+          <ScrollProgressRing />
         </div>
       </div>
 
@@ -239,28 +237,27 @@ export default function Navbar({ onNavigate, currentPage }) {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="lg:hidden bg-[#F2F1EC] border-b border-[#111111] overflow-hidden"
+            className="lg:hidden bg-white border-b border-[#E2E7EE] overflow-hidden"
           >
-            <div className="px-4 py-4 space-y-1">
-              {navLinks.map((item, idx) => {
+            <div className="px-4 py-4 space-y-1.5">
+              {navLinks.map((item) => {
                 const isActive = currentPage === item.page;
                 return (
                   <button
                     key={item.page}
                     onClick={() => handleLinkClick(item.page)}
-                    className={`w-full flex items-center justify-between px-3 min-h-[44px] border-b border-[#D6D4CC]/70 font-mono text-xs uppercase tracking-[0.1em] transition-colors ${
+                    className={`w-full text-left px-4 min-h-[44px] rounded-full text-sm font-medium transition-colors ${
                       isActive
-                        ? 'text-[#E63B19] font-bold'
-                        : 'text-[#111111] hover:text-[#E63B19]'
+                        ? 'bg-[#1D2129] text-white'
+                        : 'text-[#4F627A] hover:bg-[#F7F8FA] hover:text-[#1D2129]'
                     }`}
                   >
-                    <span>{item.label}</span>
-                    <span className="text-[10px] text-[#6E6D68]">0{idx + 1}</span>
+                    {item.label}
                   </button>
                 );
               })}
 
-              <div className="pt-4 flex items-center justify-between gap-2">
+              <div className="pt-3 mt-2 border-t border-[#ECEFF4] flex items-center justify-between gap-2">
                 {isGuest ? (
                   <button
                     onClick={() => {
@@ -274,8 +271,8 @@ export default function Navbar({ onNavigate, currentPage }) {
                   </button>
                 ) : (
                   <>
-                    <div className="flex items-center gap-2 font-mono text-[11px] uppercase text-[#111111] truncate">
-                      <Package size={14} className="text-[#E63B19] shrink-0" />
+                    <div className="flex items-center gap-2 text-xs font-medium text-[#1D2129] px-2 truncate">
+                      <Package size={14} className="text-[#4F627A] shrink-0" />
                       <span className="truncate">
                         {user?.name} ({user?.role})
                       </span>
@@ -285,7 +282,7 @@ export default function Navbar({ onNavigate, currentPage }) {
                         logout();
                         setMobileMenuOpen(false);
                       }}
-                      className="min-h-[44px] px-4 rounded-[2px] border border-[#111111] font-mono text-[11px] font-bold uppercase text-[#111111] hover:bg-[#E63B19] hover:text-white hover:border-[#E63B19] transition-colors"
+                      className="min-h-[42px] px-4 rounded-full border border-[#DCE2EA] text-xs font-medium text-[#1D2129] hover:border-[#1D2129]"
                     >
                       Keluar
                     </button>
@@ -296,6 +293,6 @@ export default function Navbar({ onNavigate, currentPage }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 }

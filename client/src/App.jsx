@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import Lenis from 'lenis';
 import { CartProvider, useCart } from './context/CartContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -80,6 +81,44 @@ function MainApp() {
 
   const { setIsCartOpen } = useCart();
   const { isAdmin, openAuthModal } = useAuth();
+  const lenisRef = useRef(null);
+
+  // Lenis smooth inertial scrolling (Shopify Editions / Airform One motion feel)
+  useEffect(() => {
+    const prefersReduced =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    const lenis = new Lenis({
+      duration: 1.05,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      touchMultiplier: 1.5
+    });
+    lenisRef.current = lenis;
+
+    let rafId = 0;
+    function raf(time) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  const scrollToTop = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, []);
 
   const pushPath = useCallback((page, param = '') => {
     const nextPath = buildPathForRoute(page, param);
@@ -137,14 +176,14 @@ function MainApp() {
     }
     setCurrentPage(page);
     pushPath(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleSelectProduct = (product) => {
     setSelectedProduct(product);
     setCurrentPage('product-detail');
     pushPath('product-detail', product?.slug || '');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleSelectCollection = (collectionSlug) => {
@@ -152,7 +191,7 @@ function MainApp() {
     setShopSearchQuery('');
     setCurrentPage('shop');
     pushPath('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleQuickSearch = (query) => {
@@ -160,18 +199,18 @@ function MainApp() {
     setShopSearchQuery(query);
     setCurrentPage('shop');
     pushPath('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   const handleOpenOrderDetail = (orderNumber) => {
     setActiveOrderNumber(orderNumber);
     setCurrentPage('order-detail');
     pushPath('order-detail', orderNumber);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollToTop();
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F2F1EC] text-[#111111] overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#1D2129] overflow-x-clip">
       <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
 
       <main className="flex-1 pb-20 md:pb-0">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
+import CloserLook3DSection from '../components/CloserLook3DSection';
 import FeatureStrip from '../components/FeatureStrip';
 import BestsellersSection from '../components/BestsellersSection';
 import CollectionsSection from '../components/CollectionsSection';
@@ -40,8 +41,8 @@ export default function HomePage({
   }, []);
 
   return (
-    <div className="bg-[#F2F1EC]">
-      {/* 1. Solara-Inspired Carbon Matte Hero + Brand Marquee + Quick Search */}
+    <div className="bg-[#F7F8FA]">
+      {/* 1. Airform One Scroll-Choreographed Real-Time 3D Hero */}
       <HeroSection
         onShopClick={() => onNavigate('shop')}
         onTrackClick={() => onNavigate('orders')}
@@ -49,13 +50,16 @@ export default function HomePage({
         onSelectCollection={onSelectCollection}
       />
 
-      {/* 2. Asymmetric Numbered Category Bento */}
+      {/* 2. Interactive "Take a Closer Look" 3D Orbit Explorer */}
+      <CloserLook3DSection onNavigateLearn={() => onNavigate('learn')} />
+
+      {/* 3. Asymmetric Studio Category Bento */}
       <CollectionsSection
         collections={collections}
         onSelectCollection={onSelectCollection}
       />
 
-      {/* 3. Asymmetric Editorial Bestsellers Bento */}
+      {/* 4. Asymmetric Editorial Bestsellers Bento */}
       <BestsellersSection
         products={products}
         loading={loading}
@@ -63,13 +67,13 @@ export default function HomePage({
         onExploreAll={() => onNavigate('shop')}
       />
 
-      {/* 4. Swiss Architectural Voucher Strip */}
+      {/* 5. Clean Studio Voucher Strip */}
       <PromoBannerSection
         discounts={discounts}
         onExploreShop={() => onNavigate('shop')}
       />
 
-      {/* 5. Numbered Operational Spec Grid & Carbon Workshop CTA */}
+      {/* 6. Numbered Operational Spec Grid & Workshop CTA */}
       <FeatureStrip
         onNavigateAbout={() => onNavigate('about')}
         onNavigateShop={() => onNavigate('shop')}

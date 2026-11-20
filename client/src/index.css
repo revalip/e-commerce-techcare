@@ -3,71 +3,73 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   TECHCARE ARCHITECTURAL DESIGN SYSTEM (ANTI-AI)
-   Backbone: Monolith (70%) + Solara Hero (20%) + Dimwit Nav/Filter (10%)
-   Palette : Warm Paper (#F2F1EC) + Carbon Matte (#111111) + Signal Orange (#E63B19)
-   Fonts   : Archivo (Display) + IBM Plex Mono (Technical/SKU) + Plus Jakarta Sans (Body)
-   Rules   : Zero blue/purple gradients, zero glow, zero glassmorphism.
+   TECHCARE STUDIO 3D DESIGN SYSTEM (Airform One Studio + Real-Time Three.js)
+   Palette : Crisp Studio White (#F7F8FA / #FFFFFF) + Deep Charcoal (#1D2129)
+             + Anodized Slate Metallic (#4F627A)
+   Fonts   : Space Grotesk (Display) + IBM Plex Mono (Spec/Price) + Plus Jakarta Sans (Body)
+   Rules   : Zero blue/purple AI gradients, zero neon glow, real 3D WebGL & smooth scroll.
    ========================================================================== */
 :root {
-  --tc-paper: #F2F1EC;
-  --tc-stone: #E7E5DE;
-  --tc-surface: #FAF9F6;
-  --tc-ink: #111111;
-  --tc-ink-2: #3A3A36;
-  --tc-muted: #6E6D68;
-  --tc-line: #D6D4CC;
-  --tc-line-dark: #2A2A27;
-  --tc-signal: #E63B19;
-  --tc-signal-dark: #C42E10;
-
-  --tc-radius: 2px;
+  --tc-canvas: #F7F8FA;
+  --tc-surface: #FFFFFF;
+  --tc-mist: #ECEFF4;
+  --tc-ink: #1D2129;
+  --tc-slate: #4F627A;
+  --tc-muted: #647082;
+  --tc-line: #E2E7EE;
 }
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    background-color: var(--tc-paper);
+    background-color: var(--tc-canvas);
     color: var(--tc-ink);
   }
 
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    background-color: var(--tc-paper);
+    background-color: var(--tc-canvas);
     color: var(--tc-ink);
   }
 
   h1, h2, h3, .font-display, .font-serif {
-    font-family: 'Archivo', sans-serif;
-    letter-spacing: -0.03em;
+    font-family: 'Space Grotesk', sans-serif;
+    letter-spacing: -0.035em;
   }
 
   button, a, input, select, textarea {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111111] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F2F1EC];
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D2129] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F8FA];
   }
 }
 
 @layer components {
-  /* Sharp Industrial Buttons (min 44px touch target) */
+  /* Airform One Studio Pill Buttons (min 44px touch target) */
   .tc-btn-primary {
-    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] bg-[#111111] text-[#F2F1EC] hover:bg-[#E63B19] transition-colors active:scale-[0.99] disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-[#1D2129] text-white hover:bg-[#323846] transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .tc-btn-bone {
-    @apply inline-flex items-center justify-center gap-2 min-h-[46px] px-6 py-3 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] bg-[#F2F1EC] text-[#111111] hover:bg-[#E63B19] hover:text-white transition-colors active:scale-[0.99] disabled:opacity-40;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-white text-[#1D2129] hover:bg-[#ECEFF4] transition-all active:scale-[0.98] disabled:opacity-40;
   }
 
   .tc-btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] bg-transparent text-[#111111] border border-[#111111] hover:bg-[#111111] hover:text-[#F2F1EC] transition-colors active:scale-[0.99] disabled:opacity-40;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-white text-[#1D2129] border border-[#D4DBE5] hover:border-[#1D2129] hover:bg-[#F7F8FA] transition-all active:scale-[0.98] disabled:opacity-40;
   }
 
   .tc-btn-dark {
-    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-[2px] font-mono text-xs font-semibold uppercase tracking-[0.08em] bg-[#111111] text-[#F2F1EC] hover:bg-[#2A2A27] transition-colors;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-[#1D2129] text-white hover:bg-[#323846] transition-all;
   }
 
   .tc-input {
-    @apply w-full min-h-[44px] px-3.5 py-2.5 rounded-[2px] text-xs sm:text-sm bg-[#FAF9F6] border border-[#D6D4CC] text-[#111111] placeholder:text-[#787771] transition-colors focus:bg-white focus:border-[#111111];
+    @apply w-full min-h-[44px] px-4 py-2.5 rounded-full text-xs sm:text-sm bg-white border border-[#DCE2EA] text-[#1D2129] placeholder:text-[#8692A3] transition-colors focus:border-[#1D2129];
   }
+}
+
+/* Airform One Signature Vertical Silver-Mist Wordmark Fade */
+.tc-airform-wordmark {
+  background: linear-gradient(180deg, #8F9FB3 0%, #B8C4D2 52%, rgba(247, 248, 250, 0.08) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .tabular-nums {
@@ -82,7 +84,7 @@
 .tc-marquee-track {
   display: flex;
   width: max-content;
-  animation: tcMarquee 32s linear infinite;
+  animation: tcMarquee 36s linear infinite;
 }
 .tc-marquee-wrap:hover .tc-marquee-track {
   animation-play-state: paused;
@@ -94,13 +96,13 @@
   }
 }
 
-/* Architectural Shimmer Skeleton */
+/* Studio Mist Shimmer Skeleton */
 @keyframes tcShimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
 }
 .tc-skeleton {
-  background: linear-gradient(90deg, #E2E0D8 25%, #ECEAE3 50%, #E2E0D8 75%);
+  background: linear-gradient(90deg, #E8ECF2 25%, #F3F5F8 50%, #E8ECF2 75%);
   background-size: 200% 100%;
   animation: tcShimmer 1.6s infinite linear;
 }
@@ -118,11 +120,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #E7E5DE;
+  background: #ECEFF4;
 }
 ::-webkit-scrollbar-thumb {
-  background: #A8A69E;
+  background: #BAC4D2;
+  border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #111111;
+  background: #4F627A;
 }

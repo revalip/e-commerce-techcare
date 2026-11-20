@@ -8,28 +8,26 @@ export default {
     extend: {
       colors: {
         tc: {
-          paper: '#F2F1EC',
-          stone: '#E7E5DE',
-          surface: '#FAF9F6',
-          ink: '#111111',
-          charcoal: '#1C1C1A',
-          muted: '#6E6D68',
-          line: '#D6D4CC',
-          'line-dark': '#2A2A27',
-          signal: '#E63B19',
-          'signal-dark': '#C42E10',
+          canvas: '#F7F8FA',
+          surface: '#FFFFFF',
+          mist: '#ECEFF4',
+          ink: '#1D2129',
+          charcoal: '#23272F',
+          slate: '#4F627A',
+          muted: '#647082',
+          line: '#E2E7EE',
+          'line-dark': '#2E3440',
         }
       },
       fontFamily: {
-        display: ['"Archivo"', 'system-ui', 'sans-serif'],
-        serif: ['"Archivo"', 'system-ui', 'sans-serif'],
+        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+        serif: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
         mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
         sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
       },
-      borderRadius: {
-        'none': '0px',
-        'xs': '2px',
-        'sm': '4px',
+      boxShadow: {
+        'tc-studio': '0 1px 2px rgba(29, 33, 41, 0.04), 0 8px 24px -12px rgba(29, 33, 41, 0.08)',
+        'tc-lift': '0 12px 32px -12px rgba(29, 33, 41, 0.14)',
       }
     },
   },
