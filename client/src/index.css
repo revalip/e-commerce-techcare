@@ -2,30 +2,147 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   TECHCARE DESIGN SYSTEM TOKENS (CSS VARIABLES)
+   Palette: Cobalt Tech Blue (#0B5FFF) + Architectural Slate + Vibrant Orange Accent
+   Typography: Space Grotesk (Headings) + Plus Jakarta Sans (Body)
+   ========================================================================== */
+:root {
+  /* Brand & Accent */
+  --tc-primary: #0B5FFF;
+  --tc-primary-hover: #0847C4;
+  --tc-primary-soft: #EEF4FF;
+  --tc-primary-border: #C7DCFF;
+  --tc-accent: #F97316;
+  --tc-accent-soft: #FFF7ED;
+  --tc-success: #059669;
+  --tc-danger: #E11D48;
+
+  /* Neutrals */
+  --tc-canvas: #F4F6FA;
+  --tc-surface: #FFFFFF;
+  --tc-stage: #EEF2F7;
+  --tc-ink: #0B1220;
+  --tc-ink-soft: #162238;
+  --tc-text: #0F172A;
+  --tc-text-secondary: #475569;
+  --tc-text-muted: #64748B;
+  --tc-border: #E2E8F0;
+  --tc-border-strong: #CBD5E1;
+
+  /* Radii */
+  --tc-radius-sm: 0.625rem;
+  --tc-radius-md: 0.875rem;
+  --tc-radius-lg: 1.25rem;
+  --tc-radius-xl: 1.75rem;
+
+  /* Shadows */
+  --tc-shadow-card: 0 1px 3px rgba(11, 18, 32, 0.04), 0 6px 20px rgba(11, 18, 32, 0.04);
+  --tc-shadow-hover: 0 12px 30px rgba(11, 95, 255, 0.10), 0 4px 12px rgba(11, 18, 32, 0.06);
+  --tc-shadow-primary: 0 8px 22px rgba(11, 95, 255, 0.26);
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: var(--tc-canvas);
+    color: var(--tc-text);
   }
+
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--tc-canvas);
+    color: var(--tc-text);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
-  h1, h2, h3, .font-serif {
-    font-family: 'Playfair Display', Georgia, serif;
+
+  h1, h2, h3, .font-display, .font-serif {
+    font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  button, a, input, select, textarea {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0B5FFF] focus-visible:ring-offset-2;
   }
 }
 
-/* Custom subtle scrollbar */
+@layer components {
+  .tc-card {
+    background-color: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-lg);
+    box-shadow: var(--tc-shadow-card);
+  }
+
+  .tc-btn-primary {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--tc-primary);
+    box-shadow: var(--tc-shadow-primary);
+  }
+  .tc-btn-primary:hover:not(:disabled) {
+    background-color: var(--tc-primary-hover);
+  }
+
+  .tc-btn-dark {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-white transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed;
+    background-color: var(--tc-ink);
+  }
+  .tc-btn-dark:hover:not(:disabled) {
+    background-color: var(--tc-ink-soft);
+  }
+
+  .tc-btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-slate-800 bg-white border border-slate-200 hover:border-[#0B5FFF] hover:text-[#0B5FFF] hover:bg-[#EEF4FF]/60 transition-all active:scale-[0.98] disabled:opacity-50;
+  }
+
+  .tc-input {
+    @apply w-full min-h-[44px] px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-[#F8FAFC] border border-slate-200 text-slate-900 placeholder:text-slate-400 transition-all focus:bg-white focus:border-[#0B5FFF];
+  }
+
+  .tc-tech-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Shimmer Skeleton */
+@keyframes tcShimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.tc-skeleton {
+  background: linear-gradient(90deg, #E8EEF5 25%, #F4F7FB 50%, #E8EEF5 75%);
+  background-size: 200% 100%;
+  animation: tcShimmer 1.5s infinite linear;
+}
+
+/* Hide horizontal scrollbar on pill rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom sleek scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #EEF2F7;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c7c7cc;
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8e8e93;
+  background: #94A3B8;
 }
