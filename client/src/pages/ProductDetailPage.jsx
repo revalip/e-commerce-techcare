@@ -173,13 +173,10 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             >
               <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
                 {product.diskonPersen > 0 && (
-                  <span className="bg-[#1D1D1F] text-white text-[11px] font-semibold px-3 py-1 rounded-full">
+                  <span className="bg-white/95 text-[#0071E3] text-[12px] font-medium px-3 py-1 rounded-[980px]">
                     Hemat {product.diskonPersen}%
                   </span>
                 )}
-                <span className="bg-white/95 text-[#1D2129] text-[11px] font-medium px-3 py-1 rounded-full border border-[#E2E7EE]">
-                  {product.kondisi || 'Second Grade A'}
-                </span>
               </div>
 
               <div className="absolute bottom-4 right-4 z-10 bg-white/90 text-[#1D2129] text-[11px] font-medium px-3 py-1.5 rounded-full border border-[#E2E7EE] flex items-center gap-1.5">
@@ -243,30 +240,37 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
 
           {/* Right: Step-by-Step Apple Store Configurator */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="space-y-2 border-b border-[#E2E7EE] pb-5">
-              <span className="text-[11px] font-mono uppercase tracking-[0.12em] text-[#0071E3] font-semibold block">
-                {product.brand} • {product.koleksi}
-              </span>
-              <h1 className="font-display text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-[#1D2129] leading-tight">
+            <div className="space-y-2 border-b border-[#D2D2D7]/70 pb-5">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-[12px] text-[#0071E3] font-medium">
+                  {product.brand} • {product.koleksi}
+                </span>
+                {product.kondisi && (
+                  <span className="text-[12px] px-2.5 py-0.5 rounded-[980px] bg-[#F5F5F7] text-[#1D1D1F] font-medium">
+                    {product.kondisi}
+                  </span>
+                )}
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-semibold tracking-[-0.03em] text-[#1D1D1F] leading-tight">
                 {product.nama}
               </h1>
-              <p className="text-xs text-[#6E6E73]">{product.tagline}</p>
+              <p className="text-[14px] text-[#6E6E73]">{product.tagline}</p>
 
               <div className="pt-2 flex items-baseline gap-2.5 flex-wrap">
-                <span className="font-display text-2xl sm:text-3xl font-semibold text-[#1D2129] tabular-nums">
+                <span className="text-2xl sm:text-3xl font-semibold text-[#1D1D1F] tabular-nums">
                   {formatIDR(computedPrice)}
                 </span>
                 {computedOriginalPrice && (
-                  <span className="text-sm text-[#8692A3] line-through tabular-nums">
+                  <span className="text-sm text-[#6E6E73] line-through tabular-nums">
                     {formatIDR(computedOriginalPrice)}
                   </span>
                 )}
               </div>
 
-              <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-xs text-[#6E6E73] pt-1">
+              <div className="flex items-center flex-wrap gap-x-4 gap-y-1 text-[13px] text-[#6E6E73] pt-1">
                 <span>
                   Stok:{' '}
-                  <strong className={outOfStock ? 'text-rose-600' : 'text-emerald-700'}>
+                  <strong className={outOfStock ? 'text-[#B64400]' : Number(product.stok) <= 3 ? 'text-[#B64400]' : 'text-[#1D1D1F]'}>
                     {outOfStock ? 'Habis' : `${product.stok} unit siap kirim`}
                   </strong>
                 </span>
@@ -567,7 +571,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#6E6E73] block truncate">
+                      <span className="text-[10px] uppercase tracking-wider text-[#6E6E73] block truncate">
                         {item.koleksi}
                       </span>
                       <p className="font-display text-xs sm:text-sm font-medium text-[#1D2129] line-clamp-1 mt-0.5">
@@ -620,7 +624,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             animate={{ y: 0 }}
             exit={{ y: 100 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-16 inset-x-0 z-30 md:hidden bg-white/95 backdrop-blur-md border-t border-[#E2E7EE] px-4 py-2.5 flex items-center justify-between gap-3 shadow-[0_-6px_24px_rgba(11,18,32,0.10)]"
+            className="fixed bottom-0 inset-x-0 z-30 md:hidden bg-white/95 backdrop-blur-md border-t border-[#D2D2D7] px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]"
           >
             <div className="min-w-0">
               <p className="text-[10px] text-[#6E6E73] truncate">{specLabel || product.kondisi}</p>

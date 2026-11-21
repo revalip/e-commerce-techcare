@@ -67,7 +67,7 @@ export default function PromoPage({ products, onSelectProduct, onExploreShop }) 
                 </div>
 
                 <div className="pt-6 border-t border-neutral-100 mt-4 flex items-center justify-between gap-3">
-                  <div className="bg-[#F7F8FA] px-3.5 py-2 rounded-xl border border-neutral-200 font-mono text-xs font-bold text-neutral-900 tracking-wider">
+                  <div className="bg-[#F7F8FA] px-3.5 py-2 rounded-xl border border-neutral-200 text-xs font-bold text-neutral-900 tracking-wider">
                     {voucher.code}
                   </div>
 

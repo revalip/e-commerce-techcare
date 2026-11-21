@@ -652,7 +652,7 @@ export default function Laptop3DCanvas({
     <div className={`relative w-full h-full select-none ${className}`}>
       {status === 'loading' && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="px-4 py-2 rounded-full bg-white/85 border border-[#E2E7EE] font-mono text-[10px] uppercase tracking-[0.1em] text-[#647082]">
+          <div className="px-4 py-2 rounded-full bg-white/85 border border-[#E2E7EE] text-[10px] uppercase tracking-[0.1em] text-[#647082]">
             Memuat Model 3D...
           </div>
         </div>

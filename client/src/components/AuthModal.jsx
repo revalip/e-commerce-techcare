@@ -52,56 +52,48 @@ export default function AuthModal() {
       />
 
       <motion.div
-        initial={{ opacity: 0, scale: 0.95, y: 12 }}
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.95, y: 12 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
-        className="relative bg-white rounded-[24px] max-w-md w-full max-h-[92vh] overflow-y-auto shadow-tc-lift border border-[#E2E7EE] z-10"
+        exit={{ opacity: 0, scale: 0.96, y: 12 }}
+        transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+        className="relative bg-white rounded-[28px] max-w-md w-full max-h-[92vh] overflow-y-auto shadow-[0_2px_12px_rgba(0,0,0,0.06)] z-10"
       >
-        {/* Top Navy Accent Banner */}
-        <div className="bg-[#1D2129] text-white px-6 py-5 relative">
+        {/* Clean Apple White Modal Header */}
+        <div className="px-6 pt-6 pb-4 border-b border-[#D2D2D7]/70 flex items-center justify-between">
+          <div>
+            <p className="text-[12px] text-[#6E6E73]">Akun TechCare</p>
+            <h2 className="text-[22px] font-semibold tracking-[-0.025em] text-[#1D1D1F] leading-tight">
+              {authModalTab === 'login' ? 'Masuk ke akun' : 'Daftar akun baru'}
+            </h2>
+          </div>
           <button
             onClick={closeAuthModal}
-            className="absolute top-4 right-4 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
+            className="w-9 h-9 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] flex items-center justify-center transition-colors"
             aria-label="Tutup"
           >
-            <X size={18} />
+            <X size={16} />
           </button>
-
-          <div className="flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center shrink-0">
-              <Cpu size={20} />
-            </span>
-            <div>
-              <span className="text-[10px] uppercase font-bold tracking-wider text-[#9BB0C9] block">
-                AKUN PENGGUNA TECHCARE
-              </span>
-              <h2 className="font-display text-xl font-bold text-white leading-tight">
-                {authModalTab === 'login' ? 'Masuk ke Akun Anda' : 'Daftar Akun Pelanggan'}
-              </h2>
-            </div>
-          </div>
         </div>
 
-        <div className="p-5 sm:p-6 space-y-5">
+        <div className="p-6 space-y-5">
           {authNotice && (
-            <div className="p-3.5 bg-[#ECEFF4] border border-[#D4DBE5] rounded-xl text-xs text-[#1D2129] leading-relaxed">
+            <div className="p-3.5 bg-[#F5F5F7] rounded-[12px] text-[13px] text-[#1D1D1F] leading-relaxed">
               {authNotice}
             </div>
           )}
 
           {/* Segmented Tab Switcher */}
-          <div className="grid grid-cols-2 p-1 bg-[#F7F8FA] rounded-xl border border-[#E2E7EE]">
+          <div className="grid grid-cols-2 p-1 bg-[#F5F5F7] rounded-[12px]">
             <button
               type="button"
               onClick={() => {
                 setAuthModalTab('login');
                 setError('');
               }}
-              className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
+              className={`min-h-[40px] rounded-[10px] text-[14px] font-medium transition-all ${
                 authModalTab === 'login'
-                  ? 'bg-white text-[#1D2129] shadow-xs'
-                  : 'text-[#647082] hover:text-[#1D2129]'
+                  ? 'bg-white text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+                  : 'text-[#6E6E73] hover:text-[#1D1D1F]'
               }`}
             >
               Masuk
@@ -112,10 +104,10 @@ export default function AuthModal() {
                 setAuthModalTab('register');
                 setError('');
               }}
-              className={`min-h-[40px] rounded-lg text-xs font-bold transition-all ${
+              className={`min-h-[40px] rounded-[10px] text-[14px] font-medium transition-all ${
                 authModalTab === 'register'
-                  ? 'bg-white text-[#1D2129] shadow-xs'
-                  : 'text-[#647082] hover:text-[#1D2129]'
+                  ? 'bg-white text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+                  : 'text-[#6E6E73] hover:text-[#1D1D1F]'
               }`}
             >
               Daftar Akun

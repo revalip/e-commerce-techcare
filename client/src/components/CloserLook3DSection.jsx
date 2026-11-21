@@ -100,7 +100,7 @@ export default function CloserLook3DSection() {
                       : 'bg-transparent border-transparent opacity-45 hover:opacity-80'
                   }`}
                 >
-                  <span className="font-mono text-xs text-[#0071E3] font-semibold">
+                  <span className="text-xs text-[#0071E3] font-semibold">
                     {step.index}
                   </span>
                   <h3 className="font-display text-xl font-semibold text-[#1D1D1F] mt-1">

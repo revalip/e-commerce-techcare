@@ -332,7 +332,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <p className="text-[#647082] mt-0.5">
                     No. Resi:{' '}
                     {order.resi ? (
-                      <strong className="font-mono text-sm text-[#1D2129] tracking-wider">
+                      <strong className="text-sm text-[#1D2129] tracking-wider">
                         {order.resi}
                       </strong>
                     ) : (
@@ -368,7 +368,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 </div>
                 {countdown && (
                   <div
-                    className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold inline-flex items-center gap-1.5 ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-bold inline-flex items-center gap-1.5 ${
                       countdown.expired
                         ? 'bg-rose-50 text-rose-700 border border-rose-200'
                         : 'bg-[#ECEFF4] text-[#323846] border border-[#D4DBE5]'
@@ -386,7 +386,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   Transfer Tepat Hingga 3 Digit Kode Unik
                 </span>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-xl sm:text-2xl font-bold tracking-tight tabular-nums">
+                  <span className="text-xl sm:text-2xl font-bold tracking-tight tabular-nums">
                     {formatIDR(order.total)}
                   </span>
                   <button
@@ -400,7 +400,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 </div>
                 {order.uniqueCode > 0 && (
                   <p className="text-[11px] text-[#BAC4D2]">
-                    Termasuk kode unik <strong className="font-mono text-[#1D2129]">+{order.uniqueCode}</strong>
+                    Termasuk kode unik <strong className="text-[#1D2129]">+{order.uniqueCode}</strong>
                     {order.paymentDeadline ? ` • Batas bayar ${formatDate(order.paymentDeadline)}` : ''}
                   </p>
                 )}
@@ -432,7 +432,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                       </p>
                     </div>
                     <div className="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-[#E2E7EE]">
-                      <span className="font-mono text-base font-bold text-[#1D2129] tracking-wider">
+                      <span className="text-base font-bold text-[#1D2129] tracking-wider">
                         {bankAccNumber}
                       </span>
                       <button
@@ -607,7 +607,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 {order.uniqueCode > 0 && (
                   <div className="flex justify-between text-[#647082]">
                     <span>Kode Unik</span>
-                    <span className="font-mono text-[#1D2129] font-bold">+{formatIDR(order.uniqueCode)}</span>
+                    <span className="text-[#1D2129] font-bold">+{formatIDR(order.uniqueCode)}</span>
                   </div>
                 )}
                 <div className="flex justify-between text-sm font-bold text-[#1D2129] pt-2 border-t border-[#E2E7EE]">

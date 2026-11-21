@@ -21,7 +21,7 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
         <Reveal>
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div className="space-y-2">
-              <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#647082] block">
+              <span className="text-[11px] uppercase tracking-[0.12em] text-[#647082] block">
                 03 / Kupon Checkout Aktif
               </span>
               <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-[-0.04em] text-[#1D2129] leading-[1.02]">
@@ -50,7 +50,7 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
               <Reveal key={d.id} delay={idx * 0.05}>
                 <div className="bg-[#F7F8FA] rounded-[24px] border border-[#E2E7EE] hover:border-[#B8C4D2] transition-all flex flex-col justify-between h-full overflow-hidden">
                   <div className="p-6 space-y-3">
-                    <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.06em] text-[#8692A3]">
+                    <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.06em] text-[#8692A3]">
                       <span>Voucher 0{idx + 1}</span>
                       <span className="tabular-nums">Min. {formatIDR(d.minBelanja)}</span>
                     </div>
@@ -65,7 +65,7 @@ export default function PromoBannerSection({ discounts = [], onExploreShop }) {
                   </div>
 
                   <div className="px-6 py-4 border-t border-[#E2E7EE] bg-white flex items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-semibold tracking-[0.08em] text-[#1D2129] bg-[#F7F8FA] px-3.5 py-2 rounded-full border border-[#E2E7EE]">
+                    <span className="text-xs font-semibold tracking-[0.08em] text-[#1D2129] bg-[#F7F8FA] px-3.5 py-2 rounded-full border border-[#E2E7EE]">
                       {d.kode}
                     </span>
 

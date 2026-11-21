@@ -326,7 +326,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
           <div
             className={`${
               currentStep < 3 ? 'lg:col-span-8' : ''
-            } bg-white rounded-[24px] p-5 sm:p-8 border border-[#E2E7EE]/90 shadow-tc-studio`}
+            } bg-white rounded-[28px] p-6 sm:p-8 border border-[#D2D2D7]/60`}
           >
             <AnimatePresence mode="wait">
               {/* STEP 1 */}
@@ -605,7 +605,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                             placeholder="Masukkan kode (mis. TECHCARE10)"
                             value={promoCodeInput}
                             onChange={(e) => setPromoCodeInput(e.target.value)}
-                            className="tc-input flex-1 bg-white uppercase font-mono"
+                            className="tc-input flex-1 bg-white uppercase "
                           />
                           <button
                             type="button"
@@ -624,7 +624,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                               key={code}
                               type="button"
                               onClick={() => handleApplyVoucher(code)}
-                              className="px-2.5 py-1 rounded-lg bg-white border border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129] font-mono text-[11px] font-bold text-[#323846] transition-colors"
+                              className="px-2.5 py-1 rounded-lg bg-white border border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129] text-[11px] font-bold text-[#323846] transition-colors"
                             >
                               {code}
                             </button>
@@ -707,7 +707,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                           <p>
                             Scan kode QRIS sebesar{' '}
                             <strong className="text-[#1D2129] tabular-nums">{formatIDR(finalTotal)}</strong>{' '}
-                            (termasuk kode unik <strong className="font-mono">+{uniqueCode}</strong>).
+                            (termasuk kode unik <strong className="">+{uniqueCode}</strong>).
                           </p>
                           <p className="text-[11px] text-[#647082] inline-flex items-center gap-1">
                             <Clock size={12} /> Batas waktu pembayaran: 24 jam.
@@ -803,7 +803,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   <div className="bg-[#F7F8FA] p-5 rounded-[20px] border border-[#E2E7EE] max-w-md mx-auto text-left space-y-2.5 text-xs">
                     <div className="flex justify-between items-center border-b border-[#E2E7EE] pb-2.5">
                       <span className="text-[#647082]">Nomor Invoice</span>
-                      <span className="font-mono font-bold text-[#1D2129] text-sm">
+                      <span className="font-bold text-[#1D2129] text-sm">
                         #{completedOrder.nomorPesanan}
                       </span>
                     </div>
@@ -821,7 +821,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-[#647082]">Kode Unik</span>
-                      <span className="font-mono font-bold text-[#1D2129]">
+                      <span className="font-bold text-[#1D2129]">
                         +{formatIDR(completedOrder.uniqueCode || 0)}
                       </span>
                     </div>
@@ -895,7 +895,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                 </div>
                 <div className="flex justify-between text-[#4F627A]">
                   <span>Kode Unik (3 Digit)</span>
-                  <span className="font-mono font-bold text-[#1D2129]">+{formatIDR(uniqueCode)}</span>
+                  <span className="font-bold text-[#1D2129]">+{formatIDR(uniqueCode)}</span>
                 </div>
 
                 <div className="flex justify-between items-baseline pt-3 border-t border-[#E2E7EE]">

@@ -142,7 +142,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                     key={o.id}
                     type="button"
                     onClick={() => onSelectOrder(o.nomorPesanan)}
-                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-[#1D2129] border border-white/15 font-mono text-[11px] font-semibold text-white transition-colors"
+                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-[#1D2129] border border-white/15 text-[11px] font-semibold text-white transition-colors"
                   >
                     {o.nomorPesanan}
                   </button>
@@ -214,7 +214,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-sm font-bold text-[#1D2129]">
+                          <span className="text-sm font-bold text-[#1D2129]">
                             #{ord.nomorPesanan}
                           </span>
                           <span
@@ -223,7 +223,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
                             {ord.status || badge.label}
                           </span>
                           {ord.resi && (
-                            <span className="text-[11px] font-mono text-[#4F627A] bg-[#ECEFF4] px-2.5 py-0.5 rounded-lg">
+                            <span className="text-[11px] text-[#4F627A] bg-[#ECEFF4] px-2.5 py-0.5 rounded-lg">
                               Resi: {ord.resi}
                             </span>
                           )}

@@ -72,24 +72,24 @@ export default function WishlistDrawer({ onSelectProduct, onExploreShop }) {
               )}
 
               {/* Header */}
-              <div className="px-5 py-4 border-b border-[#E2E7EE] flex items-center justify-between bg-[#F7F8FA]">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
-                    <Heart size={18} className="fill-[#1D2129]" />
+              <div className="px-6 py-4 border-b border-[#D2D2D7]/70 flex items-center justify-between bg-white">
+                <div className="flex items-center gap-3">
+                  <span className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#0071E3] flex items-center justify-center">
+                    <Heart size={16} className="fill-[#0071E3]" />
                   </span>
                   <div>
-                    <h2 className="font-display text-base font-bold text-[#1D2129] leading-tight">
+                    <h2 className="text-[17px] font-semibold text-[#1D1D1F] leading-tight">
                       Produk Favorit
                     </h2>
-                    <p className="text-[11px] text-[#647082]">{wishlistIds.length} tersimpan</p>
+                    <p className="text-[12px] text-[#6E6E73]">{wishlistIds.length} tersimpan</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setIsWishlistOpen(false)}
-                  className="w-10 h-10 rounded-xl text-[#647082] hover:text-[#1D2129] hover:bg-[#E2E7EE]/70 flex items-center justify-center transition-colors"
+                  className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] flex items-center justify-center transition-colors"
                   aria-label="Tutup Favorit"
                 >
-                  <X size={18} />
+                  <X size={16} />
                 </button>
               </div>
 

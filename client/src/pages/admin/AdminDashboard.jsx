@@ -489,7 +489,7 @@ export default function AdminDashboard({ onBackToShop }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Navy Admin Header */}
         <Reveal>
-          <div className="bg-[#1D2129] text-white rounded-[24px] p-5 sm:p-7 border border-[#23272F] shadow-tc-lift flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
+          <div className="bg-[#1D1D1F] text-white rounded-[28px] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <span className="text-[11px] uppercase font-bold tracking-wider text-[#9BB0C9]">
@@ -815,7 +815,7 @@ export default function AdminDashboard({ onBackToShop }) {
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-mono text-sm font-bold text-[#1D2129]">
+                          <span className="text-sm font-bold text-[#1D2129]">
                             #{ord.nomorPesanan}
                           </span>
                           <span
@@ -830,7 +830,7 @@ export default function AdminDashboard({ onBackToShop }) {
                             {formatIDR(ord.total)}
                           </span>
                           {ord.uniqueCode > 0 && (
-                            <span className="block text-[10px] font-mono text-[#647082]">
+                            <span className="block text-[10px] text-[#647082]">
                               Kode unik +{ord.uniqueCode} • {ord.metodeBayar}
                             </span>
                           )}
@@ -861,7 +861,7 @@ export default function AdminDashboard({ onBackToShop }) {
                         <div>
                           <p className="text-[10px] uppercase font-bold text-[#8692A3]">Ekspedisi &amp; Resi</p>
                           <p className="text-[#23272F]">{ord.kurir || 'JNE Reguler'}</p>
-                          <p className="font-mono text-[11px] text-[#4F627A]">
+                          <p className="text-[11px] text-[#4F627A]">
                             Resi: {ord.resi || <span className="italic text-[#8692A3]">Belum diinput</span>}
                           </p>
                         </div>
@@ -1059,7 +1059,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       />
                       <div className="min-w-0">
                         <p className="font-display text-sm font-bold text-[#1D2129] truncate">{col.nama}</p>
-                        <p className="text-[10px] font-mono text-[#8692A3]">/{col.slug}</p>
+                        <p className="text-[10px] text-[#8692A3]">/{col.slug}</p>
                         <p className="text-[11px] text-[#647082] line-clamp-2 mt-1">{col.tagline}</p>
                         <span className="inline-block mt-2 px-2.5 py-0.5 rounded-lg bg-[#ECEFF4] text-[10px] font-bold text-[#1D2129]">
                           {count} produk
@@ -1120,7 +1120,7 @@ export default function AdminDashboard({ onBackToShop }) {
                 <tbody className="divide-y divide-[#ECEFF4]">
                   {discounts.map((d) => (
                     <tr key={d.id} className="hover:bg-[#F7F8FA]">
-                      <td className="py-3.5 pl-3 font-mono font-bold text-[#1D2129]">{d.kode}</td>
+                      <td className="py-3.5 pl-3 font-bold text-[#1D2129]">{d.kode}</td>
                       <td className="py-3.5 text-[#323846] font-medium">{d.nama}</td>
                       <td className="py-3.5 font-bold text-[#1D2129] tabular-nums">
                         {d.tipe === 'persen' ? `${d.nilai}%` : formatIDR(d.nilai)}
@@ -1387,7 +1387,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       value={trackResi}
                       onChange={(e) => setTrackResi(e.target.value)}
                       placeholder="Contoh: JNE8827162519ID / JP1234567890"
-                      className="tc-input font-mono"
+                      className="tc-input "
                     />
                   </div>
 
@@ -1824,7 +1824,7 @@ export default function AdminDashboard({ onBackToShop }) {
                     placeholder="Kode Kupon (mis. SECOND100K)"
                     value={kodeDiskon}
                     onChange={(e) => setKodeDiskon(e.target.value)}
-                    className="tc-input font-mono uppercase"
+                    className="tc-input uppercase"
                   />
                   <input
                     type="text"
