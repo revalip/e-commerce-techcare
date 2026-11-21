@@ -1,17 +1,13 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Search,
-  Heart,
-  RotateCcw,
-  AlertCircle,
-  PackageSearch,
+  SlidersHorizontal,
   LayoutGrid,
   List,
-  Plus,
   Check,
-  ChevronDown,
-  Tag,
-  Copy
+  ChevronRight,
+  AlertCircle,
+  PackageSearch
 } from 'lucide-react';
 import { getProducts, getCollections, getDiscounts } from '../services/api';
 import { useWishlist } from '../context/WishlistContext';
@@ -19,72 +15,16 @@ import { useCart } from '../context/CartContext';
 import { formatIDR } from '../utils/format';
 import ProductCard from '../components/ProductCard';
 import ProductCardSkeleton from '../components/ProductCardSkeleton';
+import FilterSheet from '../components/FilterSheet';
 
 /**
- * Custom Airform Studio Pill Dropdown (100% vertically centered, single chevron, zero OS select quirks)
+ * Apple.com/id Simplified Catalog (Max 3 control rows before products):
+ * - Header: Giant "Katalog" + 1 plain grey line ("13 unit tersedia"), zero mono/pills.
+ * - Row 1: Borderless #F5F5F7 search bar (12px radius) + single "Filter" button opening FilterSheet.
+ * - Row 2: Horizontal category chips (active black fill, inactive #F5F5F7 no border) + 2 tiny Grid/List icons.
+ * - Row 3: Thin 1-line tap-to-copy promo banner.
+ * All existing filter/sort/promo/wishlist/cart logic preserved identically.
  */
-function StudioDropdown({ value, onChange, options, ariaLabel }) {
-  const [open, setOpen] = useState(false);
-  const boxRef = useRef(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onDocClick = (e) => {
-      if (boxRef.current && !boxRef.current.contains(e.target)) setOpen(false);
-    };
-    document.addEventListener('mousedown', onDocClick);
-    return () => document.removeEventListener('mousedown', onDocClick);
-  }, [open]);
-
-  const activeOpt = options.find((o) => o.value === value) || options[0];
-
-  return (
-    <div ref={boxRef} className="relative">
-      <button
-        type="button"
-        aria-label={ariaLabel}
-        aria-expanded={open}
-        onClick={() => setOpen((prev) => !prev)}
-        className={`w-full min-h-[44px] px-4 rounded-full bg-white border text-xs font-medium text-[#1D2129] inline-flex items-center justify-between gap-2.5 whitespace-nowrap transition-colors ${
-          open ? 'border-[#1D2129]' : 'border-[#DCE2EA] hover:border-[#1D2129]'
-        }`}
-      >
-        <span className="truncate">{activeOpt?.label}</span>
-        <ChevronDown
-          size={14}
-          className={`text-[#647082] shrink-0 transition-transform ${open ? 'rotate-180' : ''}`}
-        />
-      </button>
-
-      {open && (
-        <div className="absolute left-0 sm:left-auto sm:right-0 mt-1.5 min-w-[180px] w-full sm:w-auto max-h-64 overflow-y-auto bg-white rounded-2xl border border-[#DCE2EA] shadow-tc-lift p-1.5 z-30">
-          {options.map((opt) => {
-            const selected = opt.value === value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => {
-                  onChange(opt.value);
-                  setOpen(false);
-                }}
-                className={`w-full text-left px-3 py-2 rounded-xl text-xs flex items-center justify-between gap-2 transition-colors ${
-                  selected
-                    ? 'bg-[#1D2129] text-white font-medium'
-                    : 'text-[#4F627A] hover:bg-[#F7F8FA] hover:text-[#1D2129]'
-                }`}
-              >
-                <span className="truncate">{opt.label}</span>
-                {selected && <Check size={12} className="shrink-0" />}
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function ShopPage({
   onSelectProduct,
   selectedCategory,
@@ -98,6 +38,7 @@ export default function ShopPage({
   const [collections, setCollections] = useState([]);
   const [discounts, setDiscounts] = useState([]);
   const [copiedKode, setCopiedKode] = useState('');
+  const [promoIndex, setPromoIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -109,6 +50,7 @@ export default function ShopPage({
   const [viewMode, setViewMode] = useState('img'); // 'img' | 'txt'
   const [visibleCount, setVisibleCount] = useState(12);
   const [quickAddedId, setQuickAddedId] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   useEffect(() => {
     setSearch(initialSearch);
@@ -147,12 +89,11 @@ export default function ShopPage({
     return Array.from(set).sort((a, b) => a.localeCompare(b));
   }, [products]);
 
-  const hasActiveFilters =
-    Boolean(selectedCategory) ||
-    Boolean(selectedBrand) ||
-    Boolean(search.trim()) ||
-    priceRange !== 'all' ||
-    onlyFavorites;
+  const activeFilterCount =
+    (selectedBrand ? 1 : 0) +
+    (priceRange !== 'all' ? 1 : 0) +
+    (sortBy !== 'featured' ? 1 : 0) +
+    (onlyFavorites ? 1 : 0);
 
   const resetAllFilters = () => {
     setSearch('');
@@ -204,8 +145,9 @@ export default function ShopPage({
 
   const displayedProducts = filteredProducts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredProducts.length;
+  const currentPromo = discounts[promoIndex % Math.max(discounts.length, 1)] || null;
 
-  const handleTxtAdd = (e, product) => {
+  const handleQuickAdd = (e, product) => {
     e.stopPropagation();
     if (Number(product.stok) <= 0) return;
     addToCart(product, 1);
@@ -213,178 +155,82 @@ export default function ShopPage({
     setTimeout(() => setQuickAddedId(null), 900);
   };
 
-  return (
-    <div className="bg-white min-h-screen py-8 sm:py-12">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
-        {/* Clean Apple Store Catalog Header */}
-        <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#D2D2D7]/70">
-          <div className="space-y-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#6E6E73] block">
-              Perangkat IT Terkurasi &lt; Rp 10 Juta • Lulus 32 Titik QC
-            </span>
-            <h1 className="font-display text-4xl sm:text-6xl font-semibold tracking-[-0.04em] text-[#1D1D1F] leading-[1.02]">
-              Katalog.
-            </h1>
-          </div>
+  const handleCopyPromo = () => {
+    if (!currentPromo) return;
+    navigator.clipboard?.writeText(currentPromo.kode);
+    setCopiedKode(currentPromo.kode);
+    setTimeout(() => {
+      setCopiedKode('');
+      if (discounts.length > 1) {
+        setPromoIndex((i) => (i + 1) % discounts.length);
+      }
+    }, 1800);
+  };
 
-          <div className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-full bg-[#F5F5F7] font-mono text-xs text-[#6E6E73] tabular-nums">
-            <span className="w-2 h-2 rounded-full bg-[#0071E3]" />
-            <span>
-              <strong className="text-[#1D1D1F]">{filteredProducts.length}</strong> unit tersedia
-            </span>
-          </div>
+  return (
+    <div className="bg-white min-h-screen py-10 sm:py-16">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-6">
+        {/* Clean Apple Header: Title + 1 Plain Grey Line */}
+        <header className="space-y-1.5">
+          <h1 className="tc-section-title text-[#1D1D1F]">Katalog</h1>
+          <p className="text-[15px] text-[#6E6E73] tabular-nums">
+            {filteredProducts.length} unit tersedia
+          </p>
         </header>
 
-        {/* Studio Pill Filter Toolbar (Custom appearance-none selects = 100% centered on Windows Chrome!) */}
-        <section className="space-y-4" aria-label="Filter Katalog">
-          <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
-            <div className="relative w-full lg:flex-1 lg:max-w-md">
-              <Search size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+        {/* MAX 3 CONTROL ROWS BEFORE PRODUCTS */}
+        <section className="space-y-3" aria-label="Pencarian dan Filter Katalog">
+          {/* Row 1: Borderless #F5F5F7 Search (12px radius) + Single Filter Button */}
+          <div className="flex items-center gap-2.5">
+            <div className="relative flex-1">
+              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
               <input
                 type="text"
-                placeholder="Cari ThinkPad, ASUS, MSI, Logitech, RAM..."
+                placeholder="Cari laptop, monitor, RAM, SSD, mouse..."
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
                   setVisibleCount(12);
                 }}
-                className="tc-input pl-10"
+                className="w-full min-h-[44px] pl-11 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
               />
             </div>
 
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2">
-              <StudioDropdown
-                ariaLabel="Filter Brand"
-                value={selectedBrand}
-                onChange={(val) => {
-                  setSelectedBrand(val);
-                  setVisibleCount(12);
-                }}
-                options={[
-                  { value: '', label: 'Semua Brand' },
-                  ...availableBrands.map((b) => ({ value: b, label: b }))
-                ]}
-              />
-
-              <StudioDropdown
-                ariaLabel="Filter Harga"
-                value={priceRange}
-                onChange={(val) => {
-                  setPriceRange(val);
-                  setVisibleCount(12);
-                }}
-                options={[
-                  { value: 'all', label: 'Semua Harga' },
-                  { value: 'under1', label: '< Rp 1 Juta' },
-                  { value: '1to5', label: 'Rp 1 – 5 Juta' },
-                  { value: '5to10', label: 'Rp 5 – 10 Juta' }
-                ]}
-              />
-
-              <StudioDropdown
-                ariaLabel="Urutkan Produk"
-                value={sortBy}
-                onChange={(val) => setSortBy(val)}
-                options={[
-                  { value: 'featured', label: 'Urut: Unggulan' },
-                  { value: 'newest', label: 'Urut: Terbaru' },
-                  { value: 'price_asc', label: 'Harga Terendah' },
-                  { value: 'price_desc', label: 'Harga Tertinggi' }
-                ]}
-              />
-
-              <button
-                type="button"
-                onClick={() => setOnlyFavorites((prev) => !prev)}
-                className={`inline-flex items-center justify-center gap-1.5 px-4 h-[44px] rounded-full text-xs font-medium border transition-colors ${
-                  onlyFavorites
-                    ? 'bg-white text-[#1D2129] border-[#1D2129] shadow-xs'
-                    : 'bg-white text-[#1D2129] border-[#DCE2EA] hover:border-[#8692A3]'
-                }`}
-              >
-                <Heart
-                  size={13}
-                  className={onlyFavorites ? 'fill-[#0071E3] text-[#0071E3]' : 'text-[#6E6E73]'}
-                />
-                <span>Favorit</span>
-              </button>
-
-              {/* Pill Grid / List Toggle */}
-              <div
-                className="col-span-2 sm:col-span-1 inline-flex bg-white border border-[#DCE2EA] rounded-full p-1 h-[44px]"
-                role="group"
-                aria-label="Mode Tampilan Katalog"
-              >
-                <button
-                  type="button"
-                  onClick={() => setViewMode('img')}
-                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 rounded-full text-xs font-medium transition-colors ${
-                    viewMode === 'img'
-                      ? 'bg-[#1D2129] text-white'
-                      : 'text-[#647082] hover:text-[#1D2129]'
-                  }`}
-                >
-                  <LayoutGrid size={13} />
-                  <span>Grid</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('txt')}
-                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3.5 rounded-full text-xs font-medium transition-colors ${
-                    viewMode === 'txt'
-                      ? 'bg-[#1D2129] text-white'
-                      : 'text-[#647082] hover:text-[#1D2129]'
-                  }`}
-                >
-                  <List size={13} />
-                  <span>List</span>
-                </button>
-              </div>
-            </div>
+            <button
+              type="button"
+              onClick={() => setFilterOpen(true)}
+              className={`shrink-0 inline-flex items-center gap-2 min-h-[44px] px-4 rounded-[12px] text-[14px] font-medium transition-colors ${
+                activeFilterCount > 0
+                  ? 'bg-[#1D1D1F] text-white'
+                  : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+              }`}
+            >
+              <SlidersHorizontal size={15} strokeWidth={1.8} />
+              <span>Filter</span>
+              {activeFilterCount > 0 && (
+                <span className="w-5 h-5 rounded-full bg-[#0071E3] text-white text-[11px] flex items-center justify-center tabular-nums">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
           </div>
 
-          {/* Quick Budget / Price Range Strip (Xiaomi-style budget filter) */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-            {[
-              { id: 'all', label: 'Semua Harga' },
-              { id: 'under1', label: 'Di bawah 1 Juta' },
-              { id: '1to5', label: '1 – 5 Juta' },
-              { id: 'over5', label: '5 – 10 Juta' }
-            ].map((tier) => (
-              <button
-                key={tier.id}
-                type="button"
-                onClick={() => {
-                  setPriceRange(tier.id);
-                  setVisibleCount(12);
-                }}
-                className={`min-h-[34px] px-3.5 rounded-full text-[11px] font-medium whitespace-nowrap border transition-colors ${
-                  priceRange === tier.id
-                    ? 'bg-[#ECEFF4] text-[#1D2129] border-[#1D2129]'
-                    : 'bg-white text-[#647082] border-[#E2E7EE] hover:border-[#8692A3] hover:text-[#1D2129]'
-                }`}
-              >
-                {tier.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Pill Category Strip + Reset */}
+          {/* Row 2: Horizontal Category Chips (No border) + Tiny Grid/List Icons on Right */}
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 flex-1 no-scrollbar">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 py-0.5">
               <button
                 type="button"
                 onClick={() => {
                   onSelectCategory('');
                   setVisibleCount(12);
                 }}
-                className={`min-h-[40px] px-4 rounded-full text-xs font-medium whitespace-nowrap border transition-colors ${
+                className={`min-h-[36px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors ${
                   !selectedCategory
-                    ? 'bg-[#1D2129] text-white border-[#1D2129]'
-                    : 'bg-white text-[#4F627A] border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129]'
+                    ? 'bg-[#1D1D1F] text-white font-medium'
+                    : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                 }`}
               >
-                Semua Kategori
+                Semua
               </button>
               {collections.map((col) => (
                 <button
@@ -394,10 +240,10 @@ export default function ShopPage({
                     onSelectCategory(col.slug);
                     setVisibleCount(12);
                   }}
-                  className={`min-h-[40px] px-4 rounded-full text-xs font-medium whitespace-nowrap border transition-colors ${
+                  className={`min-h-[36px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors ${
                     selectedCategory === col.slug
-                      ? 'bg-[#1D2129] text-white border-[#1D2129]'
-                      : 'bg-white text-[#4F627A] border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129]'
+                      ? 'bg-[#1D1D1F] text-white font-medium'
+                      : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                   }`}
                 >
                   {col.nama}
@@ -405,280 +251,216 @@ export default function ShopPage({
               ))}
             </div>
 
-            {hasActiveFilters && (
+            {/* 2 Tiny Grid/List Icons */}
+            <div className="flex items-center gap-1 shrink-0" role="group" aria-label="Mode Tampilan">
               <button
                 type="button"
-                onClick={resetAllFilters}
-                className="shrink-0 inline-flex items-center gap-1.5 min-h-[40px] px-4 rounded-full border border-[#1D2129] text-[#1D2129] hover:bg-[#1D2129] hover:text-white text-xs font-medium transition-colors"
+                onClick={() => setViewMode('img')}
+                aria-label="Tampilan Grid"
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+                  viewMode === 'img'
+                    ? 'bg-[#F5F5F7] text-[#1D1D1F]'
+                    : 'text-[#6E6E73] hover:text-[#1D1D1F]'
+                }`}
               >
-                <RotateCcw size={12} />
-                <span>Reset</span>
+                <LayoutGrid size={16} strokeWidth={1.7} />
               </button>
-            )}
+              <button
+                type="button"
+                onClick={() => setViewMode('txt')}
+                aria-label="Tampilan Daftar"
+                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+                  viewMode === 'txt'
+                    ? 'bg-[#F5F5F7] text-[#1D1D1F]'
+                    : 'text-[#6E6E73] hover:text-[#1D1D1F]'
+                }`}
+              >
+                <List size={16} strokeWidth={1.7} />
+              </button>
+            </div>
           </div>
 
-          {/* Active Voucher Strip (1-click copy, clean conversion booster without cluttering Home) */}
-          {discounts.length > 0 && (
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-rose-600 shrink-0 pr-1">
-                <Tag size={13} />
-                <span>Promo:</span>
-              </span>
-              {discounts.slice(0, 3).map((d) => {
-                const isCopied = copiedKode === d.kode;
-                return (
-                  <button
-                    key={d.id}
-                    type="button"
-                    onClick={() => {
-                      navigator.clipboard.writeText(d.kode);
-                      setCopiedKode(d.kode);
-                      setTimeout(() => setCopiedKode(''), 1800);
-                    }}
-                    className={`inline-flex items-center gap-2 min-h-[36px] px-3.5 rounded-full border text-[11px] whitespace-nowrap transition-colors ${
-                      isCopied
-                        ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
-                        : 'bg-white border-[#E2E7EE] hover:border-rose-300 text-[#1D2129]'
-                    }`}
-                    title={`Salin kode ${d.kode}`}
-                  >
-                    <span className="font-mono font-semibold">{d.kode}</span>
-                    <span className="text-[#647082]">
-                      {d.tipe === 'persen' ? `-${d.nilai}%` : `-${formatIDR(d.nilai).replace(',00', '')}`}
-                    </span>
-                    {isCopied ? (
-                      <Check size={12} className="text-emerald-600" />
-                    ) : (
-                      <Copy size={11} className="text-[#8692A3]" />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          {/* Row 3: Thin 1-Line Promo Banner (Tap to copy) */}
+          {currentPromo && (
+            <button
+              type="button"
+              onClick={handleCopyPromo}
+              className="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[12px] px-4 py-2.5 flex items-center justify-center gap-1.5 text-[13px] text-[#1D1D1F] transition-colors text-center"
+            >
+              {copiedKode === currentPromo.kode ? (
+                <span className="inline-flex items-center gap-1.5 text-[#0071E3] font-medium">
+                  <Check size={14} />
+                  <span>Kode {currentPromo.kode} disalin — tempel saat checkout</span>
+                </span>
+              ) : (
+                <>
+                  <span>
+                    Pakai kode <strong>{currentPromo.kode}</strong>, hemat{' '}
+                    {currentPromo.tipe === 'persen'
+                      ? `${currentPromo.nilai}%`
+                      : formatIDR(currentPromo.nilai)}
+                  </span>
+                  <ChevronRight size={14} className="text-[#0071E3] shrink-0" />
+                </>
+              )}
+            </button>
           )}
         </section>
 
-        {/* Product List / Grid States */}
-        {error ? (
-          <div className="bg-white rounded-[24px] border border-[#E2E7EE] text-center py-14 px-4 space-y-4">
-            <AlertCircle size={28} className="mx-auto text-[#4F627A]" />
-            <p className="font-display text-xl font-medium text-[#1D2129]">
-              Gagal Memuat Katalog
-            </p>
-            <p className="text-xs text-[#647082]">{error}</p>
+        {/* Error State */}
+        {error && (
+          <div className="bg-[#F5F5F7] rounded-[28px] p-8 text-center space-y-3">
+            <AlertCircle size={24} className="text-[#B64400] mx-auto" />
+            <p className="text-[15px] font-medium text-[#1D1D1F]">{error}</p>
             <button type="button" onClick={fetchData} className="tc-btn-primary">
               Coba Lagi
             </button>
           </div>
-        ) : loading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5">
-            {Array.from({ length: 8 }).map((_, i) => (
+        )}
+
+        {/* Loading Skeleton */}
+        {loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {Array.from({ length: 6 }).map((_, i) => (
               <ProductCardSkeleton key={i} />
             ))}
           </div>
-        ) : filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-[24px] border border-[#E2E7EE] text-center py-16 px-4 space-y-4">
-            <PackageSearch size={28} className="mx-auto text-[#8692A3]" />
-            <p className="font-display text-xl font-medium text-[#1D2129]">
-              Unit Tidak Ditemukan
+        )}
+
+        {/* Empty State */}
+        {!loading && !error && filteredProducts.length === 0 && (
+          <div className="bg-[#F5F5F7] rounded-[28px] p-12 text-center space-y-3">
+            <PackageSearch size={28} strokeWidth={1.5} className="text-[#6E6E73] mx-auto" />
+            <h3 className="text-[19px] font-semibold text-[#1D1D1F]">Produk tidak ditemukan</h3>
+            <p className="text-[14px] text-[#6E6E73] max-w-sm mx-auto">
+              Ubah kata kunci pencarian atau atur ulang filter untuk melihat semua unit yang tersedia.
             </p>
-            <p className="text-xs text-[#647082] max-w-sm mx-auto leading-relaxed">
-              Coba ubah kata kunci pencarian, pilih brand lain, atau atur ulang filter harga dan kategori.
-            </p>
-            <button type="button" onClick={resetAllFilters} className="tc-btn-primary">
-              Reset Semua Filter
+            <button type="button" onClick={resetAllFilters} className="tc-btn-primary mt-2">
+              Reset Filter
             </button>
           </div>
-        ) : viewMode === 'img' ? (
-          <>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5">
-              {displayedProducts.map((product) => (
-                <ProductCard
+        )}
+
+        {/* Product Grid View */}
+        {!loading && !error && displayedProducts.length > 0 && viewMode === 'img' && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {displayedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} onSelect={onSelectProduct} />
+            ))}
+          </div>
+        )}
+
+        {/* Clean List View */}
+        {!loading && !error && displayedProducts.length > 0 && viewMode === 'txt' && (
+          <div className="divide-y divide-[#D2D2D7]/70 border-y border-[#D2D2D7]/70">
+            {displayedProducts.map((product) => {
+              const stockNum = Number(product.stok) || 0;
+              const outOfStock = stockNum <= 0;
+              const lowStock = !outOfStock && stockNum <= 3;
+              const isAdded = quickAddedId === product.id;
+
+              return (
+                <div
                   key={product.id}
-                  product={product}
-                  onSelect={onSelectProduct}
-                />
-              ))}
-            </div>
-
-            {hasMore && (
-              <div className="text-center pt-4">
-                <button
-                  type="button"
-                  onClick={() => setVisibleCount((prev) => prev + 8)}
-                  className="tc-btn-secondary px-8"
+                  onClick={() => onSelectProduct(product)}
+                  className="py-5 flex items-center justify-between gap-4 cursor-pointer group"
                 >
-                  Muat Lebih Banyak ({filteredProducts.length - visibleCount} unit lagi)
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          /* Clean Studio List Mode (Mobile Stacked + Tablet/Desktop Spec Table) */
-          <>
-            <div className="md:hidden bg-white rounded-[24px] border border-[#E2E7EE] divide-y divide-[#ECEFF4] overflow-hidden">
-              {displayedProducts.map((product) => {
-                const outOfStock = Number(product.stok) <= 0;
-                const lowStock = !outOfStock && Number(product.stok) <= 5;
-                const isAdded = quickAddedId === product.id;
+                  <div className="flex items-center gap-4 min-w-0">
+                    <div className="w-16 h-16 rounded-2xl bg-[#F5F5F7] p-2 flex items-center justify-center shrink-0">
+                      <img
+                        src={product.gambar?.[0] || '/assets/products/thinkpad-x1-carbon-front.png'}
+                        alt={product.nama}
+                        width={64}
+                        height={64}
+                        loading="lazy"
+                        className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.04]"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-[16px] font-semibold text-[#1D1D1F] group-hover:text-[#0071E3] transition-colors truncate">
+                        {product.nama}
+                      </h3>
+                      <p className="text-[13px] text-[#6E6E73] truncate">
+                        {product.specRangeLabel || product.tagline}
+                      </p>
+                      {lowStock && (
+                        <span className="text-[12px] text-[#B64400]">Sisa {stockNum}</span>
+                      )}
+                    </div>
+                  </div>
 
-                return (
-                  <div
-                    key={product.id}
-                    onClick={() => onSelectProduct(product)}
-                    className="p-4 hover:bg-[#F7F8FA] cursor-pointer transition-colors space-y-2"
-                  >
-                    <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.06em]">
-                      <span className="text-[#8692A3] tabular-nums">
-                        TC_{String(product.id).padStart(2, '0')} • {product.brand || 'TechCare'}
-                      </span>
-                      {outOfStock ? (
-                        <span className="text-rose-600 font-semibold">Habis</span>
-                      ) : lowStock ? (
-                        <span className="text-[#1D2129] font-semibold">Sisa {product.stok}</span>
-                      ) : (
-                        <span className="text-[#647082]">Stok {product.stok}</span>
+                  <div className="flex items-center gap-4 shrink-0">
+                    <div className="text-right hidden sm:block">
+                      <p className="text-[15px] font-semibold text-[#1D1D1F] tabular-nums">
+                        {formatIDR(product.harga)}
+                      </p>
+                      {product.hargaCoret && (
+                        <p className="text-[12px] text-[#6E6E73] line-through tabular-nums">
+                          {formatIDR(product.hargaCoret)}
+                        </p>
                       )}
                     </div>
 
-                    <div>
-                      <p className="font-display text-sm font-medium text-[#1D2129] leading-snug">
-                        {product.nama}
-                      </p>
-                      <p className="text-[11px] text-[#647082] mt-0.5">
-                        {product.kondisi || 'Grade A'} • {product.specRangeLabel || product.tagline}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-3 pt-1">
-                      <div className="tabular-nums">
-                        {product.hargaCoret && (
-                          <span className="font-mono text-[10px] text-[#8692A3] line-through block leading-tight">
-                            {formatIDR(product.hargaCoret)}
-                          </span>
-                        )}
-                        <span className="font-display text-sm font-semibold text-[#1D2129]">
-                          {formatIDR(product.harga)}
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={(e) => handleTxtAdd(e, product)}
-                        disabled={outOfStock}
-                        className={`inline-flex items-center justify-center gap-1 min-h-[42px] px-4 rounded-full text-xs font-medium transition-colors ${
-                          outOfStock
-                            ? 'bg-[#ECEFF4] text-[#8692A3] cursor-not-allowed'
-                            : isAdded
-                            ? 'bg-emerald-700 text-white'
-                            : 'bg-[#1D2129] text-white hover:bg-[#323846]'
-                        }`}
-                        aria-label={`Tambah ${product.nama} ke keranjang`}
-                      >
-                        {isAdded ? <Check size={14} /> : <Plus size={14} />}
-                        <span>{outOfStock ? 'Habis' : isAdded ? 'Masuk' : 'Tambah'}</span>
-                      </button>
-                    </div>
+                    <button
+                      type="button"
+                      disabled={outOfStock}
+                      onClick={(e) => handleQuickAdd(e, product)}
+                      className={`min-h-[36px] px-4 rounded-[980px] text-[13px] transition-colors ${
+                        outOfStock
+                          ? 'bg-[#F5F5F7] text-[#6E6E73] cursor-not-allowed'
+                          : isAdded
+                          ? 'bg-[#1D1D1F] text-white'
+                          : 'bg-[#0071E3] text-white hover:bg-[#0077ED]'
+                      }`}
+                    >
+                      {outOfStock ? 'Habis' : isAdded ? 'Masuk' : 'Beli'}
+                    </button>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-            <div className="hidden md:block bg-white rounded-[24px] border border-[#E2E7EE] overflow-hidden">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-[#E2E7EE] bg-[#F7F8FA] font-mono text-[10px] uppercase tracking-[0.1em] text-[#647082]">
-                    <th className="py-3.5 px-4 w-20">SKU</th>
-                    <th className="py-3.5 px-4">Perangkat &amp; Spesifikasi</th>
-                    <th className="py-3.5 px-4 w-32">Brand</th>
-                    <th className="py-3.5 px-4 w-24">Stok</th>
-                    <th className="py-3.5 px-4 w-36 text-right">Harga</th>
-                    <th className="py-3.5 px-4 w-24 text-right">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-[#ECEFF4]">
-                  {displayedProducts.map((product) => {
-                    const outOfStock = Number(product.stok) <= 0;
-                    const lowStock = !outOfStock && Number(product.stok) <= 5;
-                    const isAdded = quickAddedId === product.id;
-
-                    return (
-                      <tr
-                        key={product.id}
-                        onClick={() => onSelectProduct(product)}
-                        className="hover:bg-[#F7F8FA] cursor-pointer transition-colors group"
-                      >
-                        <td className="py-3.5 px-4 font-mono text-xs text-[#8692A3] tabular-nums">
-                          TC_{String(product.id).padStart(2, '0')}
-                        </td>
-                        <td className="py-3.5 px-4">
-                          <p className="font-display text-sm font-medium text-[#1D2129] group-hover:text-[#4F627A] transition-colors">
-                            {product.nama}
-                          </p>
-                          <p className="text-[11px] text-[#647082] mt-0.5">
-                            {product.kondisi || 'Grade A'} • {product.specRangeLabel || product.tagline}
-                          </p>
-                        </td>
-                        <td className="py-3.5 px-4 font-mono text-[11px] uppercase text-[#4F627A]">
-                          {product.brand || 'TechCare'}
-                        </td>
-                        <td className="py-3.5 px-4 font-mono text-[11px] tabular-nums">
-                          {outOfStock ? (
-                            <span className="text-rose-600 font-semibold">Habis</span>
-                          ) : lowStock ? (
-                            <span className="text-[#1D2129] font-semibold">Sisa {product.stok}</span>
-                          ) : (
-                            <span className="text-[#647082]">{product.stok} unit</span>
-                          )}
-                        </td>
-                        <td className="py-3.5 px-4 text-right tabular-nums">
-                          {product.hargaCoret && (
-                            <span className="font-mono text-[10px] text-[#8692A3] line-through block">
-                              {formatIDR(product.hargaCoret)}
-                            </span>
-                          )}
-                          <span className="font-display text-sm font-semibold text-[#1D2129]">
-                            {formatIDR(product.harga)}
-                          </span>
-                        </td>
-                        <td className="py-3.5 px-4 text-right">
-                          <button
-                            type="button"
-                            onClick={(e) => handleTxtAdd(e, product)}
-                            disabled={outOfStock}
-                            className={`inline-flex items-center justify-center w-10 h-10 rounded-full transition-colors ${
-                              outOfStock
-                                ? 'bg-[#ECEFF4] text-[#8692A3] cursor-not-allowed'
-                                : isAdded
-                                ? 'bg-emerald-700 text-white'
-                                : 'bg-[#1D2129] text-white hover:bg-[#323846]'
-                            }`}
-                            aria-label={`Tambah ${product.nama} ke keranjang`}
-                          >
-                            {isAdded ? <Check size={15} /> : <Plus size={15} />}
-                          </button>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
-
-            {hasMore && (
-              <div className="text-center pt-4">
-                <button
-                  type="button"
-                  onClick={() => setVisibleCount((prev) => prev + 8)}
-                  className="tc-btn-secondary px-8"
-                >
-                  Muat Lebih Banyak ({filteredProducts.length - visibleCount} unit lagi)
-                </button>
-              </div>
-            )}
-          </>
+        {/* Load More */}
+        {!loading && !error && hasMore && (
+          <div className="pt-4 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setVisibleCount((prev) => prev + 12)}
+              className="tc-btn-secondary"
+            >
+              Muat lebih banyak ({filteredProducts.length - displayedProducts.length} lagi)
+            </button>
+          </div>
         )}
       </div>
+
+      {/* Filter Bottom Sheet */}
+      <FilterSheet
+        isOpen={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        availableBrands={availableBrands}
+        selectedBrand={selectedBrand}
+        onSelectBrand={(val) => {
+          setSelectedBrand(val);
+          setVisibleCount(12);
+        }}
+        priceRange={priceRange}
+        onSelectPriceRange={(val) => {
+          setPriceRange(val);
+          setVisibleCount(12);
+        }}
+        sortBy={sortBy}
+        onSelectSortBy={setSortBy}
+        onlyFavorites={onlyFavorites}
+        onToggleFavorites={() => {
+          setOnlyFavorites((prev) => !prev);
+          setVisibleCount(12);
+        }}
+        onReset={resetAllFilters}
+        resultCount={filteredProducts.length}
+      />
     </div>
   );
 }

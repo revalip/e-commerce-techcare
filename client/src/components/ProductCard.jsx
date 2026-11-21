@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
-import { Plus, Check, Heart } from 'lucide-react';
+import { Heart, Check } from 'lucide-react';
 import { formatIDR } from '../utils/format';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
+/**
+ * Clean Apple-Style Product Card (v2):
+ * - #F5F5F7 background, 28px radius, ZERO border and ZERO shadow
+ * - Centered transparent PNG with uniform height (scales 1.04 on hover)
+ * - Small heart icon in corner WITHOUT a big white circle
+ * - Only: optional small blue "Hemat X%", optional soft red #B64400 "Sisa N" (only if <= 3),
+ *   title (600, 17px), 1-line grey spec, bold price + small grey strikethrough beside it,
+ *   and blue pill "Beli" button.
+ */
 export default function ProductCard({ product, onSelect }) {
   const { addToCart } = useCart();
   const { isWishlisted, toggleWishlist } = useWishlist();
 
   const [isAdded, setIsAdded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const wishlisted = isWishlisted(product.id);
-  const outOfStock = Number(product.stok) <= 0;
-  const lowStock = !outOfStock && Number(product.stok) <= 5;
-  const skuCode = `TC_${String(product.id).padStart(2, '0')}`;
+  const stockNum = Number(product.stok) || 0;
+  const outOfStock = stockNum <= 0;
+  const lowStock = !outOfStock && stockNum <= 3;
 
   const images =
     product.gambar && product.gambar.length > 0
       ? product.gambar
-      : ['/images/products/thinkpad-x1-carbon-front.jpg'];
-  const hasSecondAngle = images.length > 1 && images[1] !== images[0];
-  const isStudioJpg = (src) => /\.(jpe?g)$/i.test(src || '');
+      : ['/assets/products/thinkpad-x1-carbon-front.png'];
 
   const handleAdd = (e) => {
     e.stopPropagation();
@@ -38,157 +44,95 @@ export default function ProductCard({ product, onSelect }) {
 
   return (
     <article
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={() => onSelect(product)}
-      className="bg-white rounded-[24px] border border-[#D2D2D7]/60 hover:border-[#D2D2D7] hover:shadow-tc-lift hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full overflow-hidden"
+      className="relative bg-[#F5F5F7] rounded-[28px] p-5 sm:p-6 flex flex-col justify-between group cursor-pointer h-full transition-colors duration-300"
     >
-      {/* Seamless Studio Stage (#F5F5F7) */}
-      <div
-        className={`relative bg-[#F5F5F7] aspect-[4/3] w-full flex items-center justify-center overflow-hidden ${
-          isStudioJpg(images[0]) ? 'p-0' : 'p-5'
-        }`}
+      {/* Small Heart Icon in Top-Right Corner (No big white circle) */}
+      <button
+        type="button"
+        onClick={handleToggleHeart}
+        aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
+        className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F] transition-colors"
       >
-        {/* Top-left Minimal Discount or SKU Pill */}
-        <div className="absolute top-3 left-3 z-20 flex items-center gap-1.5">
-          {!outOfStock && product.diskonPersen > 0 ? (
-            <span className="bg-[#1D1D1F] text-white font-mono text-[10px] font-semibold px-2.5 py-0.5 rounded-full tabular-nums">
-              -{product.diskonPersen}%
-            </span>
-          ) : (
-            <span className="bg-white/95 text-[#6E6E73] font-mono text-[10px] px-2 py-0.5 rounded-full border border-[#D2D2D7]/60 tabular-nums">
-              {skuCode}
-            </span>
-          )}
-        </div>
+        <Heart
+          size={18}
+          strokeWidth={1.7}
+          className={wishlisted ? 'fill-[#0071E3] text-[#0071E3]' : ''}
+        />
+      </button>
 
-        {/* Top-right Solid Canvas Circle Wishlist Toggle (Monochrome until clicked) */}
-        <button
-          type="button"
-          onClick={handleToggleHeart}
-          aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-          className="absolute top-3 right-3 z-20 w-9 h-9 rounded-full flex items-center justify-center bg-[#FFFFFF] border border-[#D2D2D7]/70 hover:border-[#1D1D1F]/30 transition-all cursor-pointer"
-        >
-          <Heart
-            size={15}
-            className={
-              wishlisted
-                ? 'fill-[#0071E3] text-[#0071E3] transition-transform scale-110'
-                : 'text-[#6E6E73] hover:text-[#1D1D1F] transition-colors'
-            }
-          />
-        </button>
-
-        {/* Product Image */}
-        <div className="relative w-full h-full flex items-center justify-center">
-          <img
-            src={images[0]}
-            alt={product.nama}
-            loading="lazy"
-            className={`${
-              isStudioJpg(images[0])
-                ? 'w-full h-full object-cover object-center'
-                : 'max-h-full max-w-[84%] object-contain'
-            } select-none transition-all duration-500 ${
-              isHovered ? 'scale-105' : 'scale-100'
-            } ${isHovered && hasSecondAngle ? 'opacity-0' : 'opacity-100'}`}
-          />
-          {hasSecondAngle && (
-            <img
-              src={images[1]}
-              alt={`${product.nama} tampak lain`}
-              loading="lazy"
-              className={`absolute inset-0 m-auto ${
-                isStudioJpg(images[1])
-                  ? 'w-full h-full object-cover object-center'
-                  : 'max-h-full max-w-[84%] object-contain'
-              } select-none transition-all duration-500 ${
-                isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100'
-              }`}
-            />
-          )}
-        </div>
-
-        {/* Bottom-left Condition Pill */}
-        <span className="absolute bottom-3 left-3 z-10 bg-white text-[#1D1D1F] text-[10px] font-medium px-2.5 py-0.5 rounded-full max-w-[85%] truncate shadow-xs">
-          {product.kondisi || 'Grade A'}
-        </span>
+      {/* Uniform-Height Transparent PNG Product Stage */}
+      <div className="h-44 sm:h-52 w-full flex items-center justify-center px-2 pt-2 pb-4 overflow-hidden">
+        <img
+          src={images[0]}
+          alt={product.nama}
+          width={480}
+          height={360}
+          loading="lazy"
+          className="max-h-full max-w-[88%] object-contain select-none transition-transform duration-300 group-hover:scale-[1.04]"
+        />
       </div>
 
-      {/* Card Body */}
-      <div className="p-4 flex-1 flex flex-col justify-between gap-3">
+      {/* Clean Minimal Info */}
+      <div className="flex-1 flex flex-col justify-between gap-4 pt-2">
         <div className="space-y-1">
-          <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.04em]">
-            <span className="text-[#6E6E73] truncate">{product.brand || 'TechCare'}</span>
-            {outOfStock ? (
-              <span className="text-[#6E6E73] font-semibold shrink-0">Habis</span>
-            ) : lowStock ? (
-              <span className="text-[#0071E3] font-semibold shrink-0 tabular-nums">
-                Sisa {product.stok}
-              </span>
-            ) : (
-              <span className="text-[#6E6E73] shrink-0 tabular-nums">Stok {product.stok}</span>
-            )}
-          </div>
+          {/* Small blue savings / soft red low-stock (<= 3 only) */}
+          {(product.diskonPersen > 0 || lowStock || outOfStock) && (
+            <div className="flex items-center gap-2.5 text-[12px] font-medium min-h-[18px]">
+              {!outOfStock && product.diskonPersen > 0 && (
+                <span className="text-[#0071E3]">Hemat {product.diskonPersen}%</span>
+              )}
+              {outOfStock ? (
+                <span className="text-[#6E6E73]">Stok habis</span>
+              ) : lowStock ? (
+                <span className="text-[#B64400]">Sisa {stockNum}</span>
+              ) : null}
+            </div>
+          )}
 
-          <h3 className="font-display font-semibold text-[14px] sm:text-[15px] text-[#1D1D1F] group-hover:text-[#0071E3] transition-colors leading-snug line-clamp-2 min-h-[2.45em]">
+          <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-[#1D1D1F] leading-[1.25] line-clamp-2 min-h-[2.5em]">
             {product.nama}
           </h3>
 
-          <p className="text-[11px] text-[#6E6E73] line-clamp-1">
+          <p className="text-[13px] text-[#6E6E73] line-clamp-1">
             {product.specRangeLabel || product.tagline}
           </p>
-
-          {Array.isArray(product.varianWarna) && product.varianWarna.length > 0 && (
-            <div className="flex items-center gap-1.5 pt-1" aria-label="Pilihan warna">
-              {product.varianWarna.slice(0, 4).map((v) => (
-                <span
-                  key={v.nama}
-                  title={v.nama}
-                  className="w-2.5 h-2.5 rounded-full border border-[#D2D2D7] shrink-0"
-                  style={{ backgroundColor: v.hex || '#1D1D1F' }}
-                />
-              ))}
-              {product.varianWarna.length > 1 && (
-                <span className="text-[10px] text-[#6E6E73] ml-0.5">
-                  {product.varianWarna.length} warna
-                </span>
-              )}
-            </div>
-          )}
         </div>
 
-        {/* Price + Pill CTA */}
-        <div className="pt-3 border-t border-[#F5F5F7] flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-          <div className="min-w-0">
+        {/* Price Row + Blue Pill "Beli" */}
+        <div className="flex items-end justify-between gap-3 pt-1">
+          <div className="flex items-baseline gap-2 flex-wrap min-w-0">
+            <span className="text-[16px] font-semibold text-[#1D1D1F] tabular-nums">
+              {formatIDR(product.harga)}
+            </span>
             {product.hargaCoret && (
-              <span className="font-mono text-[10px] text-[#6E6E73] line-through block leading-tight mb-0.5 tabular-nums">
+              <span className="text-[12px] text-[#6E6E73] line-through tabular-nums">
                 {formatIDR(product.hargaCoret)}
               </span>
             )}
-            <span className="font-display text-sm sm:text-[15px] font-semibold text-[#1D1D1F] tracking-tight block tabular-nums">
-              {formatIDR(product.harga)}
-            </span>
           </div>
 
           <button
             type="button"
             onClick={handleAdd}
             disabled={outOfStock}
-            className={`w-full sm:w-9 min-h-[40px] sm:h-9 px-3 sm:px-0 rounded-full flex items-center justify-center gap-1.5 flex-shrink-0 transition-colors text-xs font-medium ${
+            className={`shrink-0 min-h-[36px] px-4 rounded-[980px] text-[13px] font-normal inline-flex items-center justify-center gap-1 transition-colors duration-300 ${
               outOfStock
-                ? 'bg-[#F5F5F7] text-[#6E6E73] cursor-not-allowed'
+                ? 'bg-[#E5E5EA] text-[#6E6E73] cursor-not-allowed'
                 : isAdded
                 ? 'bg-[#1D1D1F] text-white'
                 : 'bg-[#0071E3] text-white hover:bg-[#0077ED]'
             }`}
-            aria-label={outOfStock ? `${product.nama} stok habis` : `Tambah ${product.nama} ke keranjang`}
-            title={outOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}
+            aria-label={outOfStock ? `${product.nama} stok habis` : `Beli ${product.nama}`}
           >
-            {isAdded ? <Check size={14} strokeWidth={2.4} /> : <Plus size={14} strokeWidth={2.2} />}
-            <span className="sm:hidden">
-              {outOfStock ? 'Habis' : isAdded ? 'Masuk' : 'Beli'}
-            </span>
+            {isAdded ? (
+              <>
+                <Check size={13} strokeWidth={2.2} />
+                <span>Masuk</span>
+              </>
+            ) : (
+              <span>{outOfStock ? 'Habis' : 'Beli'}</span>
+            )}
           </button>
         </div>
       </div>
