@@ -54,7 +54,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
       title: 'Untuk Bisnis',
       links: [
         { label: 'Pengadaan Laptop Kantor', action: () => onNavigate('about') },
-        { label: 'Maintenance Hardware UMKM', action: () => onNavigate('about') },
+        { label: 'Maintenance Hardware Kantor', action: () => onNavigate('about') },
         { label: 'Custom Spesifikasi Unit', action: () => onNavigate('shop') }
       ]
     },

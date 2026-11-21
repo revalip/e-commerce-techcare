@@ -138,7 +138,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
               style={{ opacity: revealOpacity, y: revealY, pointerEvents: revealPointer }}
               className="relative z-30 w-full max-w-6xl mx-auto px-6 lg:px-8 h-full flex items-center"
             >
-              <div className="w-[42%] space-y-4">
+              <div className="w-[35%] max-w-xs space-y-4">
                 <h2 className="font-display text-5xl font-semibold tracking-[-0.045em] leading-[1.04] text-[#1D2129]">
                   32 Titik QC.
                   <br />
