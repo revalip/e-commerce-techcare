@@ -544,16 +544,20 @@ export default function Laptop3DCanvas({
         const smoothOpen = openT * openT * (3 - 2 * openT);
         const smoothGlide = glideT * glideT * (3 - 2 * glideT);
 
-        // Dramatic Airform × Apple scroll choreography
-        const targetRotY = -0.82 + smoothOpen * 0.56 + smoothGlide * 0.08;
-        const targetRotX = 0.26 - smoothOpen * 0.14;
-        const targetRotZ = -0.06 * (1 - smoothOpen);
-        const targetOpen = 0.08 + smoothOpen * 0.92; // 8% cracked shut -> 100% wide open!
+        // Auto-open smoothly on initial page load (like Apple iPhone Duo), then stay grounded
+        const introRaw = prefersReducedMotion ? 1 : Math.min(1, t / 1.45);
+        const introEase = 1 - Math.pow(1 - introRaw, 3);
+        const effectiveOpen = Math.max(smoothOpen, introEase * 0.92);
+
+        const targetRotY = -0.78 + effectiveOpen * 0.54 + smoothGlide * 0.08;
+        const targetRotX = 0.24 - effectiveOpen * 0.12;
+        const targetRotZ = -0.05 * (1 - effectiveOpen);
+        const targetOpen = 0.08 + effectiveOpen * 0.92; // Smoothly opens on load!
         const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
-        const targetPosY = isNarrow ? 0.42 + smoothGlide * 0.72 : 0.08 - smoothGlide * 0.14;
+        const targetPosY = isNarrow ? 0.18 + smoothGlide * 0.52 : 0.08 - smoothGlide * 0.14;
         const targetCamZ =
-          (isNarrow ? 9.6 * aspectBoost : 7.1) - smoothOpen * 0.3 + smoothGlide * 0.4;
-        const targetCamY = (isNarrow ? 0.45 + smoothGlide * 0.35 : 0.52) + smoothOpen * 0.16;
+          (isNarrow ? 8.6 * aspectBoost : 7.1) - effectiveOpen * 0.25 + smoothGlide * 0.4;
+        const targetCamY = (isNarrow ? 0.48 + smoothGlide * 0.25 : 0.52) + effectiveOpen * 0.14;
 
         const tiltX = prefersReducedMotion || isPhone ? 0 : pointer.y * 0.08;
         const tiltY = prefersReducedMotion || isPhone ? 0 : pointer.x * 0.16;

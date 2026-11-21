@@ -55,16 +55,20 @@ export default function HeroSection({ onShopClick, onTrackClick }) {
         </div>
 
         <div className="flex items-center justify-center gap-3">
-          <button type="button" onClick={onShopClick} className="tc-btn-primary flex-1">
-            <span>Lihat Katalog</span>
-            <ArrowUpRight size={15} />
-          </button>
           <button
             type="button"
             onClick={onTrackClick}
-            className="min-h-[44px] px-4 rounded-full bg-white border border-[#DCE2EA] text-xs font-medium text-[#1D2129]"
+            className="min-h-[44px] px-5 rounded-full bg-[#1D2129] text-white text-xs font-medium flex-1 text-center"
           >
-            Lacak Pesanan
+            Selengkapnya
+          </button>
+          <button
+            type="button"
+            onClick={onShopClick}
+            className="min-h-[44px] px-5 rounded-full bg-white border border-[#1D2129] text-[#1D2129] text-xs font-medium flex-1 inline-flex items-center justify-center gap-1"
+          >
+            <span>Beli</span>
+            <ArrowUpRight size={14} />
           </button>
         </div>
         <p className="text-[11px] text-[#647082] text-center">
