@@ -243,10 +243,21 @@ function rigMacbookClone(sourceScene, screenTexture) {
     screenMesh.material = screenMat;
   }
 
-  // Tune PBR envMapIntensity for crisp anodized aluminum highlights
+  // Neutralize Apple logo material & tune PBR envMapIntensity for matte Space-Black Ultrabook finish
+  const unbrandedLidMat = new THREE.MeshStandardMaterial({
+    color: new THREE.Color('#282D36'),
+    metalness: 0.65,
+    roughness: 0.35,
+    envMapIntensity: 1.05
+  });
   const seen = new Set();
   modelScene.traverse((o) => {
     if (!o.isMesh) return;
+    if (Array.isArray(o.material)) {
+      o.material = o.material.map((m) => (m?.name === 'JvMFZolVCdpPqjj' ? unbrandedLidMat : m));
+    } else if (o.material?.name === 'JvMFZolVCdpPqjj') {
+      o.material = unbrandedLidMat;
+    }
     const mats = Array.isArray(o.material) ? o.material : [o.material];
     mats.forEach((m) => {
       if (!m || seen.has(m)) return;
@@ -500,9 +511,9 @@ export default function Laptop3DCanvas({
       rotX: mode === 'hero' ? 0.26 : 0.18,
       rotZ: mode === 'hero' ? -0.06 : 0,
       posX: 0,
-      posY: -0.15,
+      posY: mode === 'hero' ? 0.08 : -0.15,
       open: mode === 'hero' ? 0.08 : 0.96,
-      camZ: 6.2,
+      camZ: mode === 'hero' ? 7.1 : 6.2,
       camY: 0.6
     };
 
@@ -540,10 +551,10 @@ export default function Laptop3DCanvas({
         const targetOpen = 0.08 + smoothOpen * 0.92; // 8% cracked shut -> 100% wide open!
         const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
         const targetPosY =
-          (isNarrow ? 0.22 + smoothGlide * 0.92 : -0.14) +
+          (isNarrow ? 0.42 + smoothGlide * 0.72 : 0.08 - smoothGlide * 0.14) +
           (prefersReducedMotion ? 0 : Math.sin(t * 1.35) * 0.05);
         const targetCamZ =
-          (isNarrow ? 8.6 * aspectBoost : 6.35) - smoothOpen * 0.2 + smoothGlide * 0.45;
+          (isNarrow ? 9.6 * aspectBoost : 7.1) - smoothOpen * 0.3 + smoothGlide * 0.4;
         const targetCamY = (isNarrow ? 0.45 + smoothGlide * 0.35 : 0.52) + smoothOpen * 0.16;
 
         const tiltX = prefersReducedMotion || isPhone ? 0 : pointer.y * 0.08;
