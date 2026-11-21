@@ -8,7 +8,6 @@ import { getProduct } from './services/api';
 
 // Components
 import Navbar from './components/Navbar';
-import MobileBottomNav from './components/MobileBottomNav';
 import CartDrawer from './components/CartDrawer';
 import WishlistDrawer from './components/WishlistDrawer';
 import CartToast from './components/CartToast';
@@ -213,12 +212,11 @@ function MainApp() {
     <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#1D1D1F] overflow-x-clip">
       <Navbar
         onNavigate={handleNavigate}
-        onSelectCollection={handleSelectCollection}
         onQuickSearch={handleQuickSearch}
         currentPage={currentPage}
       />
 
-      <main className="flex-1 pb-20 md:pb-0">
+      <main className="flex-1">
         <AnimatePresence mode="wait">
           {currentPage === 'home' && (
             <motion.div
@@ -369,8 +367,6 @@ function MainApp() {
           )}
         </AnimatePresence>
       </main>
-
-      <MobileBottomNav currentPage={currentPage} onNavigate={handleNavigate} />
 
       <CartDrawer
         onCheckout={() => handleNavigate('checkout')}

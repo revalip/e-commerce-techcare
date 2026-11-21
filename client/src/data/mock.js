@@ -24,8 +24,8 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/thinkpad-x1-carbon-front.jpg',
-      '/images/products/thinkpad-x1-carbon-side.jpg'
+      '/assets/products/thinkpad-x1-carbon-front.png',
+      '/assets/products/thinkpad-x1-carbon-side.png'
     ],
     varianWarna: [
       { nama: 'Carbon Matte Black', hex: '#1c1c1e' }
@@ -73,8 +73,8 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/macbook-air-m1.jpg',
-      '/images/products/macbook-air-m1.jpg'
+      '/assets/products/macbook-air-m1.png',
+      '/assets/products/macbook-air-m1.png'
     ],
     varianWarna: [
       { nama: 'Space Gray', hex: '#4a4a4e' },
@@ -121,7 +121,7 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/asus-zenbook-14-oled.jpg'
+      '/assets/products/asus-zenbook-14-oled.png'
     ],
     varianWarna: [
       { nama: 'Aqua Celadon Silver', hex: '#cbd5e1' },
@@ -168,7 +168,7 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/images/products/dell-latitude-7420.jpg'
+      '/assets/products/dell-latitude-7420.png'
     ],
     varianWarna: [
       { nama: 'Carbon Fiber Grey', hex: '#2f3237' }
@@ -216,7 +216,7 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
-      '/images/products/corsair-vengeance-ram.jpg'
+      '/assets/products/corsair-vengeance-ram.png'
     ],
     varianWarna: [
       { nama: 'Anodized Matte Black', hex: '#18181b' }
@@ -262,7 +262,7 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
-      '/images/products/kingston-fury-sodimm-ram.jpg'
+      '/assets/products/kingston-fury-sodimm-ram.png'
     ],
     varianWarna: [
       { nama: 'FURY Stealth Black', hex: '#141416' }
@@ -350,7 +350,7 @@ export const mockProducts = [
     koleksi: 'Monitor Second',
     koleksiSlug: 'display-monitor',
     gambar: [
-      '/images/products/lg-ultragear-27-ips.jpg'
+      '/assets/products/lg-ultragear-27-ips.png'
     ],
     varianWarna: [
       { nama: 'Matte Black', hex: '#18181b' }
@@ -465,7 +465,7 @@ export const mockProducts = [
     koleksi: 'Peripherals Second',
     koleksiSlug: 'peripherals',
     gambar: [
-      '/images/products/fantech-maxfit81-frost.webp'
+      '/assets/products/fantech-maxfit81-frost.png'
     ],
     varianWarna: [
       { nama: 'Frost White PBT', hex: '#e2e8f0' }
@@ -537,7 +537,7 @@ export const mockProducts = [
     koleksi: 'Monitor Second',
     koleksiSlug: 'display-monitor',
     gambar: [
-      '/images/products/msi-mag-341cqp-qd-oled.webp'
+      '/assets/products/msi-mag-341cqp-qd-oled.png'
     ],
     varianWarna: [
       { nama: 'Metallic Obsidian Black', hex: '#18181b' }
@@ -563,7 +563,7 @@ export const mockCollections = [
     nama: 'Laptop Second',
     slug: 'laptop-second',
     tagline: 'ThinkPad, MacBook Air, ZenBook & Dell di bawah 10 Juta',
-    gambar: '/images/products/thinkpad-x1-carbon-front.jpg',
+    gambar: '/assets/products/thinkpad-x1-carbon-front.png',
     buttonText: 'LIHAT LAPTOP →'
   },
   {
@@ -571,7 +571,7 @@ export const mockCollections = [
     nama: 'RAM & Memori',
     slug: 'ram-memori',
     tagline: 'Corsair Vengeance & Kingston FURY DDR4/DDR5 Tested',
-    gambar: '/images/products/corsair-vengeance-ram.jpg',
+    gambar: '/assets/products/corsair-vengeance-ram.png',
     buttonText: 'LIHAT RAM →'
   },
   {
@@ -587,7 +587,7 @@ export const mockCollections = [
     nama: 'Monitor Second',
     slug: 'display-monitor',
     tagline: 'Monitor IPS Frameless Bebas Dead Pixel & Garansi Toko',
-    gambar: '/images/products/lg-ultragear-27-ips.jpg',
+    gambar: '/assets/products/lg-ultragear-27-ips.png',
     buttonText: 'LIHAT MONITOR →'
   },
   {
@@ -666,7 +666,7 @@ export const mockOrders = [
         jumlah: 1,
         warna: 'Carbon Matte Black',
         specLabel: 'RAM 16GB • SSD 512GB NVMe',
-        gambar: '/images/products/thinkpad-x1-carbon-front.jpg'
+        gambar: '/assets/products/thinkpad-x1-carbon-front.png'
       }
     ],
     subtotal: 8750000,
@@ -743,7 +743,7 @@ export const mockOrders = [
         jumlah: 1,
         warna: 'Anodized Matte Black',
         specLabel: '16GB (2x8GB Dual) • DDR4 3200MHz',
-        gambar: '/images/products/corsair-vengeance-ram.jpg'
+        gambar: '/assets/products/corsair-vengeance-ram.png'
       }
     ],
     subtotal: 725000,
