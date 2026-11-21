@@ -1,107 +1,77 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useInView, useReducedMotion } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
+import React from 'react';
+import { ShieldCheck, CheckCircle2, Truck, CreditCard, ChevronRight } from 'lucide-react';
 import Reveal from './Reveal';
 
-function CountUpNumber({ target, suffix = '' }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
-  const shouldReduceMotion = useReducedMotion();
-  const [value, setValue] = useState(shouldReduceMotion ? target : 0);
-
-  useEffect(() => {
-    if (!inView || shouldReduceMotion) {
-      if (inView) setValue(target);
-      return undefined;
-    }
-    let start = 0;
-    const duration = 900;
-    const startTime = performance.now();
-    let rafId = 0;
-
-    const tick = (now) => {
-      const progress = Math.min(1, (now - startTime) / duration);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      start = Math.round(eased * target);
-      setValue(start);
-      if (progress < 1) {
-        rafId = requestAnimationFrame(tick);
-      }
-    };
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [inView, target, shouldReduceMotion]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      {value}
-      {suffix}
-    </span>
-  );
-}
-
-const METRICS = [
+const ASSURANCES = [
   {
-    target: 32,
-    suffix: '',
-    label: 'Titik pengecekan teknisi',
-    desc: 'Layar, baterai, suhu prosesor, keyboard, hingga seluruh port dicek sebelum unit dijual.'
+    icon: ShieldCheck,
+    title: 'Garansi toko 30–90 hari',
+    desc: 'Tukar unit atau servis langsung di workshop Jakarta Barat.'
   },
   {
-    target: 90,
-    suffix: ' hari',
-    label: 'Garansi toko langsung',
-    desc: 'Tukar unit atau servis cepat langsung di workshop tanpa antre RMA panjang.'
+    icon: CheckCircle2,
+    title: '32 titik pengecekan QC',
+    desc: 'Layar, baterai, suhu, RAM, dan SSD diuji teknisi sebelum dijual.'
   },
   {
-    target: 0,
-    suffix: ' rupiah',
-    label: 'Biaya jasa pasang upgrade',
-    desc: 'Beli RAM atau SSD NVMe bersama laptop, pemasangan dan cloning sistem gratis.'
+    icon: Truck,
+    title: 'Kirim aman & ambil di toko',
+    desc: 'Tersedia JNE, J&T, SiCepat dengan packing aman atau pickup.'
+  },
+  {
+    icon: CreditCard,
+    title: 'QRIS & transfer bank',
+    desc: 'Pembayaran fleksibel lewat QRIS instan, BCA, atau Mandiri.'
   }
 ];
 
+/**
+ * Minimalist TechCare Advantages:
+ * Thin line icons + short honest copy, NO boxes/borders/cards, generous Apple whitespace.
+ */
 export default function FeatureStrip({ onNavigateAbout, onNavigateShop }) {
   return (
-    <section className="bg-white py-20 sm:py-28 border-t border-[#F5F5F7]">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-white py-14 sm:py-20 lg:py-28 border-t border-[#D2D2D7]/60">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <Reveal>
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <p className="text-xs font-medium uppercase tracking-[0.12em] text-[#6E6E73]">
-              Standar Workshop TechCare
-            </p>
-            <h2 className="font-display text-3xl sm:text-5xl font-semibold tracking-[-0.035em] text-[#1D1D1F] leading-[1.06]">
-              Angka nyata. Bukan janji.
+          <div className="max-w-2xl">
+            <h2 className="tc-section-title text-[#1D1D1F]">
+              Kenapa belanja di TechCare.
             </h2>
           </div>
         </Reveal>
 
-        <div className="mt-14 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-8 text-center">
-          {METRICS.map((m, idx) => (
-            <Reveal key={m.label} delay={idx * 0.05}>
-              <p className="font-display text-4xl sm:text-5xl font-semibold tracking-[-0.04em] text-[#1D1D1F]">
-                <CountUpNumber target={m.target} suffix={m.suffix} />
-              </p>
-              <h3 className="mt-2 text-base font-semibold text-[#1D1D1F]">{m.label}</h3>
-              <p className="mt-1.5 text-sm text-[#6E6E73] leading-relaxed max-w-[17rem] mx-auto">
-                {m.desc}
-              </p>
-            </Reveal>
-          ))}
+        <div className="mt-10 sm:mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+          {ASSURANCES.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <Reveal key={item.title} delay={idx * 0.05}>
+                <div className="space-y-3">
+                  <Icon size={28} strokeWidth={1.4} className="text-[#1D1D1F]" />
+                  <h3 className="text-[17px] font-semibold text-[#1D1D1F] tracking-[-0.015em]">
+                    {item.title}
+                  </h3>
+                  <p className="text-[14px] text-[#6E6E73] leading-relaxed">
+                    {item.desc}
+                  </p>
+                </div>
+              </Reveal>
+            );
+          })}
         </div>
 
         <Reveal>
-          <div className="mt-14 sm:mt-16 flex flex-wrap items-center justify-center gap-5">
+          <div className="mt-12 sm:mt-16 flex flex-wrap items-center gap-6">
             <button type="button" onClick={onNavigateShop} className="tc-btn-primary">
-              Lihat katalog
+              Jelajahi Katalog
             </button>
             <button
               type="button"
               onClick={onNavigateAbout}
-              className="inline-flex items-center gap-0.5 min-h-[44px] text-sm font-medium text-[#0071E3] hover:underline"
+              className="inline-flex items-center gap-0.5 min-h-[44px] text-[16px] text-[#0071E3] hover:underline"
             >
               <span>Konsultasi jasa &amp; upgrade</span>
-              <ChevronRight size={16} />
+              <ChevronRight size={17} strokeWidth={1.8} />
             </button>
           </div>
         </Reveal>

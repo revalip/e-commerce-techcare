@@ -2,34 +2,26 @@ import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
 import FlagshipSpotlightSection from '../components/FlagshipSpotlightSection';
 import CollectionsSection from '../components/CollectionsSection';
-import BestsellersSection from '../components/BestsellersSection';
-import CloserLook3DSection from '../components/CloserLook3DSection';
 import FeatureStrip from '../components/FeatureStrip';
-import { getProducts, getCollections } from '../services/api';
+import { getCollections } from '../services/api';
 
 /**
- * Apple.com/id inspired home rhythm:
- * 1) 2 Full-Width Hero Tiles (Light + Dark)
- * 2) 2-Column Alternating Promo Grid
- * 3) Quick Category Swipe Strip + Featured Hardware Carousel + 32-Point QC + Service Strip
+ * Apple.com/id Beranda Section Order:
+ * 1) Hero terang (#F5F5F7) + 2) Tile besar hitam (#000000) Upgrade RAM & SSD
+ * 3) Alternating category tiles (#F5F5F7 / #000000: Laptop, Keyboard, Mouse, Monitor, Headset)
+ * 4) Horizontal scroll-snap category row with large rounded cards
+ * 5) Minimalist TechCare advantages (thin line icons, no boxes)
+ * 6) Footer (#F5F5F7, rendered globally in App.jsx)
  */
 export default function HomePage({ onSelectProduct, onNavigate, onSelectCollection }) {
-  const [products, setProducts] = useState([]);
   const [collections, setCollections] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
     async function loadData() {
-      setLoading(true);
-      const [prodRes, colRes] = await Promise.all([
-        getProducts({ bestseller: true }),
-        getCollections()
-      ]);
-      if (isMounted) {
-        if (prodRes.success) setProducts(prodRes.data);
-        if (colRes.success) setCollections(colRes.data);
-        setLoading(false);
+      const colRes = await getCollections();
+      if (isMounted && colRes.success) {
+        setCollections(colRes.data);
       }
     }
     loadData();
@@ -48,6 +40,7 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
 
       <FlagshipSpotlightSection
         onSelectProduct={onSelectProduct}
+        onSelectCollection={onSelectCollection}
         onShopClick={() => onNavigate('shop')}
       />
 
@@ -55,15 +48,6 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
         collections={collections}
         onSelectCollection={onSelectCollection}
       />
-
-      <BestsellersSection
-        products={products}
-        loading={loading}
-        onSelectProduct={onSelectProduct}
-        onExploreAll={() => onNavigate('shop')}
-      />
-
-      <CloserLook3DSection />
 
       <FeatureStrip
         onNavigateAbout={() => onNavigate('about')}
