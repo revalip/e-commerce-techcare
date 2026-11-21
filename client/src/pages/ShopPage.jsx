@@ -168,7 +168,7 @@ export default function ShopPage({
   };
 
   return (
-    <div className="bg-white min-h-screen py-10 sm:py-16">
+    <div className="bg-white min-h-screen py-10 sm:py-16 overflow-x-clip">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-6">
         {/* Clean Apple Header: Title + 1 Plain Grey Line */}
         <header className="space-y-1.5">
@@ -216,8 +216,8 @@ export default function ShopPage({
           </div>
 
           {/* Row 2: Horizontal Category Chips (No border) + Tiny Grid/List Icons on Right */}
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 py-0.5">
+          <div className="flex items-center justify-between gap-3 min-w-0">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0 py-0.5">
               <button
                 type="button"
                 onClick={() => {
