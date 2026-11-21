@@ -214,6 +214,7 @@ function MainApp() {
       <Navbar
         onNavigate={handleNavigate}
         onSelectCollection={handleSelectCollection}
+        onQuickSearch={handleQuickSearch}
         currentPage={currentPage}
       />
 

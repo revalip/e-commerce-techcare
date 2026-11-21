@@ -289,9 +289,9 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                 <React.Fragment key={st.num}>
                   <div className="flex items-center gap-2">
                     <span
-                      className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold transition-all ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
                         currentStep === st.num
-                          ? 'bg-[#1D2129] text-white'
+                          ? 'bg-[#0071E3] text-white'
                           : currentStep > st.num
                           ? 'bg-emerald-600 text-white'
                           : 'bg-[#ECEFF4] text-[#8692A3]'
@@ -480,13 +480,13 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                               onClick={() => setSelectedCourierId(c.id)}
                               className={`p-3.5 rounded-[20px] border text-left transition-all flex items-start justify-between gap-2 ${
                                 active
-                                  ? 'border-[#1D2129] bg-[#ECEFF4]/70 ring-1 ring-[#1D2129]'
+                                  ? 'border-[#0071E3] bg-[#0071E3]/5 ring-1 ring-[#0071E3]'
                                   : 'border-[#E2E7EE] hover:border-[#8692A3] bg-white'
                               }`}
                             >
                               <div className="space-y-0.5 min-w-0">
                                 <div className="flex items-center gap-1.5">
-                                  <span className="px-1.5 py-0.5 rounded bg-[#1D2129] text-white text-[9px] font-bold uppercase shrink-0">
+                                  <span className="px-1.5 py-0.5 rounded bg-[#0071E3] text-white text-[9px] font-bold uppercase shrink-0">
                                     {c.code}
                                   </span>
                                   <p className="text-xs font-bold text-[#1D2129] truncate">{c.name}</p>
@@ -669,14 +669,14 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                             onClick={() => setPaymentMethod(m.key)}
                             className={`p-4 rounded-[20px] border text-left flex items-center justify-between gap-2 transition-all ${
                               active
-                                ? 'border-[#1D2129] bg-[#ECEFF4]/70 ring-1 ring-[#1D2129]'
+                                ? 'border-[#0071E3] bg-[#0071E3]/5 ring-1 ring-[#0071E3]'
                                 : 'border-[#E2E7EE] hover:border-[#8692A3] bg-white'
                             }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
                               <Icon
                                 size={18}
-                                className={active ? 'text-[#1D2129] shrink-0' : 'text-[#647082] shrink-0'}
+                                className={active ? 'text-[#0071E3] shrink-0' : 'text-[#647082] shrink-0'}
                               />
                               <div className="min-w-0">
                                 <p className="text-xs font-bold text-[#1D2129]">{m.title}</p>
@@ -685,7 +685,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                             </div>
                             <span
                               className={`w-4 h-4 rounded-full border shrink-0 ${
-                                active ? 'border-[5px] border-[#1D2129]' : 'border-[#BAC4D2]'
+                                active ? 'border-[5px] border-[#0071E3]' : 'border-[#BAC4D2]'
                               }`}
                             />
                           </button>

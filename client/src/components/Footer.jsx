@@ -1,8 +1,15 @@
-import React from 'react';
-import { MapPin, Phone, Mail } from 'lucide-react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import TechCareLogo from './TechCareLogo';
 
+/**
+ * Apple.com/id-inspired long structured footer:
+ * Top legal/warranty notes -> 5 grouped directory columns on desktop
+ * (collapsible accordions on mobile) -> compact bottom legal row.
+ */
 export default function Footer({ onNavigate, onSelectCollection }) {
+  const [openGroup, setOpenGroup] = useState('belanja');
+
   const goCategory = (slug) => {
     if (onSelectCollection) {
       onSelectCollection(slug);
@@ -11,145 +18,149 @@ export default function Footer({ onNavigate, onSelectCollection }) {
     }
   };
 
+  const groups = [
+    {
+      id: 'belanja',
+      title: 'Belanja',
+      links: [
+        { label: 'Laptop Second (< Rp 10 Juta)', action: () => goCategory('laptop-second') },
+        { label: 'RAM Desktop & Laptop SODIMM', action: () => goCategory('ram-memori') },
+        { label: 'SSD NVMe PCIe Gen4', action: () => goCategory('ssd-storage') },
+        { label: 'Monitor IPS & Curved', action: () => goCategory('display-monitor') },
+        { label: 'Peripherals Gaming & Kerja', action: () => goCategory('peripherals') }
+      ]
+    },
+    {
+      id: 'akun',
+      title: 'Akun',
+      links: [
+        { label: 'Lacak Pesanan & Resi', action: () => onNavigate('orders') },
+        { label: 'Jelajahi Semua Katalog', action: () => onNavigate('shop') },
+        { label: 'Keranjang & Checkout', action: () => onNavigate('checkout') }
+      ]
+    },
+    {
+      id: 'layanan',
+      title: 'Layanan',
+      links: [
+        { label: 'Standar 32 Titik QC', action: () => onNavigate('learn') },
+        { label: 'Jasa Repaste & Cleaning', action: () => onNavigate('about') },
+        { label: 'Free Pasang Upgrade RAM/SSD', action: () => onNavigate('about') },
+        { label: 'Garansi Toko 30–90 Hari', action: () => onNavigate('learn') }
+      ]
+    },
+    {
+      id: 'bisnis',
+      title: 'Untuk Bisnis',
+      links: [
+        { label: 'Pengadaan Laptop Kantor', action: () => onNavigate('about') },
+        { label: 'Maintenance Hardware UMKM', action: () => onNavigate('about') },
+        { label: 'Custom Spesifikasi Unit', action: () => onNavigate('shop') }
+      ]
+    },
+    {
+      id: 'tentang',
+      title: 'Tentang TechCare',
+      links: [
+        { label: 'Workshop & Tim Teknisi', action: () => onNavigate('about') },
+        { label: 'Sentra Niaga IT Blok B No. 12, Jakarta Barat', action: () => onNavigate('about') },
+        { label: 'WhatsApp: +62 812-3456-7890', action: () => onNavigate('about') },
+        { label: 'Email: care@techcare.id', action: () => onNavigate('about') }
+      ]
+    }
+  ];
+
   return (
-    <footer className="bg-[#1D2129] text-[#CBD3DF] pt-16 pb-24 md:pb-12 border-t border-[#2E3440]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Clean Minimal Studio Footer Header */}
-        <div className="pb-10 border-b border-[#2E3440] flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8692A3] block">
-              Perangkat IT Terkurasi &amp; Workshop
-            </span>
-            <div className="flex items-center gap-3">
-              <TechCareLogo size={36} dark />
-              <p className="font-display text-3xl sm:text-4xl font-medium tracking-[-0.04em] text-white leading-none">
-                TechCare
-              </p>
-            </div>
-          </div>
-          <p className="text-xs sm:text-sm text-[#9BA6B8] leading-relaxed max-w-md">
-            Toko retail IT &amp; laptop bisnis terkurasi di bawah Rp 10 juta. Setiap unit laptop, RAM, SSD, monitor, dan peripheral lulus 32 titik inspeksi teknisi sebelum dijual.
+    <footer className="bg-[#F5F5F7] text-[#4F627A] border-t border-[#E2E7EE] pt-10 pb-24 md:pb-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top Apple-style Fine Print & Assurance Notes */}
+        <div className="pb-6 border-b border-[#DCE2EA] space-y-2 text-[11px] leading-relaxed text-[#6E6E73]">
+          <p>
+            1. Seluruh unit laptop dan komponen second melalui 32 titik inspeksi fisik, layar, baterai, suhu, dan performa MemTest86/CrystalDiskInfo sebelum masuk katalog.
+          </p>
+          <p>
+            2. Garansi toko berlaku 30 hingga 90 hari sejak barang diterima (tergantung kategori produk). Gratis jasa pasang upgrade RAM/SSD untuk unit pembelian di TechCare.
+          </p>
+          <p>
+            3. Harga dan ketersediaan stok dapat berubah sewaktu-waktu. Pengiriman via JNE, J&amp;T, SiCepat, atau ambil langsung di Workshop Jakarta Barat.
           </p>
         </div>
 
-        {/* Columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10 py-10 border-b border-[#2E3440]">
-          <div className="lg:col-span-4 space-y-3">
-            <h5 className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#8692A3]">
-              Katalog Hardware
-            </h5>
-            <ul className="space-y-2 text-xs sm:text-sm text-[#CBD3DF]">
-              <li>
+        {/* Directory: Accordion on Mobile (< md), 5 Clean Columns on Desktop */}
+        <div className="py-6 md:py-10 md:grid md:grid-cols-5 md:gap-8 divide-y divide-[#DCE2EA] md:divide-y-0 border-b border-[#DCE2EA]">
+          {groups.map((group) => {
+            const isOpen = openGroup === group.id;
+            return (
+              <div key={group.id} className="py-3 md:py-0">
                 <button
-                  onClick={() => goCategory('laptop-second')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
+                  type="button"
+                  onClick={() => setOpenGroup(isOpen ? '' : group.id)}
+                  className="w-full md:hidden flex items-center justify-between py-1.5 text-left text-xs font-semibold text-[#1D2129]"
+                  aria-expanded={isOpen}
                 >
-                  Laptop Second (&lt; Rp 10 Juta)
+                  <span>{group.title}</span>
+                  <ChevronDown
+                    size={15}
+                    className={`transition-transform duration-200 text-[#6E6E73] ${
+                      isOpen ? 'rotate-180' : ''
+                    }`}
+                  />
                 </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => goCategory('ram-memori')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  RAM Desktop &amp; Laptop SODIMM
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => goCategory('ssd-storage')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  SSD NVMe PCIe Gen4
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => goCategory('display-monitor')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  Monitor IPS &amp; Curved Ultrawide
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => goCategory('peripherals')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  Peripherals Gaming &amp; Kerja
-                </button>
-              </li>
-            </ul>
-          </div>
+                <h5 className="hidden md:block text-xs font-semibold text-[#1D2129] mb-3">
+                  {group.title}
+                </h5>
 
-          <div className="lg:col-span-3 space-y-3">
-            <h5 className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#8692A3]">
-              Layanan
-            </h5>
-            <ul className="space-y-2 text-xs sm:text-sm text-[#CBD3DF]">
-              <li>
-                <button
-                  onClick={() => onNavigate('orders')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
+                <ul
+                  className={`${
+                    isOpen ? 'block pt-2 pb-1' : 'hidden md:block'
+                  } space-y-2 text-xs text-[#6E6E73]`}
                 >
-                  Lacak Pesanan &amp; Resi
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('about')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  Jasa Service &amp; Upgrade
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => onNavigate('learn')}
-                  className="hover:text-white transition-colors py-0.5 text-left"
-                >
-                  Standar 32 Titik QC
-                </button>
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:col-span-5 space-y-4">
-            <h5 className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#8692A3]">
-              Workshop &amp; Pengiriman
-            </h5>
-            <div className="space-y-2 text-xs text-[#9BA6B8]">
-              <p className="flex items-start gap-2">
-                <MapPin size={14} className="text-[#9BB0C9] shrink-0 mt-0.5" />
-                <span>Sentra Niaga IT Blok B No. 12, Grogol Petamburan, Jakarta Barat</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone size={14} className="text-[#9BB0C9] shrink-0" />
-                <span>+62 812-3456-7890 (Senin–Sabtu, 09:00–20:00)</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <Mail size={14} className="text-[#9BB0C9] shrink-0" />
-                <span>care@techcare.id</span>
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-1.5 pt-1 font-mono text-[10px] uppercase tracking-[0.06em]">
-              {['QRIS', 'BCA', 'MANDIRI', 'JNE', 'J&T', 'SICEPAT'].map((tag) => (
-                <span
-                  key={tag}
-                  className="px-2.5 py-1 rounded-full border border-[#343B48] bg-[#252A34] text-[#CBD3DF]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+                  {group.links.map((link) => (
+                    <li key={link.label}>
+                      <button
+                        type="button"
+                        onClick={link.action}
+                        className="hover:text-[#0071E3] hover:underline text-left transition-colors py-0.5"
+                      >
+                        {link.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Bottom Copyright */}
-        <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#7B8698] gap-2">
-          <p>© 2026 TechCare Indonesia — Retail IT &amp; Workshop.</p>
-          <p className="font-mono text-[11px]">Garansi Toko 30–90 Hari • Pembayaran QRIS &amp; Transfer Bank</p>
+        {/* Bottom Legal & Store Strip */}
+        <div className="pt-6 space-y-3 text-[11px] text-[#6E6E73]">
+          <div className="flex flex-wrap items-center gap-2">
+            <TechCareLogo size={20} />
+            <span>
+              Butuh konsultasi upgrade atau klaim garansi? Hubungi{' '}
+              <button
+                type="button"
+                onClick={() => onNavigate('about')}
+                className="text-[#0071E3] hover:underline font-medium"
+              >
+                Workshop TechCare Jakarta Barat
+              </button>{' '}
+              atau WhatsApp +62 812-3456-7890.
+            </span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 border-t border-[#E2E7EE]">
+            <p>Hak cipta © 2026 TechCare Indonesia. Seluruh hak cipta dilindungi.</p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <button type="button" onClick={() => onNavigate('learn')} className="hover:text-[#1D2129]">
+                Kebijakan Garansi
+              </button>
+              <button type="button" onClick={() => onNavigate('orders')} className="hover:text-[#1D2129]">
+                Lacak Pesanan
+              </button>
+              <span className="font-medium text-[#1D2129]">Indonesia</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

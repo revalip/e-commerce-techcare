@@ -63,12 +63,12 @@ export default function MobileBottomNav({ currentPage, onNavigate }) {
               type="button"
               onClick={item.onClick}
               className={`relative flex flex-col items-center justify-center gap-1 min-h-[48px] transition-colors ${
-                isActive ? 'text-[#1D2129]' : 'text-[#8692A3] hover:text-[#1D2129]'
+                isActive ? 'text-[#0071E3]' : 'text-[#8692A3] hover:text-[#1D2129]'
               }`}
             >
               <span
                 className={`relative flex items-center justify-center w-9 h-7 rounded-full transition-colors ${
-                  isActive ? 'bg-[#ECEFF4]' : ''
+                  isActive ? 'bg-[#0071E3]/10' : ''
                 }`}
               >
                 <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />

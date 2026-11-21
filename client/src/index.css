@@ -3,20 +3,21 @@
 @tailwind utilities;
 
 /* ==========================================================================
-   TECHCARE STUDIO 3D DESIGN SYSTEM (Airform One Studio + Real-Time Three.js)
-   Palette : Crisp Studio White (#F7F8FA / #FFFFFF) + Deep Charcoal (#1D2129)
-             + Anodized Slate Metallic (#4F627A)
-   Fonts   : Space Grotesk (Display) + IBM Plex Mono (Spec/Price) + Plus Jakarta Sans (Body)
-   Rules   : Zero blue/purple AI gradients, zero neon glow, real 3D WebGL & smooth scroll.
+   TECHCARE APPLE-MINIMAL DESIGN SYSTEM
+   Canvas  : #F7F8FA (Brand Theme) / #FFFFFF / #F5F5F7 (Studio Tile)
+   Ink     : #1D2129 (Primary) / #6E6E73 (Secondary)
+   Accent  : #0071E3 (Single Blue Accent, hover #0077ED)
    ========================================================================== */
 :root {
   --tc-canvas: #F7F8FA;
   --tc-surface: #FFFFFF;
-  --tc-mist: #ECEFF4;
+  --tc-mist: #F5F5F7;
   --tc-ink: #1D2129;
   --tc-slate: #4F627A;
-  --tc-muted: #647082;
+  --tc-muted: #6E6E73;
   --tc-line: #E2E7EE;
+  --tc-accent: #0071E3;
+  --tc-accent-hover: #0077ED;
 }
 
 @layer base {
@@ -29,22 +30,23 @@
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: var(--tc-canvas);
     color: var(--tc-ink);
+    -webkit-font-smoothing: antialiased;
   }
 
   h1, h2, h3, .font-display, .font-serif {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     letter-spacing: -0.035em;
   }
 
   button, a, input, select, textarea {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1D2129] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F8FA];
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0071E3] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F8FA];
   }
 }
 
 @layer components {
-  /* Airform One Studio Pill Buttons (min 44px touch target) */
+  /* Apple-style Primary Pill CTA (Blue Accent, min 44px touch target) */
   .tc-btn-primary {
-    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-[#1D2129] text-white hover:bg-[#323846] transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-[#0071E3] text-white hover:bg-[#0077ED] transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed;
   }
 
   .tc-btn-bone {
@@ -52,7 +54,7 @@
   }
 
   .tc-btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-white text-[#1D2129] border border-[#D4DBE5] hover:border-[#1D2129] hover:bg-[#F7F8FA] transition-all active:scale-[0.98] disabled:opacity-40;
+    @apply inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-transparent text-[#0071E3] border border-[#0071E3] hover:bg-[#0071E3] hover:text-white transition-all active:scale-[0.98] disabled:opacity-40;
   }
 
   .tc-btn-dark {
@@ -60,11 +62,11 @@
   }
 
   .tc-input {
-    @apply w-full min-h-[44px] px-4 py-2.5 rounded-full text-xs sm:text-sm bg-white border border-[#DCE2EA] text-[#1D2129] placeholder:text-[#8692A3] transition-colors focus:border-[#1D2129];
+    @apply w-full min-h-[44px] px-4 py-2.5 rounded-xl text-xs sm:text-sm bg-white border border-[#DCE2EA] text-[#1D2129] placeholder:text-[#8692A3] transition-colors focus:border-[#0071E3];
   }
 }
 
-/* Airform One Signature Vertical Silver-Mist Wordmark Fade */
+/* Signature Vertical Silver-Mist Wordmark Fade */
 .tc-airform-wordmark {
   background: linear-gradient(180deg, #8F9FB3 0%, #B8C4D2 52%, rgba(247, 248, 250, 0.08) 100%);
   -webkit-background-clip: text;

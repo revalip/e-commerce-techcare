@@ -26,9 +26,9 @@ export default function BestsellersSection({
           <button
             type="button"
             onClick={onExploreAll}
-            className="text-xs sm:text-sm font-medium text-[#1D2129] hover:text-[#4F627A] transition-colors min-h-[40px] shrink-0 cursor-pointer"
+            className="text-xs sm:text-sm font-medium text-[#0071E3] hover:underline transition-colors min-h-[40px] shrink-0 cursor-pointer"
           >
-            Semua →
+            Lihat semua →
           </button>
         </div>
 

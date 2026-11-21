@@ -495,7 +495,7 @@ export default function AdminDashboard({ onBackToShop }) {
                 <span className="text-[11px] uppercase font-bold tracking-wider text-[#9BB0C9]">
                   ADMIN DASHBOARD • TECHCARE
                 </span>
-                <span className="px-2.5 py-0.5 rounded-lg bg-[#1D2129] text-white text-[10px] font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#0071E3] text-white text-[10px] font-semibold">
                   {user?.name || 'Admin'}
                 </span>
               </div>

@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import HeroSection from '../components/HeroSection';
+import FlagshipSpotlightSection from '../components/FlagshipSpotlightSection';
+import CollectionsSection from '../components/CollectionsSection';
+import BestsellersSection from '../components/BestsellersSection';
 import CloserLook3DSection from '../components/CloserLook3DSection';
 import FeatureStrip from '../components/FeatureStrip';
-import BestsellersSection from '../components/BestsellersSection';
-import CollectionsSection from '../components/CollectionsSection';
-import FlagshipSpotlightSection from '../components/FlagshipSpotlightSection';
 import { getProducts, getCollections } from '../services/api';
 
 /**
- * Minimal Apple-style home: five calm sections, one message each.
- * (Vouchers remain fully available in the cart and checkout.)
+ * Apple.com/id inspired home rhythm:
+ * 1) 2 Full-Width Hero Tiles (Light + Dark)
+ * 2) 2-Column Alternating Promo Grid
+ * 3) Quick Category Swipe Strip + Featured Hardware Carousel + 32-Point QC + Service Strip
  */
 export default function HomePage({ onSelectProduct, onNavigate, onSelectCollection }) {
   const [products, setProducts] = useState([]);
@@ -37,20 +39,21 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
   }, []);
 
   return (
-    <div className="bg-[#F7F8FA]">
+    <div className="bg-white">
       <HeroSection
         onShopClick={() => onNavigate('shop')}
-        onTrackClick={() => onNavigate('orders')}
-      />
-
-      <CollectionsSection
-        collections={collections}
-        onSelectCollection={onSelectCollection}
+        onLearnClick={() => onNavigate('learn')}
+        onAboutClick={() => onNavigate('about')}
       />
 
       <FlagshipSpotlightSection
         onSelectProduct={onSelectProduct}
         onShopClick={() => onNavigate('shop')}
+      />
+
+      <CollectionsSection
+        collections={collections}
+        onSelectCollection={onSelectCollection}
       />
 
       <BestsellersSection

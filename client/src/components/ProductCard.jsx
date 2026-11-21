@@ -41,28 +41,28 @@ export default function ProductCard({ product, onSelect }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => onSelect(product)}
-      className="bg-white rounded-[20px] border border-[#E2E7EE] hover:border-[#B8C4D2] hover:shadow-tc-lift hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full overflow-hidden"
+      className="bg-white rounded-[22px] border border-[#E2E7EE] hover:border-[#BAC4D2] hover:shadow-[0_12px_30px_rgba(29,33,41,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between group cursor-pointer h-full overflow-hidden"
     >
-      {/* Seamless Studio Hardware Stage */}
+      {/* Seamless Studio Stage */}
       <div
-        className={`relative bg-[#ECEFF4] aspect-[4/3] w-full flex items-center justify-center overflow-hidden ${
+        className={`relative bg-[#F5F5F7] aspect-[4/3] w-full flex items-center justify-center overflow-hidden ${
           isStudioJpg(images[0]) ? 'p-0' : 'p-4 sm:p-5'
         }`}
       >
-        {/* Top-left SKU or Signal Discount Pill */}
+        {/* Top-left SKU or Discount Badge */}
         <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5">
           {!outOfStock && product.diskonPersen > 0 ? (
             <span className="bg-rose-600 text-white font-mono text-[10px] font-semibold px-2.5 py-0.5 rounded-full tabular-nums shadow-xs">
               -{product.diskonPersen}%
             </span>
           ) : (
-            <span className="bg-white/90 text-[#4F627A] font-mono text-[10px] px-2 py-0.5 rounded-full border border-[#E2E7EE] tabular-nums">
+            <span className="bg-white/95 text-[#6E6E73] font-mono text-[10px] px-2 py-0.5 rounded-full border border-[#E2E7EE] tabular-nums">
               {skuCode}
             </span>
           )}
         </div>
 
-        {/* Top-right Circular Wishlist Toggle (Solid canvas-matched circle, colored heart icon only) */}
+        {/* Top-right Circular Wishlist Toggle (Solid canvas circle, monochrome until clicked) */}
         <button
           type="button"
           onClick={handleToggleHeart}
@@ -109,17 +109,17 @@ export default function ProductCard({ product, onSelect }) {
           )}
         </div>
 
-        {/* Bottom-left Honest Condition Tag */}
+        {/* Bottom-left Condition Pill */}
         <span className="absolute bottom-2.5 left-2.5 z-10 bg-white text-[#1D2129] border border-[#E2E7EE] text-[10px] font-medium px-2.5 py-0.5 rounded-full max-w-[86%] truncate shadow-xs">
           {product.kondisi || 'Grade A'}
         </span>
       </div>
 
-      {/* Card Body — Honest Specs, Zero Fake Ratings */}
+      {/* Card Body */}
       <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between gap-3">
         <div className="space-y-1">
           <div className="flex items-center justify-between gap-2 font-mono text-[10px] uppercase tracking-[0.05em]">
-            <span className="text-[#647082] truncate">{product.brand || 'TechCare'}</span>
+            <span className="text-[#6E6E73] truncate">{product.brand || 'TechCare'}</span>
             {outOfStock ? (
               <span className="text-rose-600 font-semibold shrink-0">Habis</span>
             ) : lowStock ? (
@@ -131,11 +131,11 @@ export default function ProductCard({ product, onSelect }) {
             )}
           </div>
 
-          <h3 className="font-display font-medium text-[13px] sm:text-[15px] text-[#1D2129] group-hover:text-[#4F627A] transition-colors leading-snug line-clamp-2 min-h-[2.45em]">
+          <h3 className="font-display font-medium text-[13px] sm:text-[15px] text-[#1D2129] group-hover:text-[#0071E3] transition-colors leading-snug line-clamp-2 min-h-[2.45em]">
             {product.nama}
           </h3>
 
-          <p className="text-[11px] text-[#8692A3] line-clamp-1">
+          <p className="text-[11px] text-[#6E6E73] line-clamp-1">
             {product.specRangeLabel || product.tagline}
           </p>
 
@@ -150,7 +150,7 @@ export default function ProductCard({ product, onSelect }) {
                 />
               ))}
               {product.varianWarna.length > 1 && (
-                <span className="text-[10px] text-[#8692A3] ml-0.5">
+                <span className="text-[10px] text-[#6E6E73] ml-0.5">
                   {product.varianWarna.length} warna
                 </span>
               )}
@@ -158,7 +158,7 @@ export default function ProductCard({ product, onSelect }) {
           )}
         </div>
 
-        {/* Price + Pill CTA (stacks cleanly on narrow 360px 2-col cards, row on sm+) */}
+        {/* Price + Pill CTA */}
         <div className="pt-2.5 border-t border-[#ECEFF4] flex flex-col sm:flex-row sm:items-end justify-between gap-2">
           <div className="min-w-0">
             {product.hargaCoret && (
@@ -179,15 +179,15 @@ export default function ProductCard({ product, onSelect }) {
               outOfStock
                 ? 'bg-[#ECEFF4] text-[#8692A3] cursor-not-allowed'
                 : isAdded
-                ? 'bg-emerald-700 text-white'
-                : 'bg-[#1D2129] text-white hover:bg-[#323846]'
+                ? 'bg-emerald-600 text-white'
+                : 'bg-[#0071E3] text-white hover:bg-[#0077ED]'
             }`}
             aria-label={outOfStock ? `${product.nama} stok habis` : `Tambah ${product.nama} ke keranjang`}
             title={outOfStock ? 'Stok Habis' : 'Tambah ke Keranjang'}
           >
             {isAdded ? <Check size={15} strokeWidth={2.4} /> : <Plus size={15} strokeWidth={2.2} />}
             <span className="sm:hidden">
-              {outOfStock ? 'Habis' : isAdded ? 'Masuk' : 'Tambah'}
+              {outOfStock ? 'Habis' : isAdded ? 'Masuk' : 'Beli'}
             </span>
           </button>
         </div>
