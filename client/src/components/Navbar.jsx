@@ -86,7 +86,7 @@ export default function Navbar({ onNavigate, currentPage }) {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#F7F8FA]/88 backdrop-blur-md border-b border-[#E2E7EE]/90">
+    <header className="sticky top-0 z-40 bg-[#F7F8FA]/95 backdrop-blur-md border-b border-[#E2E7EE] shadow-[0_1px_8px_rgba(29,33,41,0.04)]">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
         {/* Left: Hamburger (< lg) + Minimal Airform Wordmark */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -201,10 +201,10 @@ export default function Navbar({ onNavigate, currentPage }) {
           >
             <Heart
               size={15}
-              className={wishlistCount > 0 ? 'fill-[#1D2129] text-[#1D2129]' : ''}
+              className={wishlistCount > 0 ? 'fill-rose-500 text-rose-500' : ''}
             />
             {wishlistCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-[#1D2129] text-white font-mono text-[9px] font-semibold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center tabular-nums">
+              <span className="absolute -top-1 -right-1 bg-rose-600 text-white font-mono text-[9px] font-semibold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center tabular-nums">
                 {wishlistCount}
               </span>
             )}
@@ -219,7 +219,7 @@ export default function Navbar({ onNavigate, currentPage }) {
             aria-label="Buka Keranjang"
           >
             <ShoppingBag size={14} strokeWidth={2} />
-            <span className="hidden sm:inline">Order</span>
+            <span className="hidden sm:inline">Keranjang</span>
             <span className="bg-white/15 text-white font-mono text-[11px] font-semibold min-w-[20px] h-5 px-1.5 rounded-full flex items-center justify-center tabular-nums">
               {totalItems}
             </span>

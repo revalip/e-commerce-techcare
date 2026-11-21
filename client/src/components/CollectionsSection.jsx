@@ -28,8 +28,9 @@ export default function CollectionsSection({ collections, onSelectCollection }) 
                   onClick={() => onSelectCollection(col.slug)}
                   className="w-full group text-left"
                 >
+                  {/* Uniform studio grey stage across all 5 category cards */}
                   <div
-                    className={`bg-white rounded-[24px] aspect-square flex items-center justify-center overflow-hidden ${
+                    className={`bg-[#ECEFF4] border border-[#E2E7EE] rounded-[24px] aspect-square flex items-center justify-center overflow-hidden ${
                       isJpg ? 'p-0' : 'p-6'
                     }`}
                   >
@@ -40,7 +41,7 @@ export default function CollectionsSection({ collections, onSelectCollection }) 
                       className={`${
                         isJpg
                           ? 'w-full h-full object-cover'
-                          : 'max-h-[70%] max-w-[70%] object-contain'
+                          : 'max-h-[72%] max-w-[72%] object-contain mix-blend-multiply'
                       } group-hover:scale-105 transition-transform duration-500`}
                     />
                   </div>

@@ -77,7 +77,7 @@ export default function AuthModal() {
                 AKUN PENGGUNA TECHCARE
               </span>
               <h2 className="font-display text-xl font-bold text-white leading-tight">
-                {authModalTab === 'login' ? 'Masuk ke Akun Anda' : 'Daftar Akun Buyer'}
+                {authModalTab === 'login' ? 'Masuk ke Akun Anda' : 'Daftar Akun Pelanggan'}
               </h2>
             </div>
           </div>
@@ -118,7 +118,7 @@ export default function AuthModal() {
                   : 'text-[#647082] hover:text-[#1D2129]'
               }`}
             >
-              Daftar Buyer
+              Daftar Akun
             </button>
           </div>
 
@@ -207,7 +207,7 @@ export default function AuthModal() {
                 ? 'Memproses...'
                 : authModalTab === 'login'
                 ? 'Masuk Sekarang'
-                : 'Buat Akun Buyer'}
+                : 'Buat Akun'}
             </button>
           </form>
         </div>

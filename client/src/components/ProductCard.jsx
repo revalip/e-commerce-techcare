@@ -49,10 +49,10 @@ export default function ProductCard({ product, onSelect }) {
           isStudioJpg(images[0]) ? 'p-0' : 'p-4 sm:p-5'
         }`}
       >
-        {/* Top-left SKU or Discount Pill */}
+        {/* Top-left SKU or Signal Discount Pill */}
         <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5">
           {!outOfStock && product.diskonPersen > 0 ? (
-            <span className="bg-[#1D2129] text-white font-mono text-[10px] font-semibold px-2 py-0.5 rounded-full tabular-nums">
+            <span className="bg-rose-600 text-white font-mono text-[10px] font-semibold px-2.5 py-0.5 rounded-full tabular-nums shadow-xs">
               -{product.diskonPersen}%
             </span>
           ) : (
@@ -62,18 +62,18 @@ export default function ProductCard({ product, onSelect }) {
           )}
         </div>
 
-        {/* Top-right Circular Wishlist Toggle */}
+        {/* Top-right Circular Wishlist Toggle (Vivid Rose-Red when saved!) */}
         <button
           type="button"
           onClick={handleToggleHeart}
           aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-          className={`absolute top-2.5 right-2.5 z-20 w-9 h-9 rounded-full flex items-center justify-center border transition-colors ${
+          className={`absolute top-2.5 right-2.5 z-20 w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
             wishlisted
-              ? 'bg-[#1D2129] text-white border-[#1D2129]'
-              : 'bg-white/90 text-[#4F627A] border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129]'
+              ? 'bg-rose-50 text-rose-600 border-rose-200 shadow-xs'
+              : 'bg-white/92 text-[#4F627A] border-[#E2E7EE] hover:border-rose-300 hover:text-rose-500'
           }`}
         >
-          <Heart size={14} className={wishlisted ? 'fill-white' : ''} />
+          <Heart size={14} className={wishlisted ? 'fill-rose-500 text-rose-500' : ''} />
         </button>
 
         {/* Product Image */}
@@ -120,7 +120,7 @@ export default function ProductCard({ product, onSelect }) {
             {outOfStock ? (
               <span className="text-rose-600 font-semibold shrink-0">Habis</span>
             ) : lowStock ? (
-              <span className="text-[#1D2129] font-semibold shrink-0 tabular-nums">
+              <span className="text-amber-600 font-semibold shrink-0 tabular-nums">
                 Sisa {product.stok}
               </span>
             ) : (

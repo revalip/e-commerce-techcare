@@ -9,9 +9,11 @@ import {
   List,
   Plus,
   Check,
-  ChevronDown
+  ChevronDown,
+  Tag,
+  Copy
 } from 'lucide-react';
-import { getProducts, getCollections } from '../services/api';
+import { getProducts, getCollections, getDiscounts } from '../services/api';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 import { formatIDR } from '../utils/format';
@@ -94,6 +96,8 @@ export default function ShopPage({
 
   const [products, setProducts] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
+  const [copiedKode, setCopiedKode] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -115,10 +119,15 @@ export default function ShopPage({
     setLoading(true);
     setError('');
     try {
-      const [prodRes, colRes] = await Promise.all([getProducts(), getCollections()]);
+      const [prodRes, colRes, discRes] = await Promise.all([
+        getProducts(),
+        getCollections(),
+        getDiscounts()
+      ]);
       if (prodRes.success) setProducts(prodRes.data);
       else setError('Gagal memuat daftar produk.');
       if (colRes.success) setCollections(colRes.data);
+      if (discRes.success) setDiscounts(discRes.data.filter((d) => d.aktif));
     } catch {
       setError('Terjadi kendala saat memuat katalog. Silakan muat ulang.');
     } finally {
@@ -289,11 +298,11 @@ export default function ShopPage({
                 onClick={() => setOnlyFavorites((prev) => !prev)}
                 className={`inline-flex items-center justify-center gap-1.5 px-4 h-[44px] rounded-full text-xs font-medium border transition-colors ${
                   onlyFavorites
-                    ? 'bg-[#1D2129] text-white border-[#1D2129]'
-                    : 'bg-white text-[#1D2129] border-[#DCE2EA] hover:border-[#1D2129]'
+                    ? 'bg-rose-50 text-rose-600 border-rose-200'
+                    : 'bg-white text-[#1D2129] border-[#DCE2EA] hover:border-rose-300'
                 }`}
               >
-                <Heart size={13} className={onlyFavorites ? 'fill-white text-white' : ''} />
+                <Heart size={13} className={onlyFavorites ? 'fill-rose-500 text-rose-500' : ''} />
                 <span>Favorit</span>
               </button>
 
@@ -378,6 +387,46 @@ export default function ShopPage({
               </button>
             )}
           </div>
+
+          {/* Active Voucher Strip (1-click copy, clean conversion booster without cluttering Home) */}
+          {discounts.length > 0 && (
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-rose-600 shrink-0 pr-1">
+                <Tag size={13} />
+                <span>Promo:</span>
+              </span>
+              {discounts.slice(0, 3).map((d) => {
+                const isCopied = copiedKode === d.kode;
+                return (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(d.kode);
+                      setCopiedKode(d.kode);
+                      setTimeout(() => setCopiedKode(''), 1800);
+                    }}
+                    className={`inline-flex items-center gap-2 min-h-[36px] px-3.5 rounded-full border text-[11px] whitespace-nowrap transition-colors ${
+                      isCopied
+                        ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                        : 'bg-white border-[#E2E7EE] hover:border-rose-300 text-[#1D2129]'
+                    }`}
+                    title={`Salin kode ${d.kode}`}
+                  >
+                    <span className="font-mono font-semibold">{d.kode}</span>
+                    <span className="text-[#647082]">
+                      {d.tipe === 'persen' ? `-${d.nilai}%` : `-${formatIDR(d.nilai).replace(',00', '')}`}
+                    </span>
+                    {isCopied ? (
+                      <Check size={12} className="text-emerald-600" />
+                    ) : (
+                      <Copy size={11} className="text-[#8692A3]" />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* Product List / Grid States */}

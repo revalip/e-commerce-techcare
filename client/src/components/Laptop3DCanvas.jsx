@@ -591,12 +591,6 @@ export default function Laptop3DCanvas({
         rig.wrapper.rotation.set(state.rotX, state.rotY, state.rotZ);
         rig.wrapper.position.set(state.posX, state.posY, 0);
         applyLidOpen(rig, state.open);
-
-        // Animate live screen waveform at ~20fps only while screen is awake
-        if (!prefersReducedMotion && !lowEnd && state.open > 0.22 && t - lastScreenDraw > 0.05) {
-          lastScreenDraw = t;
-          drawScreen(t);
-        }
       }
 
       shadowPlane.position.x = state.posX;

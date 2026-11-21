@@ -73,7 +73,7 @@ export default function AboutPage({ onExploreShop }) {
           <div className="bg-[#1D2129] text-white rounded-[24px] p-6 sm:p-12 border border-[#23272F] text-center space-y-4 relative overflow-hidden shadow-tc-lift">
             <div className="relative z-10 max-w-3xl mx-auto space-y-4">
               <span className="inline-block px-3.5 py-1 rounded-full bg-white/10 border border-white/15 text-[11px] uppercase tracking-wider font-bold text-[#BAC4D2]">
-                JASA IT &amp; RETAIL HARDWARE UMKM • TECHCARE
+                JASA IT &amp; RETAIL HARDWARE • TECHCARE
               </span>
               <h1 className="font-display text-3xl sm:text-5xl font-bold text-white leading-tight">
                 Berawal dari Teknisi IT, Menghadirkan Perangkat yang Bisa Dipercaya.

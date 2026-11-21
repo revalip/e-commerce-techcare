@@ -73,7 +73,7 @@ export default function MobileBottomNav({ currentPage, onNavigate }) {
               >
                 <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />
                 {item.badge > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 bg-[#1D2129] text-white font-mono text-[9px] font-semibold min-w-[15px] h-[15px] px-1 rounded-full flex items-center justify-center tabular-nums">
+                  <span className="absolute -top-0.5 -right-0.5 bg-rose-600 text-white font-mono text-[9px] font-semibold min-w-[15px] h-[15px] px-1 rounded-full flex items-center justify-center tabular-nums">
                     {item.badge}
                   </span>
                 )}

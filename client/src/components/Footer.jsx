@@ -1,11 +1,8 @@
 import React from 'react';
-import { ArrowUpRight, MapPin, Phone, Mail } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import { MapPin, Phone, Mail } from 'lucide-react';
 import TechCareLogo from './TechCareLogo';
 
 export default function Footer({ onNavigate, onSelectCollection }) {
-  const { isAdmin, openAuthModal } = useAuth();
-
   const goCategory = (slug) => {
     if (onSelectCollection) {
       onSelectCollection(slug);
@@ -21,7 +18,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
         <div className="pb-10 border-b border-[#2E3440] flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-2">
             <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#8692A3] block">
-              Certified Hardware &amp; Workshop UMKM
+              Perangkat IT Terkurasi &amp; Workshop
             </span>
             <div className="flex items-center gap-3">
               <TechCareLogo size={36} dark />
@@ -31,7 +28,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
             </div>
           </div>
           <p className="text-xs sm:text-sm text-[#9BA6B8] leading-relaxed max-w-md">
-            Toko retail IT &amp; perangkat bisnis certified pre-owned di bawah Rp 10 juta. Setiap unit laptop, RAM, SSD, monitor, dan peripheral lulus 32 titik inspeksi teknisi sebelum dijual.
+            Toko retail IT &amp; laptop bisnis terkurasi di bawah Rp 10 juta. Setiap unit laptop, RAM, SSD, monitor, dan peripheral lulus 32 titik inspeksi teknisi sebelum dijual.
           </p>
         </div>
 
@@ -114,21 +111,6 @@ export default function Footer({ onNavigate, onSelectCollection }) {
                   Standar 32 Titik QC
                 </button>
               </li>
-              <li className="pt-2">
-                <button
-                  onClick={() => {
-                    if (isAdmin) {
-                      onNavigate('admin');
-                    } else {
-                      openAuthModal('login', 'Silakan masuk menggunakan akun admin TECHCARE.');
-                    }
-                  }}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-white hover:text-[#9BB0C9] border-b border-white/30 pb-0.5 transition-colors"
-                >
-                  <span>Portal Admin</span>
-                  <ArrowUpRight size={13} />
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -166,7 +148,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
 
         {/* Bottom Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#7B8698] gap-2">
-          <p>© 2026 TechCare Indonesia — Retail IT &amp; Workshop UMKM.</p>
+          <p>© 2026 TechCare Indonesia — Retail IT &amp; Workshop.</p>
           <p className="font-mono text-[11px]">Garansi Toko 30–90 Hari • Pembayaran QRIS &amp; Transfer Bank</p>
         </div>
       </div>

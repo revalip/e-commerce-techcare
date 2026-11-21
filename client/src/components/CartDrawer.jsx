@@ -233,7 +233,7 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                       if (isGuest) {
                         openAuthModal(
                           'login',
-                          'Silakan masuk atau buat akun buyer terlebih dahulu untuk melanjutkan proses checkout.',
+                          'Silakan masuk atau daftar akun terlebih dahulu untuk melanjutkan checkout.',
                           () => onCheckout()
                         );
                       } else {
