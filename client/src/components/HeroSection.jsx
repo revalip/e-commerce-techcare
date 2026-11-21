@@ -85,21 +85,35 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             </div>
           </motion.div>
 
-          {/* Clean Studio Product Photograph (Zero 3D/AI clutter, smooth Ken Burns + Scroll Zoom) */}
-          <div className="mt-8 sm:mt-10 max-w-4xl mx-auto overflow-hidden rounded-t-[28px]">
+          {/* Hero Video (<video autoplay muted loop playsinline>) with Studio Image Fallback */}
+          <div className="mt-8 sm:mt-10 max-w-4xl mx-auto overflow-hidden rounded-t-[28px] bg-[#1D1D1F]">
             <motion.div
               style={shouldReduceMotion ? undefined : { scale: imageScale, y: imageY }}
               className="w-full"
             >
-              <img
-                src="/assets/hero-workstation-studio.jpg"
-                onError={(e) => {
-                  e.currentTarget.onerror = null;
-                  e.currentTarget.src = '/images/products/thinkpad-x1-carbon-front.jpg';
-                }}
-                alt="Laptop bisnis terkurasi TechCare — Lenovo ThinkPad & Ultrabook studio"
-                className="w-full h-[260px] sm:h-[400px] lg:h-[460px] object-cover object-center tc-ken-burns"
-              />
+              {shouldReduceMotion ? (
+                <img
+                  src="/assets/hero-workstation-studio.jpg"
+                  alt="Laptop bisnis terkurasi TechCare — Lenovo ThinkPad & Ultrabook studio"
+                  className="w-full h-[260px] sm:h-[400px] lg:h-[460px] object-cover object-center"
+                />
+              ) : (
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster="/assets/hero-workstation-studio.jpg"
+                  className="w-full h-[260px] sm:h-[400px] lg:h-[460px] object-cover object-center tc-ken-burns"
+                >
+                  <source src="/assets/hero.mp4" type="video/mp4" />
+                  <img
+                    src="/assets/hero-workstation-studio.jpg"
+                    alt="Laptop bisnis terkurasi TechCare"
+                    className="w-full h-[260px] sm:h-[400px] lg:h-[460px] object-cover object-center"
+                  />
+                </video>
+              )}
             </motion.div>
           </div>
         </div>

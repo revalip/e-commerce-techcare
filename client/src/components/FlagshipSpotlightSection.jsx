@@ -149,12 +149,12 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onShopClick 
                 </div>
               </div>
 
-              <div className="-mx-6 mt-8 h-[250px] sm:h-[290px] overflow-hidden">
+              <div className="mt-6 h-[250px] sm:h-[290px] flex items-center justify-center p-4">
                 <img
-                  src={zenbook?.gambar?.[0] || '/images/products/asus-zenbook-14-oled.jpg'}
+                  src="/assets/asus-laptop.png"
                   alt="ASUS ZenBook 14 OLED UX3402"
                   loading="lazy"
-                  className="w-full h-full object-cover object-center mix-blend-multiply"
+                  className="max-h-full max-w-[88%] object-contain drop-shadow-[0_12px_20px_rgba(29,29,31,0.12)]"
                 />
               </div>
             </div>
