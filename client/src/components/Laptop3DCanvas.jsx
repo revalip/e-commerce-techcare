@@ -550,9 +550,7 @@ export default function Laptop3DCanvas({
         const targetRotZ = -0.06 * (1 - smoothOpen);
         const targetOpen = 0.08 + smoothOpen * 0.92; // 8% cracked shut -> 100% wide open!
         const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
-        const targetPosY =
-          (isNarrow ? 0.42 + smoothGlide * 0.72 : 0.08 - smoothGlide * 0.14) +
-          (prefersReducedMotion ? 0 : Math.sin(t * 1.35) * 0.05);
+        const targetPosY = isNarrow ? 0.42 + smoothGlide * 0.72 : 0.08 - smoothGlide * 0.14;
         const targetCamZ =
           (isNarrow ? 9.6 * aspectBoost : 7.1) - smoothOpen * 0.3 + smoothGlide * 0.4;
         const targetCamY = (isNarrow ? 0.45 + smoothGlide * 0.35 : 0.52) + smoothOpen * 0.16;
@@ -580,7 +578,6 @@ export default function Laptop3DCanvas({
         }
 
         const preset = EXPLORER_PRESETS[presetRef.current] || EXPLORER_PRESETS.overview;
-        const floatY = prefersReducedMotion ? 0 : Math.sin(t * 1.25) * 0.035;
         const mobileZoom = isPhone ? Math.max(1.42, aspectBoost * 1.25) : Math.max(1.18, aspectBoost);
         const targetCamZ = isNarrow ? preset.camZ * mobileZoom : preset.camZ;
         const targetCamY = isPhone ? preset.camY + 0.15 : preset.camY;
@@ -593,7 +590,7 @@ export default function Laptop3DCanvas({
         state.rotZ += (0 - state.rotZ) * 0.1;
         state.open += (preset.open - state.open) * 0.12;
         state.posX += (0 - state.posX) * 0.1;
-        state.posY += ((isPhone ? -0.05 : -0.18) + floatY - state.posY) * 0.1;
+        state.posY += ((isPhone ? -0.05 : -0.18) - state.posY) * 0.1;
         state.camZ += (targetCamZ - state.camZ) * 0.12;
         state.camY += (targetCamY - state.camY) * 0.12;
       }

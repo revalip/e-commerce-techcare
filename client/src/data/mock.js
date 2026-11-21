@@ -525,7 +525,7 @@ export const mockProducts = [
     brand: 'MSI',
     nama: 'MSI MAG 341CQP 34" Curved Ultrawide',
     slug: 'msi-mag-341cqp-34-curved-second',
-    tagline: '34" UWQHD 175HZ CURVED • GRADE A+',
+    tagline: '34" UWQHD QD-OLED 175HZ • GRADE A+',
     kondisi: 'Grade A+ • Bebas Burn-In',
     garansi: 'Garansi Toko 60 Hari',
     qcSummary: 'Lolos Uji Warna DCI-P3 99% • 0 Dead Pixel • Stand Ergonomis Utuh',

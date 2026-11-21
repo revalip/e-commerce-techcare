@@ -6,7 +6,7 @@ const FEATURES = [
   {
     id: 'display',
     label: 'Layar bebas dead pixel',
-    badge: 'Panel IPS & OLED',
+    badge: 'Panel IPS Anti-Glare',
     summary:
       'Setiap layar diuji keseragaman warna, kecerahan, dan engsel kokoh sebelum masuk katalog.',
     image: '/images/products/thinkpad-x1-carbon-front.jpg'
