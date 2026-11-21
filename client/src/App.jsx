@@ -211,7 +211,11 @@ function MainApp() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#1D2129] overflow-x-clip">
-      <Navbar onNavigate={handleNavigate} currentPage={currentPage} />
+      <Navbar
+        onNavigate={handleNavigate}
+        onSelectCollection={handleSelectCollection}
+        currentPage={currentPage}
+      />
 
       <main className="flex-1 pb-20 md:pb-0">
         <AnimatePresence mode="wait">
@@ -261,6 +265,7 @@ function MainApp() {
                 product={selectedProduct}
                 onBack={() => handleNavigate('shop')}
                 onDirectCheckout={() => handleNavigate('checkout')}
+                onSelectProduct={handleSelectProduct}
               />
             </motion.div>
           )}

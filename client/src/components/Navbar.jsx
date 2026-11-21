@@ -8,11 +8,14 @@ import {
   LogOut,
   LayoutDashboard,
   Package,
-  Heart
+  Heart,
+  ChevronDown,
+  ArrowUpRight
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import { mockCollections } from '../data/mock';
 import TechCareLogo from './TechCareLogo';
 
 function ScrollProgressRing() {
@@ -66,11 +69,12 @@ function ScrollProgressRing() {
   );
 }
 
-export default function Navbar({ onNavigate, currentPage }) {
+export default function Navbar({ onNavigate, onSelectCollection, currentPage }) {
   const { totalItems, setIsCartOpen, cartBadgeBounce } = useCart();
   const { wishlistCount, setIsWishlistOpen } = useWishlist();
   const { user, isAdmin, isBuyer, isGuest, logout, openAuthModal } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [catalogMenuOpen, setCatalogMenuOpen] = useState(false);
 
   const navLinks = [
     { label: 'Beranda', page: 'home' },
@@ -83,10 +87,24 @@ export default function Navbar({ onNavigate, currentPage }) {
   const handleLinkClick = (page) => {
     onNavigate(page);
     setMobileMenuOpen(false);
+    setCatalogMenuOpen(false);
+  };
+
+  const handleCategoryPick = (slug) => {
+    if (onSelectCollection) {
+      onSelectCollection(slug);
+    } else {
+      onNavigate('shop');
+    }
+    setCatalogMenuOpen(false);
+    setMobileMenuOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-[#F7F8FA]/95 backdrop-blur-md border-b border-[#E2E7EE] shadow-[0_1px_8px_rgba(29,33,41,0.04)]">
+    <header
+      onMouseLeave={() => setCatalogMenuOpen(false)}
+      className="sticky top-0 z-40 bg-[#F7F8FA]/95 backdrop-blur-md border-b border-[#E2E7EE] shadow-[0_1px_8px_rgba(29,33,41,0.04)]"
+    >
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
         {/* Left: Hamburger (< lg) + Minimal Airform Wordmark */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
@@ -119,9 +137,30 @@ export default function Navbar({ onNavigate, currentPage }) {
               currentPage === item.page ||
               (item.page === 'shop' && currentPage === 'product-detail') ||
               (item.page === 'orders' && currentPage === 'order-detail');
+            if (item.page === 'shop') {
+              return (
+                <button
+                  key={item.page}
+                  onMouseEnter={() => setCatalogMenuOpen(true)}
+                  onClick={() => handleLinkClick(item.page)}
+                  className={`inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
+                    isActive
+                      ? 'bg-[#1D2129] text-white'
+                      : 'text-[#647082] hover:text-[#1D2129] hover:bg-[#F7F8FA]'
+                  }`}
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown
+                    size={12}
+                    className={`transition-transform duration-200 ${catalogMenuOpen ? 'rotate-180' : ''}`}
+                  />
+                </button>
+              );
+            }
             return (
               <button
                 key={item.page}
+                onMouseEnter={() => setCatalogMenuOpen(false)}
                 onClick={() => handleLinkClick(item.page)}
                 className={`px-4 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                   isActive
@@ -258,6 +297,29 @@ export default function Navbar({ onNavigate, currentPage }) {
                 );
               })}
 
+              <div className="pt-2">
+                <p className="px-4 pb-2 text-[11px] font-medium uppercase tracking-wider text-[#8692A3]">
+                  Kategori Produk
+                </p>
+                <div className="flex flex-wrap gap-2 px-3">
+                  {mockCollections.map((col) => (
+                    <button
+                      key={col.slug}
+                      type="button"
+                      onClick={() => handleCategoryPick(col.slug)}
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#F7F8FA] border border-[#E2E7EE] text-xs font-medium text-[#1D2129]"
+                    >
+                      <img
+                        src={col.gambar}
+                        alt={col.nama}
+                        className="w-4 h-4 object-contain"
+                      />
+                      <span>{col.nama}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="pt-3 mt-2 border-t border-[#ECEFF4] flex items-center justify-between gap-2">
                 {isGuest ? (
                   <button
@@ -289,6 +351,60 @@ export default function Navbar({ onNavigate, currentPage }) {
                     </button>
                   </>
                 )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      {/* Apple × Xiaomi Visual Category Mega-Menu (lg+) */}
+      <AnimatePresence>
+        {catalogMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.16 }}
+            className="hidden lg:block absolute inset-x-0 top-16 bg-white/98 backdrop-blur-md border-b border-[#E2E7EE] shadow-[0_14px_32px_rgba(29,33,41,0.08)]"
+          >
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#8692A3]">
+                  Pilih Kategori Perangkat
+                </span>
+                <button
+                  type="button"
+                  onClick={() => handleLinkClick('shop')}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-[#1D2129] hover:text-[#4F627A]"
+                >
+                  <span>Lihat Semua Katalog</span>
+                  <ArrowUpRight size={13} />
+                </button>
+              </div>
+              <div className="grid grid-cols-5 gap-3">
+                {mockCollections.map((col) => (
+                  <button
+                    key={col.slug}
+                    type="button"
+                    onClick={() => handleCategoryPick(col.slug)}
+                    className="group text-left p-3 rounded-2xl bg-[#F7F8FA] hover:bg-[#ECEFF4] border border-[#E2E7EE] transition-colors flex flex-col gap-2.5"
+                  >
+                    <div className="h-20 w-full rounded-xl bg-white flex items-center justify-center p-2 overflow-hidden">
+                      <img
+                        src={col.gambar}
+                        alt={col.nama}
+                        className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-display text-xs font-semibold text-[#1D2129] truncate">
+                        {col.nama}
+                      </p>
+                      <p className="text-[11px] text-[#647082] line-clamp-1 mt-0.5">
+                        {col.tagline}
+                      </p>
+                    </div>
+                  </button>
+                ))}
               </div>
             </div>
           </motion.div>

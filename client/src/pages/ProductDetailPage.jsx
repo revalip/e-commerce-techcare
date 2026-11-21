@@ -19,11 +19,12 @@ import {
   Scale
 } from 'lucide-react';
 import { formatIDR, formatWeight } from '../utils/format';
+import { mockProducts } from '../data/mock';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
 
-export default function ProductDetailPage({ product, onBack, onDirectCheckout }) {
+export default function ProductDetailPage({ product, onBack, onDirectCheckout, onSelectProduct }) {
   const { addToCart } = useCart();
   const { isGuest, openAuthModal } = useAuth();
   const { isWishlisted, toggleWishlist } = useWishlist();
@@ -523,6 +524,72 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout })
             </div>
           </div>
         </div>
+
+        {/* Ecosystem Pairing: "Lengkapi Setup Kamu" (Apple × Xiaomi Ecosystem) */}
+        {(() => {
+          const slug = product.koleksiSlug;
+          const targetSlugs =
+            slug === 'laptop-second'
+              ? ['ram-memori', 'ssd-storage', 'peripherals-second']
+              : slug === 'monitor-second'
+              ? ['peripherals-second', 'laptop-second']
+              : slug === 'ram-memori' || slug === 'ssd-storage'
+              ? ['laptop-second', 'ssd-storage', 'ram-memori']
+              : ['laptop-second', 'monitor-second'];
+
+          const paired = [];
+          for (const target of targetSlugs) {
+            const match = mockProducts.find(
+              (item) => item.koleksiSlug === target && item.id !== product.id && !paired.some((p) => p.id === item.id)
+            );
+            if (match) paired.push(match);
+          }
+          if (paired.length === 0) return null;
+
+          return (
+            <section className="mt-14 pt-10 border-t border-[#E2E7EE]">
+              <div className="flex items-end justify-between gap-4 mb-6">
+                <div>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#8692A3]">
+                    Rekomendasi Ekosistem
+                  </p>
+                  <h2 className="font-display text-xl sm:text-2xl font-medium tracking-[-0.03em] text-[#1D2129] mt-1">
+                    Lengkapi setup kamu
+                  </h2>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {paired.slice(0, 3).map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => onSelectProduct && onSelectProduct(item)}
+                    className="group text-left bg-white hover:bg-[#FAFBFD] border border-[#E2E7EE] hover:border-[#CBD5E1] rounded-2xl p-4 flex items-center gap-3.5 transition-all"
+                  >
+                    <div className="w-16 h-16 rounded-xl bg-[#ECEFF4] overflow-hidden shrink-0 flex items-center justify-center">
+                      <img
+                        src={item.gambar?.[0] || '/images/products/thinkpad-x1-carbon-front.jpg'}
+                        alt={item.nama}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-[#647082] block truncate">
+                        {item.koleksi}
+                      </span>
+                      <p className="font-display text-xs sm:text-sm font-medium text-[#1D2129] line-clamp-1 mt-0.5">
+                        {item.nama}
+                      </p>
+                      <p className="font-display text-xs font-semibold text-[#1D2129] mt-1 tabular-nums">
+                        {formatIDR(item.harga)}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </section>
+          );
+        })()}
       </div>
 
       {/* Image Lightbox Modal */}

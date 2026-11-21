@@ -138,6 +138,24 @@ export default function ProductCard({ product, onSelect }) {
           <p className="text-[11px] text-[#8692A3] line-clamp-1">
             {product.specRangeLabel || product.tagline}
           </p>
+
+          {Array.isArray(product.varianWarna) && product.varianWarna.length > 0 && (
+            <div className="flex items-center gap-1.5 pt-1" aria-label="Pilihan warna">
+              {product.varianWarna.slice(0, 4).map((v) => (
+                <span
+                  key={v.nama}
+                  title={v.nama}
+                  className="w-2.5 h-2.5 rounded-full border border-[#CBD5E1] shrink-0"
+                  style={{ backgroundColor: v.hex || '#1D2129' }}
+                />
+              ))}
+              {product.varianWarna.length > 1 && (
+                <span className="text-[10px] text-[#8692A3] ml-0.5">
+                  {product.varianWarna.length} warna
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Price + Pill CTA (stacks cleanly on narrow 360px 2-col cards, row on sm+) */}

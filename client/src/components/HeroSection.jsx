@@ -56,7 +56,10 @@ export default function HeroSection({ onShopClick, onTrackClick }) {
               <span>Lihat Katalog</span>
               <ArrowUpRight size={15} />
             </button>
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-[#647082]">
+            <p className="text-[11px] sm:text-xs text-[#647082] text-center">
+              Lulus 32 Titik QC Teknisi • Garansi Toko 30–90 Hari • Free Pasang Upgrade
+            </p>
+            <span className="inline-flex items-center gap-1.5 text-[11px] text-[#8692A3]">
               <span>Scroll</span>
               <ChevronDown size={13} className="animate-bounce" />
             </span>

@@ -343,6 +343,32 @@ export default function ShopPage({
             </div>
           </div>
 
+          {/* Quick Budget / Price Range Strip (Xiaomi-style budget filter) */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            {[
+              { id: 'all', label: 'Semua Harga' },
+              { id: 'under1', label: 'Di bawah 1 Juta' },
+              { id: '1to5', label: '1 – 5 Juta' },
+              { id: 'over5', label: '5 – 10 Juta' }
+            ].map((tier) => (
+              <button
+                key={tier.id}
+                type="button"
+                onClick={() => {
+                  setPriceRange(tier.id);
+                  setVisibleCount(12);
+                }}
+                className={`min-h-[34px] px-3.5 rounded-full text-[11px] font-medium whitespace-nowrap border transition-colors ${
+                  priceRange === tier.id
+                    ? 'bg-[#ECEFF4] text-[#1D2129] border-[#1D2129]'
+                    : 'bg-white text-[#647082] border-[#E2E7EE] hover:border-[#8692A3] hover:text-[#1D2129]'
+                }`}
+              >
+                {tier.label}
+              </button>
+            ))}
+          </div>
+
           {/* Pill Category Strip + Reset */}
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 overflow-x-auto pb-1 flex-1 no-scrollbar">
