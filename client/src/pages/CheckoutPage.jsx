@@ -5,7 +5,7 @@ import {
   ArrowRight,
   Tag,
   X,
-  Sparkles,
+  Check,
   CreditCard,
   QrCode,
   User,
@@ -577,14 +577,14 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                     </div>
 
                     {appliedVoucher ? (
-                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between">
+                      <div className="p-3 bg-[#F5F5F7] border border-[#0071E3]/40 rounded-xl flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <Sparkles size={16} className="text-emerald-600" />
+                          <Check size={16} className="text-[#0071E3]" />
                           <div>
-                            <p className="text-xs font-bold text-emerald-900">
+                            <p className="text-xs font-bold text-[#1D1D1F]">
                               Kupon <strong>{appliedVoucher.kode}</strong> Aktif
                             </p>
-                            <p className="text-[11px] text-emerald-700">
+                            <p className="text-[11px] text-[#0071E3]">
                               Hemat {formatIDR(discountAmount)}
                             </p>
                           </div>

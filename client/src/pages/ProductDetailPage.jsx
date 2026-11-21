@@ -14,7 +14,7 @@ import {
   X,
   Cpu,
   HardDrive,
-  Sparkles,
+  Layers,
   Scale
 } from 'lucide-react';
 import { formatIDR, formatWeight } from '../utils/format';
@@ -173,7 +173,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             >
               <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
                 {product.diskonPersen > 0 && (
-                  <span className="bg-rose-600 text-white text-[11px] font-semibold px-3 py-1 rounded-full">
+                  <span className="bg-[#1D1D1F] text-white text-[11px] font-semibold px-3 py-1 rounded-full">
                     Hemat {product.diskonPersen}%
                   </span>
                 )}
@@ -378,8 +378,8 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             {tierOptions.length > 0 && (
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[#1D2129] flex items-center gap-1.5">
-                    <Sparkles size={14} className="text-[#0071E3]" /> Pilih Varian
+                  <span className="font-semibold text-[#1D1D1F] flex items-center gap-1.5">
+                    <Layers size={14} className="text-[#0071E3]" /> Pilih Varian
                   </span>
                   <span className="text-[#6E6E73]">{activeTier?.label}</span>
                 </div>
@@ -462,7 +462,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                 >
                   <Heart
                     size={18}
-                    className={wishlisted ? 'fill-rose-500 text-rose-500' : 'text-[#4F627A]'}
+                    className={wishlisted ? 'fill-[#0071E3] text-[#0071E3]' : 'text-[#6E6E73]'}
                   />
                 </button>
               </div>

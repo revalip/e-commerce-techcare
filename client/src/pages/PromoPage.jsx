@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tag, Copy, Check, Sparkles, Percent, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
+import { Tag, Copy, Check, Percent, ArrowRight, ShieldCheck, Clock } from 'lucide-react';
 import { promoVouchers } from '../data/mockProducts';
 import { formatIDR } from '../utils/format';
 import { useCart } from '../context/CartContext';
@@ -53,7 +53,7 @@ export default function PromoPage({ products, onSelectProduct, onExploreShop }) 
                     <span className="px-2.5 py-1 bg-neutral-900 text-white rounded-lg text-[10px] font-bold uppercase tracking-wider">
                       {voucher.type === 'percent' ? `DISKON ${voucher.value}%` : `POTONGAN ${formatIDR(voucher.value)}`}
                     </span>
-                    <Sparkles size={16} className="text-amber-500" />
+                    <Tag size={15} className="text-[#0071E3]" />
                   </div>
 
                   <div>

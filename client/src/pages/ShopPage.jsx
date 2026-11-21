@@ -214,23 +214,23 @@ export default function ShopPage({
   };
 
   return (
-    <div className="bg-[#F7F8FA] min-h-screen py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
-        {/* Clean Airform Studio Catalog Header */}
-        <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#E2E7EE]">
+    <div className="bg-white min-h-screen py-8 sm:py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 sm:space-y-8">
+        {/* Clean Apple Store Catalog Header */}
+        <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-6 border-b border-[#D2D2D7]/70">
           <div className="space-y-2">
-            <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#647082] block">
-              Certified Hardware &lt; Rp 10 Juta • Lulus 32 Titik QC
+            <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-[#6E6E73] block">
+              Perangkat IT Terkurasi &lt; Rp 10 Juta • Lulus 32 Titik QC
             </span>
-            <h1 className="font-display text-4xl sm:text-6xl font-medium tracking-[-0.045em] text-[#1D2129] leading-[0.98]">
+            <h1 className="font-display text-4xl sm:text-6xl font-semibold tracking-[-0.04em] text-[#1D1D1F] leading-[1.02]">
               Katalog.
             </h1>
           </div>
 
-          <div className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-full bg-white border border-[#E2E7EE] font-mono text-xs text-[#4F627A] tabular-nums">
-            <span className="w-2 h-2 rounded-full bg-[#1D2129]" />
+          <div className="inline-flex items-center gap-2 self-start sm:self-auto px-4 py-2 rounded-full bg-[#F5F5F7] font-mono text-xs text-[#6E6E73] tabular-nums">
+            <span className="w-2 h-2 rounded-full bg-[#0071E3]" />
             <span>
-              <strong className="text-[#1D2129]">{filteredProducts.length}</strong> unit tersedia
+              <strong className="text-[#1D1D1F]">{filteredProducts.length}</strong> unit tersedia
             </span>
           </div>
         </header>
@@ -304,7 +304,7 @@ export default function ShopPage({
               >
                 <Heart
                   size={13}
-                  className={onlyFavorites ? 'fill-rose-500 text-rose-500' : 'text-[#4F627A]'}
+                  className={onlyFavorites ? 'fill-[#0071E3] text-[#0071E3]' : 'text-[#6E6E73]'}
                 />
                 <span>Favorit</span>
               </button>

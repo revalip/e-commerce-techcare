@@ -210,7 +210,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F8FA] text-[#1D2129] overflow-x-clip">
+    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#1D1D1F] overflow-x-clip">
       <Navbar
         onNavigate={handleNavigate}
         onSelectCollection={handleSelectCollection}

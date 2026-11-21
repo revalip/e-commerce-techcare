@@ -8,26 +8,32 @@ export default {
     extend: {
       colors: {
         tc: {
-          canvas: '#F7F8FA',
+          white: '#FFFFFF',
+          canvas: '#FFFFFF',
           surface: '#FFFFFF',
-          mist: '#ECEFF4',
-          ink: '#1D2129',
-          charcoal: '#23272F',
-          slate: '#4F627A',
-          muted: '#647082',
-          line: '#E2E7EE',
-          'line-dark': '#2E3440',
+          mist: '#F5F5F7',
+          ink: '#1D1D1F',
+          charcoal: '#1D1D1F',
+          slate: '#424245',
+          muted: '#6E6E73',
+          line: '#D2D2D7',
+          'line-dark': '#333336',
+          blue: '#0071E3',
+          'blue-hover': '#0077ED',
         }
       },
       fontFamily: {
-        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        serif: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
-        sans: ['"Plus Jakarta Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'sans-serif'],
+        serif: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'sans-serif'],
+        sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      borderRadius: {
+        tile: '28px',
       },
       boxShadow: {
-        'tc-studio': '0 1px 2px rgba(29, 33, 41, 0.04), 0 8px 24px -12px rgba(29, 33, 41, 0.08)',
-        'tc-lift': '0 12px 32px -12px rgba(29, 33, 41, 0.14)',
+        'tc-studio': '0 1px 2px rgba(29, 29, 31, 0.04), 0 6px 20px -10px rgba(29, 29, 31, 0.07)',
+        'tc-lift': '0 12px 28px -12px rgba(29, 29, 31, 0.12)',
       }
     },
   },
