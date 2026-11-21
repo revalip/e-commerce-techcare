@@ -4,6 +4,7 @@ import CloserLook3DSection from '../components/CloserLook3DSection';
 import FeatureStrip from '../components/FeatureStrip';
 import BestsellersSection from '../components/BestsellersSection';
 import CollectionsSection from '../components/CollectionsSection';
+import FlagshipSpotlightSection from '../components/FlagshipSpotlightSection';
 import { getProducts, getCollections } from '../services/api';
 
 /**
@@ -42,11 +43,14 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
         onTrackClick={() => onNavigate('orders')}
       />
 
-      <CloserLook3DSection />
-
       <CollectionsSection
         collections={collections}
         onSelectCollection={onSelectCollection}
+      />
+
+      <FlagshipSpotlightSection
+        onSelectProduct={onSelectProduct}
+        onShopClick={() => onNavigate('shop')}
       />
 
       <BestsellersSection
@@ -55,6 +59,8 @@ export default function HomePage({ onSelectProduct, onNavigate, onSelectCollecti
         onSelectProduct={onSelectProduct}
         onExploreAll={() => onNavigate('shop')}
       />
+
+      <CloserLook3DSection />
 
       <FeatureStrip
         onNavigateAbout={() => onNavigate('about')}

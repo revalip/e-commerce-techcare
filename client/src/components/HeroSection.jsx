@@ -24,9 +24,58 @@ export default function HeroSection({ onShopClick, onTrackClick }) {
 
   return (
     <section className="w-full bg-[#F7F8FA]">
+      {/* Mobile (< md): Immediate Above-the-Fold Apple × Samsung Hero (Zero tedious scroll gap!) */}
+      <div className="md:hidden px-4 pt-6 pb-8 space-y-5">
+        <div className="text-center space-y-2.5">
+          <span className="inline-block px-3 py-1 rounded-full bg-white border border-[#E2E7EE] text-[10px] font-mono uppercase tracking-[0.12em] text-[#4F627A]">
+            Certified Pre-Owned • &lt; Rp 10 Juta
+          </span>
+          <h1 className="font-display text-[32px] font-medium tracking-[-0.04em] leading-[1.06] text-[#1D2129]">
+            Perangkat IT.{' '}
+            <span className="text-[#8F9FB3] font-light">Teruji teknisi.</span>
+          </h1>
+          <p className="text-xs text-[#4F627A] leading-relaxed max-w-xs mx-auto">
+            Laptop dan hardware bergaransi, lulus 32 titik pengecekan sebelum sampai ke tanganmu.
+          </p>
+        </div>
+
+        {/* Grounded 3D Laptop Stage on Mobile */}
+        <div className="relative h-[230px] w-full rounded-[26px] bg-white border border-[#E2E7EE] overflow-hidden pointer-events-none">
+          <div
+            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+            aria-hidden="true"
+          >
+            <span className="font-display font-semibold tracking-[-0.055em] leading-none text-[18vw] tc-airform-wordmark select-none opacity-65">
+              TechCare
+            </span>
+          </div>
+          <Suspense fallback={null}>
+            <Laptop3DCanvas mode="hero" />
+          </Suspense>
+        </div>
+
+        <div className="flex items-center justify-center gap-3">
+          <button type="button" onClick={onShopClick} className="tc-btn-primary flex-1">
+            <span>Lihat Katalog</span>
+            <ArrowUpRight size={15} />
+          </button>
+          <button
+            type="button"
+            onClick={onTrackClick}
+            className="min-h-[44px] px-4 rounded-full bg-white border border-[#DCE2EA] text-xs font-medium text-[#1D2129]"
+          >
+            Lacak Pesanan
+          </button>
+        </div>
+        <p className="text-[11px] text-[#647082] text-center">
+          Lulus 32 Titik QC • Garansi Toko 30–90 Hari • Free Pasang
+        </p>
+      </div>
+
+      {/* Desktop (md+): Sticky Scroll-to-Open 3D Stage */}
       <div
         ref={stageContainerRef}
-        className="relative h-[165vh] sm:h-[200vh] lg:h-[220vh] bg-[#F7F8FA]"
+        className="hidden md:block relative h-[150vh] lg:h-[165vh] bg-[#F7F8FA]"
       >
         <div className="sticky top-16 h-[calc(100vh-4rem)] min-h-[520px] max-h-[860px] w-full overflow-hidden flex items-center justify-center">
           {/* Back: giant silver wordmark */}
