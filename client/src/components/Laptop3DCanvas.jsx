@@ -416,9 +416,10 @@ export default function Laptop3DCanvas({
         if (!disposed) setStatus('error');
       });
 
-    // Pointer tilt & explorer 360° drag
+    // Pointer tilt & explorer 360° drag (supports smooth mobile touch swipe via touch-action: pan-y)
     const pointer = { x: 0, y: 0 };
     let isDragging = false;
+    let activePointerId = null;
     let dragStartX = 0;
     let dragOffsetY = 0;
     let dragVelocity = 0;
@@ -433,7 +434,8 @@ export default function Laptop3DCanvas({
       if (mode === 'explorer' && isDragging) {
         const dx = e.clientX - dragStartX;
         dragStartX = e.clientX;
-        dragVelocity = dx * 0.009;
+        const sensitivity = e.pointerType === 'touch' ? 0.015 : 0.01;
+        dragVelocity = dx * sensitivity;
         dragOffsetY += dragVelocity;
       }
     };
@@ -441,16 +443,33 @@ export default function Laptop3DCanvas({
     const onPointerDown = (e) => {
       if (mode !== 'explorer') return;
       isDragging = true;
+      activePointerId = e.pointerId;
       dragStartX = e.clientX;
+      try {
+        container.setPointerCapture(e.pointerId);
+      } catch {
+        // Ignore if pointer capture is unsupported
+      }
     };
 
-    const onPointerUp = () => {
+    const onPointerEnd = (e) => {
+      if (activePointerId !== null && e.pointerId === activePointerId) {
+        try {
+          if (container.hasPointerCapture(e.pointerId)) {
+            container.releasePointerCapture(e.pointerId);
+          }
+        } catch {
+          // Ignore
+        }
+        activePointerId = null;
+      }
       isDragging = false;
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     container.addEventListener('pointerdown', onPointerDown);
-    window.addEventListener('pointerup', onPointerUp);
+    window.addEventListener('pointerup', onPointerEnd);
+    window.addEventListener('pointercancel', onPointerEnd);
 
     let lastPreset = presetRef.current;
 
@@ -498,7 +517,8 @@ export default function Laptop3DCanvas({
       const t = clock.getElapsedTime();
       const cw = container.clientWidth || 800;
       const isNarrow = cw < 768;
-      const portraitBoost = camera.aspect < 1 ? 1 / Math.max(camera.aspect, 0.52) : 1;
+      const isPhone = cw < 520;
+      const aspectBoost = camera.aspect < 1.15 ? 1.15 / Math.max(camera.aspect, 0.52) : 1;
 
       if (mode === 'hero') {
         let p = 0;
@@ -520,14 +540,14 @@ export default function Laptop3DCanvas({
         const targetOpen = 0.08 + smoothOpen * 0.92; // 8% cracked shut -> 100% wide open!
         const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
         const targetPosY =
-          (isNarrow ? 0.18 + smoothGlide * 1.05 : -0.14) +
+          (isNarrow ? 0.22 + smoothGlide * 0.92 : -0.14) +
           (prefersReducedMotion ? 0 : Math.sin(t * 1.35) * 0.05);
         const targetCamZ =
-          (isNarrow ? 8.2 * portraitBoost : 6.35) - smoothOpen * 0.25 + smoothGlide * 0.45;
+          (isNarrow ? 8.6 * aspectBoost : 6.35) - smoothOpen * 0.2 + smoothGlide * 0.45;
         const targetCamY = (isNarrow ? 0.45 + smoothGlide * 0.35 : 0.52) + smoothOpen * 0.16;
 
-        const tiltX = prefersReducedMotion ? 0 : pointer.y * 0.08;
-        const tiltY = prefersReducedMotion ? 0 : pointer.x * 0.16;
+        const tiltX = prefersReducedMotion || isPhone ? 0 : pointer.y * 0.08;
+        const tiltY = prefersReducedMotion || isPhone ? 0 : pointer.x * 0.16;
 
         state.rotY += (targetRotY + tiltY - state.rotY) * 0.1;
         state.rotX += (targetRotX + tiltX - state.rotX) * 0.1;
@@ -549,20 +569,22 @@ export default function Laptop3DCanvas({
         }
 
         const preset = EXPLORER_PRESETS[presetRef.current] || EXPLORER_PRESETS.overview;
-        const floatY = prefersReducedMotion ? 0 : Math.sin(t * 1.25) * 0.04;
-        const targetCamZ = isNarrow ? preset.camZ * Math.min(portraitBoost, 1.55) : preset.camZ;
+        const floatY = prefersReducedMotion ? 0 : Math.sin(t * 1.25) * 0.035;
+        const mobileZoom = isPhone ? Math.max(1.42, aspectBoost * 1.25) : Math.max(1.18, aspectBoost);
+        const targetCamZ = isNarrow ? preset.camZ * mobileZoom : preset.camZ;
+        const targetCamY = isPhone ? preset.camY + 0.15 : preset.camY;
 
         state.rotY +=
-          (preset.rotY + dragOffsetY + (prefersReducedMotion ? 0 : pointer.x * 0.06) - state.rotY) *
-          0.1;
+          (preset.rotY + dragOffsetY + (prefersReducedMotion || isPhone ? 0 : pointer.x * 0.06) - state.rotY) *
+          0.14;
         state.rotX +=
-          (preset.rotX + (prefersReducedMotion ? 0 : pointer.y * 0.035) - state.rotX) * 0.1;
+          (preset.rotX + (prefersReducedMotion || isPhone ? 0 : pointer.y * 0.035) - state.rotX) * 0.14;
         state.rotZ += (0 - state.rotZ) * 0.1;
-        state.open += (preset.open - state.open) * 0.1;
+        state.open += (preset.open - state.open) * 0.12;
         state.posX += (0 - state.posX) * 0.1;
-        state.posY += (-0.18 + floatY - state.posY) * 0.1;
-        state.camZ += (targetCamZ - state.camZ) * 0.1;
-        state.camY += (preset.camY - state.camY) * 0.1;
+        state.posY += ((isPhone ? -0.05 : -0.18) + floatY - state.posY) * 0.1;
+        state.camZ += (targetCamZ - state.camZ) * 0.12;
+        state.camY += (targetCamY - state.camY) * 0.12;
       }
 
       if (rig) {
@@ -596,7 +618,8 @@ export default function Laptop3DCanvas({
       io.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       container.removeEventListener('pointerdown', onPointerDown);
-      window.removeEventListener('pointerup', onPointerUp);
+      window.removeEventListener('pointerup', onPointerEnd);
+      window.removeEventListener('pointercancel', onPointerEnd);
       screenTexture.dispose();
       shadowTex.dispose();
       envRT.dispose();
@@ -630,6 +653,7 @@ export default function Laptop3DCanvas({
       )}
       <div
         ref={containerRef}
+        style={mode === 'explorer' ? { touchAction: 'pan-y' } : undefined}
         className={`w-full h-full ${
           mode === 'explorer' ? 'cursor-grab active:cursor-grabbing' : ''
         }`}
