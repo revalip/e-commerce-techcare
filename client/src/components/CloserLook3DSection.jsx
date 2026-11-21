@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown } from 'lucide-react';
 import Reveal from './Reveal';
 
 const FEATURES = [
@@ -25,7 +26,7 @@ const FEATURES = [
     badge: 'Repaste & Cleaning',
     summary:
       'Heatsink dibersihkan total dan thermal paste diganti baru supaya suhu tetap adem dan senyap.',
-    image: '/images/products/thinkpad-x1-carbon-front.jpg'
+    image: '/images/products/thermal-cooling-internal.jpg'
   },
   {
     id: 'ports',
@@ -76,42 +77,61 @@ export default function CloserLook3DSection() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 order-2 lg:order-1 divide-y divide-[#E2E7EE] border-y border-[#E2E7EE]">
-            {FEATURES.map((feat) => {
-              const isOpen = feat.id === activeId;
-              return (
-                <div key={feat.id}>
-                  <button
-                    type="button"
-                    onClick={() => setActiveId(feat.id)}
-                    className="w-full text-left min-h-[56px] py-4 flex items-center justify-between gap-3"
+          <div className="lg:col-span-5 order-2 lg:order-1">
+            <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#8692A3] mb-3">
+              Pilih poin inspeksi di bawah
+            </p>
+            <div className="space-y-2.5">
+              {FEATURES.map((feat) => {
+                const isOpen = feat.id === activeId;
+                return (
+                  <div
+                    key={feat.id}
+                    className={`rounded-2xl border transition-colors ${
+                      isOpen
+                        ? 'bg-[#F7F8FA] border-[#DCE2EA]'
+                        : 'bg-white border-[#ECEFF4] hover:border-[#DCE2EA] hover:bg-[#FAFBFD]'
+                    }`}
                   >
-                    <span
-                      className={`text-base sm:text-lg transition-colors ${
-                        isOpen ? 'font-medium text-[#1D2129]' : 'text-[#8692A3] hover:text-[#4F627A]'
-                      }`}
+                    <button
+                      type="button"
+                      onClick={() => setActiveId(feat.id)}
+                      aria-expanded={isOpen}
+                      className="w-full text-left min-h-[56px] px-4 py-3.5 flex items-center justify-between gap-3 cursor-pointer"
                     >
-                      {feat.label}
-                    </span>
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.22 }}
-                        className="overflow-hidden"
+                      <span
+                        className={`text-base sm:text-[17px] transition-colors ${
+                          isOpen ? 'font-medium text-[#1D2129]' : 'text-[#4F627A]'
+                        }`}
                       >
-                        <p className="pb-5 text-sm text-[#647082] leading-relaxed max-w-sm">
-                          {feat.summary}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
+                        {feat.label}
+                      </span>
+                      <ChevronDown
+                        size={17}
+                        className={`shrink-0 transition-transform duration-200 ${
+                          isOpen ? 'rotate-180 text-[#1D2129]' : 'text-[#8692A3]'
+                        }`}
+                      />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.22 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="px-4 pb-4 text-sm text-[#647082] leading-relaxed">
+                            {feat.summary}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>

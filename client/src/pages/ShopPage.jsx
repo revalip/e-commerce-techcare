@@ -298,11 +298,14 @@ export default function ShopPage({
                 onClick={() => setOnlyFavorites((prev) => !prev)}
                 className={`inline-flex items-center justify-center gap-1.5 px-4 h-[44px] rounded-full text-xs font-medium border transition-colors ${
                   onlyFavorites
-                    ? 'bg-rose-50 text-rose-600 border-rose-200'
-                    : 'bg-white text-[#1D2129] border-[#DCE2EA] hover:border-rose-300'
+                    ? 'bg-white text-[#1D2129] border-[#1D2129] shadow-xs'
+                    : 'bg-white text-[#1D2129] border-[#DCE2EA] hover:border-[#8692A3]'
                 }`}
               >
-                <Heart size={13} className={onlyFavorites ? 'fill-rose-500 text-rose-500' : ''} />
+                <Heart
+                  size={13}
+                  className={onlyFavorites ? 'fill-rose-500 text-rose-500' : 'text-rose-500'}
+                />
                 <span>Favorit</span>
               </button>
 

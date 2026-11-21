@@ -62,18 +62,21 @@ export default function ProductCard({ product, onSelect }) {
           )}
         </div>
 
-        {/* Top-right Circular Wishlist Toggle (Vivid Rose-Red when saved!) */}
+        {/* Top-right Circular Wishlist Toggle (Solid canvas-matched circle, colored heart icon only) */}
         <button
           type="button"
           onClick={handleToggleHeart}
           aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-          className={`absolute top-2.5 right-2.5 z-20 w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-            wishlisted
-              ? 'bg-rose-50 text-rose-600 border-rose-200 shadow-xs'
-              : 'bg-white/92 text-[#4F627A] border-[#E2E7EE] hover:border-rose-300 hover:text-rose-500'
-          }`}
+          className="absolute top-2.5 right-2.5 z-20 w-9 h-9 rounded-full flex items-center justify-center bg-[#F7F8FA] border border-[#E2E7EE] hover:border-[#CBD5E1] shadow-xs transition-all cursor-pointer"
         >
-          <Heart size={14} className={wishlisted ? 'fill-rose-500 text-rose-500' : ''} />
+          <Heart
+            size={15}
+            className={
+              wishlisted
+                ? 'fill-rose-500 text-rose-500 transition-transform scale-110'
+                : 'text-rose-500/80 hover:text-rose-500 transition-colors'
+            }
+          />
         </button>
 
         {/* Product Image */}
