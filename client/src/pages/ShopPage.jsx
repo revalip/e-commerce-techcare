@@ -304,7 +304,7 @@ export default function ShopPage({
               >
                 <Heart
                   size={13}
-                  className={onlyFavorites ? 'fill-rose-500 text-rose-500' : 'text-rose-500'}
+                  className={onlyFavorites ? 'fill-rose-500 text-rose-500' : 'text-[#4F627A]'}
                 />
                 <span>Favorit</span>
               </button>

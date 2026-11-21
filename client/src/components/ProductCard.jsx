@@ -74,7 +74,7 @@ export default function ProductCard({ product, onSelect }) {
             className={
               wishlisted
                 ? 'fill-rose-500 text-rose-500 transition-transform scale-110'
-                : 'text-rose-500/80 hover:text-rose-500 transition-colors'
+                : 'text-[#4F627A] hover:text-[#1D2129] transition-colors'
             }
           />
         </button>
