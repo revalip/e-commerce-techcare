@@ -148,10 +148,10 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
 
   const paymentMethodLabel =
     paymentMethod === 'qris'
-      ? 'QRIS Instan (Simulasi)'
+      ? 'QRIS Instan'
       : paymentMethod === 'bank_mandiri'
-      ? 'Transfer Bank Mandiri (Simulasi)'
-      : 'Transfer Bank BCA (Simulasi)';
+      ? 'Transfer Bank Mandiri'
+      : 'Transfer Bank BCA';
 
   const handleFinishOrder = async () => {
     if (items.length === 0) return;
@@ -554,11 +554,11 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                     </p>
                   </div>
 
-                  {/* Simulation Transparency Banner */}
-                  <div className="p-3.5 rounded-[20px] bg-[#ECEFF4] border border-[#D4DBE5] flex items-start gap-2.5 text-xs text-amber-950">
+                  {/* Payment Verification Notice */}
+                  <div className="p-3.5 rounded-[20px] bg-[#ECEFF4] border border-[#D4DBE5] flex items-start gap-2.5 text-xs text-[#1D2129]">
                     <Info size={16} className="text-[#1D2129] shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
-                      <strong>Mode Simulasi Pembayaran:</strong> Pembayaran QRIS dan Transfer Bank pada aplikasi ini adalah simulasi demo (tanpa menarik dana sungguhan). Bukti bayar akan diverifikasi oleh Admin.
+                      <strong>Konfirmasi Pembayaran:</strong> Transfer sesuai nominal tagihan hingga 3 digit kode unik, lalu unggah bukti transfer untuk diverifikasi Admin.
                     </p>
                   </div>
 
@@ -697,12 +697,12 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                       <div className="p-4 rounded-[20px] bg-[#F7F8FA] border border-[#E2E7EE] flex flex-col sm:flex-row items-center gap-4">
                         <img
                           src="/images/qris-techcare.svg"
-                          alt="QRIS Simulasi TECHCARE"
+                          alt="QRIS TECHCARE"
                           className="w-28 h-32 object-contain rounded-xl bg-white p-1.5 border border-[#E2E7EE]"
                         />
                         <div className="text-xs text-[#4F627A] space-y-1 text-center sm:text-left">
                           <p className="font-display font-bold text-[#1D2129]">
-                            QRIS Nasional TECHCARE (Simulasi)
+                            QRIS Nasional TECHCARE
                           </p>
                           <p>
                             Scan kode QRIS sebesar{' '}

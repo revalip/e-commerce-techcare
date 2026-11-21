@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Lock, Mail, User, Phone, ShieldCheck, ShoppingBag, Cpu, AlertCircle } from 'lucide-react';
+import { X, Lock, Mail, User, Phone, Cpu, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthModal() {
@@ -11,9 +11,7 @@ export default function AuthModal() {
     setAuthModalTab,
     authNotice,
     login,
-    register,
-    loginAsAdminDemo,
-    loginAsBuyerDemo
+    register
   } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -38,30 +36,6 @@ export default function AuthModal() {
       }
     } catch (err) {
       setError(err.message || 'Terjadi kesalahan saat memproses akun.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleQuickAdmin = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await loginAsAdminDemo();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleQuickBuyer = async () => {
-    setError('');
-    setLoading(true);
-    try {
-      await loginAsBuyerDemo();
-    } catch (err) {
-      setError(err.message);
     } finally {
       setLoading(false);
     }
@@ -236,31 +210,6 @@ export default function AuthModal() {
                 : 'Buat Akun Buyer'}
             </button>
           </form>
-
-          {/* Quick Demo Access */}
-          <div className="pt-4 border-t border-[#ECEFF4] space-y-2.5">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-[#8692A3] text-center">
-              Akses Cepat Demo Pengujian
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={handleQuickAdmin}
-                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#1D2129] hover:bg-[#323846] text-white text-xs font-semibold transition-colors"
-              >
-                <ShieldCheck size={14} className="text-[#9BB0C9]" />
-                <span>Masuk Admin Demo</span>
-              </button>
-              <button
-                type="button"
-                onClick={handleQuickBuyer}
-                className="min-h-[42px] inline-flex items-center justify-center gap-1.5 px-3 rounded-xl bg-[#ECEFF4] hover:bg-[#D4DBE5] text-[#1D2129] border border-[#D4DBE5] text-xs font-semibold transition-colors"
-              >
-                <ShoppingBag size={14} />
-                <span>Masuk Buyer Demo</span>
-              </button>
-            </div>
-          </div>
         </div>
       </motion.div>
     </div>

@@ -167,7 +167,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
         {/* Bottom Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs text-[#7B8698] gap-2">
           <p>© 2026 TechCare Indonesia — Retail IT &amp; Workshop UMKM.</p>
-          <p className="font-mono text-[11px]">Garansi Toko 30–90 Hari • Simulasi Pembayaran Lokal</p>
+          <p className="font-mono text-[11px]">Garansi Toko 30–90 Hari • Pembayaran QRIS &amp; Transfer Bank</p>
         </div>
       </div>
     </footer>

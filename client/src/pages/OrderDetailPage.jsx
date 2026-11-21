@@ -364,7 +364,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3 gap-2">
                 <div>
                   <h3 className="font-display text-lg font-bold text-[#1D2129]">Instruksi Pembayaran</h3>
-                  <span className="text-[11px] font-bold text-[#1D2129]">Simulasi Pembayaran Lokal</span>
+                  <span className="text-[11px] font-bold text-[#4F627A]">QRIS &amp; Transfer Bank</span>
                 </div>
                 {countdown && (
                   <div
@@ -411,7 +411,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <div className="max-w-[230px] mx-auto bg-[#F7F8FA] p-2.5 rounded-[20px] border border-[#E2E7EE]">
                     <img
                       src="/images/qris-techcare.svg"
-                      alt="QRIS Simulasi TECHCARE"
+                      alt="QRIS TECHCARE"
                       className="w-full h-auto object-contain rounded-xl"
                     />
                   </div>
@@ -450,7 +450,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               <div className="p-3 rounded-xl bg-[#ECEFF4]/70 border border-[#D4DBE5] flex items-start gap-2 text-[11px] text-[#323846]">
                 <Info size={14} className="shrink-0 mt-0.5 text-[#1D2129]" />
                 <span>
-                  Ini adalah <strong>simulasi pembayaran</strong> demo. Unggah bukti gambar dummy lalu konfirmasi melalui akun Admin Demo.
+                  Lakukan pembayaran sesuai nominal tagihan hingga 3 digit kode unik, lalu unggah bukti transfer untuk verifikasi oleh Admin.
                 </span>
               </div>
             </div>
