@@ -45,7 +45,7 @@ export default function CollectionsSection({ collections, onSelectCollection }) 
                       className={`${
                         isJpg
                           ? 'w-full h-full object-cover'
-                          : 'max-h-[72%] max-w-[72%] object-contain mix-blend-multiply'
+                          : 'max-h-[84%] max-w-[84%] object-contain mix-blend-multiply'
                       } group-hover:scale-105 transition-transform duration-500`}
                     />
                   </div>

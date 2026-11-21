@@ -554,9 +554,9 @@ export default function Laptop3DCanvas({
         const targetRotZ = -0.05 * (1 - effectiveOpen);
         const targetOpen = 0.08 + effectiveOpen * 0.92; // Smoothly opens on load!
         const targetPosX = isNarrow ? 0 : smoothGlide * 1.52;
-        const targetPosY = isNarrow ? 0.18 + smoothGlide * 0.52 : 0.08 - smoothGlide * 0.14;
+        const targetPosY = isNarrow ? 0.18 + smoothGlide * 0.52 : 0.32 - smoothGlide * 0.18;
         const targetCamZ =
-          (isNarrow ? 8.6 * aspectBoost : 7.1) - effectiveOpen * 0.25 + smoothGlide * 0.4;
+          (isNarrow ? 8.6 * aspectBoost : 7.9) - effectiveOpen * 0.25 + smoothGlide * 0.35;
         const targetCamY = (isNarrow ? 0.48 + smoothGlide * 0.25 : 0.52) + effectiveOpen * 0.14;
 
         const tiltX = prefersReducedMotion || isPhone ? 0 : pointer.y * 0.08;

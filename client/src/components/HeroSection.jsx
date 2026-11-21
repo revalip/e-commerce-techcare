@@ -39,13 +39,13 @@ export default function HeroSection({ onShopClick, onTrackClick }) {
           </p>
         </div>
 
-        {/* Grounded 3D Laptop Stage on Mobile */}
-        <div className="relative h-[230px] w-full rounded-[26px] bg-white border border-[#E2E7EE] overflow-hidden pointer-events-none">
+        {/* Seamless Grounded 3D Laptop Stage on Mobile (No box-inside-box) */}
+        <div className="relative h-[220px] w-full overflow-hidden pointer-events-none">
           <div
             className="absolute inset-0 flex items-center justify-center pointer-events-none"
             aria-hidden="true"
           >
-            <span className="font-display font-semibold tracking-[-0.055em] leading-none text-[18vw] tc-airform-wordmark select-none opacity-65">
+            <span className="font-display font-semibold tracking-[-0.055em] leading-none text-[19vw] tc-airform-wordmark select-none opacity-65">
               TechCare
             </span>
           </div>
@@ -100,19 +100,19 @@ export default function HeroSection({ onShopClick, onTrackClick }) {
             </Suspense>
           </div>
 
-          {/* Front (intro): one CTA, one hint */}
+          {/* Front (intro): one CTA, high-contrast trust pill */}
           <motion.div
             style={{ opacity: introOpacity }}
-            className="absolute inset-x-0 bottom-20 md:bottom-12 z-30 flex flex-col items-center gap-3 px-4"
+            className="absolute inset-x-0 bottom-5 z-30 flex flex-col items-center gap-2.5 px-4"
           >
-            <button type="button" onClick={onShopClick} className="tc-btn-primary">
+            <button type="button" onClick={onShopClick} className="tc-btn-primary shadow-md">
               <span>Lihat Katalog</span>
               <ArrowUpRight size={15} />
             </button>
-            <p className="text-[11px] sm:text-xs text-[#647082] text-center">
+            <p className="text-[11px] sm:text-xs text-[#4F627A] bg-[#F7F8FA]/90 backdrop-blur-sm px-3.5 py-1 rounded-full border border-[#E2E7EE] text-center">
               Lulus 32 Titik QC Teknisi • Garansi Toko 30–90 Hari • Free Pasang Upgrade
             </p>
-            <span className="inline-flex items-center gap-1.5 text-[11px] text-[#8692A3]">
+            <span className="inline-flex items-center gap-1.5 text-[11px] text-[#647082]">
               <span>Scroll</span>
               <ChevronDown size={13} className="animate-bounce" />
             </span>

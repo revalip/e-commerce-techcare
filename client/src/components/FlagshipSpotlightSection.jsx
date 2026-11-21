@@ -70,8 +70,8 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onShopClick 
                 }`}
               >
                 {/* Top: Apple-style Centered Title + 1-Line Subtitle + 2 Pill Buttons */}
-                <div className="relative z-10 max-w-md mx-auto space-y-2">
-                  <h3 className="font-display text-2xl sm:text-3xl font-semibold tracking-[-0.03em] leading-tight">
+                <div className="relative z-10 max-w-lg mx-auto space-y-2">
+                  <h3 className="font-display text-xl sm:text-[26px] font-semibold tracking-[-0.03em] leading-tight">
                     {tile.title}
                   </h3>
                   <p
@@ -107,13 +107,15 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onShopClick 
                   </div>
                 </div>
 
-                {/* Bottom: Clean Full Studio Product Photo */}
-                <div className="relative mt-6 h-[220px] sm:h-[260px] w-full rounded-2xl overflow-hidden flex items-center justify-center">
+                {/* Bottom: Flush Seamless Product Photo (No inner rounded box!) */}
+                <div className="relative -mx-6 -mb-6 mt-6 h-[240px] sm:h-[280px] overflow-hidden flex items-center justify-center">
                   <img
                     src={tile.image}
                     alt={tile.title}
                     loading="lazy"
-                    className="w-full h-full object-cover object-center"
+                    className={`w-full h-full object-cover object-center ${
+                      tile.dark ? '' : 'mix-blend-multiply'
+                    }`}
                   />
                 </div>
               </div>

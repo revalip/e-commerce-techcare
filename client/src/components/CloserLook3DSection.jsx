@@ -43,7 +43,7 @@ export default function CloserLook3DSection() {
   const active = FEATURES.find((f) => f.id === activeId) || FEATURES[0];
 
   return (
-    <section className="bg-white py-20 sm:py-28">
+    <section className="bg-[#F7F8FA] py-14 sm:py-20">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <Reveal>
           <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-[-0.04em] text-[#1D2129] leading-[1.05] text-center">
