@@ -51,12 +51,9 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
 
   const statusTabs = [
     { key: 'all', label: 'Semua' },
-    { key: 'pending', label: 'Menunggu' },
-    { key: 'paid', label: 'Dibayar' },
-    { key: 'processing', label: 'QC & Kemas' },
+    { key: 'active', label: 'Diproses' },
     { key: 'shipped', label: 'Dikirim' },
-    { key: 'completed', label: 'Selesai' },
-    { key: 'cancelled', label: 'Dibatalkan' }
+    { key: 'done', label: 'Selesai' }
   ];
 
   // Privacy guard: Guest CANNOT browse other people's orders; must type exact invoice/resi or sign in.
@@ -72,8 +69,10 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
     const matchesStatus =
       statusFilter === 'all'
         ? true
-        : statusFilter === 'pending'
-        ? o.statusKey === 'pending' || o.statusKey === 'awaiting_verification'
+        : statusFilter === 'active'
+        ? ['pending', 'pending_payment', 'awaiting_verification', 'paid', 'processing'].includes(o.statusKey)
+        : statusFilter === 'done'
+        ? o.statusKey === 'completed' || o.statusKey === 'cancelled'
         : o.statusKey === statusFilter;
 
     if (!matchesStatus) return false;
@@ -230,39 +229,37 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
           </section>
         ) : (
           <div className="space-y-4">
-            {/* Native iOS UISegmentedControl Status Strip */}
-            <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-              <div
-                role="tablist"
-                aria-label="Filter Status Pesanan"
-                className="inline-flex min-w-full sm:min-w-0 items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px]"
-              >
-                {statusTabs.map((tab, idx) => {
-                  const active = statusFilter === tab.key;
-                  const nextActive = idx < statusTabs.length - 1 && statusFilter === statusTabs[idx + 1].key;
-                  const showDivider = idx < statusTabs.length - 1 && !active && !nextActive;
-                  return (
-                    <React.Fragment key={tab.key}>
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        onClick={() => setStatusFilter(tab.key)}
-                        className={`flex-1 sm:flex-none h-[32px] sm:h-[34px] px-3.5 rounded-[7px] text-[13px] whitespace-nowrap transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
-                          active
-                            ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
-                            : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
-                        }`}
-                      >
-                        {tab.label}
-                      </button>
-                      {showDivider && (
-                        <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </div>
+            {/* Native iOS UISegmentedControl Status Strip (4 concise segments — fits 100% on mobile, zero clipping) */}
+            <div
+              role="tablist"
+              aria-label="Filter Status Pesanan"
+              className="w-full sm:w-auto sm:inline-flex flex items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px]"
+            >
+              {statusTabs.map((tab, idx) => {
+                const active = statusFilter === tab.key;
+                const nextActive = idx < statusTabs.length - 1 && statusFilter === statusTabs[idx + 1].key;
+                const showDivider = idx < statusTabs.length - 1 && !active && !nextActive;
+                return (
+                  <React.Fragment key={tab.key}>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={active}
+                      onClick={() => setStatusFilter(tab.key)}
+                      className={`flex-1 sm:flex-none h-[32px] sm:h-[34px] px-2 sm:px-5 rounded-[7px] text-[13px] whitespace-nowrap transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                        active
+                          ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
+                          : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                    {showDivider && (
+                      <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
+                    )}
+                  </React.Fragment>
+                );
+              })}
             </div>
 
             {loading ? (

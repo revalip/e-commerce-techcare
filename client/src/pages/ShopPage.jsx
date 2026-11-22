@@ -312,45 +312,43 @@ export default function ShopPage({
           </div>
         </header>
 
-        {/* 3. Native iOS UISegmentedControl Category Strip */}
+        {/* 3. Native iOS UISegmentedControl Category Strip (fits 100% on mobile, zero clipped edges) */}
         <section aria-label="Kategori Katalog">
-          <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-            <div
-              role="tablist"
-              aria-label="Kategori Produk"
-              className="inline-flex min-w-full sm:min-w-0 items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px]"
-            >
-              {[{ slug: '', label: 'Semua' }, ...collections.map((col) => ({ slug: col.slug, label: shortCategoryLabel(col) }))].map(
-                (item, idx, arr) => {
-                  const isActive = selectedCategory === item.slug;
-                  const nextIsActive = idx < arr.length - 1 && selectedCategory === arr[idx + 1].slug;
-                  const showDivider = idx < arr.length - 1 && !isActive && !nextIsActive;
-                  return (
-                    <React.Fragment key={item.slug || 'all'}>
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={isActive}
-                        onClick={() => {
-                          onSelectCategory(item.slug);
-                          setVisibleCount(12);
-                        }}
-                        className={`flex-1 sm:flex-none h-[32px] sm:h-[34px] px-3.5 sm:px-4 rounded-[7px] text-[13px] whitespace-nowrap transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
-                          isActive
-                            ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
-                            : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
-                        }`}
-                      >
-                        {item.label}
-                      </button>
-                      {showDivider && (
-                        <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
-                      )}
-                    </React.Fragment>
-                  );
-                }
-              )}
-            </div>
+          <div
+            role="tablist"
+            aria-label="Kategori Produk"
+            className="w-full sm:w-auto sm:inline-flex flex items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px] overflow-x-auto no-scrollbar"
+          >
+            {[{ slug: '', label: 'Semua' }, ...collections.map((col) => ({ slug: col.slug, label: shortCategoryLabel(col) }))].map(
+              (item, idx, arr) => {
+                const isActive = selectedCategory === item.slug;
+                const nextIsActive = idx < arr.length - 1 && selectedCategory === arr[idx + 1].slug;
+                const showDivider = idx < arr.length - 1 && !isActive && !nextIsActive;
+                return (
+                  <React.Fragment key={item.slug || 'all'}>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={isActive}
+                      onClick={() => {
+                        onSelectCategory(item.slug);
+                        setVisibleCount(12);
+                      }}
+                      className={`flex-auto sm:flex-none h-[32px] sm:h-[34px] px-1.5 sm:px-4 rounded-[7px] text-[12px] sm:text-[13px] tracking-[-0.01em] whitespace-nowrap text-center transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                        isActive
+                          ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
+                          : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                    {showDivider && (
+                      <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
+                    )}
+                  </React.Fragment>
+                );
+              }
+            )}
           </div>
         </section>
 
