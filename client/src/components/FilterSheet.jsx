@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Check } from 'lucide-react';
+import { X, Check, LayoutGrid, List } from 'lucide-react';
 
 /**
- * Apple-style Filter Bottom Sheet (mobile) / Side Sheet (desktop):
- * Houses Brand, Rentang Harga, Urutkan, and Favorit toggle — zero logic changes,
- * keeps ShopPage toolbar clean with max 3 control rows before products!
+ * Apple-style Filter Bottom Sheet (mobile) / Modal Sheet (desktop):
+ * Houses Tampilan (Grid/Daftar), Brand, Rentang Harga, Urutkan, and Favorit toggle —
+ * keeps ShopPage toolbar ultra-clean and minimalist like apple.com/shop!
  */
 export default function FilterSheet({
   isOpen,
@@ -19,6 +19,8 @@ export default function FilterSheet({
   onSelectSortBy,
   onlyFavorites,
   onToggleFavorites,
+  viewMode = 'img',
+  onChangeViewMode,
   onReset,
   resultCount
 }) {
@@ -118,6 +120,40 @@ export default function FilterSheet({
                     />
                   </button>
                 </div>
+
+                {/* Tampilan (Grid / Daftar) */}
+                {onChangeViewMode && (
+                  <div className="space-y-3 pt-5 border-t border-[#D2D2D7]/60">
+                    <p className="text-[14px] font-semibold text-[#1D1D1F]">Tampilan</p>
+                    <div className="grid grid-cols-2 gap-2" role="group" aria-label="Mode Tampilan">
+                      {[
+                        { value: 'img', label: 'Grid', Icon: LayoutGrid },
+                        { value: 'txt', label: 'Daftar', Icon: List }
+                      ].map(({ value, label, Icon }) => {
+                        const active = viewMode === value;
+                        return (
+                          <button
+                            key={value}
+                            type="button"
+                            onClick={() => onChangeViewMode(value)}
+                            aria-pressed={active}
+                            className={`min-h-[42px] px-4 rounded-[12px] text-[14px] flex items-center justify-between transition-colors cursor-pointer ${
+                              active
+                                ? 'bg-[#1D1D1F] text-white font-medium'
+                                : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+                            }`}
+                          >
+                            <span className="inline-flex items-center gap-2">
+                              <Icon size={15} strokeWidth={1.8} />
+                              <span>{label}</span>
+                            </span>
+                            {active && <Check size={14} />}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 {/* Urutkan */}
                 <div className="space-y-3 pt-5 border-t border-[#D2D2D7]/60">

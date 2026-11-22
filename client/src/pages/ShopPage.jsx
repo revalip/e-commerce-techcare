@@ -2,8 +2,6 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   Search,
   SlidersHorizontal,
-  LayoutGrid,
-  List,
   Check,
   ChevronRight,
   AlertCircle,
@@ -111,6 +109,7 @@ export default function ShopPage({
     setPriceRange('all');
     setOnlyFavorites(false);
     setSortBy('featured');
+    setViewMode('img');
     onSelectCategory('');
     setVisibleCount(12);
   };
@@ -224,52 +223,16 @@ export default function ShopPage({
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-5 sm:pt-14 space-y-5 sm:space-y-9">
         {/* 2. Iconic Apple Store Editorial Header + Compact Right Search/Filter */}
         <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-5">
-          <div className="max-w-2xl space-y-1.5">
+          <div className="max-w-2xl space-y-1">
             <h1 className="text-[28px] sm:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
               Katalog.{' '}
               <span className="text-[#6E6E73]">
                 Perangkat pilihan, siap kerja.
               </span>
             </h1>
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-[13px] sm:text-[14px] text-[#6E6E73] tabular-nums">
-                {filteredProducts.length} unit tersedia · Lulus 32 titik QC
-              </p>
-
-              {/* Mobile Segmented Grid/List Toggle (keeps category pills full-width) */}
-              <div
-                className="inline-flex sm:hidden items-center bg-[#F5F5F7] p-0.5 rounded-full shrink-0"
-                role="group"
-                aria-label="Mode Tampilan"
-              >
-                <button
-                  type="button"
-                  onClick={() => setViewMode('img')}
-                  aria-label="Tampilan Grid"
-                  aria-pressed={viewMode === 'img'}
-                  className={`w-9 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                    viewMode === 'img'
-                      ? 'bg-white text-[#1D1D1F] shadow-sm'
-                      : 'text-[#6E6E73]'
-                  }`}
-                >
-                  <LayoutGrid size={15} strokeWidth={1.8} />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('txt')}
-                  aria-label="Tampilan Daftar"
-                  aria-pressed={viewMode === 'txt'}
-                  className={`w-9 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                    viewMode === 'txt'
-                      ? 'bg-white text-[#1D1D1F] shadow-sm'
-                      : 'text-[#6E6E73]'
-                  }`}
-                >
-                  <List size={15} strokeWidth={1.8} />
-                </button>
-              </div>
-            </div>
+            <p className="text-[13px] sm:text-[14px] text-[#6E6E73] tabular-nums">
+              {filteredProducts.length} unit tersedia · Lulus 32 titik QC
+            </p>
           </div>
 
           <div className="flex items-center gap-2.5 w-full lg:w-auto">
@@ -307,82 +270,46 @@ export default function ShopPage({
           </div>
         </header>
 
-        {/* 3. Concise Apple Category Pills + Desktop Grid/List Toggle */}
+        {/* 3. Concise Full-Width Apple Category Pills */}
         <section aria-label="Kategori Katalog">
-          <div className="flex items-center justify-between gap-3 min-w-0">
-            <div className="relative flex-1 min-w-0">
-              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-6 sm:pr-0">
+          <div className="relative min-w-0">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-6 sm:pr-0">
+              <button
+                type="button"
+                onClick={() => {
+                  onSelectCategory('');
+                  setVisibleCount(12);
+                }}
+                className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                  !selectedCategory
+                    ? 'bg-[#1D1D1F] text-white font-medium'
+                    : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+                }`}
+              >
+                Semua
+              </button>
+              {collections.map((col) => (
                 <button
+                  key={col.slug}
                   type="button"
                   onClick={() => {
-                    onSelectCategory('');
+                    onSelectCategory(col.slug);
                     setVisibleCount(12);
                   }}
                   className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                    !selectedCategory
+                    selectedCategory === col.slug
                       ? 'bg-[#1D1D1F] text-white font-medium'
                       : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                   }`}
                 >
-                  Semua
+                  {shortCategoryLabel(col)}
                 </button>
-                {collections.map((col) => (
-                  <button
-                    key={col.slug}
-                    type="button"
-                    onClick={() => {
-                      onSelectCategory(col.slug);
-                      setVisibleCount(12);
-                    }}
-                    className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                      selectedCategory === col.slug
-                        ? 'bg-[#1D1D1F] text-white font-medium'
-                        : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-                    }`}
-                  >
-                    {shortCategoryLabel(col)}
-                  </button>
-                ))}
-              </div>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 right-0 w-7 bg-gradient-to-l from-white to-transparent sm:hidden"
-              />
+              ))}
             </div>
-
-            {/* Desktop/Tablet Segmented Grid/List Toggle */}
             <div
-              className="hidden sm:inline-flex items-center bg-[#F5F5F7] p-0.5 rounded-full shrink-0"
-              role="group"
-              aria-label="Mode Tampilan"
-            >
-              <button
-                type="button"
-                onClick={() => setViewMode('img')}
-                aria-label="Tampilan Grid"
-                aria-pressed={viewMode === 'img'}
-                className={`w-10 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                  viewMode === 'img'
-                    ? 'bg-white text-[#1D1D1F] shadow-sm'
-                    : 'text-[#6E6E73] hover:text-[#1D1D1F]'
-                }`}
-              >
-                <LayoutGrid size={16} strokeWidth={1.8} />
-              </button>
-              <button
-                type="button"
-                onClick={() => setViewMode('txt')}
-                aria-label="Tampilan Daftar"
-                aria-pressed={viewMode === 'txt'}
-                className={`w-10 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
-                  viewMode === 'txt'
-                    ? 'bg-white text-[#1D1D1F] shadow-sm'
-                    : 'text-[#6E6E73] hover:text-[#1D1D1F]'
-                }`}
-              >
-                <List size={16} strokeWidth={1.8} />
-              </button>
-            </div>
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 w-7 bg-gradient-to-l from-white to-transparent sm:hidden"
+            />
           </div>
         </section>
 
@@ -547,6 +474,8 @@ export default function ShopPage({
           setOnlyFavorites((prev) => !prev);
           setVisibleCount(12);
         }}
+        viewMode={viewMode}
+        onChangeViewMode={setViewMode}
         onReset={resetAllFilters}
         resultCount={filteredProducts.length}
       />
