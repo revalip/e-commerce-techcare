@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { RotateCcw } from 'lucide-react';
 
 /**
@@ -64,25 +64,35 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
 
   return (
     <div className="w-full bg-white space-y-3">
-      {/* 1. HERO TERANG (#F5F5F7) */}
-      <section className="w-full bg-[#F5F5F7] pt-12 sm:pt-16 lg:pt-20 pb-10 sm:pb-14 overflow-hidden">
+      {/* 1. HERO TERANG (#F5F5F7) — Flush bottom edge like Apple iPhone Duo */}
+      <section className="relative w-full bg-[#F5F5F7] pt-10 sm:pt-14 lg:pt-16 pb-0 overflow-hidden">
         <div className="max-w-[1024px] mx-auto px-4 sm:px-6 text-center">
           <h1 className="tc-hero-title text-[#1D1D1F]">
             ThinkPad &amp; Laptop Bisnis
           </h1>
 
-          {/* Apple iPhone Duo-style Synchronized Subtitle Reveal */}
-          <p className="mt-2.5 sm:mt-3 text-[19px] sm:text-[26px] leading-[1.2] tracking-[-0.015em] text-[#1D1D1F] font-normal min-h-[1.3em] flex items-center justify-center flex-wrap gap-x-1.5">
-            <span>Laptop bekas.</span>
+          {/* Apple iPhone Duo-style Centered Synchronized Subtitle Reveal */}
+          <p className="mt-2.5 sm:mt-3 text-[19px] sm:text-[26px] leading-[1.2] tracking-[-0.015em] text-[#1D1D1F] font-normal min-h-[1.3em] flex items-center justify-center">
             <motion.span
-              key={`sub-${replayKey}`}
-              initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-              animate={isRevealed ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-              transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
-              className="text-[#1D1D1F]"
+              layout
+              transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              Rasa baru.
+              Laptop bekas.
             </motion.span>
+            <AnimatePresence initial={false}>
+              {isRevealed && (
+                <motion.span
+                  key={`sub-${replayKey}`}
+                  initial={shouldReduceMotion ? { opacity: 1, width: 'auto' } : { opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 'auto' }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                  className="inline-block overflow-hidden whitespace-nowrap text-[#1D1D1F]"
+                >
+                  &nbsp;Rasa baru.
+                </motion.span>
+              )}
+            </AnimatePresence>
           </p>
 
           {/* Consistent Apple Pill CTAs: Solid Blue "Selengkapnya" + Outline Blue "Beli" */}
@@ -102,51 +112,50 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
               Beli
             </button>
           </div>
+        </div>
 
-          {/* 1-Shot ThinkPad X1 Carbon Lid-Open Video (pure white bg + mix-blend-multiply -> seamless on #F5F5F7) */}
-          <div className="mt-4 sm:mt-6 max-w-[820px] mx-auto px-0 flex items-center justify-center">
-            {shouldReduceMotion || videoError ? (
-              <img
-                src="/assets/products/thinkpad-x1-carbon-front.png"
-                alt="Lenovo ThinkPad X1 Carbon Gen 9"
-                width={922}
-                height={720}
-                className="w-full max-w-[540px] max-h-[280px] sm:max-h-[380px] lg:max-h-[420px] object-contain select-none"
-              />
-            ) : (
-              <video
-                ref={videoRef}
-                src="/assets/hero.mp4"
-                poster="/assets/hero-poster.jpg"
-                autoPlay
-                muted
-                playsInline
-                preload="auto"
-                onTimeUpdate={handleTimeUpdate}
-                onEnded={handleVideoEnded}
-                onError={() => setVideoError(true)}
-                aria-label="Animasi tangan membuka Lenovo ThinkPad X1 Carbon dari tertutup hingga terbuka"
-                className="w-full max-w-[780px] aspect-video object-contain mix-blend-multiply select-none pointer-events-none"
-              />
-            )}
-          </div>
-
-          {/* Subtle Apple-style Replay Control (appears cleanly once played) */}
-          {!shouldReduceMotion && !videoError && (
-            <div className="mt-3 flex justify-center min-h-[28px]">
-              <button
-                type="button"
-                onClick={handleReplay}
-                className={`inline-flex items-center gap-1.5 text-[12px] text-[#6E6E73] hover:text-[#1D1D1F] transition-opacity duration-300 py-1 px-3 rounded-full cursor-pointer ${
-                  videoEnded ? 'opacity-100' : 'opacity-60 hover:opacity-100'
-                }`}
-              >
-                <RotateCcw size={12} strokeWidth={1.8} />
-                <span>Putar ulang</span>
-              </button>
-            </div>
+        {/* Full-bleed bottom-flush video container: hands emerge from actual viewport edges & bottom border */}
+        <div className="mt-2 sm:mt-3 w-full max-w-[1160px] mx-auto px-0 flex items-end justify-center">
+          {shouldReduceMotion || videoError ? (
+            <img
+              src="/assets/products/thinkpad-x1-carbon-front.png"
+              alt="Lenovo ThinkPad X1 Carbon Gen 9"
+              width={922}
+              height={720}
+              className="w-full max-w-[540px] max-h-[280px] sm:max-h-[380px] lg:max-h-[420px] object-contain pb-8 select-none"
+            />
+          ) : (
+            <video
+              ref={videoRef}
+              src="/assets/hero.mp4"
+              poster="/assets/hero-poster.jpg"
+              autoPlay
+              muted
+              playsInline
+              preload="auto"
+              onTimeUpdate={handleTimeUpdate}
+              onEnded={handleVideoEnded}
+              onError={() => setVideoError(true)}
+              aria-label="Animasi tangan membuka Lenovo ThinkPad X1 Carbon dari tertutup hingga terbuka"
+              className="block w-full aspect-[1280/624] object-cover object-bottom mix-blend-multiply select-none pointer-events-none lg:[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+            />
           )}
         </div>
+
+        {/* Subtle Apple-style corner Replay pill (does not push video off bottom edge) */}
+        {!shouldReduceMotion && !videoError && (
+          <button
+            type="button"
+            onClick={handleReplay}
+            aria-label="Putar ulang animasi hero"
+            className={`absolute bottom-3.5 right-3.5 sm:bottom-5 sm:right-5 z-10 inline-flex items-center gap-1.5 text-[12px] text-[#6E6E73] hover:text-[#1D1D1F] bg-white/75 backdrop-blur-md border border-[#D2D2D7]/60 transition-opacity duration-300 py-1.5 px-3 rounded-full cursor-pointer ${
+              videoEnded ? 'opacity-100' : 'opacity-65 hover:opacity-100'
+            }`}
+          >
+            <RotateCcw size={12} strokeWidth={1.8} />
+            <span>Putar ulang</span>
+          </button>
+        )}
       </section>
 
       {/* 2. TILE BESAR HITAM (#000000): Upgrade RAM & SSD (Apple iPhone Pro Full-Bleed Style) */}
@@ -156,7 +165,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
       >
         <div className="max-w-[1024px] mx-auto px-4 sm:px-6 text-center">
           <h2 className="tc-section-title text-white">Upgrade RAM &amp; SSD</h2>
-          <p className="mt-2.5 text-[17px] sm:text-[22px] text-[#F5F5F7] max-w-xl mx-auto">
+          <p className="mt-2.5 text-[17px] sm:text-[22px] text-[#F5F5F7] max-w-2xl mx-auto">
             Pasang gratis di workshop. Garansi toko hingga 90 hari.
           </p>
 
