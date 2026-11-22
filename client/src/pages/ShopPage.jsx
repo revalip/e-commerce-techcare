@@ -224,16 +224,52 @@ export default function ShopPage({
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-5 sm:pt-14 space-y-5 sm:space-y-9">
         {/* 2. Iconic Apple Store Editorial Header + Compact Right Search/Filter */}
         <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-5">
-          <div className="max-w-2xl space-y-1">
+          <div className="max-w-2xl space-y-1.5">
             <h1 className="text-[28px] sm:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
               Katalog.{' '}
               <span className="text-[#6E6E73]">
                 Perangkat pilihan, siap kerja.
               </span>
             </h1>
-            <p className="text-[13px] sm:text-[14px] text-[#6E6E73] tabular-nums">
-              {filteredProducts.length} unit tersedia · Lulus 32 titik QC
-            </p>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[13px] sm:text-[14px] text-[#6E6E73] tabular-nums">
+                {filteredProducts.length} unit tersedia · Lulus 32 titik QC
+              </p>
+
+              {/* Mobile Segmented Grid/List Toggle (keeps category pills full-width) */}
+              <div
+                className="inline-flex sm:hidden items-center bg-[#F5F5F7] p-0.5 rounded-full shrink-0"
+                role="group"
+                aria-label="Mode Tampilan"
+              >
+                <button
+                  type="button"
+                  onClick={() => setViewMode('img')}
+                  aria-label="Tampilan Grid"
+                  aria-pressed={viewMode === 'img'}
+                  className={`w-9 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                    viewMode === 'img'
+                      ? 'bg-white text-[#1D1D1F] shadow-sm'
+                      : 'text-[#6E6E73]'
+                  }`}
+                >
+                  <LayoutGrid size={15} strokeWidth={1.8} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setViewMode('txt')}
+                  aria-label="Tampilan Daftar"
+                  aria-pressed={viewMode === 'txt'}
+                  className={`w-9 h-8 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                    viewMode === 'txt'
+                      ? 'bg-white text-[#1D1D1F] shadow-sm'
+                      : 'text-[#6E6E73]'
+                  }`}
+                >
+                  <List size={15} strokeWidth={1.8} />
+                </button>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-2.5 w-full lg:w-auto">
@@ -314,31 +350,37 @@ export default function ShopPage({
               />
             </div>
 
-            {/* 44x44px Grid/List Toggle Icons (Desktop/Tablet only, Apple Store mobile stays full-bleed) */}
-            <div className="hidden sm:flex items-center gap-1 shrink-0" role="group" aria-label="Mode Tampilan">
+            {/* Desktop/Tablet Segmented Grid/List Toggle */}
+            <div
+              className="hidden sm:inline-flex items-center bg-[#F5F5F7] p-0.5 rounded-full shrink-0"
+              role="group"
+              aria-label="Mode Tampilan"
+            >
               <button
                 type="button"
                 onClick={() => setViewMode('img')}
                 aria-label="Tampilan Grid"
-                className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                aria-pressed={viewMode === 'img'}
+                className={`w-10 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                   viewMode === 'img'
-                    ? 'bg-[#F5F5F7] text-[#1D1D1F]'
+                    ? 'bg-white text-[#1D1D1F] shadow-sm'
                     : 'text-[#6E6E73] hover:text-[#1D1D1F]'
                 }`}
               >
-                <LayoutGrid size={17} strokeWidth={1.7} />
+                <LayoutGrid size={16} strokeWidth={1.8} />
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('txt')}
                 aria-label="Tampilan Daftar"
-                className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                aria-pressed={viewMode === 'txt'}
+                className={`w-10 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                   viewMode === 'txt'
-                    ? 'bg-[#F5F5F7] text-[#1D1D1F]'
+                    ? 'bg-white text-[#1D1D1F] shadow-sm'
                     : 'text-[#6E6E73] hover:text-[#1D1D1F]'
                 }`}
               >
-                <List size={17} strokeWidth={1.7} />
+                <List size={16} strokeWidth={1.8} />
               </button>
             </div>
           </div>
