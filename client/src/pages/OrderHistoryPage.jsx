@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Package, Search, ChevronRight, AlertCircle, Lock } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Package, Search, ChevronRight, AlertCircle, Lock, X } from 'lucide-react';
 import { getOrders } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { formatIDR, formatDate } from '../utils/format';
@@ -28,6 +28,8 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchInputRef = useRef(null);
   const [trackError, setTrackError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
@@ -127,31 +129,66 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
             )}
           </div>
 
-          {/* Crisp White Search & Quick Track Bar */}
-          <form onSubmit={handleQuickTrackSubmit} className="flex gap-2">
+          {/* Native iOS 17 UISearchBar + Clean Apple Text Action */}
+          <form onSubmit={handleQuickTrackSubmit} className="flex items-center gap-2.5">
             <div className="relative flex-1">
               <Search
-                size={16}
-                strokeWidth={1.7}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#86868B]"
+                size={15}
+                strokeWidth={1.9}
+                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8E8E93] pointer-events-none"
               />
               <input
+                ref={searchInputRef}
                 type="text"
-                placeholder="Masukkan nomor invoice (mis. TC-...) atau resi"
+                placeholder="Cari nomor invoice (TC-...) atau resi"
                 value={searchQuery}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setTrackError('');
                 }}
-                className="w-full h-[46px] pl-11 pr-4 bg-white text-[#1D1D1F] placeholder:text-[#86868B] rounded-[14px] text-[14px] shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.06] focus:ring-2 focus:ring-[#0071E3] focus:outline-none transition-shadow"
+                className="w-full h-[40px] sm:h-[42px] pl-10 pr-9 bg-[#767680]/[0.12] text-[#1D1D1F] placeholder:text-[#8E8E93] rounded-[10px] text-[15px] focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:bg-[#767680]/[0.16] transition-colors"
               />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setSearchQuery('');
+                    setTrackError('');
+                    searchInputRef.current?.focus();
+                  }}
+                  aria-label="Hapus pencarian"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] rounded-full bg-[#8E8E93] hover:bg-[#6E6E73] text-white flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <X size={11} strokeWidth={2.5} />
+                </button>
+              )}
             </div>
-            <button
-              type="submit"
-              className="h-[46px] px-6 rounded-[14px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-medium transition-colors shrink-0 cursor-pointer"
-            >
-              Lacak
-            </button>
+
+            {searchQuery.trim() ? (
+              <button
+                type="submit"
+                className="h-[40px] sm:h-[42px] px-2 text-[15px] font-medium text-[#0071E3] hover:opacity-75 transition-opacity shrink-0 cursor-pointer"
+              >
+                Lacak
+              </button>
+            ) : searchFocused ? (
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  setSearchQuery('');
+                  setTrackError('');
+                  setSearchFocused(false);
+                  searchInputRef.current?.blur();
+                }}
+                className="h-[40px] sm:h-[42px] px-2 text-[15px] font-normal text-[#0071E3] hover:opacity-75 transition-opacity shrink-0 cursor-pointer"
+              >
+                Batal
+              </button>
+            ) : null}
           </form>
 
           {trackError && (

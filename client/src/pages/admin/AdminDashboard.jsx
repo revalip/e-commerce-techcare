@@ -753,14 +753,24 @@ export default function AdminDashboard({ onBackToShop }) {
               </div>
               <div className="flex flex-col sm:flex-row gap-2">
                 <div className="relative">
-                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
+                  <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8E8E93] pointer-events-none" />
                   <input
                     type="text"
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
                     placeholder="Cari invoice, nama, resi..."
-                    className="h-[40px] w-full sm:w-56 pl-9 pr-4 rounded-[12px] bg-[#F5F5F7] text-[13px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                    className="h-[38px] w-full sm:w-56 pl-9 pr-8 rounded-[10px] bg-[#767680]/[0.12] text-[14px] text-[#1D1D1F] placeholder:text-[#8E8E93] focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:bg-[#767680]/[0.16] transition-colors"
                   />
+                  {orderSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setOrderSearch('')}
+                      aria-label="Hapus pencarian"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] rounded-full bg-[#8E8E93] hover:bg-[#6E6E73] text-white flex items-center justify-center transition-colors cursor-pointer"
+                    >
+                      <X size={11} strokeWidth={2.5} />
+                    </button>
+                  )}
                 </div>
                 <select
                   value={orderStatusFilter}

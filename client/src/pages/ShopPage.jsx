@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
   Search,
   SlidersHorizontal,
   Check,
   ChevronRight,
   AlertCircle,
-  PackageSearch
+  PackageSearch,
+  X
 } from 'lucide-react';
 import { getProducts, getCollections, getDiscounts } from '../services/api';
 import { useWishlist } from '../context/WishlistContext';
@@ -41,6 +42,8 @@ export default function ShopPage({
   const [error, setError] = useState('');
 
   const [search, setSearch] = useState(initialSearch);
+  const [searchFocused, setSearchFocused] = useState(false);
+  const searchInputRef = useRef(null);
   const [selectedBrand, setSelectedBrand] = useState('');
   const [sortBy, setSortBy] = useState('featured');
   const [priceRange, setPriceRange] = useState('all');
@@ -236,37 +239,76 @@ export default function ShopPage({
           </div>
 
           <div className="flex items-center gap-2.5 w-full lg:w-auto">
-            <div className="relative flex-1 lg:w-[260px]">
-              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
+            {/* Native iOS 17 UISearchBar */}
+            <div className="relative flex-1 lg:w-[270px]">
+              <Search
+                size={15}
+                strokeWidth={1.9}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8E8E93] pointer-events-none"
+              />
               <input
+                ref={searchInputRef}
                 type="text"
-                placeholder="Cari produk..."
+                placeholder="Cari produk"
                 value={search}
+                onFocus={() => setSearchFocused(true)}
+                onBlur={() => setSearchFocused(false)}
                 onChange={(e) => {
                   setSearch(e.target.value);
                   setVisibleCount(12);
                 }}
-                className="w-full h-[42px] pl-10 pr-4 rounded-[980px] bg-[#F5F5F7] text-[14px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                className="w-full h-[38px] sm:h-[40px] pl-9 pr-8 rounded-[10px] bg-[#767680]/[0.12] text-[15px] text-[#1D1D1F] placeholder:text-[#8E8E93] focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus:bg-[#767680]/[0.16] transition-colors"
               />
+              {search && (
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setSearch('');
+                    setVisibleCount(12);
+                    searchInputRef.current?.focus();
+                  }}
+                  aria-label="Hapus pencarian"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 w-[18px] h-[18px] rounded-full bg-[#8E8E93] hover:bg-[#6E6E73] text-white flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <X size={11} strokeWidth={2.5} />
+                </button>
+              )}
             </div>
 
-            <button
-              type="button"
-              onClick={() => setFilterOpen(true)}
-              className={`shrink-0 inline-flex items-center gap-2 h-[42px] px-4 rounded-[980px] text-[13px] font-medium transition-colors cursor-pointer ${
-                activeFilterCount > 0
-                  ? 'bg-[#1D1D1F] text-white'
-                  : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-              }`}
-            >
-              <SlidersHorizontal size={14} strokeWidth={1.8} />
-              <span>Filter</span>
-              {activeFilterCount > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#0071E3] text-white text-[11px] flex items-center justify-center tabular-nums">
-                  {activeFilterCount}
-                </span>
-              )}
-            </button>
+            {searchFocused || search ? (
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => {
+                  setSearch('');
+                  setVisibleCount(12);
+                  setSearchFocused(false);
+                  searchInputRef.current?.blur();
+                }}
+                className="shrink-0 h-[38px] sm:h-[40px] px-1.5 text-[15px] font-normal text-[#0071E3] hover:opacity-75 transition-opacity cursor-pointer"
+              >
+                Batal
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setFilterOpen(true)}
+                className={`shrink-0 inline-flex items-center gap-2 h-[38px] sm:h-[40px] px-3.5 rounded-[10px] text-[14px] font-medium transition-colors cursor-pointer ${
+                  activeFilterCount > 0
+                    ? 'bg-[#1D1D1F] text-white'
+                    : 'bg-[#767680]/[0.12] text-[#1D1D1F] hover:bg-[#767680]/[0.18]'
+                }`}
+              >
+                <SlidersHorizontal size={14} strokeWidth={1.8} />
+                <span>Filter</span>
+                {activeFilterCount > 0 && (
+                  <span className="w-5 h-5 rounded-full bg-[#0071E3] text-white text-[11px] flex items-center justify-center tabular-nums">
+                    {activeFilterCount}
+                  </span>
+                )}
+              </button>
+            )}
           </div>
         </header>
 
