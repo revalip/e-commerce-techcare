@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 /**
  * Apple.com/id Footer (#F5F5F7, 12px typography, 5 clean grouped columns + mobile accordions).
@@ -82,7 +82,27 @@ export default function Footer({ onNavigate, onSelectCollection }) {
           </p>
         </div>
 
-        <div className="py-5 md:py-9 md:grid md:grid-cols-5 md:gap-8 divide-y divide-[#D2D2D7] md:divide-y-0 border-b border-[#D2D2D7]">
+        {/* Apple-style Footer Brand Breadcrumb */}
+        <div className="pt-5 pb-1 flex items-center gap-2 text-[#1D1D1F]">
+          <button
+            type="button"
+            onClick={() => onNavigate('home')}
+            className="inline-flex items-center gap-2 hover:opacity-75 transition-opacity cursor-pointer"
+            aria-label="Kembali ke Beranda TechCare"
+          >
+            <img
+              src="/logo-mark.png"
+              alt="TechCare"
+              width={16}
+              height={16}
+              className="w-4 h-4 object-contain"
+            />
+          </button>
+          <ChevronRight size={12} className="text-[#86868B]" />
+          <span className="text-[12px] text-[#6E6E73]">TechCare Store</span>
+        </div>
+
+        <div className="py-5 md:py-7 md:grid md:grid-cols-5 md:gap-8 divide-y divide-[#D2D2D7] md:divide-y-0 border-b border-[#D2D2D7]">
           {groups.map((group) => {
             const isOpen = openGroup === group.id;
             return (

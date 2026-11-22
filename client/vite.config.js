@@ -7,14 +7,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'models/macbook-rigged.glb'],
+      includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'logo-mark.png', 'models/macbook-rigged.glb'],
       manifest: {
         name: 'TechCare — Retail IT & Hardware Studio',
         short_name: 'TechCare',
         description:
           'Toko retail IT, laptop second bergaransi 32 titik QC, dan jasa upgrade RAM/SSD.',
-        theme_color: '#F7F8FA',
-        background_color: '#F7F8FA',
+        theme_color: '#F5F5F7',
+        background_color: '#F5F5F7',
         display: 'standalone',
         orientation: 'portrait-primary',
         start_url: '/',
