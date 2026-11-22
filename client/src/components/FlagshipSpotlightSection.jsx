@@ -32,9 +32,9 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       orderClass: 'order-2 md:order-2',
       title: 'Keyboard Mekanikal',
       subtitle: 'Keycaps bersih ultrasonic. Hot-swap responsif.',
-      image: '/assets/mechanical-keyboard.png',
-      width: 1000,
-      height: 571,
+      image: '/assets/tile-keyboard-dark.jpg',
+      width: 1024,
+      height: 768,
       onLearn: () => (keyboard && onSelectProduct ? onSelectProduct(keyboard) : onShopClick()),
       onBuy: () => (onSelectCollection ? onSelectCollection('peripherals') : onShopClick())
     },

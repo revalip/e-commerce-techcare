@@ -27,7 +27,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
       return undefined;
     }
     // Fallback timer in case mobile battery-saver pauses autoplay
-    const fallbackTimer = setTimeout(() => setIsRevealed(true), 1600);
+    const fallbackTimer = setTimeout(() => setIsRevealed(true), 2400);
     return () => clearTimeout(fallbackTimer);
   }, [replayKey, shouldReduceMotion, videoError]);
 
@@ -38,7 +38,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
   const darkImgY = useTransform(darkScroll, [0, 1], [-20, 20]);
 
   const handleTimeUpdate = (e) => {
-    if (!isRevealed && e.currentTarget.currentTime >= 1.15) {
+    if (!isRevealed && e.currentTarget.currentTime >= 1.85) {
       setIsRevealed(true);
     }
   };
@@ -103,8 +103,8 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             </button>
           </div>
 
-          {/* 1-Shot ThinkPad X1 Carbon Studio Video (pure white bg + mix-blend-multiply -> seamless on #F5F5F7) */}
-          <div className="mt-6 sm:mt-8 max-w-[660px] mx-auto flex items-center justify-center">
+          {/* 1-Shot ThinkPad X1 Carbon Lid-Open Video (pure white bg + mix-blend-multiply -> seamless on #F5F5F7) */}
+          <div className="mt-4 sm:mt-6 max-w-[820px] mx-auto px-0 flex items-center justify-center">
             {shouldReduceMotion || videoError ? (
               <img
                 src="/assets/products/thinkpad-x1-carbon-front.png"
@@ -125,8 +125,8 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleVideoEnded}
                 onError={() => setVideoError(true)}
-                aria-label="Animasi Lenovo ThinkPad X1 Carbon berputar ke posisi depan"
-                className="w-full max-w-[620px] aspect-[1080/792] max-h-[290px] sm:max-h-[390px] lg:max-h-[440px] object-contain mix-blend-multiply select-none pointer-events-none"
+                aria-label="Animasi tangan membuka Lenovo ThinkPad X1 Carbon dari tertutup hingga terbuka"
+                className="w-full max-w-[780px] aspect-video object-contain mix-blend-multiply select-none pointer-events-none"
               />
             )}
           </div>
