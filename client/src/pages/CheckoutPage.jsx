@@ -309,7 +309,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
   }
 
   return (
-    <div className="bg-white text-[#1D1D1F] min-h-screen pb-16">
+    <div className="bg-white text-[#1D1D1F] pb-16">
       {/* 1. Full-Width Apple Header Band (#F5F5F7) */}
       <section className="w-full bg-[#F5F5F7] py-8 sm:py-12">
         <div className="max-w-[1140px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-5">

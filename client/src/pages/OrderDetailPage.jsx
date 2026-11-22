@@ -272,7 +272,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-[#F5F5F7] text-[#1D1D1F] min-h-[55vh] py-6 sm:py-10 pb-16"
+      className="bg-[#F5F5F7] text-[#1D1D1F] py-6 sm:py-10 pb-16"
     >
       <div className="max-w-[880px] mx-auto px-4 sm:px-6 space-y-5">
         {/* Top Back Navigation */}

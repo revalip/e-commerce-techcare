@@ -141,7 +141,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.24 }}
-      className="bg-white min-h-screen py-6 sm:py-10 pb-28 sm:pb-16"
+      className="bg-white py-6 sm:py-10 pb-28 sm:pb-16"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Apple-style Minimal Breadcrumb */}

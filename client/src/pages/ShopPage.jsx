@@ -178,7 +178,7 @@ export default function ShopPage({
   };
 
   return (
-    <div className="bg-white min-h-screen py-10 sm:py-16 overflow-x-clip">
+    <div className="bg-white py-10 sm:py-16 overflow-x-clip">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-6">
         {/* Clean Apple Header: Title + 1 Plain Grey Line */}
         <header className="space-y-1.5">

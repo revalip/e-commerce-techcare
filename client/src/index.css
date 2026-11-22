@@ -22,14 +22,14 @@
 
 @layer base {
   html {
-    background-color: var(--tc-white);
+    background-color: var(--tc-grey);
     color: var(--tc-ink);
     scroll-behavior: smooth;
   }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
-    background-color: var(--tc-white);
+    background-color: var(--tc-grey);
     color: var(--tc-ink);
     font-size: 17px;
     line-height: 1.47;

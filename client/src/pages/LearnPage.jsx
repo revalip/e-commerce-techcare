@@ -35,7 +35,7 @@ export default function LearnPage({ onExploreShop }) {
   ];
 
   return (
-    <div className="bg-white text-[#1D1D1F] min-h-screen">
+    <div className="bg-white text-[#1D1D1F]">
       {/* Full-Width Clean Editorial Hero (#F5F5F7) */}
       <section className="w-full bg-[#F5F5F7] py-16 sm:py-24 lg:py-28">
         <div className="max-w-[920px] mx-auto px-4 sm:px-6 text-center">

@@ -218,14 +218,14 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFFFF] text-[#1D1D1F] overflow-x-clip">
+    <div className="flex flex-col bg-[#F5F5F7] text-[#1D1D1F] overflow-x-clip">
       <Navbar
         onNavigate={handleNavigate}
         onQuickSearch={handleQuickSearch}
         currentPage={currentPage}
       />
 
-      <main className="flex-1">
+      <main className="bg-white">
         <AnimatePresence mode="wait">
           {currentPage === 'home' && (
             <motion.div

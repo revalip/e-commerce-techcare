@@ -103,7 +103,7 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
   };
 
   return (
-    <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-[55vh] py-8 sm:py-12 pb-16">
+    <div className="bg-[#F5F5F7] text-[#1D1D1F] py-8 sm:py-12 pb-16">
       <div className="max-w-[880px] mx-auto px-4 sm:px-6 space-y-6">
         {/* Clean Left-Aligned Apple Store Header */}
         <header className="space-y-4">
