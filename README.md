@@ -2,7 +2,7 @@
 
 Platform webapp e-commerce modern untuk **TECHCARE**, sebuah toko retail & workshop IT UMKM terpercaya yang bergerak di bidang penjualan perangkat teknologi informasi (IT) terkurasi lulus 32 titik QC, laptop bisnis & performa tinggi, komponen upgrade RAM/SSD, peripheral workstation, monitor, serta layanan jasa IT (ASUS, Logitech, Lenovo, Fantech, MSI, Apple, Dell, Corsair, Kingston, Samsung, LG).
 
-Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokrom minimalis ala **Apple Store / iOS 17**, animasi mikro interaktif yang halus (*Framer Motion*), serta arsitektur multi-user berbasis peran (*Guest*, *Buyer*, dan *Admin*).
+Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokrom minimalis modern, animasi mikro interaktif yang halus (*Framer Motion*), serta arsitektur multi-user berbasis peran (*Guest*, *Buyer*, dan *Admin*).
 
 > 🌐 **Live Website:** https://techcare.lippsrv.my.id
 
@@ -12,7 +12,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 
 ### 1. Pengalaman Belanja Terstruktur (Multiuser Role)
 - **Guest (Tamu)**:
-  - Menjelajahi 15 katalog perangkat IT terkurasi, pencarian *real-time* (tirai pencarian global & iOS 17 Search Bar), filter kategori (*Semua*, *Laptop*, *RAM*, *SSD*, *Monitor*, *Aksesori*), serta *Filter Sheet* (merek, rentang harga, favorit, urutkan, dan mode Grid/Daftar).
+  - Menjelajahi 15 katalog perangkat IT terkurasi, pencarian *real-time* (pencarian global & kolom pencarian cepat), filter kategori (*Semua*, *Laptop*, *RAM*, *SSD*, *Monitor*, *Aksesori*), serta *Filter Sheet* (merek, rentang harga, favorit, urutkan, dan mode Grid/Daftar).
   - Melihat detail spesifikasi teknis lengkap, konfigurasi dinamis warna/RAM/SSD, serta standar pengecekan **32 titik QC**.
   - Memasukkan produk ke keranjang belanja (*Cart Drawer*) maupun daftar favorit (*Wishlist Drawer*).
   - **Pelacakan & Privasi Tamu**: Tamu dapat melacak status pesanan memakai nomor invoice/resi dengan penyamaran otomatis data pribadi (*PII masking*), dan wajib masuk/daftar sebelum menyelesaikan checkout.
@@ -31,10 +31,10 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 - **QRIS Instan**: Pembayaran mudah lewat pemindaian kode QRIS untuk seluruh mobile banking atau e-Wallet Indonesia (GoPay, OVO, Dana, ShopeePay, BCA Mobile).
 
 ### 3. UI/UX, PWA & Animasi
-- **Desain Apple Store & iOS 17**: Logo monokrom baru TechCare (Navbar, Login, Footer, Favicon & ikon PWA), **Liquid Glass bottom navigation** di mobile, **iOS 17 Search Bar**, **Segmented Control** tanpa terpotong di HP, dan **Hero Video ThinkPad**.
+- **Desain Monokrom Minimalis Modern**: Logo monokrom baru TechCare (Navbar, Login, Footer, Favicon & ikon PWA), *bottom navigation* translucent di mobile, *Search Bar* dengan tombol hapus/batal cepat, *Segmented Control* penuh tanpa terpotong di HP, serta **Hero Video ThinkPad**.
 - **Progressive Web App (PWA)**: Installable di HP & desktop dengan Service Worker (`sw-v2.js`) bebas cache macet.
 - **Cart & Wishlist Drawer**: Tampilan geser halus dari sisi kanan di desktop dan *bottom sheet* di perangkat mobile lengkap dengan *Cart Toast* + tombol *Undo*.
-- **Target Sentuh & Responsivitas**: Memenuhi standar Apple HIG (≥ 44px), 0 *horizontal overflow*, serta animasi halus (*Framer Motion*).
+- **Target Sentuh & Responsivitas**: Target sentuh ergonomis (≥ 44px), 0 *horizontal overflow*, serta animasi halus (*Framer Motion*).
 
 ---
 
