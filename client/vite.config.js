@@ -7,6 +7,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'inline',
+      filename: 'sw-v2.js',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png', 'logo-mark.png', 'models/macbook-rigged.glb'],
       manifest: {
         name: 'TechCare — Retail IT & Hardware Studio',
@@ -22,17 +24,17 @@ export default defineConfig({
         lang: 'id',
         icons: [
           {
-            src: '/pwa-192x192.png',
+            src: '/pwa-192x192.png?v=2',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: '/pwa-512x512.png',
+            src: '/pwa-512x512.png?v=2',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: '/pwa-maskable-512x512.png',
+            src: '/pwa-maskable-512x512.png?v=2',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'
