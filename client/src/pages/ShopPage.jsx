@@ -177,45 +177,90 @@ export default function ShopPage({
     }, 1800);
   };
 
-  return (
-    <div className="bg-white py-10 sm:py-16 overflow-x-clip">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 space-y-6">
-        {/* Clean Apple Header: Title + 1 Plain Grey Line */}
-        <header className="space-y-1.5">
-          <h1 className="tc-section-title text-[#1D1D1F]">Katalog</h1>
-          <p className="text-[15px] text-[#6E6E73] tabular-nums">
-            {filteredProducts.length} unit tersedia
-          </p>
-        </header>
+  const shortCategoryLabel = (col) => {
+    const map = {
+      'laptop-second': 'Laptop',
+      'ram-memori': 'RAM',
+      'ssd-storage': 'SSD',
+      'display-monitor': 'Monitor',
+      peripherals: 'Aksesori'
+    };
+    return map[col.slug] || col.nama.replace(/\s*Second\b/i, '').trim();
+  };
 
-        {/* MAX 3 CONTROL ROWS BEFORE PRODUCTS */}
-        <section className="space-y-3" aria-label="Pencarian dan Filter Katalog">
-          {/* Row 1: Borderless #F5F5F7 Search (12px radius) + Single Filter Button */}
-          <div className="flex items-center gap-2.5">
-            <div className="relative flex-1">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
+  return (
+    <div className="bg-white overflow-x-clip pb-16">
+      {/* 1. Authentic Apple Store Full-Width Top Announcement Ribbon */}
+      {currentPromo && (
+        <div className="w-full bg-[#F5F5F7] border-b border-[#D2D2D7]/60">
+          <button
+            type="button"
+            onClick={handleCopyPromo}
+            className="w-full max-w-[1200px] mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-center gap-1.5 text-[13px] text-[#1D1D1F] hover:opacity-80 transition-opacity text-center cursor-pointer"
+          >
+            {copiedKode === currentPromo.kode ? (
+              <span className="inline-flex items-center gap-1.5 text-[#0071E3] font-medium">
+                <Check size={14} />
+                <span>Kode {currentPromo.kode} disalin — tempel saat checkout</span>
+              </span>
+            ) : (
+              <>
+                <span>
+                  Pakai kode <strong>{currentPromo.kode}</strong>,{' '}
+                  <span className="text-[#D70015] font-medium">
+                    hemat{' '}
+                    {currentPromo.tipe === 'persen'
+                      ? `${currentPromo.nilai}%`
+                      : formatIDR(currentPromo.nilai)}
+                  </span>
+                </span>
+                <ChevronRight size={14} className="text-[#D70015] shrink-0" />
+              </>
+            )}
+          </button>
+        </div>
+      )}
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-8 sm:pt-14 space-y-7 sm:space-y-9">
+        {/* 2. Iconic Apple Store Editorial Header + Compact Right Search/Filter */}
+        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+          <div className="max-w-2xl space-y-1.5">
+            <h1 className="text-[32px] sm:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
+              Katalog.{' '}
+              <span className="text-[#6E6E73]">
+                Perangkat pilihan, siap kerja.
+              </span>
+            </h1>
+            <p className="text-[14px] text-[#6E6E73] tabular-nums">
+              {filteredProducts.length} unit tersedia · Lulus 32 titik QC
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2.5 w-full lg:w-auto">
+            <div className="relative flex-1 lg:w-[260px]">
+              <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
               <input
                 type="text"
-                placeholder="Cari laptop, monitor, RAM, SSD, mouse..."
+                placeholder="Cari produk..."
                 value={search}
                 onChange={(e) => {
                   setSearch(e.target.value);
                   setVisibleCount(12);
                 }}
-                className="w-full min-h-[44px] pl-11 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                className="w-full h-[42px] pl-10 pr-4 rounded-[980px] bg-[#F5F5F7] text-[14px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
               />
             </div>
 
             <button
               type="button"
               onClick={() => setFilterOpen(true)}
-              className={`shrink-0 inline-flex items-center gap-2 min-h-[44px] px-4 rounded-[12px] text-[14px] font-medium transition-colors ${
+              className={`shrink-0 inline-flex items-center gap-2 h-[42px] px-4 rounded-[980px] text-[13px] font-medium transition-colors cursor-pointer ${
                 activeFilterCount > 0
                   ? 'bg-[#1D1D1F] text-white'
                   : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
               }`}
             >
-              <SlidersHorizontal size={15} strokeWidth={1.8} />
+              <SlidersHorizontal size={14} strokeWidth={1.8} />
               <span>Filter</span>
               {activeFilterCount > 0 && (
                 <span className="w-5 h-5 rounded-full bg-[#0071E3] text-white text-[11px] flex items-center justify-center tabular-nums">
@@ -224,8 +269,10 @@ export default function ShopPage({
               )}
             </button>
           </div>
+        </header>
 
-          {/* Row 2: Horizontal Category Chips (Apple HIG >= 40px touch height) + 44x44px Grid/List Icons */}
+        {/* 3. Concise Apple Category Pills + Grid/List Toggle */}
+        <section aria-label="Kategori Katalog">
           <div className="flex items-center justify-between gap-3 min-w-0">
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0 py-0.5">
               <button
@@ -234,7 +281,7 @@ export default function ShopPage({
                   onSelectCategory('');
                   setVisibleCount(12);
                 }}
-                className={`min-h-[40px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                className={`min-h-[38px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
                   !selectedCategory
                     ? 'bg-[#1D1D1F] text-white font-medium'
                     : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
@@ -250,13 +297,13 @@ export default function ShopPage({
                     onSelectCategory(col.slug);
                     setVisibleCount(12);
                   }}
-                  className={`min-h-[40px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                  className={`min-h-[38px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
                     selectedCategory === col.slug
                       ? 'bg-[#1D1D1F] text-white font-medium'
                       : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                   }`}
                 >
-                  {col.nama}
+                  {shortCategoryLabel(col)}
                 </button>
               ))}
             </div>
@@ -289,35 +336,6 @@ export default function ShopPage({
               </button>
             </div>
           </div>
-
-          {/* Row 3: Thin 1-Line Promo Banner (Tap to copy) */}
-          {currentPromo && (
-            <button
-              type="button"
-              onClick={handleCopyPromo}
-              className="w-full bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[12px] px-4 py-2.5 flex items-center justify-center gap-1.5 text-[13px] text-[#1D1D1F] transition-colors text-center"
-            >
-              {copiedKode === currentPromo.kode ? (
-                <span className="inline-flex items-center gap-1.5 text-[#0071E3] font-medium">
-                  <Check size={14} />
-                  <span>Kode {currentPromo.kode} disalin — tempel saat checkout</span>
-                </span>
-              ) : (
-                <>
-                  <span>
-                    Pakai kode <strong>{currentPromo.kode}</strong>,{' '}
-                    <span className="text-[#D70015] font-medium">
-                      hemat{' '}
-                      {currentPromo.tipe === 'persen'
-                        ? `${currentPromo.nilai}%`
-                        : formatIDR(currentPromo.nilai)}
-                    </span>
-                  </span>
-                  <ChevronRight size={14} className="text-[#D70015] shrink-0" />
-                </>
-              )}
-            </button>
-          )}
         </section>
 
         {/* Error State */}
