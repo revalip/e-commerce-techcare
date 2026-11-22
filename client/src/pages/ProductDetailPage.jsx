@@ -97,10 +97,11 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
 
   const wishlisted = isWishlisted(product.id);
   const outOfStock = Number(product.stok) <= 0;
+  const uniqueImages = Array.from(new Set((product.gambar || []).filter(Boolean)));
   const images =
-    product.gambar && product.gambar.length > 0
-      ? product.gambar
-      : ['/images/products/thinkpad-x1-carbon-front.jpg'];
+    uniqueImages.length > 0
+      ? uniqueImages
+      : ['/assets/products/thinkpad-x1-carbon-front.png'];
 
   const handleAddToCart = () => {
     if (outOfStock) return;

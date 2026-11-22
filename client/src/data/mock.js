@@ -73,7 +73,6 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/assets/products/macbook-air-m1.png',
       '/assets/products/macbook-air-m1.png'
     ],
     varianWarna: [
