@@ -25,6 +25,14 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AboutPage from './pages/AboutPage';
 import LearnPage from './pages/LearnPage';
 
+function safeDecode(val) {
+  try {
+    return decodeURIComponent(val);
+  } catch {
+    return val;
+  }
+}
+
 function parseRouteFromPath(pathname) {
   const clean = (pathname || '/').replace(/\/+$/, '') || '/';
   if (clean === '/') return { page: 'home' };
@@ -35,10 +43,10 @@ function parseRouteFromPath(pathname) {
   if (clean === '/about' || clean === '/jasa-it') return { page: 'about' };
   if (clean === '/learn' || clean === '/edukasi') return { page: 'learn' };
   if (clean.startsWith('/product/')) {
-    return { page: 'product-detail', slug: decodeURIComponent(clean.replace('/product/', '')) };
+    return { page: 'product-detail', slug: safeDecode(clean.replace('/product/', '')) };
   }
   if (clean.startsWith('/order/')) {
-    return { page: 'order-detail', orderNumber: decodeURIComponent(clean.replace('/order/', '')) };
+    return { page: 'order-detail', orderNumber: safeDecode(clean.replace('/order/', '')) };
   }
   return { page: 'home' };
 }

@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
-require('dotenv').config();
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 const { checkDbConnection } = require('./config/db');
 const { securityHeaders } = require('./middleware/security');
@@ -20,20 +20,29 @@ const PORT = process.env.PORT || 4000;
 // Security headers
 app.use(securityHeaders);
 
-// CORS whitelist dari CLIENT_URL
-const allowedOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
+// CORS whitelist dari CLIENT_URL (+ localhost dev ports hanya di non-production)
+const configuredOrigins = (process.env.CLIENT_URL || 'http://localhost:5173')
   .split(',')
   .map((o) => o.trim())
   .filter(Boolean);
+
+const devOrigins =
+  process.env.NODE_ENV === 'production'
+    ? []
+    : ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:4173', 'http://127.0.0.1:4173'];
+
+const allowedOrigins = new Set([...configuredOrigins, ...devOrigins]);
 
 app.use(
   cors({
     origin(origin, callback) {
       if (!origin) return callback(null, true);
-      if (process.env.NODE_ENV !== 'production' || allowedOrigins.includes(origin)) {
+      if (allowedOrigins.has(origin)) {
         return callback(null, true);
       }
-      return callback(new Error('Origin tidak diizinkan oleh kebijakan CORS.'));
+      const corsErr = new Error('Origin tidak diizinkan oleh kebijakan CORS.');
+      corsErr.status = 403;
+      return callback(corsErr);
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -43,8 +52,9 @@ app.use(
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
-// Static asset folders
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+// Static asset folders — HANYA products & settings yang publik; /uploads/proofs diproteksi via endpoint order
+app.use('/uploads/products', express.static(path.join(__dirname, '../uploads/products')));
+app.use('/uploads/settings', express.static(path.join(__dirname, '../uploads/settings')));
 
 const clientDist = path.join(__dirname, '../../client/dist');
 app.use(express.static(clientDist));

@@ -175,11 +175,11 @@ export default function AdminDashboard({ onBackToShop }) {
     return () => window.removeEventListener('keydown', onEsc);
   }, []);
 
-  // === Metrics & Chart Data ===
+  // === Metrics & Chart Data (Omzet hanya menghitung pesanan lunas & tidak dibatalkan) ===
   const totalOmzet = useMemo(
     () =>
       orders
-        .filter((o) => o.statusKey !== 'cancelled')
+        .filter((o) => o.statusKey !== 'cancelled' && o.paymentStatus === 'paid')
         .reduce((acc, o) => acc + (Number(o.total) || 0), 0),
     [orders]
   );
@@ -321,8 +321,17 @@ export default function AdminDashboard({ onBackToShop }) {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     if (!newProdName.trim() || !newProdPrice) return;
-    if (Number(newProdPrice) >= 10000000) {
+    const priceNum = Number(newProdPrice);
+    if (!Number.isFinite(priceNum) || priceNum <= 0) {
+      alert('Harga produk harus lebih dari Rp 0.');
+      return;
+    }
+    if (priceNum >= 10000000) {
       alert('Sesuai kebijakan TECHCARE, harga produk second harus di bawah Rp 10.000.000.');
+      return;
+    }
+    if (newProdOriginalPrice && Number(newProdOriginalPrice) <= priceNum) {
+      alert('Harga coret harus lebih besar dari harga jual.');
       return;
     }
     setSubmittingProduct(true);
@@ -368,7 +377,12 @@ export default function AdminDashboard({ onBackToShop }) {
   const handleSaveEdit = async (e) => {
     e.preventDefault();
     if (!editingProduct) return;
-    if (Number(editPrice) >= 10000000) {
+    const priceNum = Number(editPrice);
+    if (!Number.isFinite(priceNum) || priceNum <= 0) {
+      alert('Harga produk harus lebih dari Rp 0.');
+      return;
+    }
+    if (priceNum >= 10000000) {
       alert('Harga produk second harus di bawah Rp 10.000.000.');
       return;
     }

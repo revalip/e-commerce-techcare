@@ -69,7 +69,17 @@ export default function ShopPage({
       if (prodRes.success) setProducts(prodRes.data);
       else setError('Gagal memuat daftar produk.');
       if (colRes.success) setCollections(colRes.data);
-      if (discRes.success) setDiscounts(discRes.data.filter((d) => d.aktif));
+      if (discRes.success) {
+        const today = new Date().toISOString().slice(0, 10);
+        setDiscounts(
+          discRes.data.filter(
+            (d) =>
+              d.aktif &&
+              (!d.kuota || d.terpakai < d.kuota) &&
+              (!d.berlakuSampai || d.berlakuSampai >= today)
+          )
+        );
+      }
     } catch {
       setError('Terjadi kendala saat memuat katalog. Silakan muat ulang.');
     } finally {

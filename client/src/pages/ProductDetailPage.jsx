@@ -431,7 +431,14 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                   </span>
                   <button
                     type="button"
-                    onClick={() => setQuantity(Math.min(product.stok || 10, quantity + 1))}
+                    onClick={() =>
+                      setQuantity(
+                        Math.min(
+                          Math.max(1, Number.isFinite(Number(product.stok)) ? Number(product.stok) : 1),
+                          quantity + 1
+                        )
+                      )
+                    }
                     className="w-10 h-10 flex items-center justify-center text-[#4F627A] hover:text-[#1D2129]"
                     aria-label="Tambah jumlah"
                   >
@@ -530,12 +537,12 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
           const slug = product.koleksiSlug;
           const targetSlugs =
             slug === 'laptop-second'
-              ? ['ram-memori', 'ssd-storage', 'peripherals-second']
-              : slug === 'monitor-second'
-              ? ['peripherals-second', 'laptop-second']
+              ? ['ram-memori', 'ssd-storage', 'peripherals']
+              : slug === 'display-monitor'
+              ? ['peripherals', 'laptop-second']
               : slug === 'ram-memori' || slug === 'ssd-storage'
               ? ['laptop-second', 'ssd-storage', 'ram-memori']
-              : ['laptop-second', 'monitor-second'];
+              : ['laptop-second', 'display-monitor'];
 
           const paired = [];
           for (const target of targetSlugs) {

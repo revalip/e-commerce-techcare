@@ -12,14 +12,34 @@ function securityHeaders(req, res, next) {
 }
 
 /**
- * Simple in-memory rate limiter (anti brute-force untuk login/register)
+ * Simple in-memory rate limiter (anti brute-force untuk login/register/order)
+ * Dilengkapi pembersihan berkala agar Map tidak menyebabkan memory leak.
  */
 function createRateLimiter({ windowMs = 15 * 60 * 1000, max = 30 } = {}) {
   const hits = new Map();
 
+  const cleanup = () => {
+    const now = Date.now();
+    for (const [key, record] of hits.entries()) {
+      if (now > record.resetAt) {
+        hits.delete(key);
+      }
+    }
+  };
+
+  const interval = setInterval(cleanup, Math.min(windowMs, 5 * 60 * 1000));
+  if (typeof interval.unref === 'function') {
+    interval.unref();
+  }
+
   return (req, res, next) => {
     const ip = req.ip || req.socket?.remoteAddress || 'unknown';
     const now = Date.now();
+
+    if (hits.size > 10000) {
+      cleanup();
+    }
+
     const record = hits.get(ip);
 
     if (!record || now > record.resetAt) {

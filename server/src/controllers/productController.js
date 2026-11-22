@@ -1,4 +1,15 @@
 const { pool } = require('../config/db');
+const { sanitizeText } = require('../middleware/security');
+
+function safeJsonParse(value, fallback = []) {
+  if (typeof value !== 'string') return value || fallback;
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
 
 exports.getAllProducts = async (req, res) => {
   try {
@@ -14,12 +25,13 @@ exports.getAllProducts = async (req, res) => {
 
     if (collection) {
       query += ` AND c.slug = ?`;
-      params.push(collection);
+      params.push(sanitizeText(collection, 100));
     }
 
     if (search) {
-      query += ` AND (p.name LIKE ? OR p.description LIKE ? OR p.tagline LIKE ?)`;
-      params.push(`%${search}%`, `%${search}%`, `%${search}%`);
+      const q = `%${sanitizeText(search, 100)}%`;
+      query += ` AND (p.name LIKE ? OR p.brand LIKE ? OR p.description LIKE ? OR p.tagline LIKE ? OR c.name LIKE ?)`;
+      params.push(q, q, q, q, q);
     }
 
     if (bestseller === 'true' || bestseller === '1') {
@@ -36,43 +48,45 @@ exports.getAllProducts = async (req, res) => {
 
     const [products] = await pool.query(query, params);
 
-    // Parse features & gallery_urls if string
-    const formatted = products.map(item => ({
+    const formatted = products.map((item) => ({
       ...item,
-      features: typeof item.features === 'string' ? JSON.parse(item.features) : (item.features || []),
-      gallery_urls: typeof item.gallery_urls === 'string' ? JSON.parse(item.gallery_urls) : (item.gallery_urls || [])
+      features: safeJsonParse(item.features, []),
+      gallery_urls: safeJsonParse(item.gallery_urls, [])
     }));
 
     return res.json({ success: true, count: formatted.length, products: formatted });
   } catch (error) {
     console.error('getAllProducts error:', error);
-    return res.status(500).json({ success: false, message: 'Gagal memuat daftar produk: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Gagal memuat daftar produk.' });
   }
 };
 
 exports.getProductBySlug = async (req, res) => {
   try {
-    const { slug } = req.params;
+    const slug = sanitizeText(req.params.slug, 150);
 
-    const [rows] = await pool.query(`
+    const [rows] = await pool.query(
+      `
       SELECT p.*, c.name AS collection_name, c.slug AS collection_slug
       FROM products p
       LEFT JOIN collections c ON p.collection_id = c.id
       WHERE p.slug = ? AND p.is_active = TRUE
-    `, [slug]);
+    `,
+      [slug]
+    );
 
     if (rows.length === 0) {
       return res.status(404).json({ success: false, message: 'Produk tidak ditemukan.' });
     }
 
     const product = rows[0];
-    product.features = typeof product.features === 'string' ? JSON.parse(product.features) : (product.features || []);
-    product.gallery_urls = typeof product.gallery_urls === 'string' ? JSON.parse(product.gallery_urls) : (product.gallery_urls || []);
+    product.features = safeJsonParse(product.features, []);
+    product.gallery_urls = safeJsonParse(product.gallery_urls, []);
 
     return res.json({ success: true, product });
   } catch (error) {
     console.error('getProductBySlug error:', error);
-    return res.status(500).json({ success: false, message: 'Gagal memuat detail produk: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Gagal memuat detail produk.' });
   }
 };
 
@@ -89,6 +103,6 @@ exports.getCollections = async (req, res) => {
     return res.json({ success: true, collections });
   } catch (error) {
     console.error('getCollections error:', error);
-    return res.status(500).json({ success: false, message: 'Gagal memuat kategori/koleksi: ' + error.message });
+    return res.status(500).json({ success: false, message: 'Gagal memuat kategori/koleksi.' });
   }
 };

@@ -1,7 +1,16 @@
 const { pool } = require('../config/db');
 const { sanitizeText } = require('../middleware/security');
+const { verifyImageMagicBytes, safeUnlink } = require('../middleware/upload');
 
 const ALLOWED_ORDER_STATUSES = ['pending', 'paid', 'processing', 'shipped', 'completed', 'cancelled'];
+const ALLOWED_ORDER_TRANSITIONS = {
+  pending: ['paid', 'cancelled'],
+  paid: ['processing', 'shipped', 'cancelled'],
+  processing: ['shipped', 'cancelled'],
+  shipped: ['completed'],
+  completed: [],
+  cancelled: []
+};
 
 exports.getOverview = async (req, res) => {
   try {
@@ -25,6 +34,13 @@ exports.getOverview = async (req, res) => {
       LIMIT 6
     `);
 
+    const formattedRecentOrders = recentOrders.map((o) => ({
+      ...o,
+      payment_proof_url: o.payment_proof_url
+        ? `/api/orders/${encodeURIComponent(o.order_number)}/payment-proof`
+        : null
+    }));
+
     return res.json({
       success: true,
       stats: {
@@ -35,7 +51,7 @@ exports.getOverview = async (req, res) => {
         lowStockProducts: Number(productsCountRow.low_stock_count || 0),
         totalUsers: Number(usersCountRow.total_users || 0)
       },
-      recentOrders
+      recentOrders: formattedRecentOrders
     });
   } catch (error) {
     console.error('getOverview error:', error);
@@ -48,7 +64,7 @@ exports.getOrders = async (req, res) => {
     const { status, payment_status, search } = req.query;
 
     let query = `
-      SELECT o.*, COUNT(oi.id) AS total_items
+      SELECT o.*, COALESCE(SUM(oi.quantity), 0) AS total_items
       FROM orders o
       LEFT JOIN order_items oi ON o.id = oi.order_id
       WHERE 1=1
@@ -75,7 +91,13 @@ exports.getOrders = async (req, res) => {
     query += ' GROUP BY o.id ORDER BY o.created_at DESC';
 
     const [orders] = await pool.query(query, params);
-    return res.json({ success: true, count: orders.length, orders });
+    const formattedOrders = orders.map((o) => ({
+      ...o,
+      payment_proof_url: o.payment_proof_url
+        ? `/api/orders/${encodeURIComponent(o.order_number)}/payment-proof`
+        : null
+    }));
+    return res.json({ success: true, count: formattedOrders.length, orders: formattedOrders });
   } catch (error) {
     console.error('admin getOrders error:', error);
     return res.status(500).json({ success: false, message: 'Gagal memuat daftar pesanan.' });
@@ -83,18 +105,44 @@ exports.getOrders = async (req, res) => {
 };
 
 exports.verifyPayment = async (req, res) => {
+  const connection = await pool.getConnection();
   try {
+    await connection.beginTransaction();
     const { id } = req.params;
     const { action } = req.body;
     const notes = sanitizeText(req.body.notes, 250) || null;
 
-    const [orders] = await pool.query('SELECT * FROM orders WHERE id = ?', [id]);
+    if (action !== 'approve' && action !== 'reject') {
+      await connection.rollback();
+      return res.status(400).json({ success: false, message: 'Aksi tidak valid (gunakan approve atau reject).' });
+    }
+
+    const [orders] = await connection.query('SELECT * FROM orders WHERE id = ? FOR UPDATE', [id]);
     if (orders.length === 0) {
+      await connection.rollback();
       return res.status(404).json({ success: false, message: 'Pesanan tidak ditemukan.' });
     }
 
+    const order = orders[0];
+
+    if (order.order_status === 'cancelled' || order.order_status === 'completed') {
+      await connection.rollback();
+      return res.status(400).json({
+        success: false,
+        message: 'Pesanan yang sudah dibatalkan atau selesai tidak dapat diverifikasi lagi.'
+      });
+    }
+
     if (action === 'approve') {
-      await pool.query(
+      if (order.payment_status === 'paid' || order.order_status !== 'pending') {
+        await connection.rollback();
+        return res.status(400).json({
+          success: false,
+          message: 'Pembayaran pesanan ini sudah disetujui sebelumnya.'
+        });
+      }
+
+      await connection.query(
         `
         UPDATE orders
         SET payment_status = 'paid', order_status = 'paid', paid_at = NOW(),
@@ -103,24 +151,35 @@ exports.verifyPayment = async (req, res) => {
       `,
         [notes || 'Pembayaran telah diverifikasi oleh admin.', id]
       );
+      await connection.commit();
       return res.json({ success: true, message: 'Pembayaran disetujui! Status pesanan kini Dibayar.' });
     }
-    if (action === 'reject') {
-      await pool.query(
-        `
-        UPDATE orders
-        SET payment_status = 'rejected', payment_notes = ?, updated_at = NOW()
-        WHERE id = ?
-      `,
-        [notes || 'Bukti transfer tidak valid atau dana belum masuk.', id]
-      );
-      return res.json({ success: true, message: 'Pembayaran ditolak.' });
+
+    // action === 'reject'
+    if (order.payment_status === 'paid' || order.order_status !== 'pending') {
+      await connection.rollback();
+      return res.status(400).json({
+        success: false,
+        message: 'Pembayaran yang sudah lunas atau sedang diproses tidak dapat ditolak.'
+      });
     }
 
-    return res.status(400).json({ success: false, message: 'Aksi tidak valid (gunakan approve atau reject).' });
+    await connection.query(
+      `
+      UPDATE orders
+      SET payment_status = 'rejected', payment_notes = ?, updated_at = NOW()
+      WHERE id = ?
+    `,
+      [notes || 'Bukti transfer tidak valid atau dana belum masuk.', id]
+    );
+    await connection.commit();
+    return res.json({ success: true, message: 'Pembayaran ditolak.' });
   } catch (error) {
+    await connection.rollback();
     console.error('verifyPayment error:', error);
     return res.status(500).json({ success: false, message: 'Gagal memverifikasi pembayaran.' });
+  } finally {
+    connection.release();
   }
 };
 
@@ -149,12 +208,26 @@ exports.updateOrderStatus = async (req, res) => {
     const updates = [];
     const params = [];
 
-    if (order_status) {
+    if (order_status && order_status !== currentOrder.order_status) {
+      const allowedNext = ALLOWED_ORDER_TRANSITIONS[currentOrder.order_status] || [];
+      if (!allowedNext.includes(order_status)) {
+        await connection.rollback();
+        return res.status(400).json({
+          success: false,
+          message: `Transisi status tidak valid dari "${currentOrder.order_status}" ke "${order_status}".`
+        });
+      }
+
       updates.push('order_status = ?');
       params.push(order_status);
 
-      // Kembalikan stok bila status berubah ke cancelled
-      if (order_status === 'cancelled' && currentOrder.order_status !== 'cancelled') {
+      if (order_status === 'paid' && currentOrder.payment_status !== 'paid') {
+        updates.push("payment_status = 'paid'");
+        updates.push('paid_at = COALESCE(paid_at, NOW())');
+      }
+
+      // Kembalikan stok sekali saja bila status berubah ke cancelled (terminal state)
+      if (order_status === 'cancelled') {
         const [items] = await connection.query('SELECT product_id, quantity FROM order_items WHERE order_id = ?', [
           currentOrder.id
         ]);
@@ -177,7 +250,11 @@ exports.updateOrderStatus = async (req, res) => {
     if (tracking_number !== undefined) {
       updates.push('tracking_number = ?');
       params.push(tracking_number);
-      if (!order_status && (currentOrder.order_status === 'processing' || currentOrder.order_status === 'paid')) {
+      if (
+        tracking_number.length > 0 &&
+        !order_status &&
+        (currentOrder.order_status === 'processing' || currentOrder.order_status === 'paid')
+      ) {
         updates.push("order_status = 'shipped'");
       }
     }
@@ -203,21 +280,41 @@ exports.updateOrderStatus = async (req, res) => {
 
 // Products Admin CRUD
 exports.createProduct = async (req, res) => {
+  const uploadedPath = req.file ? req.file.path : null;
   try {
+    if (uploadedPath && !verifyImageMagicBytes(uploadedPath)) {
+      safeUnlink(uploadedPath);
+      return res.status(400).json({ success: false, message: 'File gambar produk tidak valid.' });
+    }
+
     const name = sanitizeText(req.body.name, 150);
     const brand = sanitizeText(req.body.brand, 60) || 'TECHCARE';
     const tagline = sanitizeText(req.body.tagline, 150) || null;
     const description = sanitizeText(req.body.description, 1000) || null;
     const price = Number(req.body.price);
-    const stock = Math.max(0, Number(req.body.stock) || 10);
-    const weight_gram = Math.max(50, Number(req.body.weight_gram) || 1000);
+    const parsedStock =
+      req.body.stock === undefined || req.body.stock === '' ? 10 : Number(req.body.stock);
+    const parsedWeight =
+      req.body.weight_gram === undefined || req.body.weight_gram === '' ? 1000 : Number(req.body.weight_gram);
     const collection_id = req.body.collection_id ? Number(req.body.collection_id) : null;
     const color = sanitizeText(req.body.color, 80) || 'Matte Black';
     const is_bestseller = req.body.is_bestseller === 'true' || req.body.is_bestseller === true ? 1 : 0;
 
-    if (!name || Number.isNaN(price) || price <= 0) {
+    if (!name || !Number.isFinite(price) || price <= 0) {
+      safeUnlink(uploadedPath);
       return res.status(400).json({ success: false, message: 'Nama dan harga valid produk wajib diisi.' });
     }
+    if (!Number.isFinite(parsedStock) || parsedStock < 0) {
+      safeUnlink(uploadedPath);
+      return res.status(400).json({ success: false, message: 'Stok produk harus berupa angka >= 0.' });
+    }
+    if (!Number.isFinite(parsedWeight) || parsedWeight < 50) {
+      safeUnlink(uploadedPath);
+      return res.status(400).json({ success: false, message: 'Berat produk minimal 50 gram.' });
+    }
+
+    const stock = Math.floor(parsedStock);
+    const weight_gram = Math.floor(parsedWeight);
 
     const slug =
       name
@@ -238,13 +335,20 @@ exports.createProduct = async (req, res) => {
 
     return res.status(201).json({ success: true, message: 'Produk berhasil ditambahkan!', productId: result.insertId });
   } catch (error) {
+    safeUnlink(uploadedPath);
     console.error('createProduct error:', error);
     return res.status(500).json({ success: false, message: 'Gagal menambahkan produk.' });
   }
 };
 
 exports.updateProduct = async (req, res) => {
+  const uploadedPath = req.file ? req.file.path : null;
   try {
+    if (uploadedPath && !verifyImageMagicBytes(uploadedPath)) {
+      safeUnlink(uploadedPath);
+      return res.status(400).json({ success: false, message: 'File gambar produk tidak valid.' });
+    }
+
     const { id } = req.params;
     const updates = [];
     const params = [];
@@ -253,9 +357,33 @@ exports.updateProduct = async (req, res) => {
     if (req.body.brand !== undefined) { updates.push('brand = ?'); params.push(sanitizeText(req.body.brand, 60)); }
     if (req.body.tagline !== undefined) { updates.push('tagline = ?'); params.push(sanitizeText(req.body.tagline, 150)); }
     if (req.body.description !== undefined) { updates.push('description = ?'); params.push(sanitizeText(req.body.description, 1000)); }
-    if (req.body.price !== undefined) { updates.push('price = ?'); params.push(Math.max(1000, Number(req.body.price))); }
-    if (req.body.stock !== undefined) { updates.push('stock = ?'); params.push(Math.max(0, Number(req.body.stock))); }
-    if (req.body.weight_gram !== undefined) { updates.push('weight_gram = ?'); params.push(Math.max(50, Number(req.body.weight_gram))); }
+    if (req.body.price !== undefined) {
+      const price = Number(req.body.price);
+      if (!Number.isFinite(price) || price < 1000) {
+        safeUnlink(uploadedPath);
+        return res.status(400).json({ success: false, message: 'Harga produk tidak valid (minimal Rp 1.000).' });
+      }
+      updates.push('price = ?');
+      params.push(price);
+    }
+    if (req.body.stock !== undefined) {
+      const stock = Number(req.body.stock);
+      if (!Number.isFinite(stock) || stock < 0) {
+        safeUnlink(uploadedPath);
+        return res.status(400).json({ success: false, message: 'Stok produk tidak valid (minimal 0).' });
+      }
+      updates.push('stock = ?');
+      params.push(Math.floor(stock));
+    }
+    if (req.body.weight_gram !== undefined) {
+      const weight = Number(req.body.weight_gram);
+      if (!Number.isFinite(weight) || weight < 50) {
+        safeUnlink(uploadedPath);
+        return res.status(400).json({ success: false, message: 'Berat produk tidak valid (minimal 50 gram).' });
+      }
+      updates.push('weight_gram = ?');
+      params.push(Math.floor(weight));
+    }
     if (req.body.collection_id !== undefined) { updates.push('collection_id = ?'); params.push(req.body.collection_id || null); }
     if (req.body.color !== undefined) { updates.push('color = ?'); params.push(sanitizeText(req.body.color, 80)); }
     if (req.body.is_bestseller !== undefined) {
@@ -272,6 +400,7 @@ exports.updateProduct = async (req, res) => {
     }
 
     if (updates.length === 0) {
+      safeUnlink(uploadedPath);
       return res.status(400).json({ success: false, message: 'Tidak ada data produk yang diubah.' });
     }
 
@@ -279,6 +408,7 @@ exports.updateProduct = async (req, res) => {
     await pool.query(`UPDATE products SET ${updates.join(', ')}, updated_at = NOW() WHERE id = ?`, params);
     return res.json({ success: true, message: 'Produk berhasil diperbarui.' });
   } catch (error) {
+    safeUnlink(uploadedPath);
     console.error('updateProduct error:', error);
     return res.status(500).json({ success: false, message: 'Gagal memperbarui produk.' });
   }
@@ -311,6 +441,9 @@ exports.createCollection = async (req, res) => {
     );
     return res.status(201).json({ success: true, id: result.insertId, message: 'Kategori berhasil dibuat.' });
   } catch (error) {
+    if (error && error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ success: false, message: 'Kategori dengan nama/slug tersebut sudah ada.' });
+    }
     console.error('createCollection error:', error);
     return res.status(500).json({ success: false, message: 'Gagal membuat kategori.' });
   }
@@ -320,10 +453,29 @@ exports.updateCollection = async (req, res) => {
   try {
     const { id } = req.params;
     const name = sanitizeText(req.body.name, 100);
-    const tagline = sanitizeText(req.body.tagline, 150);
+    const tagline = req.body.tagline !== undefined ? sanitizeText(req.body.tagline, 150) || null : undefined;
+    const description =
+      req.body.description !== undefined ? sanitizeText(req.body.description, 400) || null : undefined;
+    const image_url = req.body.image_url !== undefined ? sanitizeText(req.body.image_url, 255) || null : undefined;
     if (!name) return res.status(400).json({ success: false, message: 'Nama kategori wajib diisi.' });
 
-    await pool.query('UPDATE collections SET name = ?, tagline = ? WHERE id = ?', [name, tagline || null, id]);
+    const updates = ['name = ?'];
+    const params = [name];
+    if (tagline !== undefined) {
+      updates.push('tagline = ?');
+      params.push(tagline);
+    }
+    if (description !== undefined) {
+      updates.push('description = ?');
+      params.push(description);
+    }
+    if (image_url !== undefined) {
+      updates.push('image_url = ?');
+      params.push(image_url);
+    }
+
+    params.push(id);
+    await pool.query(`UPDATE collections SET ${updates.join(', ')} WHERE id = ?`, params);
     return res.json({ success: true, message: 'Kategori berhasil diperbarui.' });
   } catch (error) {
     console.error('updateCollection error:', error);

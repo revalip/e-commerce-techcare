@@ -31,16 +31,28 @@ export function CartProvider({ children }) {
     }
 
     const currentCount = items.reduce((acc, i) => acc + i.jumlah, 0);
-    if (currentCount > prevCount.current) {
+    const shouldBounce = currentCount > prevCount.current;
+    prevCount.current = currentCount;
+    if (shouldBounce) {
       setCartBadgeBounce(true);
       const timer = setTimeout(() => setCartBadgeBounce(false), 600);
       return () => clearTimeout(timer);
     }
-    prevCount.current = currentCount;
   }, [items]);
 
-  // Tambah item ke keranjang dengan dukungan warna, konfigurasi spec (RAM/SSD), dan harga dinamis
+  // Tambah item ke keranjang dengan dukungan warna, konfigurasi spec (RAM/SSD), dan pembatasan stok agregat per produk
   const addToCart = (product, jumlah = 1, warna = null, options = {}) => {
+    const availableStock = Number.isFinite(Number(product.stok)) ? Math.max(0, Number(product.stok)) : 0;
+    const requestedQty = Math.max(1, parseInt(jumlah, 10) || 1);
+
+    if (availableStock <= 0) {
+      setToast({
+        id: Date.now(),
+        message: `Stok "${product.nama}" sedang habis`
+      });
+      return;
+    }
+
     const selectedColor = warna || (product.varianWarna && product.varianWarna[0]?.nama) || 'Standard';
 
     // Default spec jika ditambahkan langsung dari kartu katalog
@@ -57,14 +69,24 @@ export function CartProvider({ children }) {
     const unitPrice = options.harga !== undefined ? Number(options.harga) : Number(product.harga);
     const variantKey = buildVariantKey(product.id, selectedColor, specLabel);
 
+    let addedQty = 0;
+
     setItems((prev) => {
+      const currentProductTotal = prev
+        .filter((i) => String(i.id) === String(product.id))
+        .reduce((sum, i) => sum + i.jumlah, 0);
+      const remainingStock = Math.max(0, availableStock - currentProductTotal);
+      if (remainingStock <= 0) return prev;
+
+      addedQty = Math.min(requestedQty, remainingStock);
       const existingIdx = prev.findIndex((i) => i.variantKey === variantKey);
 
       if (existingIdx > -1) {
         const copy = [...prev];
         copy[existingIdx] = {
           ...copy[existingIdx],
-          jumlah: copy[existingIdx].jumlah + jumlah
+          stokTersedia: availableStock,
+          jumlah: copy[existingIdx].jumlah + addedQty
         };
         return copy;
       }
@@ -79,22 +101,25 @@ export function CartProvider({ children }) {
           slug: product.slug,
           harga: unitPrice,
           beratGram: Number(product.beratGram) || 1000,
-          stokTersedia: Number(product.stok) || 10,
-          gambar: product.gambar ? product.gambar[0] : '/images/products/thinkpad-x1-carbon-front.jpg',
+          stokTersedia: availableStock,
+          gambar: product.gambar ? product.gambar[0] : '/assets/products/thinkpad-x1-carbon-front.png',
           warna: selectedColor,
           specLabel,
           kondisi: product.kondisi || 'Second Grade A',
-          jumlah
+          jumlah: addedQty
         }
       ];
     });
 
     setToast({
       id: Date.now(),
-      message: `"${product.nama}"${specLabel ? ` (${specLabel})` : ''} masuk keranjang`,
+      message:
+        addedQty > 0
+          ? `"${product.nama}"${specLabel ? ` (${specLabel})` : ''} masuk keranjang`
+          : `Jumlah "${product.nama}" di keranjang sudah mencapai batas stok (${availableStock} unit)`,
       variantKey,
       product,
-      jumlah,
+      jumlah: addedQty,
       warna: selectedColor,
       specLabel
     });
@@ -123,9 +148,19 @@ export function CartProvider({ children }) {
       removeFromCart(variantKey);
       return;
     }
-    setItems((prev) =>
-      prev.map((i) => (i.variantKey === variantKey ? { ...i, jumlah: newQty } : i))
-    );
+    setItems((prev) => {
+      const target = prev.find((i) => i.variantKey === variantKey);
+      if (!target) return prev;
+      const otherVariantsQty = prev
+        .filter((i) => String(i.id) === String(target.id) && i.variantKey !== variantKey)
+        .reduce((sum, i) => sum + i.jumlah, 0);
+      const maxForItem = Math.max(
+        1,
+        (Number.isFinite(Number(target.stokTersedia)) ? Number(target.stokTersedia) : 1) - otherVariantsQty
+      );
+      const clampedQty = Math.min(Math.max(1, parseInt(newQty, 10) || 1), maxForItem);
+      return prev.map((i) => (i.variantKey === variantKey ? { ...i, jumlah: clampedQty } : i));
+    });
   };
 
   const removeFromCart = (variantKey) => {

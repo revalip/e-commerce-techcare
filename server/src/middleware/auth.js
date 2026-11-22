@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const { pool } = require('../config/db');
 
 const ENV_JWT_SECRET = process.env.JWT_SECRET;
 if (!ENV_JWT_SECRET && process.env.NODE_ENV === 'production') {
@@ -48,14 +49,29 @@ function optionalAuth(req, res, next) {
 }
 
 function requireAdmin(req, res, next) {
-  authenticateToken(req, res, () => {
-    if (req.user && req.user.role === 'admin') {
-      return next();
+  authenticateToken(req, res, async () => {
+    if (!req.user || req.user.role !== 'admin') {
+      return res.status(403).json({
+        success: false,
+        message: 'Akses ditolak: Hanya untuk Administrator.'
+      });
     }
-    return res.status(403).json({
-      success: false,
-      message: 'Akses ditolak: Hanya untuk Administrator.'
-    });
+    try {
+      const [rows] = await pool.query('SELECT role FROM users WHERE id = ? LIMIT 1', [req.user.id]);
+      if (rows.length === 0 || rows[0].role !== 'admin') {
+        return res.status(403).json({
+          success: false,
+          message: 'Akses ditolak: Hak akses Administrator tidak lagi aktif.'
+        });
+      }
+      return next();
+    } catch (error) {
+      console.error('requireAdmin DB check error:', error);
+      return res.status(500).json({
+        success: false,
+        message: 'Gagal memverifikasi hak akses Administrator.'
+      });
+    }
   });
 }
 

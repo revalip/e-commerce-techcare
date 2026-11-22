@@ -130,9 +130,38 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
     setVoucherError('');
   };
 
+  // Re-hitung kupon otomatis jika subtotal berubah (mis. item di keranjang dikurangi)
+  useEffect(() => {
+    if (!appliedVoucher) return;
+    if (subtotal < (appliedVoucher.minBelanja || 0)) {
+      setAppliedVoucher(null);
+      setDiscountAmount(0);
+      setVoucherError(
+        `Kupon ${appliedVoucher.kode} dilepas karena subtotal di bawah minimal belanja.`
+      );
+      return;
+    }
+    let nextPotong = 0;
+    if (appliedVoucher.tipe === 'persen') {
+      const pct = Math.min(100, Math.max(0, Number(appliedVoucher.nilai) || 0));
+      nextPotong = Math.round((subtotal * pct) / 100);
+      if (appliedVoucher.maksDiskon > 0 && nextPotong > appliedVoucher.maksDiskon) {
+        nextPotong = appliedVoucher.maksDiskon;
+      }
+    } else {
+      nextPotong = Math.max(0, Number(appliedVoucher.nilai) || 0);
+    }
+    setDiscountAmount(Math.min(nextPotong, subtotal));
+  }, [subtotal, appliedVoucher]);
+
   const handleProofFile = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const allowed = new Set(['image/jpeg', 'image/png', 'image/webp']);
+    if (!allowed.has(file.type)) {
+      setSubmitError('Format file bukti bayar harus JPG, PNG, atau WebP.');
+      return;
+    }
     if (file.size > 4 * 1024 * 1024) {
       setSubmitError('Ukuran file bukti bayar maksimal 4MB.');
       return;
@@ -143,7 +172,8 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
     reader.readAsDataURL(file);
   };
 
-  const baseTotal = Math.max(0, subtotal - discountAmount + selectedCourier.cost);
+  const safeDiscount = Math.min(subtotal, Math.max(0, discountAmount));
+  const baseTotal = Math.max(0, subtotal - safeDiscount) + selectedCourier.cost;
   const finalTotal = baseTotal + uniqueCode;
 
   const paymentMethodLabel =

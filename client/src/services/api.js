@@ -212,6 +212,11 @@ export async function validateDiscount(kode, subtotal = 0) {
     return { success: false, error: 'Kupon promo tidak valid atau sudah tidak aktif.' };
   }
 
+  const today = new Date().toISOString().slice(0, 10);
+  if (found.berlakuSampai && found.berlakuSampai < today) {
+    return { success: false, error: 'Masa berlaku kupon promo ini sudah berakhir.' };
+  }
+
   if (found.kuota && found.terpakai >= found.kuota) {
     return { success: false, error: 'Kuota kupon promo ini sudah habis.' };
   }
@@ -225,13 +230,15 @@ export async function validateDiscount(kode, subtotal = 0) {
 
   let potong = 0;
   if (found.tipe === 'persen') {
-    potong = Math.round((subtotal * found.nilai) / 100);
-    if (found.maksDiskon && potong > found.maksDiskon) {
+    const pct = Math.min(100, Math.max(0, Number(found.nilai) || 0));
+    potong = Math.round((subtotal * pct) / 100);
+    if (found.maksDiskon > 0 && potong > found.maksDiskon) {
       potong = found.maksDiskon;
     }
   } else {
-    potong = found.nilai;
+    potong = Math.max(0, Number(found.nilai) || 0);
   }
+  potong = Math.min(potong, Math.max(0, Number(subtotal) || 0));
 
   return { success: true, data: { ...found, nominalDiskon: potong } };
 }
@@ -249,14 +256,23 @@ export async function createDiscount(payload) {
     return { success: false, error: 'Kode kupon sudah terdaftar.' };
   }
 
+  const tipe = payload.tipe === 'nominal' ? 'nominal' : 'persen';
+  const rawNilai = Number(payload.nilai);
+  const nilai =
+    tipe === 'persen'
+      ? Math.min(100, Math.max(1, Number.isFinite(rawNilai) ? rawNilai : 10))
+      : Math.max(1000, Number.isFinite(rawNilai) ? rawNilai : 10000);
+  const rawMaks = Number(payload.maksDiskon);
+  const maksDiskon = Number.isFinite(rawMaks) && rawMaks >= 0 ? rawMaks : 300000;
+
   const newDiscount = {
     id: Date.now(),
     kode,
     nama: sanitizeText(payload.nama, 100) || `Promo ${kode}`,
-    tipe: payload.tipe === 'nominal' ? 'nominal' : 'persen',
-    nilai: Math.max(1, Number(payload.nilai) || 10),
+    tipe,
+    nilai,
     minBelanja: Math.max(0, Number(payload.minBelanja) || 0),
-    maksDiskon: Math.max(0, Number(payload.maksDiskon) || 300000),
+    maksDiskon,
     aktif: true,
     kuota: Math.max(1, Number(payload.kuota) || 100),
     terpakai: 0,
@@ -300,14 +316,19 @@ export async function createOrder(payload) {
   const orders = getStored(STORAGE_KEYS.ORDERS, mockOrders);
   const products = getStored(STORAGE_KEYS.PRODUCTS, mockProducts);
 
-  // Validasi ketersediaan stok sebelum mengurangi stok
+  // Validasi ketersediaan stok teragregasi per product.id sebelum mengurangi stok
+  const qtyByProduct = new Map();
   for (const item of payload.items || []) {
     const qty = Math.max(1, parseInt(item.jumlah, 10) || 1);
-    const prod = products.find((p) => String(p.id) === String(item.id));
-    if (prod && Number(prod.stok) < qty) {
+    const key = String(item.id);
+    qtyByProduct.set(key, (qtyByProduct.get(key) || 0) + qty);
+  }
+  for (const [prodId, totalQty] of qtyByProduct.entries()) {
+    const prod = products.find((p) => String(p.id) === prodId);
+    if (prod && Number(prod.stok) < totalQty) {
       return {
         success: false,
-        error: `Stok "${prod.nama}" tidak mencukupi (tersedia ${prod.stok} unit, diminta ${qty} unit).`
+        error: `Stok "${prod.nama}" tidak mencukupi (tersedia ${prod.stok} unit, diminta ${totalQty} unit).`
       };
     }
   }
@@ -357,9 +378,9 @@ export async function createOrder(payload) {
   };
 
   const subtotal = Math.max(0, Number(payload.subtotal) || 0);
-  const diskon = Math.max(0, Number(payload.diskon) || 0);
+  const diskon = Math.min(subtotal, Math.max(0, Number(payload.diskon) || 0));
   const ongkir = Math.max(0, Number(payload.ongkir) || 0);
-  const totalWithUnique = Math.max(0, subtotal - diskon + ongkir) + uniqueCode;
+  const totalWithUnique = Math.max(0, subtotal - diskon) + ongkir + uniqueCode;
 
   const newOrder = {
     id: `ord-${Date.now()}`,
@@ -556,6 +577,28 @@ export async function verifyOrderPayment(orderId, action, notes = '') {
   return { success: true, data: updatedOrder, orders: updated };
 }
 
+const ALLOWED_ORDER_TRANSITIONS = {
+  pending: ['awaiting_verification', 'paid', 'cancelled'],
+  awaiting_verification: ['pending', 'paid', 'cancelled'],
+  paid: ['processing', 'shipped', 'cancelled'],
+  processing: ['shipped', 'completed'],
+  shipped: ['completed'],
+  completed: [],
+  cancelled: []
+};
+
+/**
+ * Helper internal: kembalikan kuota kupon bila pesanan dibatalkan
+ */
+function restoreDiscountForOrder(order) {
+  if (!order?.kodeDiskon) return;
+  const discounts = getStored(STORAGE_KEYS.DISCOUNTS, mockDiscounts);
+  const updated = discounts.map((d) =>
+    d.kode === order.kodeDiskon ? { ...d, terpakai: Math.max(0, (d.terpakai || 0) - 1) } : d
+  );
+  setStored(STORAGE_KEYS.DISCOUNTS, updated);
+}
+
 /**
  * Admin / Buyer: Update status pesanan, nomor resi, dan tambah checkpoint tracking
  */
@@ -568,6 +611,20 @@ export async function updateOrderStatus(
 ) {
   await delay(200, 340);
   const orders = getStored(STORAGE_KEYS.ORDERS, mockOrders);
+  const existing = orders.find((o) => o.id === orderId || o.nomorPesanan === orderId);
+  if (!existing) {
+    return { success: false, error: 'Pesanan tidak ditemukan.' };
+  }
+
+  const currentKey = existing.statusKey || 'pending';
+  const allowedNext = ALLOWED_ORDER_TRANSITIONS[currentKey] || [];
+  if (statusKey !== currentKey && !allowedNext.includes(statusKey)) {
+    return {
+      success: false,
+      error: `Status pesanan "${ORDER_STATUS_MAP[currentKey] || currentKey}" tidak dapat diubah ke "${ORDER_STATUS_MAP[statusKey] || statusKey}".`
+    };
+  }
+
   const nowIso = new Date().toISOString();
   const cleanResi = resi !== null ? sanitizeText(resi, 60).toUpperCase() : null;
   const cleanNote = trackingNote ? sanitizeText(trackingNote, 300) : null;
@@ -591,12 +648,12 @@ export async function updateOrderStatus(
     },
     processing: {
       title: 'Dikemas & QC 32 Titik Teknisi',
-      lokasi: 'Workshop TECHCARE Jakarta',
-      ket: 'Teknisi sedang melakukan QC 32 titik, uji RAM/SSD, dan pengemasan bubble wrap aman.'
+      lokasi: 'Depok (Workshop TECHCARE)',
+      ket: 'Teknisi sedang melakukan QC 32 titik, uji RAM/SSD, dan pengemasan aman.'
     },
     shipped: {
       title: 'Paket Dikirim via Ekspedisi',
-      lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+      lokasi: 'Depok (Workshop TECHCARE)',
       ket: cleanResi
         ? `Paket telah diserahkan ke kurir dengan nomor resi ${cleanResi}.`
         : 'Paket telah diserahkan ke pihak ekspedisi.'
@@ -620,7 +677,7 @@ export async function updateOrderStatus(
       const history = Array.isArray(o.trackingHistory) ? [...o.trackingHistory] : [];
       const info = defaultTrackInfo[statusKey] || {
         title: ORDER_STATUS_MAP[statusKey] || 'Pembaruan Status',
-        lokasi: 'Workshop TECHCARE',
+        lokasi: 'Depok (Workshop TECHCARE)',
         ket: 'Status pesanan diperbarui.'
       };
 
@@ -630,10 +687,11 @@ export async function updateOrderStatus(
           ? 'paid'
           : o.paymentStatus;
 
-      // Kembalikan stok otomatis bila baru dibatalkan
+      // Kembalikan stok & kuota kupon otomatis bila baru dibatalkan (hanya sekali)
       let stockRestored = Boolean(o.stockRestored);
       if (statusKey === 'cancelled' && o.statusKey !== 'cancelled' && !stockRestored) {
         restoreStockForOrder(o);
+        restoreDiscountForOrder(o);
         stockRestored = true;
       }
 
@@ -673,6 +731,15 @@ export async function confirmOrderReceived(orderId) {
 }
 
 export async function cancelOrder(orderId, reason = 'Dibatalkan oleh pembeli sebelum pembayaran.') {
+  const orders = getStored(STORAGE_KEYS.ORDERS, mockOrders);
+  const existing = orders.find((o) => o.id === orderId || o.nomorPesanan === orderId);
+  if (!existing) return { success: false, error: 'Pesanan tidak ditemukan.' };
+  if (existing.statusKey !== 'pending') {
+    return {
+      success: false,
+      error: 'Pesanan hanya dapat dibatalkan saat masih menunggu pembayaran.'
+    };
+  }
   return updateOrderStatus(orderId, 'cancelled', null, reason, 'Online Store TECHCARE');
 }
 
