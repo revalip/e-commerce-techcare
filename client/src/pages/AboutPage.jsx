@@ -110,11 +110,11 @@ export default function AboutPage({ onExploreShop }) {
       {/* 2. Borderless Apple Stats Strip on Pure White */}
       <section className="w-full bg-white py-14 sm:py-20 border-b border-[#D2D2D7]/60">
         <div className="max-w-[1024px] mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
             {stats.map((s, idx) => (
               <Reveal key={s.label} delay={idx * 0.05}>
                 <div className="space-y-1.5">
-                  <p className="text-[32px] sm:text-[44px] font-semibold tracking-[-0.03em] text-[#1D1D1F] leading-none tabular-nums">
+                  <p className="text-[26px] sm:text-[32px] lg:text-[38px] font-semibold tracking-[-0.03em] text-[#1D1D1F] leading-none tabular-nums whitespace-nowrap">
                     {s.value}
                   </p>
                   <p className="text-[13px] sm:text-[14px] text-[#6E6E73]">{s.label}</p>
