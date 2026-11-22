@@ -11,20 +11,26 @@ import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } fr
  */
 export default function HeroSection({ onShopClick, onLearnClick, onAboutClick }) {
   const darkRef = useRef(null);
+  const videoRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
-  const [isRevealed, setIsRevealed] = useState(Boolean(shouldReduceMotion));
+  const [isRevealed, setIsRevealed] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
-    if (shouldReduceMotion || videoError) {
+    if (videoError) {
       setIsRevealed(true);
       return undefined;
+    }
+    const vid = videoRef.current;
+    if (vid) {
+      vid.muted = true;
+      vid.play().catch(() => {});
     }
     // Fallback timer in case mobile battery-saver pauses autoplay
     const fallbackTimer = setTimeout(() => setIsRevealed(true), 2400);
     return () => clearTimeout(fallbackTimer);
-  }, [shouldReduceMotion, videoError]);
+  }, [videoError]);
 
   const { scrollYProgress: darkScroll } = useScroll({
     target: darkRef,
@@ -94,9 +100,9 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
           </div>
         </div>
 
-        {/* Full-bleed bottom-flush video: wider horizontal bleed on mobile so laptop is large WITHOUT clipping top bezel */}
+        {/* Full-bleed bottom-flush video: always renders video even if Windows OS turns off UI animation effects */}
         <div className="mt-5 sm:mt-4 w-full overflow-x-clip flex items-end justify-center">
-          {shouldReduceMotion || videoError ? (
+          {videoError ? (
             <img
               src="/assets/products/thinkpad-x1-carbon-front.png"
               alt="Lenovo ThinkPad X1 Carbon Gen 9"
@@ -106,6 +112,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             />
           ) : (
             <video
+              ref={videoRef}
               src="/assets/hero-thinkpad-open.mp4"
               poster="/assets/hero-thinkpad-open-poster.jpg"
               autoPlay
