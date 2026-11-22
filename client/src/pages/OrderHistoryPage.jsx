@@ -231,24 +231,30 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
         ) : (
           <div className="space-y-4">
             {/* Compact iOS Filter Strip */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
-              {statusTabs.map((tab) => {
-                const active = statusFilter === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    type="button"
-                    onClick={() => setStatusFilter(tab.key)}
-                    className={`px-3.5 h-[36px] rounded-[980px] text-[13px] whitespace-nowrap transition-all cursor-pointer ${
-                      active
-                        ? 'bg-[#1D1D1F] text-white font-medium'
-                        : 'bg-white text-[#424245] hover:text-[#1D1D1F] ring-1 ring-black/[0.06]'
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
+            <div className="relative min-w-0">
+              <div className="flex items-center gap-2 overflow-x-auto py-1 pr-5 sm:pr-0 no-scrollbar">
+                {statusTabs.map((tab) => {
+                  const active = statusFilter === tab.key;
+                  return (
+                    <button
+                      key={tab.key}
+                      type="button"
+                      onClick={() => setStatusFilter(tab.key)}
+                      className={`px-3.5 h-[36px] rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer border ${
+                        active
+                          ? 'bg-[#1D1D1F] text-white border-[#1D1D1F] font-medium'
+                          : 'bg-white text-[#1D1D1F] border-black/[0.06] hover:bg-[#ECECEF]'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-[#F5F5F7] to-transparent sm:hidden"
+              />
             </div>
 
             {loading ? (

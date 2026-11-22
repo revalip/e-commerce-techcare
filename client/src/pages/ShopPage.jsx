@@ -315,7 +315,7 @@ export default function ShopPage({
         {/* 3. Concise Full-Width Apple Category Pills */}
         <section aria-label="Kategori Katalog">
           <div className="relative min-w-0">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-6 sm:pr-0">
+            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 pr-5 sm:pr-0">
               <button
                 type="button"
                 onClick={() => {
@@ -350,7 +350,7 @@ export default function ShopPage({
             </div>
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 w-7 bg-gradient-to-l from-white to-transparent sm:hidden"
+              className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent sm:hidden"
             />
           </div>
         </section>
