@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, X, Heart, User, LayoutDashboard } from 'lucide-react';
+import { ShoppingBag, Search, X, Heart, User, LayoutDashboard, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -31,10 +31,25 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
   }, []);
 
   useEffect(() => {
-    if (searchOpen) {
-      setTimeout(() => searchInputRef.current?.focus(), 60);
-    }
+    if (!searchOpen) return undefined;
+    const focusTimer = setTimeout(() => searchInputRef.current?.focus(), 60);
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') setSearchOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener('keydown', onKeyDown);
+    };
   }, [searchOpen]);
+
+  const quickSearchLinks = [
+    { label: 'ThinkPad Series', query: 'ThinkPad' },
+    { label: 'MacBook Air M1', query: 'MacBook' },
+    { label: 'Upgrade RAM & SSD', query: 'RAM' },
+    { label: 'Lacak Pesanan', page: 'orders' },
+    { label: 'Jasa IT Workshop Depok', page: 'about' }
+  ];
 
   const navLinks = [
     { label: 'Beranda', page: 'home' },
@@ -65,8 +80,12 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
   return (
     <>
       <header
-        className={`sticky top-0 z-40 h-11 bg-white/80 backdrop-blur-[20px] transition-colors duration-200 ${
-          isScrolled ? 'border-b border-[#D2D2D7]' : 'border-b border-transparent'
+        className={`sticky top-0 z-40 h-11 transition-colors duration-200 ${
+          searchOpen
+            ? 'bg-white border-b border-transparent'
+            : isScrolled
+            ? 'bg-white/80 backdrop-blur-[20px] border-b border-[#D2D2D7]'
+            : 'bg-white/80 backdrop-blur-[20px] border-b border-transparent'
         }`}
       >
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
@@ -186,48 +205,105 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
           </div>
         </div>
 
-        {/* Clean Slide-Down Quick Search */}
-        <AnimatePresence>
-          {searchOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
-              className="bg-white/95 backdrop-blur-[20px] border-b border-[#D2D2D7] overflow-hidden"
-            >
-              <form
-                onSubmit={handleSearchSubmit}
-                className="max-w-[720px] mx-auto px-4 py-3 flex items-center gap-2.5"
-              >
-                <Search size={16} className="text-[#6E6E73] shrink-0" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchValue}
-                  onChange={(e) => setSearchValue(e.target.value)}
-                  placeholder="Cari ThinkPad, ASUS, Logitech, Monitor, RAM..."
-                  className="flex-1 bg-transparent text-[15px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none min-h-[38px]"
-                />
-                <button
-                  type="submit"
-                  className="px-4 min-h-[34px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal transition-colors"
-                >
-                  Cari
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setSearchOpen(false)}
-                  className="w-8 h-8 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F]"
-                  aria-label="Tutup pencarian"
-                >
-                  <X size={16} />
-                </button>
-              </form>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
+
+      {/* Authentic apple.com/id Full-Width Search Curtain + Frosted Page Blur Backdrop */}
+      <AnimatePresence>
+        {searchOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              onClick={() => setSearchOpen(false)}
+              className="fixed inset-0 top-11 z-30 bg-black/25 backdrop-blur-md"
+              aria-hidden="true"
+            />
+            <motion.div
+              initial={{ opacity: 0, y: -12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+              className="fixed top-11 inset-x-0 z-40 bg-white pt-6 sm:pt-9 pb-10 sm:pb-12 shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Telusuri techcare.id"
+            >
+              <div className="max-w-[980px] mx-auto px-5 sm:px-6 space-y-7">
+                <form onSubmit={handleSearchSubmit} className="flex items-center gap-3">
+                  <Search size={20} strokeWidth={1.8} className="text-[#86868B] shrink-0" />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    placeholder="Telusuri techcare.id"
+                    className="flex-1 bg-transparent text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 min-h-[44px]"
+                  />
+                  {searchValue && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchValue('');
+                        searchInputRef.current?.focus();
+                      }}
+                      className="w-9 h-9 rounded-full text-[#86868B] hover:text-[#1D1D1F] hover:bg-[#F5F5F7] flex items-center justify-center transition-colors cursor-pointer"
+                      aria-label="Hapus teks pencarian"
+                    >
+                      <X size={16} />
+                    </button>
+                  )}
+                </form>
+
+                {/* Tautan Cepat / Live Submit Option (exact Apple.com/id style) */}
+                <div className="space-y-2.5 pl-0.5">
+                  <p className="text-[12px] font-normal text-[#6E6E73]">
+                    {searchValue.trim() ? 'Hasil pencarian' : 'Tautan Cepat'}
+                  </p>
+                  <ul className="space-y-1">
+                    {searchValue.trim() ? (
+                      <li>
+                        <button
+                          type="button"
+                          onClick={handleSearchSubmit}
+                          className="w-full py-2 px-2 -mx-2 rounded-[10px] hover:bg-[#F5F5F7] flex items-center gap-3 text-[14px] font-medium text-[#1D1D1F] transition-colors text-left cursor-pointer"
+                        >
+                          <ArrowRight size={14} strokeWidth={1.8} className="text-[#6E6E73] shrink-0" />
+                          <span>
+                            Telusuri &ldquo;{searchValue.trim()}&rdquo; di Katalog
+                          </span>
+                        </button>
+                      </li>
+                    ) : (
+                      quickSearchLinks.map((item) => (
+                        <li key={item.label}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (item.page) {
+                                handleLinkClick(item.page);
+                              } else {
+                                if (onQuickSearch) onQuickSearch(item.query);
+                                else onNavigate('shop');
+                                setSearchOpen(false);
+                              }
+                            }}
+                            className="w-full py-2 px-2 -mx-2 rounded-[10px] hover:bg-[#F5F5F7] flex items-center gap-3 text-[14px] font-medium text-[#1D1D1F] transition-colors text-left cursor-pointer"
+                          >
+                            <ArrowRight size={14} strokeWidth={1.8} className="text-[#6E6E73] shrink-0" />
+                            <span>{item.label}</span>
+                          </button>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       <MenuOverlay
         isOpen={menuOpen}
