@@ -17,6 +17,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
     {
       id: 'laptop-second',
       dark: false,
+      orderClass: 'order-1 md:order-1',
       title: 'Laptop Second',
       subtitle: 'Tipis, hening, dan lolos 32 titik QC.',
       image: '/assets/asus-laptop.png',
@@ -28,6 +29,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
     {
       id: 'keyboard',
       dark: true,
+      orderClass: 'order-2 md:order-2',
       title: 'Keyboard Mekanikal',
       subtitle: 'Keycaps bersih ultrasonic. Hot-swap responsif.',
       image: '/assets/mechanical-keyboard.png',
@@ -39,6 +41,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
     {
       id: 'mouse',
       dark: true,
+      orderClass: 'order-4 md:order-3',
       title: 'Mouse Kerja & Gaming',
       subtitle: 'Sensor presisi. Klik bebas double-click.',
       image: '/assets/logitech-mouse.png',
@@ -50,6 +53,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
     {
       id: 'monitor',
       dark: false,
+      orderClass: 'order-3 md:order-4',
       title: 'Monitor IPS & Ultrawide',
       subtitle: 'Layar tajam 144Hz. Nol dead pixel.',
       image: '/assets/gaming-monitor.png',
@@ -62,21 +66,22 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
 
   return (
     <section className="w-full bg-white py-3">
-      <div className="max-w-[1440px] mx-auto px-3 space-y-3">
+      {/* Apple.com/id exact mobile framing: full-bleed edge-to-edge (px-0) on mobile, 12px white gutter (md:px-3) on desktop */}
+      <div className="max-w-[1440px] mx-auto px-0 md:px-3 space-y-3">
         {/* Symmetric 50% : 50% 2-Column Grid matching apple.com/id */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {tiles.map((tile, idx) => (
-            <Reveal key={tile.id} delay={idx * 0.04}>
+            <Reveal key={tile.id} delay={idx * 0.04} className={tile.orderClass}>
               <div
-                className={`h-full overflow-hidden min-h-[460px] sm:min-h-[540px] flex flex-col justify-between text-center pt-12 sm:pt-14 pb-8 px-6 ${
+                className={`h-full overflow-hidden min-h-[500px] sm:min-h-[560px] flex flex-col justify-between text-center pt-12 sm:pt-14 pb-8 px-4 sm:px-6 ${
                   tile.dark ? 'bg-[#000000] text-white' : 'bg-[#F5F5F7] text-[#1D1D1F]'
                 }`}
               >
                 <div className="max-w-md mx-auto space-y-2">
-                  <h2 className="text-[28px] sm:text-[38px] font-semibold tracking-[-0.03em] leading-[1.08]">
+                  <h2 className="text-[30px] sm:text-[38px] font-semibold tracking-[-0.03em] leading-[1.08]">
                     {tile.title}
                   </h2>
-                  <p className={`text-[15px] sm:text-[18px] ${tile.dark ? 'text-[#F5F5F7]/80' : 'text-[#6E6E73]'}`}>
+                  <p className={`text-[16px] sm:text-[18px] ${tile.dark ? 'text-[#F5F5F7]/85' : 'text-[#6E6E73]'}`}>
                     {tile.subtitle}
                   </p>
                   <div className="pt-3 flex items-center justify-center gap-3">
@@ -101,14 +106,14 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
                   </div>
                 </div>
 
-                <div className="mt-8 h-[220px] sm:h-[260px] flex items-center justify-center">
+                <div className="mt-6 h-[250px] sm:h-[300px] flex items-center justify-center">
                   <img
                     src={tile.image}
                     alt={tile.title}
                     width={tile.width}
                     height={tile.height}
                     loading="lazy"
-                    className="max-h-full max-w-[84%] object-contain transition-transform duration-300 hover:scale-[1.04]"
+                    className="max-h-full max-w-[90%] object-contain select-none transition-transform duration-300 hover:scale-[1.03]"
                   />
                 </div>
               </div>
@@ -118,7 +123,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
 
         {/* 5th Full-Width Tile (#F5F5F7): Headset & Audio */}
         <Reveal>
-          <div className="bg-[#F5F5F7] text-[#1D1D1F] py-14 sm:py-20 px-6 text-center overflow-hidden">
+          <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-[480px] sm:min-h-[540px] flex flex-col justify-between py-12 sm:py-16 px-4 sm:px-6 text-center overflow-hidden">
             <div className="max-w-lg mx-auto space-y-2">
               <h2 className="text-[28px] sm:text-[40px] font-semibold tracking-[-0.03em] leading-[1.08]">
                 Headset &amp; Aksesori Kerja

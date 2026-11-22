@@ -149,10 +149,10 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
         </div>
       </section>
 
-      {/* 2. TILE BESAR HITAM (#000000): Upgrade RAM & SSD */}
+      {/* 2. TILE BESAR HITAM (#000000): Upgrade RAM & SSD (Apple iPhone Pro Full-Bleed Style) */}
       <section
         ref={darkRef}
-        className="w-full bg-[#000000] text-white pt-14 sm:pt-20 pb-12 sm:pb-16 overflow-hidden"
+        className="w-full bg-[#000000] text-white min-h-[500px] sm:min-h-[600px] pt-12 sm:pt-16 pb-10 sm:pb-14 flex flex-col justify-between overflow-hidden"
       >
         <div className="max-w-[1024px] mx-auto px-4 sm:px-6 text-center">
           <h2 className="tc-section-title text-white">Upgrade RAM &amp; SSD</h2>
@@ -176,29 +176,21 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
               Beli
             </button>
           </div>
-
-          <motion.div
-            style={shouldReduceMotion ? undefined : { y: darkImgY }}
-            className="mt-10 sm:mt-14 flex items-center justify-center gap-6 sm:gap-12 flex-wrap"
-          >
-            <img
-              src="/assets/products/corsair-vengeance-ram.png"
-              alt="Corsair Vengeance RAM"
-              width={480}
-              height={309}
-              loading="lazy"
-              className="w-[220px] sm:w-[320px] h-auto object-contain select-none"
-            />
-            <img
-              src="/images/products/samsung-990-pro-heatsink.png"
-              alt="Samsung 990 PRO NVMe PCIe Gen4 SSD"
-              width={420}
-              height={180}
-              loading="lazy"
-              className="w-[210px] sm:w-[300px] h-auto object-contain select-none"
-            />
-          </motion.div>
         </div>
+
+        <motion.div
+          style={shouldReduceMotion ? undefined : { y: darkImgY }}
+          className="mt-6 sm:mt-8 w-full max-w-[920px] mx-auto px-0 sm:px-6 flex items-center justify-center"
+        >
+          <img
+            src="/assets/tile-upgrade-pro.jpg"
+            alt="Upgrade RAM DDR5 & NVMe SSD Pro TechCare"
+            width={1024}
+            height={576}
+            loading="lazy"
+            className="w-full h-auto object-contain select-none"
+          />
+        </motion.div>
       </section>
     </div>
   );
