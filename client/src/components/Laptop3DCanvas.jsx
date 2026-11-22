@@ -531,7 +531,28 @@ export default function Laptop3DCanvas({
       const isPhone = cw < 520;
       const aspectBoost = camera.aspect < 1.15 ? 1.15 / Math.max(camera.aspect, 0.52) : 1;
 
-      if (mode === 'hero') {
+      if (mode === 'once') {
+        // 1-shot Apple iPhone Duo style lid-opening animation, then settles completely still
+        const introRaw = prefersReducedMotion ? 1 : Math.min(1, t / 1.35);
+        const easeOut = 1 - Math.pow(1 - introRaw, 3);
+        const targetRotY = -0.68 + easeOut * 0.46;
+        const targetRotX = 0.24 - easeOut * 0.12;
+        const targetRotZ = -0.04 * (1 - easeOut);
+        const targetOpen = 0.06 + easeOut * 0.88;
+        const targetPosX = 0;
+        const targetPosY = isNarrow ? 0.05 : -0.02;
+        const targetCamZ = (isNarrow ? 7.8 * aspectBoost : 6.7) - easeOut * 0.2;
+        const targetCamY = 0.46 + easeOut * 0.12;
+
+        state.rotY += (targetRotY - state.rotY) * 0.12;
+        state.rotX += (targetRotX - state.rotX) * 0.12;
+        state.rotZ += (targetRotZ - state.rotZ) * 0.12;
+        state.open += (targetOpen - state.open) * 0.12;
+        state.posX += (targetPosX - state.posX) * 0.12;
+        state.posY += (targetPosY - state.posY) * 0.12;
+        state.camZ += (targetCamZ - state.camZ) * 0.12;
+        state.camY += (targetCamY - state.camY) * 0.12;
+      } else if (mode === 'hero') {
         let p = 0;
         if (scrollTargetRef && scrollTargetRef.current) {
           const rect = scrollTargetRef.current.getBoundingClientRect();
