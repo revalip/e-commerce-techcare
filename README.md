@@ -1,66 +1,51 @@
-# TECHCARE — E-Commerce Retail IT, Perangkat Second & Jasa Service UMKM
+# TechCare — E-Commerce Hardware IT & Jasa Upgrade UMKM
 
-**TECHCARE** adalah aplikasi web e-commerce *mobile-first* untuk toko retail IT & elektronik UMKM yang menyediakan laptop, monitor, peripheral (ASUS, Logitech, Lenovo, Fantech, MSI, Apple, Dell, Corsair, Kingston, Samsung, LG), komponen upgrade RAM/SSD, serta layanan jasa IT dengan sistem multiuser (*Guest*, *Buyer*, dan *Admin*), pembayaran lokal (QRIS & Transfer Bank), serta estimasi ongkir ekspedisi lokal.
+**TechCare** adalah aplikasi web e-commerce *mobile-first* & **PWA** dengan desain minimalis bergaya **Apple Store / iOS 17** untuk toko retail IT & workshop UMKM Depok. Menyediakan laptop bisnis pilihan lulus 32 titik QC, monitor, komponen upgrade RAM/SSD, peripheral (Lenovo, Apple, ASUS, Dell, HP, Logitech, Corsair, Kingston, Samsung, LG, MSI, Fantech), serta layanan jasa IT dengan sistem multiuser (*Guest*, *Buyer*, dan *Admin*), pembayaran lokal (QRIS & Transfer Bank), dan kalkulator ongkir ekspedisi 8 zona.
 
-> **Repositori GitHub:** `https://github.com/revalip/e-commerce-techcare`
-> **Live Demo (Netlify / Vercel):** `[Tempel URL hasil deploy di sini]`
-> **Video Demo YouTube:** `[Tempel URL video YouTube di sini]`
+> **Live Website:** https://techcare.lippsrv.my.id  
+> **Repositori GitHub:** https://github.com/revalip/e-commerce-techcare  
+> **Video Demo YouTube:** *(Tambahkan tautan YouTube setelah upload)*
 
 ---
 
 ## Fitur Utama
 
-### 1. Produk & Katalog
-- Katalog produk IT realistis (13 produk lintas brand **ASUS, Logitech, Lenovo, Fantech, MSI**, Apple, Dell, Corsair, Kingston, Samsung, LG) dengan foto produk, badge diskon, grade kondisi, dan indikator stok menipis/habis.
-- **Pencarian real-time**, **filter kategori**, **filter brand**, **filter rentang harga**, **filter favorit/wishlist**, serta **pengurutan** (*Terlaris, Terbaru, Harga Terendah, Harga Tertinggi, Rating Tertinggi*).
-- **Halaman Detail Produk**: galeri multi-sudut + lightbox zoom, pemilih varian warna & konfigurasi dinamis RAM/SSD, tampilan berat kirim, stok real-time, serta checklist 32 titik QC teknisi.
+### 1. Produk, Katalog & UI Apple-Grade (Mobile-First + PWA)
+- **Antarmuka Mobile-First & PWA:** Desain monokrom bersih ala Apple Store & iOS 17 — dilengkapi **Liquid Glass bottom navigation**, **iOS 17 Search Bar**, **iOS Segmented Control**, logo monokrom orisinal, ikon PWA installable (`sw-v2.js`), target sentuh standar Apple HIG (≥ 44px), dan 0 *horizontal overflow*.
+- **Katalog 15 Produk Terkurasi:** Lintas brand utama (**Lenovo, Apple, ASUS, Dell, HP, Logitech, Corsair, Kingston, Samsung, LG, MSI, Fantech**) dengan hero video interaktif, badge hemat, indikator stok menipis/habis, dan preview titik warna.
+- **Pencarian & Filter Lengkap:** Tirai pencarian global ala `apple.com`, pencarian real-time di katalog, filter kategori (`Semua · Laptop · RAM · SSD · Monitor · Aksesori`), serta *Filter Sheet* berisi pilihan **tampilan Grid/Daftar**, merek, rentang harga, favorit, dan pengurutan.
+- **Halaman Detail Produk:** Galeri multi-sudut + zoom, pemilih warna & konfigurasi dinamis RAM/SSD dengan perhitungan harga otomatis, berat kirim, stok real-time, garansi 30–90 hari, serta standar **32 titik QC teknisi**.
 
-### 2. Penjualan & Siklus Pesanan
+### 2. Penjualan, Keranjang & Siklus Pesanan
 - **Keranjang Belanja (*Cart Drawer*)** dan **Favorit (*Wishlist Drawer*)** dengan *toast notification* + tombol *Undo*.
-- **Checkout 3 Langkah**: Alamat & Ekspedisi → Pembayaran & Voucher Promo → Invoice & Tracking.
-- **Pengurangan stok otomatis** saat pesanan dibuat dan **pengembalian stok otomatis** saat pesanan dibatalkan.
-- **Status pesanan lengkap**: `Menunggu Bayar` → `Menunggu Verifikasi` → `Dibayar` → `Dikemas & QC` → `Dikirim` → `Selesai` (serta `Dibatalkan`).
-- **Riwayat & Pelacakan Pesanan**: filter status, pencarian nomor invoice/resi, timeline checkpoint perjalanan paket, konfirmasi penerimaan, dan pembatalan pesanan sebelum bayar.
+- **Checkout Ringkas:** Alamat & Ekspedisi → Pembayaran & Voucher Promo (`TECHCARE10`) → Invoice & Tracking.
+- **Manajemen Stok Otomatis:** Stok berkurang otomatis saat pesanan dibuat dan kembali otomatis bila pesanan dibatalkan.
+- **Status Pesanan Lengkap:** `Menunggu Bayar` → `Menunggu Verifikasi` → `Dibayar` → `Dikemas & QC` → `Dikirim` → `Selesai` (serta `Dibatalkan`).
+- **Riwayat & Pelacakan Pesanan:** Filter segmen (`Semua · Diproses · Dikirim · Selesai`), pencarian nomor invoice/resi, progress bar real-time, konfirmasi penerimaan, dan **penyamaran data pribadi (PII masking)** otomatis untuk pengunjung tamu (*Guest*).
 
 ### 3. Pembayaran Lokal — QRIS & Transfer Bank *(Mode Simulasi)*
 > **PENTING (Simulasi):** Fitur pembayaran QRIS dan Transfer Bank (BCA & Mandiri) pada proyek ini adalah **simulasi untuk keperluan tugas kuliah / demo UMKM**. Aplikasi **tidak** terhubung ke payment gateway berbayar dan **tidak** menarik dana sungguhan.
 - **Kode Unik 3 Digit** (`+Rp 101` s.d. `+Rp 999`) untuk membedakan nominal tiap transaksi.
 - **Batas Waktu Pembayaran (Countdown Timer 24 Jam)** real-time.
-- Halaman instruksi pembayaran lengkap: gambar **QRIS TECHCARE (Simulasi)**, nomor rekening BCA/Mandiri, tombol **Salin Nominal** dan **Salin Rekening**.
+- Halaman instruksi pembayaran lengkap: gambar **QRIS TechCare (Simulasi)**, nomor rekening BCA/Mandiri, tombol **Salin Nominal** dan **Salin Rekening**.
 - **Upload Bukti Pembayaran** (screenshot/foto) dari sisi Buyer dan **Preview + Verifikasi (Setujui / Tolak)** langsung oleh Admin.
 
 ### 4. Ekspedisi Lokal (Tanpa API Berbayar)
-- Pilihan kurir: **JNE Reguler**, **JNE YES**, **J&T Express**, **SiCepat BEST**, dan **Ambil di Workshop TECHCARE**.
+- Pilihan kurir: **JNE Reguler**, **JNE YES**, **J&T Express**, **SiCepat BEST**, dan **Ambil di Workshop TechCare Depok**.
 - **Estimasi ongkir otomatis** berdasarkan **8 zona wilayah Indonesia** × **total berat paket (kg)** dengan promo gratis ongkir Jabodetabek untuk transaksi ≥ Rp 5.000.000.
-- **Input & Tampilan Nomor Resi** oleh Admin beserta tombol *Salin Resi* di halaman tracking Buyer.
+- **Input & Tampilan Nomor Resi** oleh Admin beserta tombol *Salin Resi* di halaman detail pesanan.
 
 ### 5. Dashboard Admin & Multiuser Role
-- **Ringkasan Eksekutif**: total omzet, total pesanan, pesanan perlu verifikasi bukti, peringatan **stok menipis (≤ 5 unit)**, dan jumlah akun/promo.
-- **Kelola Pesanan & Pembayaran**: pencarian, filter status, preview gambar bukti transfer, tombol setujui/tolak bayar, update status pesanan, dan input nomor resi.
-- **CRUD Produk Lengkap**: tambah, edit lengkap (nama, brand, kategori, kondisi, harga, stok, berat, deskripsi), dan hapus produk.
-- **CRUD Kategori Produk**: tambah, edit, dan hapus kategori katalog.
-- **Manajemen Kupon Promo**: buat kupon persen/nominal & aktif/nonaktifkan kupon.
-- **Manajemen Pengguna & Role**: ubah role (`admin` ↔ `buyer`), aktif/nonaktifkan akun, dan tambah pengguna baru.
-- **Proteksi Route per Role**: halaman `/admin` hanya dapat diakses oleh akun ber-role `admin`.
+- **Ringkasan Eksekutif bergaya App Store Connect:** Omzet lunas, pesanan perlu verifikasi bukti, visualisasi distribusi status & stok, peringatan **stok menipis (≤ 5 unit)**, serta total inventaris & akun.
+- **Kelola Pesanan & Pembayaran:** Pencarian iOS, filter status, preview bukti transfer, tombol setujui/tolak bayar, update status pesanan, dan input nomor resi.
+- **CRUD Produk, Kategori, Kupon Promo & Pengguna:** Kelola penuh katalog, kategori, kode voucher persen/nominal, serta hak akses role (`admin` ↔ `buyer`).
+- **Proteksi Route per Role:** Halaman `/admin` hanya dapat diakses oleh akun ber-role `admin`.
 
-### 6. Keamanan Dasar
-- **Hash Password**: `bcryptjs` di backend Express dan Web Crypto **SHA-256 + per-user random salt** di mode standalone demo (tidak ada password plaintext di kode maupun `localStorage`).
-- **Validasi & Sanitasi Input**: validasi email, nomor telepon, kekuatan password (min. 6 karakter), validasi kuantitas integer positif, serta sanitasi karakter berbahaya untuk mitigasi XSS.
-- **Proteksi Backend**: JWT autentikasi, pembatasan akses role admin, proteksi IDOR pada detail order, CORS whitelist dari `.env`, security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`), dan rate limiting pada endpoint login/register.
-
----
-
-## Screenshot Aplikasi *(Placeholder)*
-
-> Ganti placeholder di bawah dengan screenshot hasil deploy sebelum pengumpulan tugas.
-
-| Halaman | Tampilan Mobile (360px) | Tampilan Desktop (1280px) |
-| :--- | :--- | :--- |
-| Beranda & Hero | `![Beranda Mobile](docs/screenshots/home-mobile.png)` | `![Beranda Desktop](docs/screenshots/home-desktop.png)` |
-| Katalog & Filter | `![Katalog Mobile](docs/screenshots/shop-mobile.png)` | `![Katalog Desktop](docs/screenshots/shop-desktop.png)` |
-| Checkout & Ongkir | `![Checkout Mobile](docs/screenshots/checkout-mobile.png)` | `![Checkout Desktop](docs/screenshots/checkout-desktop.png)` |
-| Instruksi QRIS & Resi | `![Order Mobile](docs/screenshots/order-mobile.png)` | `![Order Desktop](docs/screenshots/order-desktop.png)` |
-| Dashboard Admin | `![Admin Mobile](docs/screenshots/admin-mobile.png)` | `![Admin Desktop](docs/screenshots/admin-desktop.png)` |
+### 6. Keamanan & Pengujian Otomatis
+- **Hash Password:** `bcryptjs` di backend Express dan Web Crypto **SHA-256 + per-user random salt** di mode standalone demo (tanpa password plaintext di kode maupun `localStorage`).
+- **Privasi & Sanitasi Input:** Penyamaran nama, telepon, email, dan alamat pada pelacakan tamu (*PII masking*), validasi ketat email/telepon/kuantitas positif, dan sanitasi XSS.
+- **Proteksi Backend:** JWT autentikasi, pembatasan role admin, proteksi IDOR pada detail order, CORS whitelist dari `.env`, security headers, dan rate limiting pada login/register.
+- **Automated Test Suite:** Lolos **8/8 pengujian otomatis** (`npm test`).
 
 ---
 
@@ -68,10 +53,10 @@
 
 | Lapisan | Teknologi |
 | :--- | :--- |
-| **Frontend** | React 18, Vite 5, Tailwind CSS 3, Framer Motion, Lucide React |
+| **Frontend & PWA** | React 18, Vite 5, VitePWA (`workbox`), Tailwind CSS 3, Framer Motion, Lenis, Lucide React |
 | **Backend (Opsional Full-Stack)** | Node.js, Express 4, MySQL2, bcryptjs, JSON Web Token (JWT), Multer |
 | **Database (Opsional Full-Stack)** | MySQL 8.0+ / TiDB Cloud Serverless / Aiven MySQL |
-| **Hosting SaaS** | **Netlify** (`netlify.toml`) atau **Vercel** (`vercel.json`) |
+| **Hosting Live & SaaS** | Live di **aaPanel / Cloudflare** (`https://techcare.lippsrv.my.id`), siap juga di **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`) |
 
 ### Keputusan Arsitektur Dual-Mode
 Netlify dan Vercel dirancang utama untuk frontend statis/serverless dan tidak menyediakan database MySQL permanen secara bawaan. Oleh karena itu, TechCare mendukung **dua mode**:
