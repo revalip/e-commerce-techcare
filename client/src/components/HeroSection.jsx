@@ -1,40 +1,35 @@
-import React, { useState, useEffect, useRef, Suspense, lazy } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import { RotateCcw } from 'lucide-react';
 
-const Laptop3DCanvas = lazy(() => import('./Laptop3DCanvas'));
-
-function getInitialHeroVariant() {
-  if (typeof window === 'undefined') return 'a';
-  const params = new URLSearchParams(window.location.search);
-  return params.get('hero')?.toLowerCase() === 'b' ? 'b' : 'a';
-}
-
 /**
- * Apple.com/id Beranda Top Stack with A/B Hero Switch (?hero=a | ?hero=b):
- * - Synchronized Apple iPhone Duo-style 1-shot opening reveal:
+ * Apple.com/id Beranda Top Stack:
+ * - Light Hero (#F5F5F7) with 1-shot ThinkPad X1 Carbon studio reveal video (/assets/hero.mp4, 385 KB)
+ *   blended seamlessly onto #F5F5F7 via pure-white mix-blend-multiply (no loop, stops dead-center).
+ * - Synchronized Apple iPhone Duo-style subtitle reveal:
  *   "Laptop bekas." -> "Laptop bekas. Rasa baru."
  * - Consistent Apple pill CTAs: "Selengkapnya" (solid blue) + "Beli" (blue outline).
- * - Variant A (?hero=a): Ultra-crisp transparent PNG ThinkPad side-to-open reveal.
- * - Variant B (?hero=b): Matte-black unbranded 3D laptop 1-shot lid-open, then completely still.
+ * - Subtle "Putar ulang" control to replay the 1-shot reveal anytime.
  */
 export default function HeroSection({ onShopClick, onLearnClick, onAboutClick }) {
-  const heroVariant = getInitialHeroVariant();
   const darkRef = useRef(null);
+  const videoRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
-  const [isOpened, setIsOpened] = useState(Boolean(shouldReduceMotion));
+  const [isRevealed, setIsRevealed] = useState(Boolean(shouldReduceMotion));
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
   const [replayKey, setReplayKey] = useState(0);
 
   useEffect(() => {
-    if (shouldReduceMotion) {
-      setIsOpened(true);
+    if (shouldReduceMotion || videoError) {
+      setIsRevealed(true);
       return undefined;
     }
-    setIsOpened(false);
-    const timer = setTimeout(() => setIsOpened(true), 850);
-    return () => clearTimeout(timer);
-  }, [replayKey, shouldReduceMotion]);
+    // Fallback timer in case mobile battery-saver pauses autoplay
+    const fallbackTimer = setTimeout(() => setIsRevealed(true), 1600);
+    return () => clearTimeout(fallbackTimer);
+  }, [replayKey, shouldReduceMotion, videoError]);
 
   const { scrollYProgress: darkScroll } = useScroll({
     target: darkRef,
@@ -42,8 +37,29 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
   });
   const darkImgY = useTransform(darkScroll, [0, 1], [-20, 20]);
 
+  const handleTimeUpdate = (e) => {
+    if (!isRevealed && e.currentTarget.currentTime >= 1.15) {
+      setIsRevealed(true);
+    }
+  };
+
+  const handleVideoEnded = () => {
+    setIsRevealed(true);
+    setVideoEnded(true);
+  };
+
   const handleReplay = () => {
+    setIsRevealed(false);
+    setVideoEnded(false);
     setReplayKey((k) => k + 1);
+    const vid = videoRef.current;
+    if (vid) {
+      vid.currentTime = 0;
+      const playPromise = vid.play();
+      if (playPromise && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => setIsRevealed(true));
+      }
+    }
   };
 
   return (
@@ -61,7 +77,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             <motion.span
               key={`sub-${replayKey}`}
               initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
-              animate={isOpened ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
+              animate={isRevealed ? { opacity: 1, x: 0 } : { opacity: 0, x: -8 }}
               transition={{ duration: 0.55, ease: [0.25, 0.1, 0.25, 1] }}
               className="text-[#1D1D1F]"
             >
@@ -87,55 +103,43 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             </button>
           </div>
 
-          {/* Visual Centerpiece: Variant A (Transparent PNG ThinkPad) vs Variant B (1-Shot 3D Lid Open) */}
-          {heroVariant === 'b' ? (
-            <div className="mt-6 sm:mt-8 max-w-[780px] mx-auto">
-              <div className="relative h-[280px] sm:h-[400px] lg:h-[450px] w-full pointer-events-none">
-                <Suspense fallback={null}>
-                  <Laptop3DCanvas key={`3d-${replayKey}`} mode="once" />
-                </Suspense>
-              </div>
-            </div>
-          ) : (
-            <div className="mt-8 sm:mt-10 max-w-[680px] mx-auto h-[250px] sm:h-[360px] lg:h-[420px] flex items-center justify-center relative">
-              <AnimatePresence mode="wait">
-                {!isOpened ? (
-                  <motion.img
-                    key={`closed-${replayKey}`}
-                    src="/assets/products/thinkpad-x1-carbon-side.png"
-                    alt="Lenovo ThinkPad X1 Carbon posisi samping"
-                    width={922}
-                    height={644}
-                    initial={{ opacity: 0.7, scale: 0.94 }}
-                    animate={{ opacity: 1, scale: 0.98 }}
-                    exit={{ opacity: 0, scale: 1.03 }}
-                    transition={{ duration: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="max-h-full max-w-[85%] object-contain select-none"
-                  />
-                ) : (
-                  <motion.img
-                    key={`open-${replayKey}`}
-                    src="/assets/products/thinkpad-x1-carbon-front.png"
-                    alt="Lenovo ThinkPad X1 Carbon Gen 9 terbuka penuh"
-                    width={922}
-                    height={720}
-                    initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.95, y: 10 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="max-h-full max-w-[92%] object-contain select-none"
-                  />
-                )}
-              </AnimatePresence>
-            </div>
-          )}
+          {/* 1-Shot ThinkPad X1 Carbon Studio Video (pure white bg + mix-blend-multiply -> seamless on #F5F5F7) */}
+          <div className="mt-6 sm:mt-8 max-w-[660px] mx-auto flex items-center justify-center">
+            {shouldReduceMotion || videoError ? (
+              <img
+                src="/assets/products/thinkpad-x1-carbon-front.png"
+                alt="Lenovo ThinkPad X1 Carbon Gen 9"
+                width={922}
+                height={720}
+                className="w-full max-w-[540px] max-h-[280px] sm:max-h-[380px] lg:max-h-[420px] object-contain select-none"
+              />
+            ) : (
+              <video
+                ref={videoRef}
+                src="/assets/hero.mp4"
+                poster="/assets/hero-poster.jpg"
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                onTimeUpdate={handleTimeUpdate}
+                onEnded={handleVideoEnded}
+                onError={() => setVideoError(true)}
+                aria-label="Animasi Lenovo ThinkPad X1 Carbon berputar ke posisi depan"
+                className="w-full max-w-[620px] aspect-[1080/792] max-h-[290px] sm:max-h-[390px] lg:max-h-[440px] object-contain mix-blend-multiply select-none pointer-events-none"
+              />
+            )}
+          </div>
 
-          {/* Subtle Apple-style Replay Control */}
-          {!shouldReduceMotion && (
-            <div className="mt-4 flex justify-center">
+          {/* Subtle Apple-style Replay Control (appears cleanly once played) */}
+          {!shouldReduceMotion && !videoError && (
+            <div className="mt-3 flex justify-center min-h-[28px]">
               <button
                 type="button"
                 onClick={handleReplay}
-                className="inline-flex items-center gap-1.5 text-[12px] text-[#6E6E73] hover:text-[#1D1D1F] transition-colors py-1 px-3 rounded-full"
+                className={`inline-flex items-center gap-1.5 text-[12px] text-[#6E6E73] hover:text-[#1D1D1F] transition-opacity duration-300 py-1 px-3 rounded-full cursor-pointer ${
+                  videoEnded ? 'opacity-100' : 'opacity-60 hover:opacity-100'
+                }`}
               >
                 <RotateCcw size={12} strokeWidth={1.8} />
                 <span>Putar ulang</span>

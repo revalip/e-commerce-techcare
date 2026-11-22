@@ -4,7 +4,7 @@ Seluruh aset di folder `client/public/assets/` menggunakan media gratis berlisen
 
 | File | Deskripsi | Pencipta / Sumber | Lisensi | Tautan Sumber |
 | :--- | :--- | :--- | :--- | :--- |
-| `hero.mp4` | Video 360° ASUS ZenBook Flip 13 UX363 (dikonversi ke H.264 720p muted via `ffmpeg`) | Wikimedia Commons (`ASUS ZenBook Flip 13 UX363 *360 degrees*.webm`) | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:ASUS_ZenBook_Flip_13_UX363_*360_degrees*.webm |
+| `hero.mp4` & `hero-poster.jpg` | Video studio 1-shot Lenovo ThinkPad X1 Carbon 8th Gen (dipotong & dioptimalkan ke H.264 1080×792 muted 2,86 detik via `ffmpeg` dengan background putih murni agar menyatu mulus via `mix-blend-multiply`) | LaptopMedia / Wikimedia Commons (`Lenovo ThinkPad X1 Carbon 8th Gen *360 degrees*.webm`) | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Carbon_8th_Gen_*360_degrees*.webm |
 | `asus-laptop.png` | Foto produk ASUS ZenBook (background dihapus -> PNG transparan) | Sinchen.Lin (Wikimedia Commons) | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:ASUS_ZenBook_3_UX390.jpg |
 | `lenovo-thinkpad.png` | Foto produk Lenovo ThinkPad X1 Carbon (background dihapus -> PNG transparan) | Elroygoh (Wikimedia Commons) | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X1_Carbon_Ultrabook.jpg |
 | `logitech-mouse.png` | Foto produk Logitech MX Master 3S (background dihapus -> PNG transparan) | Hayden Schiff (Wikimedia Commons) | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Logitech_MX_Master_3S_HS03.jpg |
