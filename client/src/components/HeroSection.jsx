@@ -179,23 +179,15 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
 
           <motion.div
             style={shouldReduceMotion ? undefined : { y: darkImgY }}
-            className="mt-10 sm:mt-14 flex items-center justify-center gap-6 sm:gap-12 flex-wrap"
+            className="mt-6 sm:mt-10 flex items-center justify-center"
           >
             <img
-              src="/assets/products/corsair-vengeance-ram.png"
-              alt="Corsair Vengeance RAM"
-              width={480}
-              height={309}
+              src="/assets/tile-upgrade-dark.jpg"
+              alt="Upgrade RAM DDR5 & NVMe PCIe Gen4 SSD TechCare"
+              width={1280}
+              height={714}
               loading="lazy"
-              className="w-[220px] sm:w-[320px] h-auto object-contain select-none"
-            />
-            <img
-              src="/images/products/samsung-990-pro-heatsink.png"
-              alt="Samsung 990 PRO NVMe PCIe Gen4 SSD"
-              width={420}
-              height={180}
-              loading="lazy"
-              className="w-[210px] sm:w-[300px] h-auto object-contain select-none"
+              className="w-full max-w-[840px] h-auto object-contain select-none"
             />
           </motion.div>
         </div>

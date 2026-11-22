@@ -19,9 +19,10 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       dark: false,
       title: 'Laptop Second',
       subtitle: 'Tipis, hening, dan lolos 32 titik QC.',
-      image: '/assets/asus-laptop.png',
-      width: 573,
-      height: 516,
+      image: '/assets/tile-laptop-light.jpg',
+      blendMultiply: true,
+      width: 1000,
+      height: 746,
       onLearn: () => (zenbook && onSelectProduct ? onSelectProduct(zenbook) : onShopClick()),
       onBuy: () => (onSelectCollection ? onSelectCollection('laptop-second') : onShopClick())
     },
@@ -31,6 +32,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       title: 'Keyboard Mekanikal',
       subtitle: 'Keycaps bersih ultrasonic. Hot-swap responsif.',
       image: '/assets/mechanical-keyboard.png',
+      blendMultiply: false,
       width: 1000,
       height: 571,
       onLearn: () => (keyboard && onSelectProduct ? onSelectProduct(keyboard) : onShopClick()),
@@ -41,9 +43,10 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       dark: true,
       title: 'Mouse Kerja & Gaming',
       subtitle: 'Sensor presisi. Klik bebas double-click.',
-      image: '/assets/logitech-mouse.png',
-      width: 523,
-      height: 656,
+      image: '/assets/tile-mouse-dark.jpg',
+      blendMultiply: false,
+      width: 1000,
+      height: 746,
       onLearn: () => (mxMouse && onSelectProduct ? onSelectProduct(mxMouse) : onShopClick()),
       onBuy: () => (onSelectCollection ? onSelectCollection('peripherals') : onShopClick())
     },
@@ -53,6 +56,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       title: 'Monitor IPS & Ultrawide',
       subtitle: 'Layar tajam 144Hz. Nol dead pixel.',
       image: '/assets/gaming-monitor.png',
+      blendMultiply: false,
       width: 724,
       height: 748,
       onLearn: () => (monitor && onSelectProduct ? onSelectProduct(monitor) : onShopClick()),
@@ -101,14 +105,16 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
                   </div>
                 </div>
 
-                <div className="mt-8 h-[220px] sm:h-[260px] flex items-center justify-center">
+                <div className="mt-6 h-[240px] sm:h-[300px] flex items-center justify-center">
                   <img
                     src={tile.image}
                     alt={tile.title}
                     width={tile.width}
                     height={tile.height}
                     loading="lazy"
-                    className="max-h-full max-w-[84%] object-contain transition-transform duration-300 hover:scale-[1.04]"
+                    className={`max-h-full max-w-[92%] object-contain select-none transition-transform duration-300 hover:scale-[1.03] ${
+                      tile.blendMultiply ? 'mix-blend-multiply' : ''
+                    }`}
                   />
                 </div>
               </div>
