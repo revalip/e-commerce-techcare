@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, LayoutGrid, Package, User, LayoutDashboard } from 'lucide-react';
+import { Home, LayoutGrid, Package, User, SlidersHorizontal } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 /**
@@ -31,7 +31,7 @@ export default function MobileBottomNav({ currentPage, onNavigate }) {
       ? {
           key: 'admin',
           label: 'Admin',
-          icon: LayoutDashboard,
+          icon: SlidersHorizontal,
           onClick: () => onNavigate('admin')
         }
       : {

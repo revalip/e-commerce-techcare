@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, X, Heart, User, LayoutDashboard, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Search, X, Heart, User, SlidersHorizontal, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -54,7 +54,7 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
   const navLinks = [
     { label: 'Beranda', page: 'home' },
     { label: 'Katalog', page: 'shop' },
-    { label: 'Lacak Pesanan', page: 'orders' },
+    { label: 'Pesanan', page: 'orders' },
     { label: 'Jasa IT', page: 'about' },
     { label: 'Standar QC', page: 'learn' }
   ];
@@ -156,16 +156,20 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
               <button
                 type="button"
                 onClick={() => handleLinkClick('admin')}
-                className="hidden md:inline-flex items-center gap-1 px-2.5 h-8 rounded-full text-[12px] font-medium text-[#0071E3] hover:bg-[#F5F5F7] transition-colors"
+                className={`hidden md:inline-flex items-center gap-1.5 px-2 h-8 text-[12px] tracking-[-0.01em] transition-colors cursor-pointer ${
+                  currentPage === 'admin'
+                    ? 'text-[#0071E3] font-medium'
+                    : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F]'
+                }`}
               >
-                <LayoutDashboard size={13} strokeWidth={1.8} />
+                <SlidersHorizontal size={14} strokeWidth={1.7} />
                 <span>Admin</span>
               </button>
             ) : (
               <button
                 type="button"
                 onClick={() => (isGuest ? openAuthModal('login') : handleLinkClick('orders'))}
-                className="hidden md:inline-flex items-center gap-1 px-2 h-8 text-[12px] text-[#1D1D1F]/80 hover:text-[#1D1D1F] transition-colors"
+                className="hidden md:inline-flex items-center gap-1.5 px-2 h-8 text-[12px] tracking-[-0.01em] text-[#1D1D1F]/80 hover:text-[#1D1D1F] transition-colors cursor-pointer"
               >
                 <User size={14} strokeWidth={1.7} />
                 <span className="max-w-[84px] truncate">{isGuest ? 'Masuk' : user?.name || 'Akun'}</span>

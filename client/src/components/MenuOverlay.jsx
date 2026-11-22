@@ -31,27 +31,18 @@ export default function MenuOverlay({ isOpen, onClose, onNavigate, currentPage }
   const items = [
     { label: 'Beranda', page: 'home', onClick: () => { onNavigate('home'); onClose(); } },
     { label: 'Katalog', page: 'shop', onClick: () => { onNavigate('shop'); onClose(); } },
-    { label: 'Lacak Pesanan', page: 'orders', onClick: () => { onNavigate('orders'); onClose(); } },
+    { label: 'Pesanan', page: 'orders', onClick: () => { onNavigate('orders'); onClose(); } },
+    { label: 'Jasa IT', page: 'about', onClick: () => { onNavigate('about'); onClose(); } },
+    { label: 'Standar QC', page: 'learn', onClick: () => { onNavigate('learn'); onClose(); } },
     {
       label: wishlistCount > 0 ? `Favorit (${wishlistCount})` : 'Favorit',
       page: 'wishlist',
       onClick: () => { onClose(); setIsWishlistOpen(true); }
     },
-    isGuest
-      ? {
-          label: 'Masuk / Daftar',
-          page: 'auth',
-          onClick: () => { onClose(); openAuthModal('login'); }
-        }
-      : {
-          label: `Akun (${user?.name || 'Saya'})`,
-          page: 'orders',
-          onClick: () => { onNavigate('orders'); onClose(); }
-        },
-    { label: 'Jasa Upgrade & Servis', page: 'about', onClick: () => { onNavigate('about'); onClose(); } },
-    { label: 'Standar 32 Titik QC', page: 'learn', onClick: () => { onNavigate('learn'); onClose(); } },
     ...(isAdmin
-      ? [{ label: 'Dashboard Admin', page: 'admin', onClick: () => { onNavigate('admin'); onClose(); } }]
+      ? [{ label: 'Admin', page: 'admin', onClick: () => { onNavigate('admin'); onClose(); } }]
+      : isGuest
+      ? [{ label: 'Masuk', page: 'auth', onClick: () => { onClose(); openAuthModal('login'); } }]
       : [])
   ];
 
