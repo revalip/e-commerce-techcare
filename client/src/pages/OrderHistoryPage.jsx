@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Package, Search, ArrowRight, Truck, MapPin, AlertCircle } from 'lucide-react';
+import { Package, Search, ChevronRight, MapPin, AlertCircle } from 'lucide-react';
 import { getOrders } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { formatIDR, formatDate, getStatusBadge } from '../utils/format';
+import { formatIDR, formatDate } from '../utils/format';
 import Reveal from '../components/Reveal';
+
+function getOrderStatusColor(statusKey) {
+  switch (statusKey) {
+    case 'completed':
+      return 'text-[#1D7F3E]';
+    case 'shipped':
+    case 'processing':
+    case 'paid':
+      return 'text-[#0071E3]';
+    case 'cancelled':
+      return 'text-[#D70015]';
+    default:
+      return 'text-[#B64400]';
+  }
+}
 
 export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
   const { user, isAdmin, isBuyer } = useAuth();
@@ -84,207 +99,203 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
   };
 
   return (
-    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Top Navy Header + Tracking Search */}
-        <Reveal>
-          <div className="bg-[#1D2129] text-white rounded-[24px] p-5 sm:p-8 border border-[#23272F] space-y-5 relative overflow-hidden shadow-tc-lift">
-            <div className="relative z-10 flex flex-col sm:flex-row sm:items-end justify-between gap-2">
-              <div>
-                <span className="text-[11px] uppercase tracking-wider font-bold text-[#9BB0C9] block mb-1">
-                  PELACAKAN PESANAN &amp; RESI REAL-TIME
-                </span>
-                <h1 className="font-display text-2xl sm:text-4xl font-bold text-white">
-                  Lacak &amp; Riwayat Pesanan
-                </h1>
-              </div>
-              <p className="text-xs text-[#BAC4D2]">
+    <div className="bg-white text-[#1D1D1F] min-h-screen">
+      {/* 1. Full-Width Clean Apple Tracking Header (#F5F5F7) */}
+      <section className="w-full bg-[#F5F5F7] py-12 sm:py-16">
+        <div className="max-w-[920px] mx-auto px-4 sm:px-6 space-y-6">
+          <Reveal>
+            <div className="text-center space-y-2">
+              <h1 className="tc-section-title text-[#1D1D1F]">
+                Lacak &amp; Riwayat Pesanan
+              </h1>
+              <p className="text-[15px] sm:text-[17px] text-[#6E6E73]">
                 {isBuyer
-                  ? `Akun: ${user?.email}`
+                  ? `Masuk sebagai ${user?.email}`
                   : isAdmin
-                  ? 'Mode Admin: semua pesanan toko'
-                  : 'Masukkan nomor invoice atau resi ekspedisi'}
+                  ? 'Menampilkan seluruh pesanan toko'
+                  : 'Masukkan nomor invoice atau resi ekspedisi untuk melihat status paket.'}
               </p>
             </div>
+          </Reveal>
 
-            <form onSubmit={handleQuickTrackSubmit} className="relative z-10 flex flex-col sm:flex-row gap-2.5">
-              <div className="relative flex-1">
-                <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8692A3]" />
-                <input
-                  type="text"
-                  placeholder="No. Invoice (mis. TC-261117-9102) atau No. Resi (JNE...)"
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setTrackError('');
-                  }}
-                  className="w-full min-h-[46px] pl-11 pr-4 py-2.5 bg-white text-[#1D2129] rounded-xl text-xs sm:text-sm outline-none focus:ring-2 focus:ring-[#9BB0C9]"
-                />
-              </div>
-              <button type="submit" className="tc-btn-primary px-6 shrink-0">
-                <Truck size={15} />
-                <span>Lacak Paket</span>
-              </button>
-            </form>
-
-            {trackError && (
-              <div className="relative z-10 p-3 rounded-xl bg-rose-500/20 border border-rose-400/40 text-rose-100 text-xs flex items-center gap-2">
-                <AlertCircle size={15} className="shrink-0" />
-                <span>{trackError}</span>
-              </div>
-            )}
-
-            {orders.length > 0 && (
-              <div className="relative z-10 flex items-center gap-2 flex-wrap text-[11px] text-[#BAC4D2]">
-                <span>Coba cepat:</span>
-                {orders.slice(0, 3).map((o) => (
-                  <button
-                    key={o.id}
-                    type="button"
-                    onClick={() => onSelectOrder(o.nomorPesanan)}
-                    className="px-3 py-1 rounded-lg bg-white/10 hover:bg-[#1D2129] border border-white/15 text-[11px] font-semibold text-white transition-colors"
-                  >
-                    {o.nomorPesanan}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </Reveal>
-
-        {/* Status Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {statusTabs.map((tab) => (
+          <form
+            onSubmit={handleQuickTrackSubmit}
+            className="max-w-[680px] mx-auto flex flex-col sm:flex-row gap-2.5"
+          >
+            <div className="relative flex-1">
+              <Search
+                size={16}
+                strokeWidth={1.7}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#6E6E73]"
+              />
+              <input
+                type="text"
+                placeholder="Nomor invoice atau nomor resi ekspedisi"
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setTrackError('');
+                }}
+                className="w-full h-[46px] pl-11 pr-4 bg-white text-[#1D1D1F] placeholder:text-[#6E6E73] rounded-[980px] text-[14px] sm:text-[15px] border border-[#D2D2D7]/80 focus:border-[#0071E3] focus:outline-none transition-colors"
+              />
+            </div>
             <button
-              key={tab.key}
-              onClick={() => setStatusFilter(tab.key)}
-              className={`px-4 min-h-[40px] rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
-                statusFilter === tab.key
-                  ? 'bg-[#1D2129] text-white'
-                  : 'bg-white border border-[#E2E7EE] text-[#4F627A] hover:border-[#1D2129] hover:text-[#1D2129]'
-              }`}
+              type="submit"
+              className="h-[46px] px-7 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[15px] font-normal transition-colors shrink-0 cursor-pointer"
             >
-              {tab.label}
+              Lacak
             </button>
-          ))}
-        </div>
+          </form>
 
-        {/* Orders List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-display text-sm font-bold uppercase tracking-wider text-[#4F627A]">
-              Daftar Pesanan ({filteredOrders.length})
-            </h2>
-          </div>
-
-          {loading ? (
-            <div className="space-y-3">
-              {[1, 2].map((n) => (
-                <div key={n} className="bg-white rounded-[20px] p-5 border border-[#E2E7EE] space-y-3">
-                  <div className="h-4 w-44 rounded tc-skeleton" />
-                  <div className="h-16 w-full rounded-xl tc-skeleton" />
-                </div>
-              ))}
-            </div>
-          ) : filteredOrders.length === 0 ? (
-            <div className="bg-white rounded-[20px] p-10 sm:p-14 text-center border border-[#E2E7EE] shadow-tc-studio space-y-3">
-              <div className="w-14 h-14 rounded-[20px] bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center mx-auto">
-                <Package size={26} />
-              </div>
-              <p className="font-display text-lg font-bold text-[#1D2129]">Pesanan Tidak Ditemukan</p>
-              <p className="text-xs text-[#647082]">
-                Belum ada pesanan yang sesuai filter atau kata kunci pencarian Anda.
-              </p>
-              <button onClick={onBackToShop} className="tc-btn-primary">
-                Mulai Belanja
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-3.5">
-              {filteredOrders.map((ord, idx) => {
-                const badge = getStatusBadge(ord.statusKey || ord.paymentStatus);
-                const latestTrack = ord.trackingHistory?.[0];
-                const firstItem = ord.items?.[0];
-
-                return (
-                  <Reveal key={ord.id} delay={idx * 0.03}>
-                    <div
-                      onClick={() => onSelectOrder(ord.nomorPesanan)}
-                      className="bg-white rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 hover:border-[#1D2129] shadow-tc-studio hover:shadow-tc-lift transition-all cursor-pointer space-y-4"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-bold text-[#1D2129]">
-                            #{ord.nomorPesanan}
-                          </span>
-                          <span
-                            className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border uppercase ${badge.bg}`}
-                          >
-                            {ord.status || badge.label}
-                          </span>
-                          {ord.resi && (
-                            <span className="text-[11px] text-[#4F627A] bg-[#ECEFF4] px-2.5 py-0.5 rounded-lg">
-                              Resi: {ord.resi}
-                            </span>
-                          )}
-                        </div>
-                        <span className="text-xs text-[#8692A3]">{formatDate(ord.tanggal)}</span>
-                      </div>
-
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-3 border-t border-[#ECEFF4]">
-                        <div className="flex items-center gap-3.5 min-w-0">
-                          {firstItem && (
-                            <div className="w-14 h-14 rounded-xl bg-[#ECEFF4] p-1.5 flex items-center justify-center shrink-0">
-                              <img
-                                src={firstItem.gambar || '/images/products/thinkpad-x1-carbon-front.jpg'}
-                                alt={firstItem.nama}
-                                className="max-h-full max-w-full object-contain"
-                              />
-                            </div>
-                          )}
-                          <div className="min-w-0 space-y-0.5">
-                            <p className="font-display text-sm font-bold text-[#1D2129] truncate">
-                              {firstItem?.nama || 'Perangkat IT TECHCARE'}
-                              {ord.items.length > 1 && ` (+${ord.items.length - 1} lainnya)`}
-                            </p>
-                            {firstItem?.specLabel && (
-                              <p className="text-[11px] text-[#647082] truncate">{firstItem.specLabel}</p>
-                            )}
-                            {latestTrack && (
-                              <p className="text-[11px] text-emerald-700 font-medium flex items-center gap-1 pt-0.5 truncate">
-                                <MapPin size={12} className="shrink-0" />
-                                <span className="truncate">
-                                  {latestTrack.status} — {latestTrack.lokasi}
-                                </span>
-                              </p>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between sm:justify-end gap-4 border-t sm:border-t-0 pt-3 sm:pt-0 shrink-0">
-                          <div className="sm:text-right">
-                            <span className="text-[10px] text-[#8692A3] uppercase font-bold block">
-                              Total Belanja
-                            </span>
-                            <span className="font-display text-base font-bold text-[#1D2129] tabular-nums">
-                              {formatIDR(ord.total)}
-                            </span>
-                          </div>
-
-                          <span className="min-h-[40px] px-4 bg-[#ECEFF4] text-[#1D2129] border border-[#D4DBE5] rounded-xl text-xs font-bold inline-flex items-center gap-1.5">
-                            <span>Detail</span>
-                            <ArrowRight size={14} />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
+          {trackError && (
+            <div className="max-w-[680px] mx-auto p-3.5 rounded-[14px] bg-white text-[#D70015] text-[13px] flex items-center gap-2">
+              <AlertCircle size={15} className="shrink-0" />
+              <span>{trackError}</span>
             </div>
           )}
         </div>
-      </div>
+      </section>
+
+      {/* 2. Status Filter Pills + Order List on Pure White */}
+      <section className="max-w-[920px] mx-auto px-4 sm:px-6 py-8 sm:py-12 space-y-6">
+        {/* Borderless Apple Pill Filters */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+          {statusTabs.map((tab) => {
+            const active = statusFilter === tab.key;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => setStatusFilter(tab.key)}
+                className={`px-4 h-[36px] rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                  active
+                    ? 'bg-[#1D1D1F] text-white font-medium'
+                    : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] font-normal'
+                }`}
+              >
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Count line */}
+        <p className="text-[13px] text-[#6E6E73]">
+          {filteredOrders.length} pesanan ditemukan
+        </p>
+
+        {/* List */}
+        {loading ? (
+          <div className="space-y-4">
+            {[1, 2].map((n) => (
+              <div key={n} className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-3">
+                <div className="h-4 w-44 rounded tc-skeleton" />
+                <div className="h-16 w-full rounded-2xl tc-skeleton" />
+              </div>
+            ))}
+          </div>
+        ) : filteredOrders.length === 0 ? (
+          <div className="bg-[#F5F5F7] rounded-[28px] p-12 sm:p-16 text-center space-y-3">
+            <Package size={30} strokeWidth={1.4} className="text-[#6E6E73] mx-auto" />
+            <p className="text-[20px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+              Pesanan tidak ditemukan
+            </p>
+            <p className="text-[14px] text-[#6E6E73] max-w-sm mx-auto">
+              Belum ada pesanan yang sesuai dengan filter atau kata kunci pencarian Anda.
+            </p>
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={onBackToShop}
+                className="h-[40px] px-6 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-normal transition-colors cursor-pointer"
+              >
+                Mulai Belanja
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {filteredOrders.map((ord, idx) => {
+              const latestTrack = ord.trackingHistory?.[0];
+              const firstItem = ord.items?.[0];
+              const statusColor = getOrderStatusColor(ord.statusKey || ord.paymentStatus);
+
+              return (
+                <Reveal key={ord.id} delay={idx * 0.03}>
+                  <div
+                    onClick={() => onSelectOrder(ord.nomorPesanan)}
+                    className="bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 transition-colors cursor-pointer space-y-4"
+                  >
+                    {/* Header row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="text-[15px] font-semibold tracking-[-0.01em] text-[#1D1D1F]">
+                          #{ord.nomorPesanan}
+                        </span>
+                        <span className={`text-[13px] font-medium ${statusColor}`}>
+                          {ord.status || 'Diproses'}
+                        </span>
+                        {ord.resi && (
+                          <span className="text-[12px] text-[#6E6E73]">
+                            · Resi {ord.resi}
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-[12px] text-[#6E6E73]">{formatDate(ord.tanggal)}</span>
+                    </div>
+
+                    {/* Body row */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-[#D2D2D7]/60">
+                      <div className="flex items-center gap-4 min-w-0">
+                        {firstItem && (
+                          <div className="w-16 h-16 rounded-2xl bg-white p-2 flex items-center justify-center shrink-0">
+                            <img
+                              src={firstItem.gambar || '/assets/products/thinkpad-x1-carbon-front.png'}
+                              alt={firstItem.nama}
+                              className="max-h-full max-w-full object-contain"
+                            />
+                          </div>
+                        )}
+                        <div className="min-w-0 space-y-0.5">
+                          <p className="text-[16px] font-semibold tracking-[-0.015em] text-[#1D1D1F] truncate">
+                            {firstItem?.nama || 'Perangkat IT TechCare'}
+                            {ord.items.length > 1 && ` (+${ord.items.length - 1} lainnya)`}
+                          </p>
+                          {firstItem?.specLabel && (
+                            <p className="text-[13px] text-[#6E6E73] truncate">{firstItem.specLabel}</p>
+                          )}
+                          {latestTrack && (
+                            <p className="text-[12px] text-[#6E6E73] flex items-center gap-1 pt-0.5 truncate">
+                              <MapPin size={12} strokeWidth={1.7} className="shrink-0 text-[#0071E3]" />
+                              <span className="truncate">
+                                {latestTrack.status} — {latestTrack.lokasi}
+                              </span>
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between sm:justify-end gap-5 pt-3 sm:pt-0 border-t sm:border-t-0 border-[#D2D2D7]/60 shrink-0">
+                        <div className="sm:text-right">
+                          <span className="text-[11px] text-[#6E6E73] block">Total</span>
+                          <span className="text-[17px] font-semibold text-[#1D1D1F] tabular-nums">
+                            {formatIDR(ord.total)}
+                          </span>
+                        </div>
+
+                        <span className="inline-flex items-center gap-0.5 text-[14px] text-[#0071E3] font-normal">
+                          <span>Detail</span>
+                          <ChevronRight size={16} strokeWidth={1.8} />
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        )}
+      </section>
     </div>
   );
 }
