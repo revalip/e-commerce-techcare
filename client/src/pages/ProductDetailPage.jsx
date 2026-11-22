@@ -218,22 +218,22 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
               </div>
             )}
 
-            {/* QC Verification Card */}
-            <div className="bg-[#F7F8FA] rounded-2xl p-4 sm:p-5 border border-[#E2E7EE] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            {/* QC Verification Card (Borderless Apple #F5F5F7) */}
+            <div className="bg-[#F5F5F7] rounded-[20px] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-[#0071E3]/10 text-[#0071E3] flex items-center justify-center shrink-0">
-                  <ShieldCheck size={19} />
+                <div className="w-10 h-10 rounded-full bg-white text-[#0071E3] flex items-center justify-center shrink-0">
+                  <ShieldCheck size={19} strokeWidth={1.7} />
                 </div>
                 <div>
-                  <p className="font-display text-xs sm:text-sm font-semibold text-[#1D2129]">
+                  <p className="text-[14px] font-semibold text-[#1D1D1F]">
                     Certified Pre-Owned TechCare
                   </p>
-                  <p className="text-xs text-[#6E6E73]">
-                    {product.qcSummary || 'Lulus 32 Titik QC Teknisi • Siap Pakai'}
+                  <p className="text-[13px] text-[#6E6E73]">
+                    {product.qcSummary || 'Lulus 32 Titik QC Teknisi · Siap Pakai'}
                   </p>
                 </div>
               </div>
-              <span className="self-start sm:self-center text-[11px] font-medium px-3 py-1 rounded-full bg-white text-[#1D2129] border border-[#E2E7EE] shrink-0">
+              <span className="self-start sm:self-center text-[12px] font-medium px-3.5 py-1.5 rounded-[980px] bg-white text-[#1D1D1F] shrink-0">
                 {product.garansi || 'Garansi Toko 60 Hari'}
               </span>
             </div>
@@ -288,23 +288,26 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                 <span className="text-xs font-medium text-[#1D2129] block">
                   Warna. <span className="text-[#6E6E73]">Pilih tampilan favoritmu: {selectedColor}</span>
                 </span>
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-1.5">
                   {product.varianWarna.map((v) => (
                     <button
                       key={v.nama}
                       type="button"
                       onClick={() => setSelectedColor(v.nama)}
-                      className={`w-9 h-9 rounded-full border-2 flex items-center justify-center transition-all ${
-                        selectedColor === v.nama
-                          ? 'border-[#0071E3] scale-110'
-                          : 'border-transparent hover:scale-105'
-                      }`}
+                      aria-label={`Pilih warna ${v.nama}`}
+                      className="w-11 h-11 rounded-full flex items-center justify-center transition-transform cursor-pointer hover:scale-105"
                       title={v.nama}
                     >
                       <span
-                        className="w-6 h-6 rounded-full border border-black/15"
-                        style={{ backgroundColor: v.hex }}
-                      />
+                        className={`w-7 h-7 rounded-full flex items-center justify-center border-2 ${
+                          selectedColor === v.nama ? 'border-[#0071E3]' : 'border-transparent'
+                        }`}
+                      >
+                        <span
+                          className="w-5 h-5 rounded-full border border-black/15"
+                          style={{ backgroundColor: v.hex }}
+                        />
+                      </span>
                     </button>
                   ))}
                 </div>
@@ -624,7 +627,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
         )}
       </AnimatePresence>
 
-      {/* Mobile Sticky Bottom Buy Bar */}
+      {/* Mobile Sticky Bottom Buy Bar (Apple Liquid Glass) */}
       <AnimatePresence>
         {showStickyBar && (
           <motion.div
@@ -632,11 +635,11 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             animate={{ y: 0 }}
             exit={{ y: 100 }}
             transition={{ duration: 0.2 }}
-            className="fixed bottom-0 inset-x-0 z-30 md:hidden bg-white/95 backdrop-blur-md border-t border-[#D2D2D7] px-4 py-3 flex items-center justify-between gap-3 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]"
+            className="fixed bottom-0 inset-x-0 z-30 md:hidden bg-white/85 backdrop-blur-xl border-t border-black/10 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center justify-between gap-3"
           >
             <div className="min-w-0">
-              <p className="text-[10px] text-[#6E6E73] truncate">{specLabel || product.kondisi}</p>
-              <p className="font-display text-sm font-semibold text-[#1D2129] tabular-nums">
+              <p className="text-[12px] text-[#6E6E73] truncate">{specLabel || product.kondisi}</p>
+              <p className="text-[15px] font-semibold text-[#1D1D1F] tabular-nums">
                 {formatIDR(computedPrice * quantity)}
               </p>
             </div>
@@ -645,16 +648,16 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                 type="button"
                 disabled={outOfStock}
                 onClick={handleAddToCart}
-                className="w-11 h-11 rounded-full border border-[#DCE2EA] bg-[#F5F5F7] text-[#1D2129] flex items-center justify-center disabled:opacity-40"
+                className="w-11 h-11 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] flex items-center justify-center disabled:opacity-40 cursor-pointer"
                 aria-label="Tambah ke keranjang"
               >
-                <ShoppingBag size={17} />
+                <ShoppingBag size={18} strokeWidth={1.7} />
               </button>
               <button
                 type="button"
                 disabled={outOfStock}
                 onClick={handleBuyNow}
-                className="tc-btn-primary px-5 text-xs"
+                className="h-[44px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-normal disabled:opacity-40 transition-colors cursor-pointer"
               >
                 {outOfStock ? 'Habis' : 'Beli Sekarang'}
               </button>

@@ -225,7 +225,7 @@ export default function ShopPage({
             </button>
           </div>
 
-          {/* Row 2: Horizontal Category Chips (No border) + Tiny Grid/List Icons on Right */}
+          {/* Row 2: Horizontal Category Chips (Apple HIG >= 40px touch height) + 44x44px Grid/List Icons */}
           <div className="flex items-center justify-between gap-3 min-w-0">
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0 py-0.5">
               <button
@@ -234,7 +234,7 @@ export default function ShopPage({
                   onSelectCategory('');
                   setVisibleCount(12);
                 }}
-                className={`min-h-[36px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors ${
+                className={`min-h-[40px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
                   !selectedCategory
                     ? 'bg-[#1D1D1F] text-white font-medium'
                     : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
@@ -250,7 +250,7 @@ export default function ShopPage({
                     onSelectCategory(col.slug);
                     setVisibleCount(12);
                   }}
-                  className={`min-h-[36px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors ${
+                  className={`min-h-[40px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
                     selectedCategory === col.slug
                       ? 'bg-[#1D1D1F] text-white font-medium'
                       : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
@@ -261,31 +261,31 @@ export default function ShopPage({
               ))}
             </div>
 
-            {/* 2 Tiny Grid/List Icons */}
+            {/* 44x44px Grid/List Toggle Icons */}
             <div className="flex items-center gap-1 shrink-0" role="group" aria-label="Mode Tampilan">
               <button
                 type="button"
                 onClick={() => setViewMode('img')}
                 aria-label="Tampilan Grid"
-                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+                className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   viewMode === 'img'
                     ? 'bg-[#F5F5F7] text-[#1D1D1F]'
                     : 'text-[#6E6E73] hover:text-[#1D1D1F]'
                 }`}
               >
-                <LayoutGrid size={16} strokeWidth={1.7} />
+                <LayoutGrid size={17} strokeWidth={1.7} />
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode('txt')}
                 aria-label="Tampilan Daftar"
-                className={`w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+                className={`w-11 h-11 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
                   viewMode === 'txt'
                     ? 'bg-[#F5F5F7] text-[#1D1D1F]'
                     : 'text-[#6E6E73] hover:text-[#1D1D1F]'
                 }`}
               >
-                <List size={16} strokeWidth={1.7} />
+                <List size={17} strokeWidth={1.7} />
               </button>
             </div>
           </div>
@@ -396,6 +396,16 @@ export default function ShopPage({
                       <p className="text-[13px] text-[#6E6E73] truncate">
                         {product.specRangeLabel || product.tagline}
                       </p>
+                      <div className="flex items-baseline gap-2 sm:hidden mt-1">
+                        <span className="text-[14px] font-semibold text-[#1D1D1F] tabular-nums">
+                          {formatIDR(product.harga)}
+                        </span>
+                        {product.hargaCoret && (
+                          <span className="text-[12px] text-[#6E6E73] line-through tabular-nums">
+                            {formatIDR(product.hargaCoret)}
+                          </span>
+                        )}
+                      </div>
                       {lowStock && (
                         <span className="text-[12px] text-[#B64400]">Sisa {stockNum}</span>
                       )}
@@ -418,7 +428,7 @@ export default function ShopPage({
                       type="button"
                       disabled={outOfStock}
                       onClick={(e) => handleQuickAdd(e, product)}
-                      className={`min-h-[36px] px-4 rounded-[980px] text-[13px] transition-colors ${
+                      className={`min-h-[40px] px-4 rounded-[980px] text-[13px] transition-colors cursor-pointer ${
                         outOfStock
                           ? 'bg-[#F5F5F7] text-[#6E6E73] cursor-not-allowed'
                           : isAdded

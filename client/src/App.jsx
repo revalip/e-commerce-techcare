@@ -13,6 +13,7 @@ import WishlistDrawer from './components/WishlistDrawer';
 import CartToast from './components/CartToast';
 import AuthModal from './components/AuthModal';
 import Footer from './components/Footer';
+import MobileBottomNav from './components/MobileBottomNav';
 
 // Pages
 import HomePage from './pages/HomePage';
@@ -334,17 +335,22 @@ function MainApp() {
               {isAdmin ? (
                 <AdminDashboard onBackToShop={() => handleNavigate('home')} />
               ) : (
-                <div className="py-20 px-4 text-center max-w-md mx-auto space-y-4">
-                  <h2 className="font-serif text-2xl text-neutral-900">Akses Terbatas (Admin)</h2>
-                  <p className="text-xs text-neutral-500 leading-relaxed">
-                    Halaman Dashboard Admin dilindungi oleh proteksi peran. Silakan masuk dengan akun Administrator TECHCARE.
-                  </p>
-                  <button
-                    onClick={() => openAuthModal('login', 'Silakan masuk menggunakan akun admin.')}
-                    className="px-6 py-3 bg-black text-white rounded-full text-xs font-semibold uppercase tracking-wider"
-                  >
-                    Masuk sebagai Admin
-                  </button>
+                <div className="py-20 px-4 text-center">
+                  <div className="max-w-md mx-auto bg-[#F5F5F7] rounded-[28px] p-10 space-y-4">
+                    <h2 className="text-[24px] font-semibold tracking-[-0.025em] text-[#1D1D1F]">
+                      Akses khusus Admin
+                    </h2>
+                    <p className="text-[14px] text-[#6E6E73] leading-relaxed">
+                      Dashboard Admin dilindungi hak akses peran. Silakan masuk dengan akun Administrator TechCare.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => openAuthModal('login', 'Silakan masuk menggunakan akun admin.')}
+                      className="h-[44px] px-6 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-normal transition-colors cursor-pointer"
+                    >
+                      Masuk sebagai Admin
+                    </button>
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -389,6 +395,9 @@ function MainApp() {
       <CartToast onOpenCart={() => setIsCartOpen(true)} />
       <AuthModal />
       <Footer onNavigate={handleNavigate} onSelectCollection={handleSelectCollection} />
+      {currentPage !== 'product-detail' && (
+        <MobileBottomNav currentPage={currentPage} onNavigate={handleNavigate} />
+      )}
     </div>
   );
 }

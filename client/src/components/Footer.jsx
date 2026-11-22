@@ -68,7 +68,7 @@ export default function Footer({ onNavigate, onSelectCollection }) {
   ];
 
   return (
-    <footer className="bg-[#F5F5F7] text-[#6E6E73] text-[12px] leading-relaxed pt-10 pb-12">
+    <footer className="bg-[#F5F5F7] text-[#6E6E73] text-[12px] leading-relaxed pt-10 pb-24 md:pb-12">
       <div className="max-w-[1024px] mx-auto px-4 sm:px-6">
         <div className="pb-6 border-b border-[#D2D2D7] space-y-2">
           <p>

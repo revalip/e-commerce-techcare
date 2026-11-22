@@ -63,55 +63,59 @@ export default function WishlistDrawer({ onSelectProduct, onExploreShop }) {
               animate={isMobile ? { y: 0 } : { x: 0 }}
               exit={isMobile ? { y: '100%' } : { x: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="pointer-events-auto w-full sm:max-w-md bg-white shadow-2xl flex flex-col sm:h-full max-h-[88vh] sm:rounded-none rounded-t-3xl overflow-hidden border-l border-[#E2E7EE]"
+              className="pointer-events-auto w-full sm:max-w-md bg-white shadow-2xl flex flex-col sm:h-full max-h-[88vh] sm:rounded-none rounded-t-[28px] overflow-hidden"
             >
               {isMobile && (
                 <div className="w-full flex justify-center pt-3 pb-1">
-                  <span className="w-10 h-1 rounded-full bg-[#BAC4D2]" />
+                  <span className="w-10 h-1 rounded-full bg-[#D2D2D7]" />
                 </div>
               )}
 
               {/* Header */}
               <div className="px-6 py-4 border-b border-[#D2D2D7]/70 flex items-center justify-between bg-white">
                 <div className="flex items-center gap-3">
-                  <span className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#FF3B30] flex items-center justify-center">
-                    <Heart size={16} className="fill-[#FF3B30]" />
+                  <span className="w-10 h-10 rounded-full bg-[#F5F5F7] text-[#FF3B30] flex items-center justify-center">
+                    <Heart size={17} className="fill-[#FF3B30]" />
                   </span>
                   <div>
-                    <h2 className="text-[17px] font-semibold text-[#1D1D1F] leading-tight">
+                    <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F] leading-tight">
                       Produk Favorit
                     </h2>
                     <p className="text-[12px] text-[#6E6E73]">{wishlistIds.length} tersimpan</p>
                   </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsWishlistOpen(false)}
-                  className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] flex items-center justify-center transition-colors"
+                  className="w-11 h-11 -mr-2 rounded-full bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED] flex items-center justify-center transition-colors cursor-pointer"
                   aria-label="Tutup Favorit"
                 >
-                  <X size={16} />
+                  <X size={17} />
                 </button>
               </div>
 
               {/* Body */}
-              <div className="flex-1 overflow-y-auto px-5 py-3 divide-y divide-[#ECEFF4]">
+              <div className="flex-1 overflow-y-auto px-6 py-3 divide-y divide-[#D2D2D7]/60">
                 {savedProducts.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center text-center py-14 space-y-4">
-                    <div className="w-16 h-16 rounded-[20px] bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
-                      <Heart size={26} />
+                    <div className="w-16 h-16 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center">
+                      <Heart size={26} strokeWidth={1.5} />
                     </div>
                     <div className="space-y-1">
-                      <p className="font-display text-lg font-bold text-[#1D2129]">Belum Ada Favorit</p>
-                      <p className="text-xs text-[#647082] max-w-xs leading-relaxed">
-                        Tekan ikon hati pada perangkat IT yang Anda incar untuk membandingkan harga dan menyimpannya di sini.
+                      <p className="text-[19px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                        Belum ada favorit
+                      </p>
+                      <p className="text-[14px] text-[#6E6E73] max-w-xs leading-relaxed">
+                        Ketuk ikon hati pada perangkat yang Anda incar untuk membandingkan harga dan menyimpannya di sini.
                       </p>
                     </div>
                     <button
+                      type="button"
                       onClick={() => {
                         setIsWishlistOpen(false);
                         onExploreShop();
                       }}
-                      className="tc-btn-primary"
+                      className="h-[44px] px-6 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <span>Jelajahi Katalog</span>
                       <ArrowRight size={15} />
@@ -121,11 +125,12 @@ export default function WishlistDrawer({ onSelectProduct, onExploreShop }) {
                   savedProducts.map((product) => (
                     <div key={product.id} className="py-4 flex gap-3.5">
                       <button
+                        type="button"
                         onClick={() => {
                           setIsWishlistOpen(false);
                           onSelectProduct(product);
                         }}
-                        className="w-20 h-20 rounded-xl bg-[#ECEFF4] p-2 flex items-center justify-center flex-shrink-0 border border-[#E2E7EE]/70 hover:border-[#1D2129] transition-colors"
+                        className="w-20 h-20 rounded-2xl bg-[#F5F5F7] p-2 flex items-center justify-center shrink-0 cursor-pointer"
                       >
                         <img
                           src={product.gambar?.[0]}
@@ -138,48 +143,52 @@ export default function WishlistDrawer({ onSelectProduct, onExploreShop }) {
                         <div>
                           <div className="flex items-start justify-between gap-2">
                             <button
+                              type="button"
                               onClick={() => {
                                 setIsWishlistOpen(false);
                                 onSelectProduct(product);
                               }}
-                              className="text-left font-display text-sm font-bold text-[#1D2129] hover:text-[#1D2129] line-clamp-1"
+                              className="text-left text-[14px] font-semibold text-[#1D1D1F] hover:text-[#0071E3] line-clamp-1 cursor-pointer"
                             >
                               {product.nama}
                             </button>
                             <button
+                              type="button"
                               onClick={() => removeFromWishlist(product.id)}
-                              className="w-8 h-8 rounded-lg text-[#8692A3] hover:text-rose-600 hover:bg-rose-50 flex items-center justify-center shrink-0"
+                              className="w-9 h-9 -mr-1.5 -mt-1.5 rounded-full text-[#86868B] hover:text-[#D70015] hover:bg-[#F5F5F7] flex items-center justify-center shrink-0 cursor-pointer"
                               aria-label="Hapus dari favorit"
                             >
-                              <Trash2 size={14} />
+                              <Trash2 size={15} />
                             </button>
                           </div>
-                          <p className="text-[11px] text-[#647082] mt-0.5">
-                            {product.brand} • {product.kondisi || 'Second Grade A'}
+                          <p className="text-[12px] text-[#6E6E73] mt-0.5">
+                            {product.brand} · {product.kondisi || 'Grade A'}
                           </p>
-                          <p className="font-display text-sm font-bold text-[#1D2129] mt-1 tabular-nums">
+                          <p className="text-[15px] font-semibold text-[#1D1D1F] mt-1 tabular-nums">
                             {formatIDR(product.harga)}
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-2 mt-2.5">
+                        <div className="flex items-center gap-2 mt-3">
                           <button
+                            type="button"
                             onClick={() => {
                               setIsWishlistOpen(false);
                               onSelectProduct(product);
                             }}
-                            className="flex-1 min-h-[38px] px-3 rounded-xl border border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129] text-xs font-semibold text-[#323846] transition-colors flex items-center justify-center gap-1"
+                            className="flex-1 h-[40px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[13px] font-medium text-[#1D1D1F] transition-colors flex items-center justify-center gap-1 cursor-pointer"
                           >
                             <span>Detail</span>
-                            <ArrowRight size={12} />
+                            <ArrowRight size={13} />
                           </button>
                           <button
+                            type="button"
                             disabled={Number(product.stok) <= 0}
                             onClick={() => addToCart(product, 1)}
-                            className="min-h-[38px] px-3.5 rounded-xl bg-[#1D2129] hover:bg-[#323846] disabled:bg-[#E2E7EE] text-white text-xs font-semibold transition-colors flex items-center gap-1"
+                            className="h-[40px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] disabled:bg-[#E5E5EA] disabled:text-[#6E6E73] text-white text-[13px] font-normal transition-colors flex items-center gap-1.5 cursor-pointer"
                           >
-                            <ShoppingBag size={12} />
-                            <span>+ Cart</span>
+                            <ShoppingBag size={13} />
+                            <span>Beli</span>
                           </button>
                         </div>
                       </div>

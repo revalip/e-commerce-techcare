@@ -56,43 +56,44 @@ export default function AuthModal() {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 12 }}
         transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
-        className="relative bg-white rounded-[28px] max-w-md w-full max-h-[92vh] overflow-y-auto shadow-[0_2px_12px_rgba(0,0,0,0.06)] z-10"
+        className="relative bg-white rounded-[28px] max-w-md w-full max-h-[92vh] overflow-y-auto shadow-[0_24px_60px_rgba(0,0,0,0.18)] z-10"
       >
-        {/* Clean Apple White Modal Header */}
-        <div className="px-6 pt-6 pb-4 border-b border-[#D2D2D7]/70 flex items-center justify-between">
-          <div>
-            <p className="text-[12px] text-[#6E6E73]">Akun TechCare</p>
-            <h2 className="text-[22px] font-semibold tracking-[-0.025em] text-[#1D1D1F] leading-tight">
-              {authModalTab === 'login' ? 'Masuk ke akun' : 'Daftar akun baru'}
+        {/* Minimalist Apple Store Sign-In Header */}
+        <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-4">
+          <div className="space-y-1">
+            <p className="text-[12px] font-medium text-[#6E6E73]">TechCare ID</p>
+            <h2 className="text-[24px] font-semibold tracking-[-0.025em] text-[#1D1D1F] leading-[1.15]">
+              {authModalTab === 'login' ? 'Masuk untuk checkout lebih cepat.' : 'Buat akun TechCare.'}
             </h2>
           </div>
           <button
+            type="button"
             onClick={closeAuthModal}
-            className="w-9 h-9 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] flex items-center justify-center transition-colors"
+            className="w-11 h-11 -mr-2 -mt-1 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] flex items-center justify-center shrink-0 transition-colors cursor-pointer"
             aria-label="Tutup"
           >
-            <X size={16} />
+            <X size={17} />
           </button>
         </div>
 
-        <div className="p-6 space-y-5">
+        <div className="p-6 pt-4 space-y-5">
           {authNotice && (
-            <div className="p-3.5 bg-[#F5F5F7] rounded-[12px] text-[13px] text-[#1D1D1F] leading-relaxed">
+            <div className="p-3.5 bg-[#F5F5F7] rounded-[14px] text-[13px] text-[#424245] leading-relaxed">
               {authNotice}
             </div>
           )}
 
-          {/* Segmented Tab Switcher */}
-          <div className="grid grid-cols-2 p-1 bg-[#F5F5F7] rounded-[12px]">
+          {/* Segmented Tab Switcher (Apple HIG >= 44px touch height) */}
+          <div className="grid grid-cols-2 p-1 bg-[#F5F5F7] rounded-[980px]">
             <button
               type="button"
               onClick={() => {
                 setAuthModalTab('login');
                 setError('');
               }}
-              className={`min-h-[40px] rounded-[10px] text-[14px] font-medium transition-all ${
+              className={`min-h-[40px] rounded-[980px] text-[14px] font-medium transition-all cursor-pointer ${
                 authModalTab === 'login'
-                  ? 'bg-white text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white text-[#1D1D1F] shadow-[0_1px_4px_rgba(0,0,0,0.08)]'
                   : 'text-[#6E6E73] hover:text-[#1D1D1F]'
               }`}
             >
@@ -104,9 +105,9 @@ export default function AuthModal() {
                 setAuthModalTab('register');
                 setError('');
               }}
-              className={`min-h-[40px] rounded-[10px] text-[14px] font-medium transition-all ${
+              className={`min-h-[40px] rounded-[980px] text-[14px] font-medium transition-all cursor-pointer ${
                 authModalTab === 'register'
-                  ? 'bg-white text-[#1D1D1F] shadow-[0_2px_8px_rgba(0,0,0,0.06)]'
+                  ? 'bg-white text-[#1D1D1F] shadow-[0_1px_4px_rgba(0,0,0,0.08)]'
                   : 'text-[#6E6E73] hover:text-[#1D1D1F]'
               }`}
             >
@@ -115,55 +116,55 @@ export default function AuthModal() {
           </div>
 
           {error && (
-            <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs flex items-start gap-2">
-              <AlertCircle size={15} className="shrink-0 mt-0.5" />
+            <div className="p-3.5 bg-[#F5F5F7] text-[#D70015] rounded-[14px] text-[13px] flex items-start gap-2">
+              <AlertCircle size={16} className="shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-3.5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             {authModalTab === 'register' && (
               <div>
-                <label className="block text-xs font-semibold text-[#323846] mb-1">
-                  Nama Lengkap *
+                <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                  Nama Lengkap
                 </label>
                 <div className="relative">
-                  <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+                  <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
                   <input
                     type="text"
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Contoh: Budi Pratama"
-                    className="tc-input pl-10"
+                    className="w-full min-h-[44px] pl-10 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                   />
                 </div>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-[#323846] mb-1">
-                Alamat Email *
+              <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                Alamat Email
               </label>
               <div className="relative">
-                <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+                <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="nama@email.com"
-                  className="tc-input pl-10"
+                  className="w-full min-h-[44px] pl-10 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-[#323846] mb-1">
-                Password *
+              <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                Password
               </label>
               <div className="relative">
-                <Lock size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+                <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
                 <input
                   type="password"
                   required
@@ -171,34 +172,38 @@ export default function AuthModal() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimal 6 karakter"
-                  className="tc-input pl-10"
+                  className="w-full min-h-[44px] pl-10 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                 />
               </div>
             </div>
 
             {authModalTab === 'register' && (
               <div>
-                <label className="block text-xs font-semibold text-[#323846] mb-1">
+                <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
                   Nomor WhatsApp (Opsional)
                 </label>
                 <div className="relative">
-                  <Phone size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+                  <Phone size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
                   <input
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="081234567890"
-                    className="tc-input pl-10"
+                    className="w-full min-h-[44px] pl-10 pr-4 rounded-[12px] bg-[#F5F5F7] text-[15px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                   />
                 </div>
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="tc-btn-primary w-full py-3.5 mt-1">
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full h-[46px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] disabled:opacity-50 text-white text-[15px] font-normal transition-colors cursor-pointer mt-2"
+            >
               {loading
                 ? 'Memproses...'
                 : authModalTab === 'login'
-                ? 'Masuk Sekarang'
+                ? 'Masuk'
                 : 'Buat Akun'}
             </button>
           </form>

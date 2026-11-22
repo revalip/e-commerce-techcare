@@ -237,42 +237,45 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
 
   if (isGuest) {
     return (
-      <div className="bg-[#F7F8FA] min-h-screen py-14 sm:py-20 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-[24px] p-7 sm:p-8 border border-[#E2E7EE] shadow-tc-studio text-center space-y-5">
-          <div className="w-16 h-16 mx-auto bg-[#ECEFF4] text-[#1D2129] rounded-[20px] flex items-center justify-center">
-            <User size={28} />
+      <div className="bg-white min-h-screen py-16 sm:py-24 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-[#F5F5F7] rounded-[28px] p-8 sm:p-10 text-center space-y-5">
+          <div className="w-14 h-14 mx-auto bg-white text-[#1D1D1F] rounded-full flex items-center justify-center">
+            <User size={24} strokeWidth={1.6} />
           </div>
           <div className="space-y-1.5">
-            <span className="text-[11px] uppercase font-bold tracking-wider text-[#1D2129]">
-              CHECKOUT TECHCARE
-            </span>
-            <h2 className="font-display text-2xl font-bold text-[#1D2129]">Masuk / Buat Akun Buyer</h2>
-            <p className="text-xs text-[#647082] leading-relaxed">
-              Masuk atau daftar akun buyer agar Anda dapat menghitung ongkir, mengunggah bukti pembayaran, dan melacak nomor resi secara real-time.
+            <p className="text-[12px] font-medium text-[#6E6E73]">Checkout TechCare</p>
+            <h2 className="text-[24px] font-semibold tracking-[-0.025em] text-[#1D1D1F]">
+              Masuk untuk checkout lebih cepat.
+            </h2>
+            <p className="text-[14px] text-[#6E6E73] leading-relaxed">
+              Masuk atau daftar akun buyer untuk menghitung ongkir, mengunggah bukti pembayaran, dan melacak resi secara real-time.
             </p>
           </div>
           <div className="space-y-2.5 pt-1">
             <button
+              type="button"
               onClick={() =>
                 openAuthModal('login', 'Silakan masuk untuk melanjutkan proses checkout & pelacakan pesanan.')
               }
-              className="tc-btn-primary w-full"
+              className="w-full h-[46px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[15px] font-normal transition-colors cursor-pointer"
             >
               Masuk ke Akun
             </button>
             <button
+              type="button"
               onClick={() =>
                 openAuthModal('register', 'Daftar akun buyer baru untuk checkout dan lacak pesanan Anda.')
               }
-              className="tc-btn-secondary w-full"
+              className="w-full h-[46px] rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[15px] font-normal transition-colors cursor-pointer"
             >
-              Daftar Akun Baru (Buyer)
+              Daftar Akun Baru
             </button>
             <button
+              type="button"
               onClick={onBackToCart}
-              className="text-xs font-semibold text-[#647082] hover:text-[#1D2129] block mx-auto pt-2"
+              className="text-[13px] font-medium text-[#0071E3] hover:underline block mx-auto pt-2 cursor-pointer"
             >
-              ← Kembali ke Katalog TECHCARE
+              ← Kembali ke Katalog
             </button>
           </div>
         </div>
@@ -282,17 +285,23 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
 
   if (items.length === 0 && currentStep < 3) {
     return (
-      <div className="bg-[#F7F8FA] min-h-screen py-16 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-[24px] p-8 border border-[#E2E7EE] shadow-tc-studio text-center space-y-4">
-          <div className="w-14 h-14 rounded-[20px] bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center mx-auto">
-            <ShoppingBag size={26} />
+      <div className="bg-white min-h-screen py-16 sm:py-24 flex items-center justify-center px-4">
+        <div className="max-w-md w-full bg-[#F5F5F7] rounded-[28px] p-8 sm:p-10 text-center space-y-4">
+          <div className="w-14 h-14 rounded-full bg-white text-[#1D1D1F] flex items-center justify-center mx-auto">
+            <ShoppingBag size={24} strokeWidth={1.6} />
           </div>
-          <h2 className="font-display text-2xl font-bold text-[#1D2129]">Keranjang Anda Kosong</h2>
-          <p className="text-xs text-[#647082] leading-relaxed">
-            Tambahkan perangkat IT pilihan ke keranjang terlebih dahulu sebelum melanjutkan ke halaman checkout.
+          <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+            Tas belanja kosong
+          </h2>
+          <p className="text-[14px] text-[#6E6E73] leading-relaxed">
+            Tambahkan perangkat pilihan ke tas belanja terlebih dahulu sebelum melanjutkan checkout.
           </p>
-          <button onClick={onBackToCart} className="tc-btn-primary w-full">
-            Jelajahi Katalog Produk
+          <button
+            type="button"
+            onClick={onBackToCart}
+            className="h-[46px] px-7 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[15px] font-normal transition-colors cursor-pointer"
+          >
+            Jelajahi Katalog
           </button>
         </div>
       </div>
@@ -300,63 +309,61 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
   }
 
   return (
-    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Stepper Header */}
-        <Reveal>
-          <div className="bg-white rounded-[20px] sm:rounded-[24px] p-5 sm:p-6 border border-[#E2E7EE]/90 shadow-tc-studio flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-[11px] uppercase tracking-wider font-bold text-[#1D2129] block">
-                CHECKOUT AMAN TECHCARE
-              </span>
-              <h1 className="font-display text-2xl sm:text-3xl font-bold text-[#1D2129]">
-                Selesaikan Pesanan Anda
-              </h1>
-            </div>
-
-            <div className="flex items-center gap-2 sm:gap-3">
-              {steps.map((st, i) => (
-                <React.Fragment key={st.num}>
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all ${
-                        currentStep === st.num
-                          ? 'bg-[#0071E3] text-white'
-                          : currentStep > st.num
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-[#ECEFF4] text-[#8692A3]'
-                      }`}
-                    >
-                      {currentStep > st.num ? '✓' : st.num}
-                    </span>
-                    <span
-                      className={`text-xs font-semibold hidden sm:inline ${
-                        currentStep >= st.num ? 'text-[#1D2129]' : 'text-[#8692A3]'
-                      }`}
-                    >
-                      {st.title}
-                    </span>
-                  </div>
-                  {i < steps.length - 1 && (
-                    <div
-                      className={`w-6 sm:w-8 h-0.5 rounded-full ${
-                        currentStep > st.num ? 'bg-emerald-500' : 'bg-[#E2E7EE]'
-                      }`}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-            </div>
+    <div className="bg-white text-[#1D1D1F] min-h-screen pb-16">
+      {/* 1. Full-Width Apple Header Band (#F5F5F7) */}
+      <section className="w-full bg-[#F5F5F7] py-8 sm:py-12">
+        <div className="max-w-[1140px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+          <div className="space-y-1">
+            <p className="text-[13px] font-medium text-[#6E6E73]">Checkout TechCare</p>
+            <h1 className="text-[28px] sm:text-[38px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
+              Selesaikan Pesanan
+            </h1>
           </div>
-        </Reveal>
 
+          <div className="flex items-center gap-2 sm:gap-3">
+            {steps.map((st, i) => (
+              <React.Fragment key={st.num}>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-[12px] font-semibold transition-all ${
+                      currentStep === st.num
+                        ? 'bg-[#0071E3] text-white'
+                        : currentStep > st.num
+                        ? 'bg-[#1D1D1F] text-white'
+                        : 'bg-white text-[#86868B]'
+                    }`}
+                  >
+                    {currentStep > st.num ? '✓' : st.num}
+                  </span>
+                  <span
+                    className={`text-[13px] hidden sm:inline ${
+                      currentStep >= st.num ? 'text-[#1D1D1F] font-medium' : 'text-[#86868B]'
+                    }`}
+                  >
+                    {st.title}
+                  </span>
+                </div>
+                {i < steps.length - 1 && (
+                  <div
+                    className={`w-6 sm:w-8 h-[2px] rounded-full ${
+                      currentStep > st.num ? 'bg-[#0071E3]' : 'bg-[#D2D2D7]'
+                    }`}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-[1140px] mx-auto px-4 sm:px-6 pt-8 sm:pt-10">
         {/* Main 2-Column Checkout Grid (1-column on step 3) */}
-        <div className={currentStep < 3 ? 'grid grid-cols-1 lg:grid-cols-12 gap-6 items-start' : 'max-w-2xl mx-auto'}>
-          {/* Left Form Card */}
+        <div className={currentStep < 3 ? 'grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start' : 'max-w-2xl mx-auto'}>
+          {/* Left Form Panel */}
           <div
             className={`${
               currentStep < 3 ? 'lg:col-span-8' : ''
-            } bg-white rounded-[28px] p-6 sm:p-8 border border-[#D2D2D7]/60`}
+            } bg-[#F5F5F7] rounded-[24px] p-5 sm:p-8`}
           >
             <AnimatePresence mode="wait">
               {/* STEP 1 */}
@@ -367,79 +374,87 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -14 }}
                   transition={{ duration: 0.2 }}
-                  className="space-y-5"
+                  className="space-y-6"
                 >
-                  <div className="border-b border-[#ECEFF4] pb-4">
-                    <h2 className="font-display text-xl font-bold text-[#1D2129]">
-                      Langkah 1: Data Penerima &amp; Ekspedisi
+                  <div className="border-b border-[#D2D2D7]/70 pb-4">
+                    <h2 className="text-[20px] sm:text-[22px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                      Data Penerima &amp; Ekspedisi
                     </h2>
-                    <p className="text-xs text-[#647082] mt-0.5">
-                      Ongkos kirim dihitung otomatis dari tabel tarif lokal berdasarkan wilayah &amp; berat total paket.
+                    <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                      Ongkos kirim dihitung otomatis berdasarkan wilayah tujuan dan berat total paket.
                     </p>
                   </div>
 
                   <form onSubmit={handleNextStep1} className="space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-[#323846] mb-1">
-                          Nama Lengkap Penerima *
+                        <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                          Nama Lengkap Penerima
                         </label>
                         <input
                           type="text"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           placeholder="Contoh: Budi Santoso"
-                          className={`tc-input ${errors.name ? 'border-rose-500 bg-rose-50/40' : ''}`}
+                          className={`w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
+                            errors.name ? 'ring-2 ring-[#D70015]' : ''
+                          }`}
                         />
-                        {errors.name && <p className="text-[11px] text-rose-600 mt-1">{errors.name}</p>}
+                        {errors.name && <p className="text-[12px] text-[#D70015] mt-1">{errors.name}</p>}
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-[#323846] mb-1">
-                          Nomor WhatsApp *
+                        <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                          Nomor WhatsApp
                         </label>
                         <input
                           type="tel"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="081234567890"
-                          className={`tc-input ${errors.phone ? 'border-rose-500 bg-rose-50/40' : ''}`}
+                          className={`w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
+                            errors.phone ? 'ring-2 ring-[#D70015]' : ''
+                          }`}
                         />
-                        {errors.phone && <p className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>}
+                        {errors.phone && <p className="text-[12px] text-[#D70015] mt-1">{errors.phone}</p>}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-[#323846] mb-1">
-                          Email Konfirmasi *
+                        <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                          Email Konfirmasi
                         </label>
                         <input
                           type="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="budi@email.com"
-                          className={`tc-input ${errors.email ? 'border-rose-500 bg-rose-50/40' : ''}`}
+                          className={`w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
+                            errors.email ? 'ring-2 ring-[#D70015]' : ''
+                          }`}
                         />
-                        {errors.email && <p className="text-[11px] text-rose-600 mt-1">{errors.email}</p>}
+                        {errors.email && <p className="text-[12px] text-[#D70015] mt-1">{errors.email}</p>}
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-[#323846] mb-1">
-                          Kota / Kabupaten *
+                        <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                          Kota / Kabupaten
                         </label>
                         <input
                           type="text"
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                           placeholder="Jakarta Selatan"
-                          className={`tc-input ${errors.city ? 'border-rose-500 bg-rose-50/40' : ''}`}
+                          className={`w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
+                            errors.city ? 'ring-2 ring-[#D70015]' : ''
+                          }`}
                         />
-                        {errors.city && <p className="text-[11px] text-rose-600 mt-1">{errors.city}</p>}
+                        {errors.city && <p className="text-[12px] text-[#D70015] mt-1">{errors.city}</p>}
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-[#323846] mb-1">
+                        <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
                           Kode Pos
                         </label>
                         <input
@@ -448,22 +463,22 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                           onChange={(e) => setPostalCode(e.target.value)}
                           placeholder="12190"
                           maxLength={10}
-                          className="tc-input"
+                          className="w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#323846] mb-1">
-                        <span className="inline-flex items-center gap-1">
-                          <MapPin size={13} className="text-[#1D2129]" />
-                          Wilayah / Provinsi Tujuan (Penentu Tarif Ongkir) *
+                      <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                        <span className="inline-flex items-center gap-1.5">
+                          <MapPin size={14} className="text-[#0071E3]" />
+                          Wilayah / Provinsi Tujuan
                         </span>
                       </label>
                       <select
                         value={zoneId}
                         onChange={(e) => setZoneId(e.target.value)}
-                        className="tc-input font-medium cursor-pointer"
+                        className="w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] font-medium cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                       >
                         {SHIPPING_ZONES.map((z) => (
                           <option key={z.id} value={z.id}>
@@ -474,33 +489,33 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#323846] mb-1">
-                        Alamat Lengkap *
+                      <label className="block text-[13px] font-medium text-[#1D1D1F] mb-1.5">
+                        Alamat Lengkap
                       </label>
                       <textarea
                         rows={2}
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         placeholder="Jalan, Nomor Rumah, RT/RW, Kelurahan, Kecamatan"
-                        className={`tc-input min-h-[76px] resize-none ${
-                          errors.address ? 'border-rose-500 bg-rose-50/40' : ''
+                        className={`w-full min-h-[82px] px-4 py-3 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] resize-none focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
+                          errors.address ? 'ring-2 ring-[#D70015]' : ''
                         }`}
                       />
-                      {errors.address && <p className="text-[11px] text-rose-600 mt-1">{errors.address}</p>}
+                      {errors.address && <p className="text-[12px] text-[#D70015] mt-1">{errors.address}</p>}
                     </div>
 
                     {/* Courier Options */}
-                    <div className="space-y-2.5 pt-2">
+                    <div className="space-y-3 pt-2">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                        <label className="text-xs font-bold text-[#1D2129]">
-                          Pilih Ekspedisi (JNE / J&amp;T / SiCepat / Workshop)
+                        <label className="text-[14px] font-semibold text-[#1D1D1F]">
+                          Pilih Ekspedisi
                         </label>
-                        <span className="text-[11px] text-emerald-700 font-semibold">
-                          Gratis Ongkir Jabodetabek min. {formatIDR(FREE_SHIPPING_THRESHOLD)}
+                        <span className="text-[12px] text-[#1D7F3E] font-medium">
+                          Gratis ongkir Jabodetabek min. {formatIDR(FREE_SHIPPING_THRESHOLD)}
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {shippingOptions.map((c) => {
                           const active = selectedCourierId === c.id;
                           return (
@@ -508,33 +523,30 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                               key={c.id}
                               type="button"
                               onClick={() => setSelectedCourierId(c.id)}
-                              className={`p-3.5 rounded-[20px] border text-left transition-all flex items-start justify-between gap-2 ${
+                              className={`p-4 rounded-[18px] text-left transition-all flex items-start justify-between gap-3 cursor-pointer ${
                                 active
-                                  ? 'border-[#0071E3] bg-[#0071E3]/5 ring-1 ring-[#0071E3]'
-                                  : 'border-[#E2E7EE] hover:border-[#8692A3] bg-white'
+                                  ? 'bg-white ring-2 ring-[#0071E3]'
+                                  : 'bg-white hover:bg-[#FAFAFC]'
                               }`}
                             >
                               <div className="space-y-0.5 min-w-0">
-                                <div className="flex items-center gap-1.5">
-                                  <span className="px-1.5 py-0.5 rounded bg-[#0071E3] text-white text-[9px] font-bold uppercase shrink-0">
-                                    {c.code}
-                                  </span>
-                                  <p className="text-xs font-bold text-[#1D2129] truncate">{c.name}</p>
-                                </div>
-                                <p className="text-[11px] text-[#4F627A] font-medium">
-                                  {c.eta} • {c.weightKg} kg
+                                <p className="text-[14px] font-semibold text-[#1D1D1F] truncate">
+                                  {c.name}
                                 </p>
-                                <p className="text-[10px] text-[#647082] leading-snug">{c.desc}</p>
+                                <p className="text-[12px] text-[#424245]">
+                                  {c.eta} · {c.weightKg} kg
+                                </p>
+                                <p className="text-[12px] text-[#6E6E73] leading-snug">{c.desc}</p>
                               </div>
                               <div className="text-right shrink-0">
                                 {c.isFreePromo && (
-                                  <span className="block text-[10px] text-[#8692A3] line-through tabular-nums">
+                                  <span className="block text-[12px] text-[#86868B] line-through tabular-nums">
                                     {formatIDR(c.originalCost)}
                                   </span>
                                 )}
                                 <span
-                                  className={`font-display text-xs font-bold tabular-nums ${
-                                    c.cost === 0 ? 'text-emerald-600' : 'text-[#1D2129]'
+                                  className={`text-[14px] font-semibold tabular-nums ${
+                                    c.cost === 0 ? 'text-[#1D7F3E]' : 'text-[#1D1D1F]'
                                   }`}
                                 >
                                   {c.cost > 0 ? formatIDR(c.cost) : 'Gratis'}
@@ -546,18 +558,21 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                       </div>
                     </div>
 
-                    <div className="pt-4 flex justify-between items-center gap-3 border-t border-[#ECEFF4]">
+                    <div className="pt-5 flex justify-between items-center gap-3 border-t border-[#D2D2D7]/70">
                       <button
                         type="button"
                         onClick={onBackToCart}
-                        className="tc-btn-secondary px-4"
+                        className="h-[44px] px-5 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[14px] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <ArrowLeft size={15} />
                         <span>Kembali</span>
                       </button>
 
-                      <button type="submit" className="tc-btn-primary px-6">
-                        <span>Lanjut Pembayaran</span>
+                      <button
+                        type="submit"
+                        className="h-[44px] px-6 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <span>Lanjut ke Pembayaran</span>
                         <ArrowRight size={15} />
                       </button>
                     </div>
@@ -573,88 +588,89 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -14 }}
                   transition={{ duration: 0.2 }}
-                  className="space-y-5"
+                  className="space-y-6"
                 >
-                  <div className="border-b border-[#ECEFF4] pb-4">
-                    <h2 className="font-display text-xl font-bold text-[#1D2129]">
-                      Langkah 2: Pembayaran Lokal &amp; Kupon Promo
+                  <div className="border-b border-[#D2D2D7]/70 pb-4">
+                    <h2 className="text-[20px] sm:text-[22px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                      Pembayaran &amp; Voucher
                     </h2>
-                    <p className="text-xs text-[#647082] mt-0.5">
-                      Pilih metode QRIS atau Transfer Bank lokal, klaim voucher, lalu buat pesanan.
+                    <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                      Pilih QRIS atau transfer bank, masukkan kode promo bila ada, lalu buat pesanan.
                     </p>
                   </div>
 
-                  {/* Payment Verification Notice */}
-                  <div className="p-3.5 rounded-[20px] bg-[#ECEFF4] border border-[#D4DBE5] flex items-start gap-2.5 text-xs text-[#1D2129]">
-                    <Info size={16} className="text-[#1D2129] shrink-0 mt-0.5" />
+                  {/* Payment Notice */}
+                  <div className="p-4 rounded-[18px] bg-white flex items-start gap-3 text-[13px] text-[#424245]">
+                    <Info size={16} className="text-[#0071E3] shrink-0 mt-0.5" />
                     <p className="leading-relaxed">
-                      <strong>Konfirmasi Pembayaran:</strong> Transfer sesuai nominal tagihan hingga 3 digit kode unik, lalu unggah bukti transfer untuk diverifikasi Admin.
+                      Transfer sesuai nominal tagihan hingga <strong className="text-[#1D1D1F]">3 digit kode unik</strong>, lalu unggah bukti transfer agar admin segera memverifikasi pesanan.
                     </p>
                   </div>
 
                   {submitError && (
-                    <div className="p-3.5 rounded-[20px] bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
-                      <AlertCircle size={15} className="shrink-0" />
+                    <div className="p-4 rounded-[18px] bg-white text-[#D70015] text-[13px] flex items-center gap-2.5">
+                      <AlertCircle size={16} className="shrink-0" />
                       <span>{submitError}</span>
                     </div>
                   )}
 
                   {/* Voucher Box */}
-                  <div className="bg-[#F7F8FA] p-4 rounded-[20px] border border-[#E2E7EE] space-y-3">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-[#1D2129]">
-                      <Tag size={15} className="text-[#1D2129]" />
-                      <span>Kupon Diskon TECHCARE</span>
+                  <div className="bg-white p-5 rounded-[20px] space-y-3">
+                    <div className="flex items-center gap-2 text-[14px] font-semibold text-[#1D1D1F]">
+                      <Tag size={15} className="text-[#0071E3]" />
+                      <span>Voucher Diskon</span>
                     </div>
 
                     {appliedVoucher ? (
-                      <div className="p-3 bg-[#F5F5F7] border border-[#0071E3]/40 rounded-xl flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <Check size={16} className="text-[#0071E3]" />
+                      <div className="p-3.5 bg-[#F5F5F7] rounded-[14px] flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2.5">
+                          <Check size={16} className="text-[#1D7F3E] shrink-0" />
                           <div>
-                            <p className="text-xs font-bold text-[#1D1D1F]">
-                              Kupon <strong>{appliedVoucher.kode}</strong> Aktif
+                            <p className="text-[13px] font-semibold text-[#1D1D1F]">
+                              Voucher {appliedVoucher.kode} aktif
                             </p>
-                            <p className="text-[11px] text-[#D70015] font-medium">
+                            <p className="text-[12px] text-[#D70015] font-medium">
                               Hemat {formatIDR(discountAmount)}
                             </p>
                           </div>
                         </div>
                         <button
+                          type="button"
                           onClick={handleRemoveVoucher}
-                          className="w-8 h-8 rounded-lg text-emerald-800 hover:bg-emerald-100 flex items-center justify-center"
+                          className="w-10 h-10 rounded-full bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] flex items-center justify-center cursor-pointer"
                           aria-label="Hapus kupon"
                         >
                           <X size={15} />
                         </button>
                       </div>
                     ) : (
-                      <div className="space-y-2.5">
+                      <div className="space-y-3">
                         <div className="flex gap-2">
                           <input
                             type="text"
                             placeholder="Masukkan kode (mis. TECHCARE10)"
                             value={promoCodeInput}
                             onChange={(e) => setPromoCodeInput(e.target.value)}
-                            className="tc-input flex-1 bg-white uppercase "
+                            className="flex-1 min-h-[44px] px-4 rounded-[12px] bg-[#F5F5F7] text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] uppercase focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                           />
                           <button
                             type="button"
                             onClick={() => handleApplyVoucher()}
                             disabled={validatingVoucher}
-                            className="tc-btn-dark px-5 shrink-0"
+                            className="h-[44px] px-5 rounded-[980px] bg-[#1D1D1F] hover:bg-[#323236] text-white text-[13px] font-normal shrink-0 transition-colors cursor-pointer"
                           >
                             {validatingVoucher ? 'Cek...' : 'Pakai'}
                           </button>
                         </div>
-                        {voucherError && <p className="text-[11px] text-rose-600">{voucherError}</p>}
-                        <div className="flex items-center gap-1.5 flex-wrap text-[11px] text-[#647082]">
-                          <span>Kode cepat:</span>
+                        {voucherError && <p className="text-[12px] text-[#D70015]">{voucherError}</p>}
+                        <div className="flex items-center gap-2 flex-wrap text-[12px] text-[#6E6E73]">
+                          <span>Kode tersedia:</span>
                           {['TECHCARE10', 'UPGRADERAM', 'LAPTOP250K'].map((code) => (
                             <button
                               key={code}
                               type="button"
                               onClick={() => handleApplyVoucher(code)}
-                              className="px-2.5 py-1 rounded-lg bg-white border border-[#E2E7EE] hover:border-[#1D2129] hover:text-[#1D2129] text-[11px] font-bold text-[#323846] transition-colors"
+                              className="h-[32px] px-3 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] font-medium text-[#1D1D1F] transition-colors cursor-pointer"
                             >
                               {code}
                             </button>
@@ -665,22 +681,22 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   </div>
 
                   {/* Payment Method Selector */}
-                  <div className="space-y-2.5">
-                    <span className="text-xs font-bold text-[#1D2129]">
-                      Pilih Metode Pembayaran Lokal
+                  <div className="space-y-3">
+                    <span className="text-[14px] font-semibold text-[#1D1D1F] block">
+                      Metode Pembayaran
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                       {[
                         {
                           key: 'bank_transfer',
                           title: 'Transfer BCA',
-                          sub: '8271039821 • TECHCARE',
+                          sub: '8271039821 · TechCare',
                           icon: CreditCard
                         },
                         {
                           key: 'bank_mandiri',
                           title: 'Transfer Mandiri',
-                          sub: '1340029182734 • TECHCARE',
+                          sub: '1340029182734 · TechCare',
                           icon: CreditCard
                         },
                         {
@@ -697,25 +713,24 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                             key={m.key}
                             type="button"
                             onClick={() => setPaymentMethod(m.key)}
-                            className={`p-4 rounded-[20px] border text-left flex items-center justify-between gap-2 transition-all ${
-                              active
-                                ? 'border-[#0071E3] bg-[#0071E3]/5 ring-1 ring-[#0071E3]'
-                                : 'border-[#E2E7EE] hover:border-[#8692A3] bg-white'
+                            className={`p-4 rounded-[18px] text-left flex items-center justify-between gap-2.5 transition-all cursor-pointer ${
+                              active ? 'bg-white ring-2 ring-[#0071E3]' : 'bg-white hover:bg-[#FAFAFC]'
                             }`}
                           >
                             <div className="flex items-center gap-2.5 min-w-0">
                               <Icon
                                 size={18}
-                                className={active ? 'text-[#0071E3] shrink-0' : 'text-[#647082] shrink-0'}
+                                strokeWidth={1.7}
+                                className={active ? 'text-[#0071E3] shrink-0' : 'text-[#6E6E73] shrink-0'}
                               />
                               <div className="min-w-0">
-                                <p className="text-xs font-bold text-[#1D2129]">{m.title}</p>
-                                <p className="text-[10px] text-[#647082] truncate">{m.sub}</p>
+                                <p className="text-[13px] font-semibold text-[#1D1D1F]">{m.title}</p>
+                                <p className="text-[12px] text-[#6E6E73] truncate">{m.sub}</p>
                               </div>
                             </div>
                             <span
                               className={`w-4 h-4 rounded-full border shrink-0 ${
-                                active ? 'border-[5px] border-[#0071E3]' : 'border-[#BAC4D2]'
+                                active ? 'border-[5px] border-[#0071E3]' : 'border-[#D2D2D7]'
                               }`}
                             />
                           </button>
@@ -724,23 +739,21 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                     </div>
 
                     {paymentMethod === 'qris' && (
-                      <div className="p-4 rounded-[20px] bg-[#F7F8FA] border border-[#E2E7EE] flex flex-col sm:flex-row items-center gap-4">
+                      <div className="p-5 rounded-[20px] bg-white flex flex-col sm:flex-row items-center gap-4">
                         <img
                           src="/images/qris-techcare.svg"
-                          alt="QRIS TECHCARE"
-                          className="w-28 h-32 object-contain rounded-xl bg-white p-1.5 border border-[#E2E7EE]"
+                          alt="QRIS TechCare"
+                          className="w-28 h-32 object-contain rounded-xl bg-[#F5F5F7] p-2"
                         />
-                        <div className="text-xs text-[#4F627A] space-y-1 text-center sm:text-left">
-                          <p className="font-display font-bold text-[#1D2129]">
-                            QRIS Nasional TECHCARE
-                          </p>
+                        <div className="text-[13px] text-[#6E6E73] space-y-1 text-center sm:text-left">
+                          <p className="font-semibold text-[#1D1D1F]">QRIS Nasional TechCare</p>
                           <p>
-                            Scan kode QRIS sebesar{' '}
-                            <strong className="text-[#1D2129] tabular-nums">{formatIDR(finalTotal)}</strong>{' '}
-                            (termasuk kode unik <strong className="">+{uniqueCode}</strong>).
+                            Scan QRIS sebesar{' '}
+                            <strong className="text-[#1D1D1F] tabular-nums">{formatIDR(finalTotal)}</strong>{' '}
+                            (termasuk kode unik <strong className="text-[#1D1D1F]">+{uniqueCode}</strong>).
                           </p>
-                          <p className="text-[11px] text-[#647082] inline-flex items-center gap-1">
-                            <Clock size={12} /> Batas waktu pembayaran: 24 jam.
+                          <p className="text-[12px] inline-flex items-center gap-1">
+                            <Clock size={12} /> Batas pembayaran 24 jam.
                           </p>
                         </div>
                       </div>
@@ -748,40 +761,43 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   </div>
 
                   {/* Optional Instant Proof Upload */}
-                  <div className="p-4 rounded-[20px] border border-dashed border-[#BAC4D2] bg-[#F7F8FA] space-y-2.5">
-                    <div className="flex items-center gap-2 text-xs font-bold text-[#23272F]">
-                      <Upload size={14} className="text-[#1D2129]" />
-                      <span>Upload Bukti Bayar Sekarang (Opsional — bisa nanti di halaman Invoice)</span>
+                  <div className="p-5 rounded-[20px] bg-white space-y-3">
+                    <div className="flex items-center gap-2 text-[13px] font-semibold text-[#1D1D1F]">
+                      <Upload size={15} className="text-[#0071E3]" />
+                      <span>Unggah Bukti Bayar Sekarang (Opsional)</span>
                     </div>
+                    <p className="text-[12px] text-[#6E6E73]">
+                      Anda juga bisa mengunggah bukti transfer nanti dari halaman Detail Pesanan.
+                    </p>
                     <input
                       type="file"
-                      accept="image/*"
+                      accept="image/jpeg,image/png,image/webp"
                       onChange={handleProofFile}
-                      className="block w-full text-xs text-[#647082] file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-[#1D2129] file:text-white hover:file:bg-[#323846] cursor-pointer"
+                      className="block w-full text-[13px] text-[#6E6E73] file:mr-3 file:h-[38px] file:px-4 file:rounded-[980px] file:border-0 file:text-[13px] file:font-medium file:bg-[#F5F5F7] file:text-[#1D1D1F] hover:file:bg-[#E8E8ED] cursor-pointer"
                     />
                     {proofPreview && (
                       <div className="flex items-center gap-3 pt-1">
                         <img
                           src={proofPreview}
                           alt="Preview bukti"
-                          className="h-14 w-14 rounded-xl object-cover border border-[#E2E7EE]"
+                          className="h-14 w-14 rounded-xl object-cover bg-[#F5F5F7]"
                         />
                         <input
                           type="text"
                           value={paymentNotes}
                           onChange={(e) => setPaymentNotes(e.target.value)}
                           placeholder="Catatan transfer (mis. BCA a.n. Budi)"
-                          className="tc-input flex-1 bg-white"
+                          className="flex-1 min-h-[44px] px-4 rounded-[12px] bg-[#F5F5F7] text-[14px] text-[#1D1D1F] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                         />
                       </div>
                     )}
                   </div>
 
-                  <div className="pt-3 flex justify-between items-center gap-3 border-t border-[#ECEFF4]">
+                  <div className="pt-4 flex justify-between items-center gap-3 border-t border-[#D2D2D7]/70">
                     <button
                       type="button"
                       onClick={() => setCurrentStep(1)}
-                      className="tc-btn-secondary px-4"
+                      className="h-[44px] px-5 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[14px] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <ArrowLeft size={15} />
                       <span>Kembali</span>
@@ -791,15 +807,15 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                       type="button"
                       disabled={actionStatus !== 'idle'}
                       onClick={handleFinishOrder}
-                      className="tc-btn-primary px-6"
+                      className="h-[44px] px-6 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] disabled:opacity-50 text-white text-[14px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                     >
                       {actionStatus === 'processing' ? (
                         <span>Membuat Invoice...</span>
                       ) : actionStatus === 'success' ? (
-                        <span>Pesanan Dibuat!</span>
+                        <span>Pesanan Dibuat</span>
                       ) : (
                         <>
-                          <span>Buat Pesanan Sekarang</span>
+                          <span>Buat Pesanan</span>
                           <ArrowRight size={15} />
                         </>
                       )}
@@ -815,57 +831,58 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   initial={{ opacity: 0, scale: 0.97 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.25 }}
-                  className="text-center py-4 space-y-6"
+                  className="text-center py-6 space-y-6"
                 >
-                  <div className="w-16 h-16 rounded-[20px] bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center mx-auto">
-                    <CheckCircle2 size={34} />
+                  <div className="w-16 h-16 rounded-full bg-white text-[#1D7F3E] flex items-center justify-center mx-auto">
+                    <CheckCircle2 size={32} strokeWidth={1.7} />
                   </div>
 
                   <div className="space-y-1.5">
-                    <h2 className="font-display text-2xl sm:text-3xl font-bold text-[#1D2129]">
-                      Pesanan Berhasil Dibuat!
+                    <h2 className="text-[24px] sm:text-[30px] font-semibold tracking-[-0.025em] text-[#1D1D1F]">
+                      Pesanan berhasil dibuat.
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#647082] max-w-md mx-auto leading-relaxed">
-                      Lanjutkan ke halaman <strong>Instruksi Bayar &amp; Tracking</strong> untuk melihat rekening/QRIS, batas waktu 24 jam, dan mengunggah bukti pembayaran.
+                    <p className="text-[14px] text-[#6E6E73] max-w-md mx-auto leading-relaxed">
+                      Lanjutkan ke halaman Instruksi Pembayaran untuk melihat rekening/QRIS, batas waktu 24 jam, dan unggah bukti transfer.
                     </p>
                   </div>
 
-                  <div className="bg-[#F7F8FA] p-5 rounded-[20px] border border-[#E2E7EE] max-w-md mx-auto text-left space-y-2.5 text-xs">
-                    <div className="flex justify-between items-center border-b border-[#E2E7EE] pb-2.5">
-                      <span className="text-[#647082]">Nomor Invoice</span>
-                      <span className="font-bold text-[#1D2129] text-sm">
+                  <div className="bg-white p-6 rounded-[22px] max-w-md mx-auto text-left space-y-2.5 text-[13px]">
+                    <div className="flex justify-between items-center border-b border-[#D2D2D7]/70 pb-3">
+                      <span className="text-[#6E6E73]">Nomor Invoice</span>
+                      <span className="font-semibold text-[#1D1D1F] text-[15px]">
                         #{completedOrder.nomorPesanan}
                       </span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#647082]">Penerima</span>
-                      <span className="font-semibold text-[#1D2129]">{completedOrder.customer.nama}</span>
+                      <span className="text-[#6E6E73]">Penerima</span>
+                      <span className="font-medium text-[#1D1D1F]">{completedOrder.customer.nama}</span>
                     </div>
                     <div className="flex justify-between items-center gap-2">
-                      <span className="text-[#647082]">Ekspedisi</span>
-                      <span className="text-[#1D2129] text-right max-w-[64%]">{completedOrder.kurir}</span>
+                      <span className="text-[#6E6E73]">Ekspedisi</span>
+                      <span className="text-[#1D1D1F] text-right max-w-[64%]">{completedOrder.kurir}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#647082]">Metode Bayar</span>
-                      <span className="text-[#1D2129]">{completedOrder.metodeBayar}</span>
+                      <span className="text-[#6E6E73]">Metode Bayar</span>
+                      <span className="text-[#1D1D1F]">{completedOrder.metodeBayar}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-[#647082]">Kode Unik</span>
-                      <span className="font-bold text-[#1D2129]">
+                      <span className="text-[#6E6E73]">Kode Unik</span>
+                      <span className="font-semibold text-[#1D1D1F] tabular-nums">
                         +{formatIDR(completedOrder.uniqueCode || 0)}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center pt-2.5 border-t border-[#E2E7EE] text-sm font-bold">
+                    <div className="flex justify-between items-center pt-3 border-t border-[#D2D2D7]/70 text-[15px] font-semibold">
                       <span>Total Transfer Tepat</span>
-                      <span className="font-display text-base text-[#1D2129] tabular-nums">
+                      <span className="text-[17px] text-[#1D1D1F] tabular-nums">
                         {formatIDR(completedOrder.total)}
                       </span>
                     </div>
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => onOrderCompleted(completedOrder.nomorPesanan)}
-                    className="tc-btn-primary px-8 py-3.5 text-sm"
+                    className="h-[46px] px-7 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[15px] font-normal inline-flex items-center gap-2 transition-colors cursor-pointer"
                   >
                     <span>Lihat Instruksi Bayar &amp; Lacak</span>
                     <ArrowRight size={16} />
@@ -877,68 +894,68 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
 
           {/* Right Sticky Order Summary Card (visible on Steps 1 & 2) */}
           {currentStep < 3 && (
-            <aside className="lg:col-span-4 lg:sticky lg:top-28 bg-white rounded-[24px] p-5 sm:p-6 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
-              <div className="flex items-center justify-between border-b border-[#ECEFF4] pb-3">
-                <h3 className="font-display text-base font-bold text-[#1D2129]">
-                  Ringkasan Pesanan
+            <aside className="lg:col-span-4 lg:sticky lg:top-20 bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
+              <div className="flex items-center justify-between border-b border-[#D2D2D7]/70 pb-3.5">
+                <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Ringkasan
                 </h3>
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-[#ECEFF4] text-[#1D2129]">
-                  <Scale size={12} /> {formatWeight(totalWeightGram)} ({billableKg} kg)
+                <span className="inline-flex items-center gap-1 text-[12px] font-medium text-[#6E6E73] tabular-nums">
+                  <Scale size={13} /> {formatWeight(totalWeightGram)} ({billableKg} kg)
                 </span>
               </div>
 
               <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
                 {items.map((it) => (
                   <div key={it.variantKey || it.id} className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-[#ECEFF4] p-1.5 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-white p-1.5 flex items-center justify-center shrink-0">
                       <img src={it.gambar} alt={it.nama} className="max-h-full max-w-full object-contain" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-xs font-bold text-[#1D2129] truncate">{it.nama}</p>
-                      <p className="text-[11px] text-[#647082] truncate">
-                        {it.jumlah}x • {it.specLabel || it.warna}
+                      <p className="text-[13px] font-semibold text-[#1D1D1F] truncate">{it.nama}</p>
+                      <p className="text-[12px] text-[#6E6E73] truncate">
+                        {it.jumlah}× · {it.specLabel || it.warna}
                       </p>
                     </div>
-                    <span className="text-xs font-bold text-[#1D2129] shrink-0 tabular-nums">
+                    <span className="text-[13px] font-semibold text-[#1D1D1F] shrink-0 tabular-nums">
                       {formatIDR(it.harga * it.jumlah)}
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div className="pt-3 border-t border-[#ECEFF4] space-y-2 text-xs">
-                <div className="flex justify-between text-[#4F627A]">
-                  <span>Subtotal Produk</span>
-                  <span className="tabular-nums font-semibold">{formatIDR(subtotal)}</span>
+              <div className="pt-4 border-t border-[#D2D2D7]/70 space-y-2 text-[13px]">
+                <div className="flex justify-between text-[#6E6E73]">
+                  <span>Subtotal</span>
+                  <span className="tabular-nums font-medium text-[#1D1D1F]">{formatIDR(subtotal)}</span>
                 </div>
                 {discountAmount > 0 && (
-                  <div className="flex justify-between text-[#D70015] font-semibold">
+                  <div className="flex justify-between text-[#D70015] font-medium">
                     <span>Diskon ({appliedVoucher?.kode})</span>
                     <span className="tabular-nums">-{formatIDR(discountAmount)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-[#4F627A] gap-2">
+                <div className="flex justify-between text-[#6E6E73] gap-2">
                   <span className="truncate">Ongkir ({selectedCourier.name})</span>
-                  <span className="font-semibold text-[#1D2129] shrink-0 tabular-nums">
+                  <span className="font-medium text-[#1D1D1F] shrink-0 tabular-nums">
                     {selectedCourier.cost > 0 ? formatIDR(selectedCourier.cost) : 'Gratis'}
                   </span>
                 </div>
-                <div className="flex justify-between text-[#4F627A]">
-                  <span>Kode Unik (3 Digit)</span>
-                  <span className="font-bold text-[#1D2129]">+{formatIDR(uniqueCode)}</span>
+                <div className="flex justify-between text-[#6E6E73]">
+                  <span>Kode Unik</span>
+                  <span className="font-medium text-[#1D1D1F] tabular-nums">+{formatIDR(uniqueCode)}</span>
                 </div>
 
-                <div className="flex justify-between items-baseline pt-3 border-t border-[#E2E7EE]">
-                  <span className="font-display text-sm font-bold text-[#1D2129]">Total Bayar</span>
-                  <span className="font-display text-lg font-bold text-[#1D2129] tabular-nums">
+                <div className="flex justify-between items-baseline pt-3.5 border-t border-[#D2D2D7]">
+                  <span className="text-[15px] font-semibold text-[#1D1D1F]">Total</span>
+                  <span className="text-[19px] font-semibold text-[#1D1D1F] tabular-nums">
                     {formatIDR(finalTotal)}
                   </span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-xl bg-[#F7F8FA] border border-[#E2E7EE]/80 flex items-center gap-2 text-[11px] text-[#4F627A]">
-                <ShieldCheck size={16} className="text-emerald-600 shrink-0" />
-                <span>Stok otomatis diamankan &amp; bergaransi toko TECHCARE 30–90 hari.</span>
+              <div className="p-3.5 rounded-[16px] bg-white flex items-center gap-2.5 text-[12px] text-[#6E6E73]">
+                <ShieldCheck size={16} className="text-[#1D7F3E] shrink-0" />
+                <span>Stok diamankan otomatis · Garansi toko 30–90 hari.</span>
               </div>
             </aside>
           )}

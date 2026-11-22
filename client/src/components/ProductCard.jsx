@@ -47,12 +47,12 @@ export default function ProductCard({ product, onSelect }) {
       onClick={() => onSelect(product)}
       className="relative bg-[#F5F5F7] rounded-[28px] p-5 sm:p-6 flex flex-col justify-between group cursor-pointer h-full transition-colors duration-300"
     >
-      {/* Small Heart Icon in Top-Right Corner (No big white circle) */}
+      {/* Heart Icon in Top-Right Corner (>= 44x44px Apple HIG tap target) */}
       <button
         type="button"
         onClick={handleToggleHeart}
         aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-        className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F] transition-colors"
+        className="absolute top-2.5 right-2.5 z-10 w-11 h-11 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F] transition-colors cursor-pointer"
       >
         <Heart
           size={18}
@@ -75,8 +75,22 @@ export default function ProductCard({ product, onSelect }) {
 
       {/* Clean Minimal Info */}
       <div className="flex-1 flex flex-col justify-between gap-4 pt-2">
-        <div className="space-y-1">
-          {/* Small blue savings / soft red low-stock (<= 3 only) */}
+        <div className="space-y-1.5">
+          {/* Finish / Color preview dots (Apple Store concept) */}
+          {product.varianWarna && product.varianWarna.length > 0 && (
+            <div className="flex items-center gap-1.5 pb-0.5" aria-label="Pilihan warna">
+              {product.varianWarna.slice(0, 4).map((v) => (
+                <span
+                  key={v.nama}
+                  title={v.nama}
+                  className="w-2.5 h-2.5 rounded-full border border-black/15"
+                  style={{ backgroundColor: v.hex }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Small savings / soft amber low-stock (<= 3 only) */}
           {(product.diskonPersen > 0 || lowStock || outOfStock) && (
             <div className="flex items-center gap-2.5 text-[12px] font-medium min-h-[18px]">
               {!outOfStock && product.diskonPersen > 0 && (
@@ -116,7 +130,7 @@ export default function ProductCard({ product, onSelect }) {
             type="button"
             onClick={handleAdd}
             disabled={outOfStock}
-            className={`shrink-0 min-h-[36px] px-4 rounded-[980px] text-[13px] font-normal inline-flex items-center justify-center gap-1 transition-colors duration-300 ${
+            className={`shrink-0 min-h-[40px] px-4 rounded-[980px] text-[13px] font-normal inline-flex items-center justify-center gap-1 transition-colors duration-300 cursor-pointer ${
               outOfStock
                 ? 'bg-[#E5E5EA] text-[#6E6E73] cursor-not-allowed'
                 : isAdded
