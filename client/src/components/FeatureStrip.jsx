@@ -6,7 +6,7 @@ const ASSURANCES = [
   {
     icon: ShieldCheck,
     title: 'Garansi toko 30–90 hari',
-    desc: 'Tukar unit atau servis langsung di workshop Jakarta Barat.'
+    desc: 'Tukar unit atau servis langsung di workshop Depok.'
   },
   {
     icon: CheckCircle2,

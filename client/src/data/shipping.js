@@ -99,13 +99,13 @@ export const COURIERS = [
     baseRatePerKg: 0,
     etaByZone: {
       jabodetabek: 'Siap diambil hari ini (09:00–20:00 WIB)',
-      jabar_banten: 'Ambil di Workshop Jakarta Barat',
-      jateng_diy: 'Ambil di Workshop Jakarta Barat',
-      jatim: 'Ambil di Workshop Jakarta Barat',
-      sumatera: 'Ambil di Workshop Jakarta Barat',
-      bali_nusra: 'Ambil di Workshop Jakarta Barat',
-      kalimantan: 'Ambil di Workshop Jakarta Barat',
-      sulawesi_papua: 'Ambil di Workshop Jakarta Barat'
+      jabar_banten: 'Ambil di Workshop Depok (Sukmajaya)',
+      jateng_diy: 'Ambil di Workshop Depok (Sukmajaya)',
+      jatim: 'Ambil di Workshop Depok (Sukmajaya)',
+      sumatera: 'Ambil di Workshop Depok (Sukmajaya)',
+      bali_nusra: 'Ambil di Workshop Depok (Sukmajaya)',
+      kalimantan: 'Ambil di Workshop Depok (Sukmajaya)',
+      sulawesi_papua: 'Ambil di Workshop Depok (Sukmajaya)'
     },
     desc: 'Cek fisik unit & gratis pasang RAM/SSD langsung bareng teknisi'
   }

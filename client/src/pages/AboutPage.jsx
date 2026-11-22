@@ -181,8 +181,16 @@ export default function AboutPage({ onExploreShop }) {
             <MapPin size={20} className="text-[#1D2129]" />
             <h5 className="font-display text-sm font-bold text-[#1D2129]">Workshop Jasa IT &amp; Pickup</h5>
             <p className="text-xs text-[#4F627A] leading-relaxed">
-              Sentra Niaga IT Blok B No. 12, Grogol Petamburan, Jakarta Barat 11470
+              Jl. Keramat Benda XII, Bakti Jaya, Kec. Sukmajaya, Kota Depok, Jawa Barat
             </p>
+            <a
+              href="https://maps.app.goo.gl/Yk2RrFqFscs4kRLB6"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-xs font-medium text-[#0071E3] hover:underline pt-0.5"
+            >
+              Buka di Google Maps &rsaquo;
+            </a>
           </div>
           <div className="space-y-1.5">
             <Clock size={20} className="text-[#1D2129]" />
@@ -197,7 +205,15 @@ export default function AboutPage({ onExploreShop }) {
             <Phone size={20} className="text-[#1D2129]" />
             <h5 className="font-display text-sm font-bold text-[#1D2129]">Konsultasi Teknisi</h5>
             <p className="text-xs text-[#4F627A] leading-relaxed">
-              WhatsApp: +62 812-3456-7890
+              WhatsApp:{' '}
+              <a
+                href="https://wa.me/6285890673568"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#0071E3] hover:underline font-medium"
+              >
+                +62 858-9067-3568
+              </a>
               <br />
               Email: care@techcare.id
             </p>

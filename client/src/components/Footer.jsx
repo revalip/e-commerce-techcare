@@ -59,9 +59,9 @@ export default function Footer({ onNavigate, onSelectCollection }) {
       id: 'tentang',
       title: 'Tentang',
       links: [
-        { label: 'Workshop Jakarta Barat', action: () => onNavigate('about') },
-        { label: 'Sentra Niaga IT Blok B No. 12', action: () => onNavigate('about') },
-        { label: '+62 812-3456-7890', action: () => onNavigate('about') },
+        { label: 'Workshop Depok (Sukmajaya)', href: 'https://maps.app.goo.gl/Yk2RrFqFscs4kRLB6' },
+        { label: 'Jl. Keramat Benda XII, Bakti Jaya', href: 'https://maps.app.goo.gl/Yk2RrFqFscs4kRLB6' },
+        { label: '+62 858-9067-3568', href: 'https://wa.me/6285890673568' },
         { label: 'care@techcare.id', action: () => onNavigate('about') }
       ]
     }
@@ -112,13 +112,24 @@ export default function Footer({ onNavigate, onSelectCollection }) {
                 >
                   {group.links.map((link) => (
                     <li key={link.label}>
-                      <button
-                        type="button"
-                        onClick={link.action}
-                        className="hover:text-[#1D1D1F] hover:underline text-left transition-colors"
-                      >
-                        {link.label}
-                      </button>
+                      {link.href ? (
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-[#1D1D1F] hover:underline text-left transition-colors inline-block"
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={link.action}
+                          className="hover:text-[#1D1D1F] hover:underline text-left transition-colors"
+                        >
+                          {link.label}
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -129,15 +140,25 @@ export default function Footer({ onNavigate, onSelectCollection }) {
 
         <div className="pt-6 space-y-3">
           <p>
-            Butuh konsultasi upgrade atau klaim garansi? Hubungi{' '}
-            <button
-              type="button"
-              onClick={() => onNavigate('about')}
+            Butuh konsultasi upgrade atau klaim garansi? Kunjungi{' '}
+            <a
+              href="https://maps.app.goo.gl/Yk2RrFqFscs4kRLB6"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#0071E3] hover:underline"
             >
-              Workshop TechCare Jakarta Barat
-            </button>{' '}
-            atau WhatsApp +62 812-3456-7890.
+              Workshop TechCare Depok
+            </a>{' '}
+            atau hubungi{' '}
+            <a
+              href="https://wa.me/6285890673568"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[#0071E3] hover:underline"
+            >
+              WhatsApp +62 858-9067-3568
+            </a>
+            .
           </p>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-3 border-t border-[#D2D2D7]/80">

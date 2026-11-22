@@ -94,8 +94,8 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
           </div>
         </div>
 
-        {/* Full-bleed bottom-flush video container: scaled up cleanly on mobile for commanding Apple presence */}
-        <div className="mt-7 sm:mt-4 w-full max-w-[1160px] mx-auto px-0 flex items-end justify-center overflow-hidden">
+        {/* Full-bleed bottom-flush video: wider horizontal bleed on mobile so laptop is large WITHOUT clipping top bezel */}
+        <div className="mt-5 sm:mt-4 w-full overflow-x-clip flex items-end justify-center">
           {shouldReduceMotion || videoError ? (
             <img
               src="/assets/products/thinkpad-x1-carbon-front.png"
@@ -116,7 +116,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
               onEnded={handleVideoEnded}
               onError={() => setVideoError(true)}
               aria-label="Animasi tangan membuka Lenovo ThinkPad X1 Carbon dari tertutup hingga terbuka"
-              className="block w-full min-h-[250px] sm:min-h-0 aspect-[1280/624] object-cover object-bottom mix-blend-multiply select-none pointer-events-none scale-[1.18] sm:scale-100 origin-bottom lg:[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+              className="block w-[124%] max-w-none sm:w-full sm:max-w-[1140px] aspect-[1280/624] object-contain object-bottom mix-blend-multiply select-none pointer-events-none lg:[mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
             />
           )}
         </div>

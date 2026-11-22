@@ -789,13 +789,13 @@ export const mockOrders = [
       {
         waktu: '2026-11-17T16:40:00Z',
         status: 'Paket Diserahkan ke Kurir',
-        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        lokasi: 'Depok (Workshop TECHCARE)',
         keterangan: 'Paket diserahkan ke JNE YES dengan resi JNE9812739182ID + asuransi penuh.'
       },
       {
         waktu: '2026-11-17T11:20:00Z',
         status: 'Upgrade Spec & 32 Titik QC Teknisi',
-        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        lokasi: 'Depok (Workshop TECHCARE)',
         keterangan: 'Upgrade RAM 16GB + SSD 512GB selesai, lulus stress-test thermal & layar.'
       },
       {
@@ -925,7 +925,7 @@ export const mockOrders = [
       {
         waktu: '2026-11-16T04:10:00Z',
         status: 'Paket Dikirim',
-        lokasi: 'Jakarta Barat (Workshop TECHCARE)',
+        lokasi: 'Depok (Workshop TECHCARE)',
         keterangan: 'Diserahkan ke JNE Reguler dengan resi JNE7712093811ID.'
       },
       {
