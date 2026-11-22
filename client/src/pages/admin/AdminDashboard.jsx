@@ -518,7 +518,7 @@ export default function AdminDashboard({ onBackToShop }) {
   const totalStatusCount = Math.max(1, orders.length);
 
   return (
-    <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-screen py-7 sm:py-10 pb-24 sm:pb-16">
+    <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-[55vh] py-7 sm:py-10 pb-16">
       <div className="max-w-[1120px] mx-auto px-4 sm:px-6 space-y-6">
         {/* 1. Compact App Store Connect Header */}
         <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
