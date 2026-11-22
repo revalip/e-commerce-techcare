@@ -2,17 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   CheckCircle2,
-  Clock,
-  Truck,
-  Package,
   Copy,
   Check,
   Upload,
   AlertCircle,
   ChevronLeft,
-  MapPin,
-  Wrench,
-  CreditCard,
   XCircle,
   Lock
 } from 'lucide-react';
@@ -194,10 +188,10 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7]">
         <div className="text-center space-y-3">
-          <div className="w-8 h-8 border-2 border-[#0071E3] border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-[13px] text-[#6E6E73]">Memuat status pesanan...</p>
+          <div className="w-7 h-7 border-2 border-[#0071E3] border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-[13px] text-[#6E6E73]">Memuat detail pesanan...</p>
         </div>
       </div>
     );
@@ -205,25 +199,25 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
   if (error || !order) {
     return (
-      <div className="min-h-screen bg-white py-20 px-4 text-center">
-        <div className="max-w-md mx-auto bg-[#F5F5F7] rounded-[28px] p-10 space-y-4">
-          <AlertCircle size={32} strokeWidth={1.5} className="text-[#D70015] mx-auto" />
-          <h2 className="text-[22px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+      <div className="min-h-screen bg-[#F5F5F7] py-20 px-4 text-center">
+        <div className="max-w-md mx-auto bg-white rounded-[24px] p-10 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-4">
+          <AlertCircle size={28} strokeWidth={1.6} className="text-[#D70015] mx-auto" />
+          <h2 className="text-[20px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
             Pesanan tidak ditemukan
           </h2>
           <p className="text-[14px] text-[#6E6E73]">{error}</p>
-          <div className="flex flex-wrap gap-3 justify-center pt-2">
+          <div className="flex flex-wrap gap-2.5 justify-center pt-2">
             <button
               type="button"
               onClick={onBackToOrders}
-              className="h-[40px] px-5 rounded-[980px] bg-white text-[#1D1D1F] text-[14px] hover:bg-[#E8E8ED] transition-colors cursor-pointer"
+              className="h-[42px] px-5 rounded-[980px] bg-[#F5F5F7] text-[#1D1D1F] text-[14px] hover:bg-[#E8E8ED] transition-colors cursor-pointer"
             >
               Kembali
             </button>
             <button
               type="button"
               onClick={onBackToShop}
-              className="h-[40px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] transition-colors cursor-pointer"
+              className="h-[42px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[14px] transition-colors cursor-pointer"
             >
               Lihat Katalog
             </button>
@@ -244,15 +238,16 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
     order.paymentMethodKey === 'bank_mandiri' ||
     (order.metodeBayar || '').toLowerCase().includes('mandiri');
   const canCancel = isOwnerOrAdmin && !isCancelled && !isPaid && !isAwaiting && order.statusKey === 'pending';
-  const canUploadProof = isOwnerOrAdmin && !isCancelled && !isPaid && order.statusKey !== 'completed' && order.statusKey !== 'shipped';
+  const canUploadProof =
+    isOwnerOrAdmin && !isCancelled && !isPaid && order.statusKey !== 'completed' && order.statusKey !== 'shipped';
 
   const steps = [
-    { key: 'pending', label: 'Dipesan', icon: Clock },
-    { key: 'awaiting_verification', label: 'Verifikasi', icon: CreditCard },
-    { key: 'paid', label: 'Dibayar', icon: CheckCircle2 },
-    { key: 'processing', label: 'QC 32 Titik', icon: Wrench },
-    { key: 'shipped', label: 'Dikirim', icon: Truck },
-    { key: 'completed', label: 'Selesai', icon: Package }
+    { key: 'pending', label: 'Dipesan' },
+    { key: 'awaiting_verification', label: 'Verifikasi' },
+    { key: 'paid', label: 'Dibayar' },
+    { key: 'processing', label: 'QC 32 Titik' },
+    { key: 'shipped', label: 'Dikirim' },
+    { key: 'completed', label: 'Selesai' }
   ];
 
   const statusOrderIndex = {
@@ -270,55 +265,155 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
     ? 100
     : Math.round(((currentStepIdx + 0.5) / steps.length) * 100);
   const statusColor = getStatusColorClass(order.statusKey || order.paymentStatus);
+  const primaryItem = order.items?.[0];
+  const latestEvent = order.trackingHistory?.[0];
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-white text-[#1D1D1F] min-h-screen pb-16"
+      className="bg-[#F5F5F7] text-[#1D1D1F] min-h-screen py-6 sm:py-10 pb-24 sm:pb-16"
     >
-      {/* 1. Full-Width Clean Header Band (#F5F5F7) */}
-      <section className="w-full bg-[#F5F5F7] py-10 sm:py-14">
-        <div className="max-w-[920px] mx-auto px-4 sm:px-6 space-y-5">
-          <button
-            type="button"
-            onClick={onBackToOrders}
-            className="inline-flex items-center gap-1 text-[14px] text-[#0071E3] hover:underline cursor-pointer"
-          >
-            <ChevronLeft size={16} strokeWidth={1.8} />
-            <span>Kembali ke Lacak Pesanan</span>
-          </button>
+      <div className="max-w-[880px] mx-auto px-4 sm:px-6 space-y-5">
+        {/* Top Back Navigation */}
+        <button
+          type="button"
+          onClick={onBackToOrders}
+          className="inline-flex items-center gap-1 min-h-[40px] text-[14px] font-medium text-[#0071E3] hover:underline cursor-pointer"
+        >
+          <ChevronLeft size={17} strokeWidth={2} />
+          <span>Pesanan</span>
+        </button>
 
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h1 className="text-[28px] sm:text-[38px] font-semibold tracking-[-0.03em] text-[#1D1D1F] leading-tight">
-                  #{order.nomorPesanan}
-                </h1>
+        {actionMsg && (
+          <div className="p-4 rounded-[16px] bg-white text-[#1D7F3E] text-[14px] flex items-center gap-2.5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05]">
+            <CheckCircle2 size={16} className="shrink-0" />
+            <span>{actionMsg}</span>
+          </div>
+        )}
+
+        {/* 1. Apple Store Product-First Status Hero Card (Pure White on #F5F5F7) */}
+        <section className="bg-white rounded-[22px] p-6 sm:p-8 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-5">
+            <div className="space-y-2 min-w-0">
+              <div className="flex items-center gap-2.5 flex-wrap text-[13px]">
+                <span className={`font-semibold ${statusColor}`}>
+                  {order.status || 'Diproses'}
+                </span>
+                {!isCancelled && (
+                  <span className="text-[#86868B] tabular-nums">
+                    · Tahap {currentStepIdx + 1} dari {steps.length}
+                  </span>
+                )}
+              </div>
+
+              <h1 className="text-[26px] sm:text-[32px] font-semibold tracking-[-0.025em] leading-[1.12] text-[#1D1D1F]">
+                {latestEvent?.status || order.status || 'Pesanan Diproses'}
+              </h1>
+
+              {latestEvent?.keterangan && (
+                <p className="text-[14px] text-[#6E6E73] leading-relaxed max-w-xl">
+                  {latestEvent.keterangan}
+                </p>
+              )}
+
+              <div className="flex items-center gap-2 flex-wrap pt-1 text-[13px] text-[#6E6E73]">
+                <span className="font-medium text-[#1D1D1F] tabular-nums">#{order.nomorPesanan}</span>
                 <button
                   type="button"
                   onClick={() => handleCopy(order.nomorPesanan, 'invoice')}
-                  className="h-[30px] px-3 rounded-[980px] bg-white text-[12px] text-[#1D1D1F] hover:bg-[#E8E8ED] inline-flex items-center gap-1 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1 text-[12px] text-[#0071E3] hover:underline cursor-pointer"
                 >
                   {copiedField === 'invoice' ? <Check size={12} /> : <Copy size={12} />}
                   <span>{copiedField === 'invoice' ? 'Tersalin' : 'Salin'}</span>
                 </button>
+                <span>·</span>
+                <span>{formatDate(order.tanggal)}</span>
               </div>
-              <p className="text-[14px] text-[#6E6E73]">
-                {formatDate(order.tanggal)} · {order.metodeBayar || 'Transfer Bank'}
+            </div>
+
+            {primaryItem && (
+              <div className="flex sm:flex-col items-center gap-3 sm:gap-2 shrink-0 bg-[#F5F5F7] sm:bg-transparent p-3 sm:p-0 rounded-[16px]">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 rounded-[16px] bg-white sm:bg-[#F5F5F7] p-2.5 flex items-center justify-center shrink-0">
+                  <img
+                    src={primaryItem.gambar || '/assets/products/thinkpad-x1-carbon-front.png'}
+                    alt={primaryItem.nama}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </div>
+                <div className="sm:hidden min-w-0">
+                  <p className="text-[14px] font-semibold text-[#1D1D1F] truncate">{primaryItem.nama}</p>
+                  <p className="text-[12px] text-[#6E6E73] truncate">{primaryItem.specLabel}</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Sleek Apple Minimalist Linear Progress Bar (No cartoonish icon circles!) */}
+          {isCancelled ? (
+            <div className="p-4 rounded-[14px] bg-[#F5F5F7] flex items-center gap-3 text-[#D70015] text-[14px]">
+              <XCircle size={18} strokeWidth={1.7} className="shrink-0" />
+              <span>Pesanan dibatalkan. Stok unit telah dikembalikan ke katalog.</span>
+            </div>
+          ) : (
+            <div className="space-y-2.5 pt-1">
+              <div className="h-[4px] w-full bg-[#E5E5EA] rounded-full overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all duration-500 ${
+                    order.statusKey === 'completed' ? 'bg-[#1D7F3E]' : 'bg-[#0071E3]'
+                  }`}
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              <div className="hidden sm:grid sm:grid-cols-6 gap-2">
+                {steps.map((step, idx) => {
+                  const done = currentStepIdx >= idx;
+                  const current = currentStepIdx === idx;
+                  return (
+                    <span
+                      key={step.key}
+                      className={`text-[12px] text-center ${
+                        current
+                          ? 'text-[#0071E3] font-semibold'
+                          : done
+                          ? 'text-[#1D1D1F] font-medium'
+                          : 'text-[#86868B]'
+                      }`}
+                    >
+                      {step.label}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Hairline Footer Row: Courier / Resi + Primary Action */}
+          <div className="pt-5 border-t border-[#E5E5EA] flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+            <div className="text-[13px] space-y-0.5 min-w-0">
+              <p className="font-semibold text-[#1D1D1F]">{order.kurir || 'JNE Reguler'}</p>
+              <p className="text-[#6E6E73] break-all sm:break-normal">
+                {order.resi ? `Resi: ${order.resi}` : 'Nomor resi akan tampil setelah proses QC selesai'}
               </p>
             </div>
 
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className={`text-[15px] font-semibold ${statusColor}`}>
-                {order.status || 'Diproses'}
-              </span>
+            <div className="flex items-center gap-2.5 flex-wrap">
+              {order.resi && (
+                <button
+                  type="button"
+                  onClick={() => handleCopy(order.resi, 'resi')}
+                  className="flex-1 sm:flex-initial justify-center h-[40px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                >
+                  {copiedField === 'resi' ? <Check size={13} /> : <Copy size={13} />}
+                  <span>{copiedField === 'resi' ? 'Tersalin' : 'Salin Resi'}</span>
+                </button>
+              )}
               {isOwnerOrAdmin && isShipped && (
                 <button
                   type="button"
                   disabled={confirming}
                   onClick={handleConfirmReceived}
-                  className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal transition-colors cursor-pointer disabled:opacity-50"
+                  className="flex-1 sm:flex-initial justify-center h-[40px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {confirming ? 'Memproses...' : 'Konfirmasi Diterima'}
                 </button>
@@ -328,158 +423,48 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   type="button"
                   disabled={cancelling}
                   onClick={handleCancelOrder}
-                  className="h-[38px] px-5 rounded-[980px] border border-[#D70015] text-[#D70015] hover:bg-[#D70015] hover:text-white text-[13px] font-normal transition-colors cursor-pointer disabled:opacity-50"
+                  className="flex-1 sm:flex-initial justify-center h-[40px] px-5 rounded-[980px] border border-[#D70015] text-[#D70015] hover:bg-[#D70015] hover:text-white text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {cancelling ? 'Membatalkan...' : 'Batalkan'}
                 </button>
               )}
             </div>
           </div>
-
-          {actionMsg && (
-            <div className="p-4 rounded-[16px] bg-white text-[#1D7F3E] text-[14px] flex items-center gap-2.5">
-              <CheckCircle2 size={16} className="shrink-0" />
-              <span>{actionMsg}</span>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <div className="max-w-[920px] mx-auto px-4 sm:px-6 pt-10 space-y-10">
-        {/* 2. Apple-Style Linear Progress Stepper */}
-        <section className="space-y-6">
-          {isCancelled ? (
-            <div className="bg-[#F5F5F7] rounded-[24px] p-6 flex items-center gap-3.5 text-[#D70015]">
-              <XCircle size={22} strokeWidth={1.6} className="shrink-0" />
-              <div className="text-[14px]">
-                <p className="font-semibold">Pesanan ini telah dibatalkan.</p>
-                <p className="text-[#6E6E73]">Stok perangkat telah dikembalikan ke katalog TechCare.</p>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {/* Mobile summary label above track */}
-              <div className="flex items-center justify-between text-[13px] sm:hidden">
-                <span className="font-semibold text-[#1D1D1F]">{steps[currentStepIdx]?.label || 'Diproses'}</span>
-                <span className="text-[#6E6E73] tabular-nums">Tahap {currentStepIdx + 1} dari {steps.length}</span>
-              </div>
-
-              {/* Unified Apple Store 6-node horizontal progress track (aligned 1:1 on both Mobile & Desktop) */}
-              <div className="relative pt-1">
-                <div className="relative flex items-center justify-between">
-                  {/* Track rail spanning center of first node to center of last node */}
-                  <div className="absolute left-[8.33%] right-[8.33%] top-1/2 -translate-y-1/2 h-[3px] bg-[#E8E8ED] rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-[#0071E3] transition-all duration-500 rounded-full"
-                      style={{ width: `${Math.round((currentStepIdx / (steps.length - 1)) * 100)}%` }}
-                    />
-                  </div>
-
-                  {steps.map((step, idx) => {
-                    const done = currentStepIdx > idx;
-                    const current = currentStepIdx === idx;
-                    const Icon = step.icon;
-                    return (
-                      <div key={step.key} className="relative z-10 flex-1 flex flex-col items-center">
-                        <div
-                          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors ${
-                            current
-                              ? 'bg-[#0071E3] text-white ring-4 ring-[#0071E3]/15'
-                              : done
-                              ? 'bg-[#1D1D1F] text-white'
-                              : 'bg-[#F5F5F7] text-[#A1A1A6]'
-                          }`}
-                        >
-                          {done ? <Check size={14} strokeWidth={2.4} /> : <Icon size={14} strokeWidth={1.8} />}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Desktop 6-column labels directly centered beneath each node */}
-                <div className="hidden sm:grid sm:grid-cols-6 gap-2 mt-3">
-                  {steps.map((step, idx) => {
-                    const done = currentStepIdx >= idx;
-                    const current = currentStepIdx === idx;
-                    return (
-                      <span
-                        key={step.key}
-                        className={`text-[12px] text-center leading-tight ${
-                          current
-                            ? 'text-[#0071E3] font-semibold'
-                            : done
-                            ? 'text-[#1D1D1F] font-medium'
-                            : 'text-[#86868B]'
-                        }`}
-                      >
-                        {step.label}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Courier & Resi Bar */}
-          <div className="bg-[#F5F5F7] rounded-[20px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5 min-w-0">
-              <Truck size={20} strokeWidth={1.6} className="text-[#1D1D1F] shrink-0" />
-              <div className="text-[14px] min-w-0">
-                <p className="font-semibold text-[#1D1D1F]">{order.kurir || 'JNE Reguler'}</p>
-                <p className="text-[#6E6E73] text-[13px] break-all sm:break-normal">
-                  {order.resi ? `Resi: ${order.resi}` : 'Menunggu proses QC dan penyerahan ke kurir'}
-                </p>
-              </div>
-            </div>
-            {order.resi && (
-              <button
-                type="button"
-                onClick={() => handleCopy(order.resi, 'resi')}
-                className="w-full sm:w-auto justify-center h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] font-medium inline-flex items-center gap-1.5 shrink-0 transition-colors cursor-pointer"
-              >
-                {copiedField === 'resi' ? <Check size={13} /> : <Copy size={13} />}
-                <span>{copiedField === 'resi' ? 'Tersalin' : 'Salin Resi'}</span>
-              </button>
-            )}
-          </div>
         </section>
 
         {/* Guest Privacy Notice */}
         {!isOwnerOrAdmin && (
-          <section className="bg-[#F5F5F7] rounded-[24px] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-start gap-3.5">
-              <Lock size={18} strokeWidth={1.6} className="text-[#6E6E73] shrink-0 mt-0.5" />
-              <div className="space-y-0.5 text-[14px]">
+          <section className="bg-white rounded-[20px] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <Lock size={17} strokeWidth={1.7} className="text-[#86868B] shrink-0 mt-0.5" />
+              <div className="space-y-0.5 text-[13px]">
                 <p className="font-semibold text-[#1D1D1F]">Mode pelacakan terbatas</p>
                 <p className="text-[#6E6E73]">
-                  Data pribadi penerima disamarkan. Masuk dengan akun pemilik pesanan untuk mengelola pesanan atau melihat alamat lengkap.
+                  Data pribadi penerima disamarkan. Masuk dengan akun pemilik pesanan untuk melihat alamat lengkap atau mengelola pesanan.
                 </p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => openAuthModal('login', 'Masuk dengan akun pemilik pesanan untuk melihat detail lengkap.')}
-              className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal shrink-0 self-start sm:self-auto transition-colors cursor-pointer"
+              className="h-[40px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium shrink-0 self-start sm:self-auto transition-colors cursor-pointer"
             >
               Masuk
             </button>
           </section>
         )}
 
-        {/* 3. Payment & Proof Upload (Owner/Admin ONLY when unpaid) */}
+        {/* 2. Clean White Payment & Proof Upload Cards (Owner/Admin ONLY when unpaid) */}
         {canUploadProof && (
           <section className="grid grid-cols-1 md:grid-cols-2 items-start gap-5">
-            {/* Payment Instructions */}
-            <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
+            <div className="bg-white rounded-[22px] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
               <div className="flex items-center justify-between gap-2">
-                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
-                  Instruksi Pembayaran
+                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Pembayaran
                 </h2>
                 {countdown && !countdown.expired && (
                   <span className="text-[12px] font-medium text-[#B64400] tabular-nums">
-                    {String(countdown.hours).padStart(2, '0')}:
+                    Sisa {String(countdown.hours).padStart(2, '0')}:
                     {String(countdown.minutes).padStart(2, '0')}:
                     {String(countdown.seconds).padStart(2, '0')}
                   </span>
@@ -487,39 +472,39 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               </div>
 
               {isRejected && (
-                <p className="text-[13px] text-[#D70015] bg-white rounded-[14px] p-3.5">
-                  Bukti sebelumnya perlu diperbaiki: {order.paymentNotes || 'Nominal atau bukti belum sesuai.'}
+                <p className="text-[13px] text-[#D70015] bg-[#F5F5F7] rounded-[12px] p-3.5">
+                  Bukti sebelumnya ditolak: {order.paymentNotes || 'Nominal atau bukti belum sesuai.'}
                 </p>
               )}
 
-              <div className="bg-[#1D1D1F] text-white rounded-[20px] p-5 space-y-2.5">
-                <span className="text-[12px] text-[#A1A1A6] block">
+              <div className="bg-[#F5F5F7] rounded-[18px] p-5 space-y-2">
+                <span className="text-[12px] text-[#6E6E73] block">
                   Transfer tepat hingga 3 digit kode unik
                 </span>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="text-[24px] font-semibold tracking-tight tabular-nums">
+                  <span className="text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
                     {formatIDR(order.total)}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopy(order.total, 'amount')}
-                    className="h-[34px] px-3.5 bg-white text-[#1D1D1F] hover:bg-[#E8E8ED] rounded-[980px] text-[12px] font-medium inline-flex items-center gap-1.5 shrink-0 cursor-pointer"
+                    className="h-[36px] px-4 bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] rounded-[980px] text-[12px] font-medium inline-flex items-center gap-1.5 shrink-0 cursor-pointer"
                   >
                     {copiedField === 'amount' ? <Check size={12} /> : <Copy size={12} />}
                     <span>{copiedField === 'amount' ? 'Tersalin' : 'Salin'}</span>
                   </button>
                 </div>
                 {order.uniqueCode > 0 && (
-                  <p className="text-[12px] text-[#A1A1A6]">
-                    Termasuk kode unik <strong className="text-white font-semibold">+{order.uniqueCode}</strong>
-                    {order.paymentDeadline ? ` · Batas bayar ${formatDate(order.paymentDeadline)}` : ''}
+                  <p className="text-[12px] text-[#6E6E73]">
+                    Termasuk kode unik <strong className="text-[#1D1D1F] font-semibold">+{order.uniqueCode}</strong>
+                    {order.paymentDeadline ? ` · Batas ${formatDate(order.paymentDeadline)}` : ''}
                   </p>
                 )}
               </div>
 
               {isQris ? (
-                <div className="text-center space-y-3">
-                  <div className="max-w-[210px] mx-auto bg-white p-3 rounded-[20px]">
+                <div className="text-center space-y-3 pt-1">
+                  <div className="max-w-[200px] mx-auto bg-[#F5F5F7] p-3 rounded-[18px]">
                     <img
                       src="/images/qris-techcare.svg"
                       alt="QRIS TechCare"
@@ -527,12 +512,11 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                     />
                   </div>
                   <p className="text-[13px] text-[#6E6E73]">
-                    Scan QRIS lewat aplikasi bank atau e-wallet sebesar{' '}
-                    <strong className="text-[#1D1D1F]">{formatIDR(order.total)}</strong>.
+                    Scan QRIS sebesar <strong className="text-[#1D1D1F]">{formatIDR(order.total)}</strong>.
                   </p>
                 </div>
               ) : (
-                <div className="bg-white rounded-[18px] p-4 flex items-center justify-between gap-3">
+                <div className="pt-1 flex items-center justify-between gap-3 border-t border-[#E5E5EA] pt-4">
                   <div className="space-y-0.5">
                     <p className="text-[12px] text-[#6E6E73]">
                       {isMandiri ? 'Bank Mandiri' : 'Bank BCA'} · PT TechCare Solusi Teknologi
@@ -544,7 +528,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <button
                     type="button"
                     onClick={() => handleCopy(isMandiri ? '1330029481022' : '8271039821', 'rek')}
-                    className="h-[34px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-[12px] font-medium cursor-pointer"
+                    className="h-[36px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-[12px] font-medium cursor-pointer"
                   >
                     {copiedField === 'rek' ? 'Tersalin' : 'Salin'}
                   </button>
@@ -552,71 +536,69 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               )}
             </div>
 
-            {/* Proof Upload */}
-            <form onSubmit={handleUploadProof} className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-4 flex flex-col justify-between">
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
-                    Bukti Pembayaran
-                  </h2>
-                  <p className="text-[13px] text-[#6E6E73] mt-0.5">
-                    Unggah screenshot transfer atau QRIS (JPG, PNG, WebP maks. 4MB).
+            <form
+              onSubmit={handleUploadProof}
+              className="bg-white rounded-[22px] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-4"
+            >
+              <div>
+                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Bukti Transfer
+                </h2>
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                  Unggah tangkapan layar transfer atau QRIS (JPG, PNG, WebP maks. 4MB).
+                </p>
+              </div>
+
+              {order.paymentProofUrl && !proofPreview && (
+                <div className="bg-[#F5F5F7] rounded-[16px] p-4 text-center space-y-2">
+                  <img
+                    src={order.paymentProofUrl}
+                    alt="Bukti pembayaran terunggah"
+                    className="max-h-36 mx-auto rounded-xl object-contain"
+                  />
+                  <p className="text-[12px] text-[#6E6E73]">
+                    Bukti terunggah{order.paymentNotes ? ` · ${order.paymentNotes}` : ''}
                   </p>
                 </div>
+              )}
 
-                {order.paymentProofUrl && !proofPreview && (
-                  <div className="bg-white rounded-[18px] p-4 text-center space-y-2">
-                    <img
-                      src={order.paymentProofUrl}
-                      alt="Bukti pembayaran terunggah"
-                      className="max-h-36 mx-auto rounded-xl object-contain"
-                    />
-                    <p className="text-[12px] text-[#6E6E73]">
-                      Bukti sudah terunggah{order.paymentNotes ? ` · ${order.paymentNotes}` : ''}
-                    </p>
-                  </div>
-                )}
-
-                {proofPreview && (
-                  <div className="bg-white rounded-[18px] p-4 text-center">
-                    <img
-                      src={proofPreview}
-                      alt="Pratinjau bukti"
-                      className="max-h-36 mx-auto rounded-xl object-contain"
-                    />
-                  </div>
-                )}
-
-                <label className="block w-full bg-white hover:bg-[#EFEFF2] rounded-[16px] p-4 text-center cursor-pointer transition-colors">
-                  <span className="inline-flex items-center gap-2 text-[14px] text-[#0071E3] font-medium">
-                    <Upload size={15} />
-                    <span>{proofPreview ? 'Ganti gambar bukti' : 'Pilih gambar bukti transfer'}</span>
-                  </span>
-                  <input
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={handleFileChange}
-                    className="hidden"
+              {proofPreview && (
+                <div className="bg-[#F5F5F7] rounded-[16px] p-4 text-center">
+                  <img
+                    src={proofPreview}
+                    alt="Pratinjau bukti"
+                    className="max-h-36 mx-auto rounded-xl object-contain"
                   />
-                </label>
+                </div>
+              )}
 
+              <label className="block w-full bg-[#F5F5F7] hover:bg-[#E8E8ED] rounded-[14px] p-4 text-center cursor-pointer transition-colors">
+                <span className="inline-flex items-center gap-2 text-[14px] text-[#0071E3] font-medium">
+                  <Upload size={15} />
+                  <span>{proofPreview ? 'Ganti gambar bukti' : 'Pilih gambar bukti transfer'}</span>
+                </span>
                 <input
-                  type="text"
-                  placeholder="Catatan opsional (mis. Transfer BCA a.n. Budi)"
-                  value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
-                  className="w-full h-[42px] px-4 rounded-[14px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={handleFileChange}
+                  className="hidden"
                 />
+              </label>
 
-                {uploadError && (
-                  <p className="text-[13px] text-[#D70015]">{uploadError}</p>
-                )}
-              </div>
+              <input
+                type="text"
+                placeholder="Catatan opsional (mis. Transfer BCA a.n. Budi)"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                className="w-full h-[44px] px-4 rounded-[12px] bg-[#F5F5F7] text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+              />
+
+              {uploadError && <p className="text-[13px] text-[#D70015]">{uploadError}</p>}
 
               <button
                 type="submit"
                 disabled={!proofPreview || uploading}
-                className="w-full h-[42px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] disabled:opacity-40 text-white text-[14px] font-normal transition-colors cursor-pointer"
+                className="w-full h-[44px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] disabled:opacity-40 text-white text-[14px] font-medium transition-colors cursor-pointer"
               >
                 {uploading ? 'Mengirim...' : 'Kirim Bukti Pembayaran'}
               </button>
@@ -624,40 +606,37 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
           </section>
         )}
 
-        {/* 4. Clean Apple Tracking Timeline directly on Pure White */}
-        <section className="space-y-5 pt-2">
+        {/* 3. White Inset Tracking Timeline */}
+        <section className="bg-white rounded-[22px] p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
-              Riwayat pelacakan
+            <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+              Riwayat Pelacakan
             </h2>
-            <span className="text-[13px] text-[#6E6E73]">
+            <span className="text-[12px] text-[#86868B]">
               {(order.trackingHistory || []).length} pembaruan
             </span>
           </div>
 
-          <div className="border-t border-[#D2D2D7] divide-y divide-[#D2D2D7]/70">
+          <div className="divide-y divide-[#E5E5EA]">
             {(order.trackingHistory || []).map((ev, idx) => (
-              <div key={idx} className="py-4 sm:py-5 flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                <div className="flex items-start gap-3.5">
+              <div key={idx} className="py-3.5 first:pt-1 last:pb-0 flex flex-col sm:flex-row sm:items-start justify-between gap-1.5">
+                <div className="flex items-start gap-3">
                   <span
-                    className={`w-2.5 h-2.5 rounded-full mt-1.5 shrink-0 ${
+                    className={`w-2 h-2 rounded-full mt-2 shrink-0 ${
                       idx === 0 ? 'bg-[#0071E3]' : 'bg-[#D2D2D7]'
                     }`}
                   />
                   <div className="space-y-0.5">
-                    <p className={`text-[15px] font-semibold ${idx === 0 ? 'text-[#1D1D1F]' : 'text-[#424245]'}`}>
+                    <p className={`text-[14px] ${idx === 0 ? 'font-semibold text-[#1D1D1F]' : 'font-medium text-[#424245]'}`}>
                       {ev.status}
                     </p>
-                    <p className="text-[13px] text-[#6E6E73] flex items-center gap-1">
-                      <MapPin size={12} strokeWidth={1.7} />
-                      <span>{ev.lokasi}</span>
+                    <p className="text-[13px] text-[#6E6E73]">
+                      {ev.lokasi}
+                      {ev.keterangan ? ` · ${ev.keterangan}` : ''}
                     </p>
-                    {ev.keterangan && (
-                      <p className="text-[13px] text-[#6E6E73] pt-0.5">{ev.keterangan}</p>
-                    )}
                   </div>
                 </div>
-                <span className="text-[12px] text-[#86868B] pl-6 sm:pl-0 shrink-0 tabular-nums">
+                <span className="text-[12px] text-[#86868B] pl-5 sm:pl-0 shrink-0 tabular-nums">
                   {formatDate(ev.waktu)}
                 </span>
               </div>
@@ -665,18 +644,18 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
           </div>
         </section>
 
-        {/* 5. Items Summary & Masked/Full Recipient Info */}
-        <section className="grid grid-cols-1 md:grid-cols-12 gap-5 pt-2">
-          <div className="md:col-span-7 bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
-            <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
-              Rincian produk
+        {/* 4. White Inset Order Items & Delivery Info (iOS Grouped Style) */}
+        <section className="grid grid-cols-1 md:grid-cols-12 gap-5">
+          <div className="md:col-span-7 bg-white rounded-[22px] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+              Rincian Pesanan
             </h2>
 
-            <div className="divide-y divide-[#D2D2D7]/70">
+            <div className="divide-y divide-[#E5E5EA]">
               {(order.items || []).map((item, i) => (
                 <div key={i} className="py-3.5 first:pt-0 flex items-center justify-between gap-4">
                   <div className="flex items-center gap-3.5 min-w-0">
-                    <div className="w-14 h-14 rounded-2xl bg-white p-2 flex items-center justify-center shrink-0">
+                    <div className="w-14 h-14 rounded-[14px] bg-[#F5F5F7] p-2 flex items-center justify-center shrink-0">
                       <img
                         src={item.gambar || '/assets/products/thinkpad-x1-carbon-front.png'}
                         alt={item.nama}
@@ -688,7 +667,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                       <p className="text-[12px] text-[#6E6E73] truncate">
                         {[item.specLabel, item.warna].filter(Boolean).join(' · ')}
                       </p>
-                      <p className="text-[12px] text-[#86868B] mt-0.5">
+                      <p className="text-[12px] text-[#86868B]">
                         {item.jumlah} × {formatIDR(item.harga)}
                       </p>
                     </div>
@@ -700,7 +679,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               ))}
             </div>
 
-            <div className="pt-4 border-t border-[#D2D2D7]/80 space-y-2 text-[13px]">
+            <div className="pt-4 border-t border-[#E5E5EA] space-y-2 text-[13px]">
               <div className="flex justify-between text-[#6E6E73]">
                 <span>Subtotal</span>
                 <span className="tabular-nums text-[#1D1D1F]">{formatIDR(order.subtotal)}</span>
@@ -723,41 +702,49 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                   <span className="tabular-nums text-[#1D1D1F]">+{formatIDR(order.uniqueCode)}</span>
                 </div>
               )}
-              <div className="flex justify-between text-[16px] font-semibold text-[#1D1D1F] pt-3 border-t border-[#D2D2D7]">
+              <div className="flex justify-between text-[16px] font-semibold text-[#1D1D1F] pt-3 border-t border-[#E5E5EA]">
                 <span>Total</span>
                 <span className="tabular-nums">{formatIDR(order.total)}</span>
               </div>
             </div>
           </div>
 
-          <div className="md:col-span-5 bg-[#F5F5F7] rounded-[24px] p-6 space-y-3 h-fit text-[14px]">
-            <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+          <div className="md:col-span-5 bg-white rounded-[22px] p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-4 h-fit">
+            <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
               Pengiriman
             </h2>
-            <div className="space-y-2 text-[#6E6E73]">
-              <p>
-                <span className="text-[#1D1D1F] font-medium">Penerima:</span>{' '}
-                {isOwnerOrAdmin ? order.customer?.nama : maskName(order.customer?.nama)}
-              </p>
-              <p>
-                <span className="text-[#1D1D1F] font-medium">WhatsApp:</span>{' '}
-                {isOwnerOrAdmin ? order.customer?.telepon : maskPhone(order.customer?.telepon)}
-              </p>
-              <p>
-                <span className="text-[#1D1D1F] font-medium">Email:</span>{' '}
-                {isOwnerOrAdmin ? order.customer?.email : maskEmail(order.customer?.email)}
-              </p>
-              <p>
-                <span className="text-[#1D1D1F] font-medium">Tujuan:</span>{' '}
-                {isOwnerOrAdmin
-                  ? `${order.customer?.alamat}, ${order.customer?.kota} ${order.customer?.kodePos || ''}`
-                  : `${order.customer?.kota || order.shippingZone || 'Indonesia'} (alamat lengkap disembunyikan)`}
-              </p>
-              <p>
-                <span className="text-[#1D1D1F] font-medium">Kurir:</span>{' '}
-                {order.kurir || 'JNE Reguler'}
-              </p>
-            </div>
+            <dl className="divide-y divide-[#E5E5EA] text-[13px]">
+              <div className="py-2.5 first:pt-0 flex justify-between gap-4">
+                <dt className="text-[#6E6E73] shrink-0">Penerima</dt>
+                <dd className="text-[#1D1D1F] font-medium text-right">
+                  {isOwnerOrAdmin ? order.customer?.nama : maskName(order.customer?.nama)}
+                </dd>
+              </div>
+              <div className="py-2.5 flex justify-between gap-4">
+                <dt className="text-[#6E6E73] shrink-0">WhatsApp</dt>
+                <dd className="text-[#1D1D1F] text-right tabular-nums">
+                  {isOwnerOrAdmin ? order.customer?.telepon : maskPhone(order.customer?.telepon)}
+                </dd>
+              </div>
+              <div className="py-2.5 flex justify-between gap-4">
+                <dt className="text-[#6E6E73] shrink-0">Email</dt>
+                <dd className="text-[#1D1D1F] text-right break-all">
+                  {isOwnerOrAdmin ? order.customer?.email : maskEmail(order.customer?.email)}
+                </dd>
+              </div>
+              <div className="py-2.5 flex justify-between gap-4">
+                <dt className="text-[#6E6E73] shrink-0">Tujuan</dt>
+                <dd className="text-[#1D1D1F] text-right">
+                  {isOwnerOrAdmin
+                    ? `${order.customer?.alamat}, ${order.customer?.kota} ${order.customer?.kodePos || ''}`
+                    : `${order.customer?.kota || order.shippingZone || 'Indonesia'} (alamat disembunyikan)`}
+                </dd>
+              </div>
+              <div className="py-2.5 last:pb-0 flex justify-between gap-4">
+                <dt className="text-[#6E6E73] shrink-0">Kurir</dt>
+                <dd className="text-[#1D1D1F] text-right">{order.kurir || 'JNE Reguler'}</dd>
+              </div>
+            </dl>
           </div>
         </section>
       </div>

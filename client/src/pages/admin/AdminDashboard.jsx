@@ -513,28 +513,29 @@ export default function AdminDashboard({ onBackToShop }) {
     }
   };
 
+  const totalInventoryUnits = products.reduce((s, p) => s + (Number(p.stok) || 0), 0);
+  const activeStatusSegments = orderStatusChart.filter((r) => r.count > 0);
+  const totalStatusCount = Math.max(1, orders.length);
+
   return (
-    <div className="bg-white text-[#1D1D1F] min-h-screen pb-16">
-      {/* 1. Full-Width Apple Header Band (#F5F5F7) */}
-      <section className="w-full bg-[#F5F5F7] py-10 sm:py-14">
-        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
-          <div className="space-y-1.5">
-            <p className="text-[13px] font-medium text-[#6E6E73]">
-              Admin · {user?.name || 'TechCare'}
-            </p>
-            <h1 className="text-[30px] sm:text-[40px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
-              Ringkasan Toko
+    <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-screen py-7 sm:py-10 pb-24 sm:pb-16">
+      <div className="max-w-[1120px] mx-auto px-4 sm:px-6 space-y-6">
+        {/* 1. Compact App Store Connect Header */}
+        <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 className="text-[28px] sm:text-[34px] font-semibold tracking-[-0.03em] leading-tight text-[#1D1D1F]">
+              Admin
             </h1>
-            <p className="text-[15px] text-[#6E6E73]">
-              Kelola pesanan, verifikasi pembayaran, inventaris unit, dan promo.
+            <p className="text-[13px] text-[#6E6E73] mt-0.5">
+              TechCare · {user?.name || 'Administrator'}
             </p>
           </div>
 
-          <div className="flex items-center gap-2.5 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
               type="button"
               onClick={loadData}
-              className="h-[38px] w-[38px] rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] inline-flex items-center justify-center transition-colors cursor-pointer"
+              className="h-[38px] w-[38px] rounded-[980px] bg-white hover:bg-[#EFEFF2] text-[#1D1D1F] shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.06] inline-flex items-center justify-center transition-colors cursor-pointer"
               title="Muat ulang data"
               aria-label="Refresh Data"
             >
@@ -543,7 +544,7 @@ export default function AdminDashboard({ onBackToShop }) {
             <button
               type="button"
               onClick={onBackToShop}
-              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#EFEFF2] text-[#1D1D1F] shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.06] text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <ArrowLeft size={14} strokeWidth={1.8} />
               <span>Lihat Toko</span>
@@ -551,7 +552,7 @@ export default function AdminDashboard({ onBackToShop }) {
             <button
               type="button"
               onClick={logout}
-              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#D70015] text-[#D70015] hover:text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#D70015] text-[#D70015] hover:text-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.06] text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
               title="Keluar"
               aria-label="Keluar Admin"
             >
@@ -559,10 +560,8 @@ export default function AdminDashboard({ onBackToShop }) {
               <span>Keluar</span>
             </button>
           </div>
-        </div>
-      </section>
+        </header>
 
-      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 pt-8 sm:pt-10 space-y-8 sm:space-y-10">
         {/* Feedback Toast */}
         <AnimatePresence>
           {feedback && (
@@ -570,7 +569,7 @@ export default function AdminDashboard({ onBackToShop }) {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="bg-[#1D1D1F] text-white px-5 py-3.5 rounded-[18px] text-[13px] flex items-center gap-2.5"
+              className="bg-[#1D1D1F] text-white px-5 py-3.5 rounded-[16px] text-[13px] flex items-center gap-2.5"
             >
               <ShieldCheck size={16} className="text-[#30D158] shrink-0" />
               <span>{feedback}</span>
@@ -578,17 +577,14 @@ export default function AdminDashboard({ onBackToShop }) {
           )}
         </AnimatePresence>
 
-        {/* 2. 4 Borderless Apple KPI Tiles (#F5F5F7) */}
-        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
-          <div className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[12px] font-medium text-[#6E6E73]">Total Omzet</span>
-              <TrendingUp size={16} strokeWidth={1.6} className="text-[#86868B] shrink-0" />
-            </div>
-            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] truncate tabular-nums">
+        {/* 2. Single Unified 4-Metric Hairline Strip (App Store Connect style — zero scattered AI icon boxes) */}
+        <section className="bg-white rounded-[20px] shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] grid grid-cols-2 lg:grid-cols-4 divide-y lg:divide-y-0 lg:divide-x divide-[#E5E5EA] overflow-hidden">
+          <div className="p-5 sm:p-6 space-y-1">
+            <span className="text-[12px] font-medium text-[#6E6E73] block">Omzet Lunas</span>
+            <p className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#1D1D1F] truncate tabular-nums">
               {formatIDR(totalOmzet)}
             </p>
-            <span className="text-[12px] text-[#6E6E73] block">{orders.length} pesanan tercatat</span>
+            <span className="text-[12px] text-[#86868B] block">{orders.length} pesanan masuk</span>
           </div>
 
           <button
@@ -597,14 +593,11 @@ export default function AdminDashboard({ onBackToShop }) {
               setActiveTab('orders');
               setOrderStatusFilter('awaiting_verification');
             }}
-            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
+            className="text-left p-5 sm:p-6 space-y-1 hover:bg-[#FAFAFC] transition-colors cursor-pointer border-l border-[#E5E5EA] lg:border-l-0"
           >
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[12px] font-medium text-[#6E6E73]">Verifikasi Bayar</span>
-              <Clock size={16} strokeWidth={1.6} className="text-[#0071E3] shrink-0" />
-            </div>
-            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
-              {awaitingCount} Pesanan
+            <span className="text-[12px] font-medium text-[#6E6E73] block">Perlu Verifikasi</span>
+            <p className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#0071E3] tabular-nums">
+              {awaitingCount}
             </p>
             <span className="text-[12px] text-[#0071E3] block">Periksa bukti ›</span>
           </button>
@@ -612,201 +605,167 @@ export default function AdminDashboard({ onBackToShop }) {
           <button
             type="button"
             onClick={() => setActiveTab('products')}
-            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
+            className="text-left p-5 sm:p-6 space-y-1 hover:bg-[#FAFAFC] transition-colors cursor-pointer"
           >
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[12px] font-medium text-[#6E6E73]">Stok Menipis</span>
-              <AlertTriangle
-                size={16}
-                strokeWidth={1.6}
-                className={lowStockProducts.length > 0 ? 'text-[#D70015] shrink-0' : 'text-[#1D7F3E] shrink-0'}
-              />
-            </div>
+            <span className="text-[12px] font-medium text-[#6E6E73] block">Stok Menipis</span>
             <p
-              className={`text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] tabular-nums ${
+              className={`text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] tabular-nums ${
                 lowStockProducts.length > 0 ? 'text-[#D70015]' : 'text-[#1D7F3E]'
               }`}
             >
-              {lowStockProducts.length} Produk
+              {lowStockProducts.length}
             </p>
-            <span className="text-[12px] text-[#6E6E73] block">≤ 5 unit · dari {products.length} aktif</span>
+            <span className="text-[12px] text-[#86868B] block">≤ 5 unit tersisa</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('users')}
-            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
+            className="text-left p-5 sm:p-6 space-y-1 hover:bg-[#FAFAFC] transition-colors cursor-pointer border-l border-[#E5E5EA] lg:border-l-0"
           >
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-[12px] font-medium text-[#6E6E73]">Akun &amp; Promo</span>
-              <Users size={16} strokeWidth={1.6} className="text-[#86868B] shrink-0" />
-            </div>
-            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
-              {usersList.length} Akun
+            <span className="text-[12px] font-medium text-[#6E6E73] block">Inventaris &amp; Akun</span>
+            <p className="text-[20px] sm:text-[24px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
+              {totalInventoryUnits} unit
             </p>
-            <span className="text-[12px] text-[#6E6E73] block">{activeDiscountsCount} voucher aktif</span>
+            <span className="text-[12px] text-[#86868B] block">
+              {products.length} SKU · {usersList.length} akun · {activeDiscountsCount} promo
+            </span>
           </button>
         </section>
 
-        {/* 3. Analytics Charts (2 Borderless Apple Panels) */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {/* Chart 1: Distribusi Status Pesanan */}
-          <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
-                  Distribusi Status Pesanan
-                </h2>
-                <p className="text-[13px] text-[#6E6E73] mt-0.5">Ringkasan transaksi secara real-time</p>
-              </div>
-              <span className="text-[13px] font-medium text-[#6E6E73] tabular-nums shrink-0">
-                {orders.length} total
-              </span>
+        {/* 3. Compact Insights Row: macOS Storage-Style Order Bar + Compact Low-Stock Action List */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          {/* Left: macOS Storage-Style Single Stacked Distribution Bar */}
+          <div className="lg:col-span-7 bg-white rounded-[20px] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] flex flex-col justify-between gap-4">
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 className="text-[15px] font-semibold text-[#1D1D1F]">Status Pesanan &amp; Stok</h2>
+              <span className="text-[12px] text-[#86868B] tabular-nums">{orders.length} transaksi</span>
             </div>
 
-            <div className="space-y-3">
-              {orderStatusChart.map((row) => (
-                <div key={row.key} className="space-y-1.5">
-                  <div className="flex justify-between text-[13px]">
-                    <span className="text-[#424245]">{row.label}</span>
-                    <span className="font-semibold text-[#1D1D1F] tabular-nums">{row.count}</span>
-                  </div>
-                  <div className="h-[5px] w-full bg-[#E5E5EA] rounded-full overflow-hidden">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${row.color}`}
-                      style={{ width: `${row.count > 0 ? Math.max(8, row.pct) : 0}%` }}
-                    />
-                  </div>
-                </div>
+            <div className="space-y-2.5">
+              <div className="h-[10px] w-full bg-[#F5F5F7] rounded-full overflow-hidden flex gap-[2px]">
+                {activeStatusSegments.map((seg) => (
+                  <div
+                    key={seg.key}
+                    className={`h-full first:rounded-l-full last:rounded-r-full ${seg.color}`}
+                    style={{ width: `${Math.max(6, Math.round((seg.count / totalStatusCount) * 100))}%` }}
+                    title={`${seg.label}: ${seg.count}`}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] text-[#6E6E73]">
+                {activeStatusSegments.map((seg) => (
+                  <span key={seg.key} className="inline-flex items-center gap-1.5 tabular-nums">
+                    <span className={`w-2 h-2 rounded-full ${seg.color}`} />
+                    <span>{seg.label}</span>
+                    <strong className="text-[#1D1D1F] font-semibold">{seg.count}</strong>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Compact Inventory Breakdown Row */}
+            <div className="pt-3.5 border-t border-[#E5E5EA] flex flex-wrap gap-x-5 gap-y-1.5 text-[12px]">
+              {categoryStockChart.map((cat) => (
+                <span key={cat.name} className="text-[#6E6E73] tabular-nums">
+                  {cat.name}: <strong className="text-[#1D1D1F] font-medium">{cat.stock}</strong>
+                </span>
               ))}
             </div>
           </div>
 
-          {/* Chart 2: Stok per Kategori */}
-          <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
-                  Stok Inventaris per Kategori
-                </h2>
-                <p className="text-[13px] text-[#6E6E73] mt-0.5">Jumlah unit tersedia per kategori</p>
-              </div>
-              <span className="text-[13px] font-semibold text-[#1D1D1F] tabular-nums shrink-0">
-                {products.reduce((s, p) => s + (Number(p.stok) || 0), 0)} unit
-              </span>
+          {/* Right: Compact Low-Stock Attention List */}
+          <div className="lg:col-span-5 bg-white rounded-[20px] p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-3">
+            <div className="flex items-baseline justify-between gap-2">
+              <h2 className="text-[15px] font-semibold text-[#1D1D1F]">Perlu Restok</h2>
+              <span className="text-[12px] text-[#86868B]">{lowStockProducts.length} produk</span>
             </div>
 
-            <div className="space-y-3.5">
-              {categoryStockChart.map((cat) => (
-                <div key={cat.name} className="space-y-1.5">
-                  <div className="flex justify-between text-[13px] gap-2">
-                    <span className="text-[#1D1D1F] font-medium truncate">{cat.name}</span>
-                    <span className="text-[#6E6E73] shrink-0 tabular-nums">
-                      <strong className="text-[#1D1D1F] font-semibold">{cat.stock} unit</strong> · {cat.count} SKU
+            {lowStockProducts.length === 0 ? (
+              <p className="text-[13px] text-[#6E6E73] py-4">Semua stok produk dalam kondisi aman.</p>
+            ) : (
+              <div className="divide-y divide-[#E5E5EA]">
+                {lowStockProducts.slice(0, 4).map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => openEditProduct(p)}
+                    className="w-full py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3 text-left group cursor-pointer"
+                  >
+                    <span className="text-[13px] text-[#1D1D1F] group-hover:text-[#0071E3] truncate transition-colors">
+                      {p.nama}
                     </span>
-                  </div>
-                  <div className="h-[5px] w-full bg-[#E5E5EA] rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-[#1D1D1F] transition-all duration-500"
-                      style={{ width: `${cat.stock > 0 ? Math.max(8, cat.pct) : 0}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+                    <span
+                      className={`text-[12px] font-semibold shrink-0 tabular-nums ${
+                        Number(p.stok) === 0 ? 'text-[#D70015]' : 'text-[#B64400]'
+                      }`}
+                    >
+                      Sisa {p.stok} ›
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 
-        {/* 4. Low Stock Quick Restock Strip */}
-        {lowStockProducts.length > 0 && (
-          <section className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-3">
-            <div className="flex items-center justify-between gap-2 flex-wrap">
-              <p className="text-[14px] font-semibold text-[#1D1D1F] flex items-center gap-2">
-                <AlertTriangle size={15} strokeWidth={1.8} className="text-[#D70015]" />
-                <span>Perlu restok ({lowStockProducts.length} produk)</span>
-              </p>
-              <span className="text-[12px] text-[#6E6E73]">Pilih produk untuk ubah stok</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {lowStockProducts.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => openEditProduct(p)}
-                  className="inline-flex items-center gap-2 h-[36px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[13px] text-[#1D1D1F] transition-colors cursor-pointer"
-                >
-                  <span className="truncate max-w-[180px]">{p.nama}</span>
-                  <span
-                    className={`text-[12px] font-semibold tabular-nums ${
-                      Number(p.stok) === 0 ? 'text-[#D70015]' : 'text-[#B64400]'
-                    }`}
-                  >
-                    Sisa {p.stok}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 5. macOS-Style Segmented Navigation Bar */}
+        {/* 4. macOS Segmented Navigation Control */}
         <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div className="inline-flex items-center gap-1 p-1 rounded-[980px] bg-[#F5F5F7]">
+          <div className="inline-flex items-center gap-1 p-1 rounded-[14px] bg-[#E8E8ED]/80">
             {[
-              { key: 'orders', label: `Pesanan (${orders.length})`, icon: Package },
-              { key: 'products', label: `Produk (${products.length})`, icon: ShoppingBag },
-              { key: 'categories', label: `Kategori (${collections.length})`, icon: FolderKanban },
-              { key: 'discounts', label: `Kupon (${discounts.length})`, icon: Tag },
-              { key: 'users', label: `Pengguna (${usersList.length})`, icon: Users }
+              { key: 'orders', label: `Pesanan (${orders.length})` },
+              { key: 'products', label: `Produk (${products.length})` },
+              { key: 'categories', label: `Kategori (${collections.length})` },
+              { key: 'discounts', label: `Kupon (${discounts.length})` },
+              { key: 'users', label: `Pengguna (${usersList.length})` }
             ].map((tab) => {
-              const Icon = tab.icon;
               const isActive = activeTab === tab.key;
               return (
                 <button
                   key={tab.key}
                   type="button"
                   onClick={() => setActiveTab(tab.key)}
-                  className={`inline-flex items-center gap-1.5 h-[38px] px-4 sm:px-5 rounded-[980px] text-[13px] whitespace-nowrap transition-all cursor-pointer ${
+                  className={`h-[36px] px-4 rounded-[10px] text-[13px] whitespace-nowrap transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.08)]'
-                      : 'text-[#6E6E73] hover:text-[#1D1D1F] font-normal'
+                      ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.08)]'
+                      : 'text-[#6E6E73] hover:text-[#1D1D1F] font-medium'
                   }`}
                 >
-                  <Icon size={14} strokeWidth={1.7} />
-                  <span>{tab.label}</span>
+                  {tab.label}
                 </button>
               );
             })}
           </div>
         </div>
 
+        {/* 5. Unified White Workspace Card */}
         {/* TAB 1: ORDERS */}
         {activeTab === 'orders' && (
-          <section className="space-y-6">
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
+          <section className="bg-white rounded-[22px] p-5 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 pb-4 border-b border-[#E5E5EA]">
               <div>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
-                  Pesanan &amp; Pembayaran
+                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Pesanan &amp; Verifikasi
                 </h2>
-                <p className="text-[14px] text-[#6E6E73] mt-0.5">
-                  Periksa bukti transfer, verifikasi pembayaran, dan perbarui resi kurir.
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                  Setujui bukti pembayaran dan perbarui status resi pengiriman.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2.5">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <div className="relative">
-                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
+                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86868B]" />
                   <input
                     type="text"
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
                     placeholder="Cari invoice, nama, resi..."
-                    className="h-[40px] w-full sm:w-60 pl-9 pr-4 rounded-[980px] bg-[#F5F5F7] text-[13px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                    className="h-[40px] w-full sm:w-56 pl-9 pr-4 rounded-[12px] bg-[#F5F5F7] text-[13px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                   />
                 </div>
                 <select
                   value={orderStatusFilter}
                   onChange={(e) => setOrderStatusFilter(e.target.value)}
-                  className="h-[40px] px-4 rounded-[980px] bg-[#F5F5F7] text-[13px] font-medium text-[#1D1D1F] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
+                  className="h-[40px] px-3.5 rounded-[12px] bg-[#F5F5F7] text-[13px] font-medium text-[#1D1D1F] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                 >
                   <option value="all">Semua Status</option>
                   <option value="pending">Menunggu Bayar</option>
@@ -821,88 +780,77 @@ export default function AdminDashboard({ onBackToShop }) {
             </div>
 
             {loading ? (
-              <p className="text-[14px] text-[#6E6E73] py-12 text-center">Memuat data pesanan...</p>
+              <p className="text-[14px] text-[#6E6E73] py-10 text-center">Memuat pesanan...</p>
             ) : filteredOrders.length === 0 ? (
-              <div className="bg-[#F5F5F7] rounded-[24px] py-12 px-6 text-center text-[14px] text-[#6E6E73]">
+              <p className="text-[14px] text-[#6E6E73] py-10 text-center">
                 Tidak ada pesanan yang cocok dengan filter saat ini.
-              </div>
+              </p>
             ) : (
-              <div className="space-y-4">
+              <div className="divide-y divide-[#E5E5EA]">
                 {filteredOrders.map((ord) => {
                   const badge = getStatusBadge(ord.statusKey || ord.paymentStatus);
                   const stStyle = getAppleStatusDot(ord.statusKey || ord.paymentStatus);
                   const isAwaiting = ord.paymentStatus === 'awaiting_verification';
                   return (
-                    <div
-                      key={ord.id}
-                      className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-4"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-3 flex-wrap">
-                            <span className="text-[16px] font-semibold tracking-[-0.01em] text-[#1D1D1F]">
-                              #{ord.nomorPesanan}
-                            </span>
-                            <span className={`inline-flex items-center gap-1.5 text-[13px] font-medium ${stStyle.text}`}>
-                              <span className={`w-1.5 h-1.5 rounded-full ${stStyle.dot}`} />
-                              <span>{ord.status || badge.label}</span>
-                            </span>
-                          </div>
-                          <p className="text-[12px] text-[#6E6E73]">{formatDate(ord.tanggal)}</p>
+                    <div key={ord.id} className="py-5 first:pt-1 last:pb-1 space-y-3.5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <span className="text-[15px] font-semibold text-[#1D1D1F] tabular-nums">
+                            #{ord.nomorPesanan}
+                          </span>
+                          <span className={`inline-flex items-center gap-1.5 text-[13px] font-medium ${stStyle.text}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${stStyle.dot}`} />
+                            <span>{ord.status || badge.label}</span>
+                          </span>
+                          <span className="text-[12px] text-[#86868B]">{formatDate(ord.tanggal)}</span>
                         </div>
 
                         <div className="text-left sm:text-right">
-                          <p className="text-[17px] font-semibold text-[#1D1D1F] tabular-nums">
+                          <span className="text-[16px] font-semibold text-[#1D1D1F] tabular-nums">
                             {formatIDR(ord.total)}
-                          </p>
+                          </span>
                           {ord.uniqueCode > 0 && (
-                            <p className="text-[12px] text-[#6E6E73]">
-                              Kode unik +{ord.uniqueCode} · {ord.metodeBayar}
-                            </p>
+                            <span className="text-[12px] text-[#86868B] ml-2">
+                              (+{ord.uniqueCode} · {ord.metodeBayar})
+                            </span>
                           )}
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-[13px] pt-4 border-t border-[#D2D2D7]/70">
-                        <div className="space-y-0.5">
-                          <p className="text-[11px] font-medium text-[#6E6E73]">Pembeli</p>
-                          <p className="font-semibold text-[#1D1D1F]">{ord.customer?.nama}</p>
-                          <p className="text-[12px] text-[#6E6E73]">
-                            {ord.customer?.kota} · {ord.customer?.telepon}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-[13px]">
+                        <div>
+                          <span className="text-[12px] text-[#86868B] block">Pembeli</span>
+                          <p className="font-medium text-[#1D1D1F]">
+                            {ord.customer?.nama} · <span className="text-[#6E6E73] font-normal">{ord.customer?.kota}</span>
                           </p>
                         </div>
-
-                        <div className="space-y-0.5">
-                          <p className="text-[11px] font-medium text-[#6E6E73]">Perangkat</p>
+                        <div>
+                          <span className="text-[12px] text-[#86868B] block">Perangkat</span>
                           {(ord.items || []).map((it, idx) => (
-                            <p key={idx} className="text-[#1D1D1F]">
-                              <span className="font-semibold">{it.nama}</span> ({it.jumlah}×)
-                              {it.specLabel && (
-                                <span className="block text-[12px] text-[#6E6E73]">{it.specLabel}</span>
-                              )}
+                            <p key={idx} className="text-[#1D1D1F] truncate">
+                              {it.nama} ({it.jumlah}×)
                             </p>
                           ))}
                         </div>
-
-                        <div className="space-y-0.5">
-                          <p className="text-[11px] font-medium text-[#6E6E73]">Pengiriman</p>
-                          <p className="text-[#1D1D1F]">{ord.kurir || 'JNE Reguler'}</p>
-                          <p className="text-[12px] text-[#6E6E73]">
-                            Resi: {ord.resi || 'Belum diinput'}
+                        <div>
+                          <span className="text-[12px] text-[#86868B] block">Pengiriman</span>
+                          <p className="text-[#1D1D1F] truncate">
+                            {ord.kurir || 'JNE Reguler'} ·{' '}
+                            <span className="text-[#6E6E73]">{ord.resi || 'Belum ada resi'}</span>
                           </p>
                         </div>
                       </div>
 
                       {ord.paymentProofUrl && (
-                        <div className="p-3.5 rounded-[18px] bg-white flex items-center justify-between gap-3 flex-wrap">
+                        <div className="p-3 rounded-[14px] bg-[#F5F5F7] flex items-center justify-between gap-3 flex-wrap">
                           <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={ord.paymentProofUrl}
                               alt="Bukti bayar"
-                              className="w-11 h-11 rounded-xl object-cover bg-[#F5F5F7] shrink-0"
+                              className="w-10 h-10 rounded-lg object-cover bg-white shrink-0"
                             />
                             <div className="min-w-0 text-[13px]">
-                              <p className="font-semibold text-[#1D1D1F]">Bukti pembayaran terlampir</p>
+                              <p className="font-medium text-[#1D1D1F]">Bukti pembayaran terlampir</p>
                               <p className="text-[12px] text-[#6E6E73] truncate">
                                 {ord.paymentNotes || 'Siap diperiksa oleh admin.'}
                               </p>
@@ -911,22 +859,22 @@ export default function AdminDashboard({ onBackToShop }) {
                           <button
                             type="button"
                             onClick={() => setPreviewProofModal(ord)}
-                            className="h-[36px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[13px] font-medium text-[#1D1D1F] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                            className="h-[34px] px-3.5 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[12px] font-medium text-[#1D1D1F] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                           >
-                            <Eye size={14} />
+                            <Eye size={13} />
                             <span>Lihat Bukti</span>
                           </button>
                         </div>
                       )}
 
-                      <div className="flex flex-wrap items-center justify-between gap-2.5 pt-3 border-t border-[#D2D2D7]/70">
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-1">
                         <div className="flex flex-wrap items-center gap-2">
                           {isAwaiting && (
                             <>
                               <button
                                 type="button"
                                 onClick={() => handleVerifyPayment(ord.id, 'approve')}
-                                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                                className="h-[36px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                               >
                                 <CheckCircle2 size={14} />
                                 <span>Setujui Bayar</span>
@@ -934,10 +882,10 @@ export default function AdminDashboard({ onBackToShop }) {
                               <button
                                 type="button"
                                 onClick={() => handleVerifyPayment(ord.id, 'reject')}
-                                className="h-[38px] px-4 rounded-[980px] border border-[#D70015] text-[#D70015] hover:bg-[#D70015] hover:text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+                                className="h-[36px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#D70015] text-[#D70015] hover:text-white text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                               >
                                 <XCircle size={14} />
-                                <span>Tolak Bukti</span>
+                                <span>Tolak</span>
                               </button>
                             </>
                           )}
@@ -946,9 +894,9 @@ export default function AdminDashboard({ onBackToShop }) {
                         <button
                           type="button"
                           onClick={() => handleOpenTrackingModal(ord)}
-                          className={`h-[38px] px-4 rounded-[980px] text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                          className={`h-[36px] px-4 rounded-[980px] text-[13px] font-medium inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
                             isAwaiting
-                              ? 'bg-white hover:bg-[#E8E8ED] text-[#1D1D1F]'
+                              ? 'bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F]'
                               : 'bg-[#0071E3] hover:bg-[#0077ED] text-white'
                           }`}
                         >
@@ -966,44 +914,44 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 2: PRODUCTS */}
         {activeTab === 'products' && (
-          <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
+          <section className="bg-white rounded-[22px] p-5 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E5E5EA]">
               <div>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
                   Inventaris Perangkat
                 </h2>
-                <p className="text-[14px] text-[#6E6E73] mt-0.5">
-                  Tambah, ubah harga dan stok, atau hapus produk dari katalog.
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                  Tambah, ubah harga dan stok, atau hapus produk katalog.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowAddProductModal(true)}
-                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
               >
                 <Plus size={15} />
                 <span>Tambah Produk</span>
               </button>
             </div>
 
-            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-[13px] min-w-[680px]">
+            <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+              <table className="w-full text-left text-[13px] min-w-[660px]">
                 <thead>
-                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px] font-medium">
-                    <th className="py-3 font-medium">Produk</th>
-                    <th className="py-3 font-medium">Kategori</th>
-                    <th className="py-3 font-medium">Berat</th>
-                    <th className="py-3 font-medium">Harga</th>
-                    <th className="py-3 font-medium">Stok</th>
-                    <th className="py-3 text-right font-medium">Aksi</th>
+                  <tr className="border-b border-[#E5E5EA] text-[#86868B] text-[12px]">
+                    <th className="py-2.5 font-medium">Produk</th>
+                    <th className="py-2.5 font-medium">Kategori</th>
+                    <th className="py-2.5 font-medium">Berat</th>
+                    <th className="py-2.5 font-medium">Harga</th>
+                    <th className="py-2.5 font-medium">Stok</th>
+                    <th className="py-2.5 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#D2D2D7]/60">
+                <tbody className="divide-y divide-[#E5E5EA]">
                   {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
-                      <td className="py-4 pr-3">
-                        <div className="flex items-center gap-3.5">
-                          <div className="w-12 h-12 rounded-2xl bg-[#F5F5F7] p-1.5 flex items-center justify-center shrink-0">
+                    <tr key={p.id} className="hover:bg-[#FAFAFC] transition-colors">
+                      <td className="py-3.5 pr-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-11 h-11 rounded-[12px] bg-[#F5F5F7] p-1.5 flex items-center justify-center shrink-0">
                             <img
                               src={p.gambar?.[0]}
                               alt={p.nama}
@@ -1018,12 +966,12 @@ export default function AdminDashboard({ onBackToShop }) {
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 text-[#424245]">{p.koleksi}</td>
-                      <td className="py-4 text-[#6E6E73] tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
-                      <td className="py-4 font-semibold text-[#1D1D1F] tabular-nums">
+                      <td className="py-3.5 text-[#424245]">{p.koleksi}</td>
+                      <td className="py-3.5 text-[#6E6E73] tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
+                      <td className="py-3.5 font-semibold text-[#1D1D1F] tabular-nums">
                         {formatIDR(p.harga)}
                       </td>
-                      <td className="py-4">
+                      <td className="py-3.5">
                         <span
                           className={`text-[13px] font-medium tabular-nums ${
                             Number(p.stok) === 0
@@ -1036,7 +984,7 @@ export default function AdminDashboard({ onBackToShop }) {
                           {p.stok} unit
                         </span>
                       </td>
-                      <td className="py-4 text-right">
+                      <td className="py-3.5 text-right">
                         <div className="inline-flex items-center gap-1">
                           <button
                             type="button"
@@ -1068,65 +1016,62 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 3: CATEGORIES */}
         {activeTab === 'categories' && (
-          <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
+          <section className="bg-white rounded-[22px] p-5 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E5E5EA]">
               <div>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
                   Kategori Produk
                 </h2>
-                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
                   Kelola kategori yang tampil di beranda dan filter katalog.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={openAddCategory}
-                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
               >
                 <Plus size={15} />
                 <span>Tambah Kategori</span>
               </button>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="divide-y divide-[#E5E5EA]">
               {collections.map((col) => {
                 const count = products.filter((p) => p.koleksiSlug === col.slug).length;
                 return (
-                  <div
-                    key={col.id}
-                    className="p-5 rounded-[24px] bg-[#F5F5F7] flex items-start justify-between gap-3"
-                  >
-                    <div className="flex items-start gap-3.5 min-w-0">
-                      <div className="w-12 h-12 rounded-2xl bg-white p-2 flex items-center justify-center shrink-0">
+                  <div key={col.id} className="py-4 first:pt-1 last:pb-1 flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#F5F5F7] p-2 flex items-center justify-center shrink-0">
                         <img
                           src={col.gambar}
                           alt={col.nama}
                           className="max-h-full max-w-full object-contain"
                         />
                       </div>
-                      <div className="min-w-0 space-y-0.5">
+                      <div className="min-w-0">
                         <p className="text-[15px] font-semibold text-[#1D1D1F] truncate">{col.nama}</p>
-                        <p className="text-[12px] text-[#86868B]">/{col.slug}</p>
-                        <p className="text-[12px] text-[#6E6E73] line-clamp-2 pt-0.5">{col.tagline}</p>
-                        <p className="text-[12px] font-medium text-[#1D1D1F] pt-1.5">{count} produk</p>
+                        <p className="text-[12px] text-[#6E6E73] truncate">
+                          /{col.slug} · {count} produk
+                        </p>
                       </div>
                     </div>
-                    <div className="flex flex-col gap-1 shrink-0">
+                    <div className="flex items-center gap-1 shrink-0">
                       <button
                         type="button"
                         onClick={() => openEditCategory(col)}
-                        className="w-8 h-8 rounded-full bg-white hover:bg-[#E8E8ED] text-[#424245] hover:text-[#1D1D1F] flex items-center justify-center transition-colors cursor-pointer"
+                        className="w-9 h-9 rounded-full hover:bg-[#F5F5F7] text-[#424245] hover:text-[#1D1D1F] flex items-center justify-center transition-colors cursor-pointer"
                         title="Edit Kategori"
                       >
-                        <Edit3 size={14} />
+                        <Edit3 size={15} />
                       </button>
                       <button
                         type="button"
                         onClick={() => handleDeleteCategory(col)}
-                        className="w-8 h-8 rounded-full bg-white hover:bg-[#E8E8ED] text-[#86868B] hover:text-[#D70015] flex items-center justify-center transition-colors cursor-pointer"
+                        className="w-9 h-9 rounded-full hover:bg-[#F5F5F7] text-[#86868B] hover:text-[#D70015] flex items-center justify-center transition-colors cursor-pointer"
                         title="Hapus Kategori"
                       >
-                        <Trash2 size={14} />
+                        <Trash2 size={15} />
                       </button>
                     </div>
                   </div>
@@ -1138,57 +1083,53 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 4: DISCOUNTS */}
         {activeTab === 'discounts' && (
-          <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
+          <section className="bg-white rounded-[22px] p-5 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E5E5EA]">
               <div>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
                   Kupon &amp; Voucher Promo
                 </h2>
-                <p className="text-[14px] text-[#6E6E73] mt-0.5">
-                  Atur kode potongan harga untuk laptop, upgrade RAM/SSD, dan aksesori.
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                  Atur kode potongan harga untuk seluruh kategori toko.
                 </p>
               </div>
               <button
                 type="button"
                 onClick={() => setShowAddDiscountModal(true)}
-                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
               >
                 <Plus size={15} />
                 <span>Buat Kupon</span>
               </button>
             </div>
 
-            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-[13px] min-w-[600px]">
+            <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+              <table className="w-full text-left text-[13px] min-w-[580px]">
                 <thead>
-                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px]">
-                    <th className="py-3 font-medium">Kode</th>
-                    <th className="py-3 font-medium">Promo</th>
-                    <th className="py-3 font-medium">Potongan</th>
-                    <th className="py-3 font-medium">Min. Belanja</th>
-                    <th className="py-3 font-medium">Status</th>
-                    <th className="py-3 text-right font-medium">Aksi</th>
+                  <tr className="border-b border-[#E5E5EA] text-[#86868B] text-[12px]">
+                    <th className="py-2.5 font-medium">Kode</th>
+                    <th className="py-2.5 font-medium">Promo</th>
+                    <th className="py-2.5 font-medium">Potongan</th>
+                    <th className="py-2.5 font-medium">Min. Belanja</th>
+                    <th className="py-2.5 font-medium">Status</th>
+                    <th className="py-2.5 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#D2D2D7]/60">
+                <tbody className="divide-y divide-[#E5E5EA]">
                   {discounts.map((d) => (
-                    <tr key={d.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
-                      <td className="py-4 font-semibold text-[#1D1D1F]">{d.kode}</td>
-                      <td className="py-4 text-[#424245]">{d.nama}</td>
-                      <td className="py-4 font-semibold text-[#1D1D1F] tabular-nums">
+                    <tr key={d.id} className="hover:bg-[#FAFAFC] transition-colors">
+                      <td className="py-3.5 font-semibold text-[#1D1D1F]">{d.kode}</td>
+                      <td className="py-3.5 text-[#424245]">{d.nama}</td>
+                      <td className="py-3.5 font-semibold text-[#1D1D1F] tabular-nums">
                         {d.tipe === 'persen' ? `${d.nilai}%` : formatIDR(d.nilai)}
                       </td>
-                      <td className="py-4 text-[#6E6E73] tabular-nums">{formatIDR(d.minBelanja)}</td>
-                      <td className="py-4">
-                        <span
-                          className={`text-[13px] font-medium ${
-                            d.aktif ? 'text-[#1D7F3E]' : 'text-[#86868B]'
-                          }`}
-                        >
+                      <td className="py-3.5 text-[#6E6E73] tabular-nums">{formatIDR(d.minBelanja)}</td>
+                      <td className="py-3.5">
+                        <span className={`font-medium ${d.aktif ? 'text-[#1D7F3E]' : 'text-[#86868B]'}`}>
                           {d.aktif ? 'Aktif' : 'Nonaktif'}
                         </span>
                       </td>
-                      <td className="py-4 text-right">
+                      <td className="py-3.5 text-right">
                         <button
                           type="button"
                           onClick={() => handleToggleDiscount(d.id)}
@@ -1207,14 +1148,14 @@ export default function AdminDashboard({ onBackToShop }) {
 
         {/* TAB 5: USERS & ROLES */}
         {activeTab === 'users' && (
-          <section className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
+          <section className="bg-white rounded-[22px] p-5 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.04)] ring-1 ring-black/[0.05] space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#E5E5EA]">
               <div>
-                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                <h2 className="text-[19px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
                   Pengguna &amp; Hak Akses
                 </h2>
-                <p className="text-[14px] text-[#6E6E73] mt-0.5">
-                  Kelola role Admin dan Buyer, status akun, atau tambah akun tim baru.
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">
+                  Kelola role Admin dan Buyer atau tambah akun tim baru.
                 </p>
               </div>
               <button
@@ -1223,52 +1164,48 @@ export default function AdminDashboard({ onBackToShop }) {
                   setUserFormError('');
                   setShowAddUserModal(true);
                 }}
-                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-medium inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
               >
                 <UserPlus size={15} />
                 <span>Tambah Pengguna</span>
               </button>
             </div>
 
-            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-[13px] min-w-[620px]">
+            <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+              <table className="w-full text-left text-[13px] min-w-[600px]">
                 <thead>
-                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px]">
-                    <th className="py-3 font-medium">Nama &amp; Email</th>
-                    <th className="py-3 font-medium">WhatsApp</th>
-                    <th className="py-3 font-medium">Role</th>
-                    <th className="py-3 font-medium">Status</th>
-                    <th className="py-3 text-right font-medium">Aksi</th>
+                  <tr className="border-b border-[#E5E5EA] text-[#86868B] text-[12px]">
+                    <th className="py-2.5 font-medium">Nama &amp; Email</th>
+                    <th className="py-2.5 font-medium">WhatsApp</th>
+                    <th className="py-2.5 font-medium">Role</th>
+                    <th className="py-2.5 font-medium">Status</th>
+                    <th className="py-2.5 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#D2D2D7]/60">
+                <tbody className="divide-y divide-[#E5E5EA]">
                   {usersList.map((u) => {
                     const isSelf = user && String(user.id) === String(u.id);
                     return (
-                      <tr key={u.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
-                        <td className="py-4 pr-3">
+                      <tr key={u.id} className="hover:bg-[#FAFAFC] transition-colors">
+                        <td className="py-3.5 pr-3">
                           <p className="font-semibold text-[#1D1D1F]">
                             {u.name}{' '}
-                            {isSelf && <span className="text-[12px] font-normal text-[#6E6E73]">(Anda)</span>}
+                            {isSelf && <span className="text-[12px] font-normal text-[#86868B]">(Anda)</span>}
                           </p>
                           <p className="text-[12px] text-[#6E6E73]">{u.email}</p>
                         </td>
-                        <td className="py-4 text-[#424245]">{u.phone || '—'}</td>
-                        <td className="py-4">
-                          <span className="text-[13px] font-medium text-[#1D1D1F] capitalize">
-                            {u.role}
-                          </span>
-                        </td>
-                        <td className="py-4">
+                        <td className="py-3.5 text-[#424245]">{u.phone || '—'}</td>
+                        <td className="py-3.5 font-medium text-[#1D1D1F] capitalize">{u.role}</td>
+                        <td className="py-3.5">
                           <span
-                            className={`text-[13px] font-medium ${
+                            className={`font-medium ${
                               u.isActive !== false ? 'text-[#1D7F3E]' : 'text-[#D70015]'
                             }`}
                           >
                             {u.isActive !== false ? 'Aktif' : 'Nonaktif'}
                           </span>
                         </td>
-                        <td className="py-4 text-right">
+                        <td className="py-3.5 text-right">
                           {isSelf ? (
                             <span className="text-[12px] text-[#86868B]">Sesi aktif</span>
                           ) : (
