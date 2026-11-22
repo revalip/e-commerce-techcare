@@ -89,13 +89,22 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
         }`}
       >
         <div className="max-w-[1200px] mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
-          {/* Left: Clean Text Wordmark (No box) */}
+          {/* Left: Apple-style Monochrome Brand Mark + Wordmark (No box) */}
           <button
             type="button"
             onClick={() => handleLinkClick('home')}
-            className="text-[17px] font-semibold tracking-[-0.025em] text-[#1D1D1F] hover:opacity-75 transition-opacity shrink-0"
+            aria-label="TechCare Beranda"
+            className="inline-flex items-center gap-2 text-[17px] font-semibold tracking-[-0.025em] text-[#1D1D1F] hover:opacity-75 transition-opacity shrink-0 cursor-pointer"
           >
-            TechCare
+            <img
+              src="/logo-mark.png"
+              alt=""
+              aria-hidden="true"
+              width={20}
+              height={20}
+              className="w-5 h-5 object-contain"
+            />
+            <span>TechCare</span>
           </button>
 
           {/* Center: Clean Flat Links on Tablet/Desktop (>= 768px, matching Apple.com Desktop Site at 980px) */}

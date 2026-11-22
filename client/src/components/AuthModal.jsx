@@ -60,8 +60,18 @@ export default function AuthModal() {
       >
         {/* Minimalist Apple Store Sign-In Header */}
         <div className="px-6 pt-6 pb-2 flex items-start justify-between gap-4">
-          <div className="space-y-1">
-            <p className="text-[12px] font-medium text-[#6E6E73]">TechCare ID</p>
+          <div className="space-y-1.5">
+            <div className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#6E6E73]">
+              <img
+                src="/logo-mark.png"
+                alt=""
+                aria-hidden="true"
+                width={15}
+                height={15}
+                className="w-[15px] h-[15px] object-contain opacity-90"
+              />
+              <span>TechCare ID</span>
+            </div>
             <h2 className="text-[24px] font-semibold tracking-[-0.025em] text-[#1D1D1F] leading-[1.15]">
               {authModalTab === 'login' ? 'Masuk untuk checkout lebih cepat.' : 'Buat akun TechCare.'}
             </h2>
