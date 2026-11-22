@@ -554,6 +554,98 @@ export const mockProducts = [
     isBestseller: false,
     rating: 4.9,
     ulasan: 41
+  },
+  {
+    id: 14,
+    brand: 'LENOVO THINKPAD',
+    nama: 'Lenovo ThinkPad T480 Core i5 Gen-8',
+    slug: 'lenovo-thinkpad-t480-i5-second',
+    tagline: 'LEGENDARY BUSINESS LAPTOP • GRADE A',
+    kondisi: 'Grade A • Mulus 95%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Dual Battery Sehat • Thermal Repasted',
+    harga: 3650000,
+    hargaCoret: 4500000,
+    diskonPersen: 19,
+    stok: 8,
+    beratGram: 1950,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
+    gambar: [
+      '/assets/lenovo-thinkpad.png'
+    ],
+    varianWarna: [
+      { nama: 'Matte Black', hex: '#1c1c1e' }
+    ],
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB', priceDelta: 0 },
+        { label: 'RAM 16GB', priceDelta: 350000 }
+      ],
+      ssd: [
+        { label: 'SSD 256GB NVMe', priceDelta: 0 },
+        { label: 'SSD 512GB NVMe', priceDelta: 300000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
+    deskripsi: 'ThinkPad T480 legendaris untuk mahasiswa dan pekerja kantoran dengan budget hemat di bawah 4 jutaan. Keyboard paling nyaman di kelasnya, mudah di-upgrade, dan sudah lolos 32 titik QC serta penggantian thermal paste baru di workshop TECHCARE.',
+    fitur: [
+      'Intel Core i5-8350U (4 Core / 8 Thread, Turbo 3.6GHz)',
+      'Layar 14" Full HD IPS Anti-Glare nyaman untuk mengetik dan kuliah',
+      '2 Slot RAM SO-DIMM upgradeable hingga 32GB & slot SSD NVMe',
+      'Port lengkap: USB-C Thunderbolt 3, HDMI, RJ-45 LAN, SD Card Reader',
+      'Free instalasi Windows 11 Pro & aplikasi dasar siap pakai',
+      'Termasuk charger USB-C 65W & Garansi Toko TECHCARE 60 Hari'
+    ],
+    isBestseller: true,
+    rating: 4.9,
+    ulasan: 194
+  },
+  {
+    id: 15,
+    brand: 'HP ELITEBOOK',
+    nama: 'HP EliteBook 840 G8 Core i5 Gen-11',
+    slug: 'hp-elitebook-840-g8-i5-second',
+    tagline: 'ALUMINUM BUSINESS ULTRABOOK • GRADE A+',
+    kondisi: 'Grade A+ • Mulus 96%',
+    garansi: 'Garansi Toko 60 Hari',
+    qcSummary: 'Lulus 32 Titik QC • Audio Bang & Olufsen • Battery Health 90%',
+    harga: 4750000,
+    hargaCoret: 5950000,
+    diskonPersen: 20,
+    stok: 6,
+    beratGram: 1750,
+    koleksi: 'Laptop Second',
+    koleksiSlug: 'laptop-second',
+    gambar: [
+      '/assets/products/hp-elitebook-840-g8.png'
+    ],
+    varianWarna: [
+      { nama: 'Natural Silver Aluminum', hex: '#d4d4d8' }
+    ],
+    specOptions: {
+      ram: [
+        { label: 'RAM 8GB', priceDelta: 0 },
+        { label: 'RAM 16GB', priceDelta: 400000 }
+      ],
+      ssd: [
+        { label: 'SSD 256GB NVMe', priceDelta: 0 },
+        { label: 'SSD 512GB NVMe', priceDelta: 300000 }
+      ]
+    },
+    specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
+    deskripsi: 'Laptop bisnis bodi full aluminium CNC ringan di bawah 5 jutaan dengan speaker Bang & Olufsen jernih untuk meeting online. Ex-korporat mulus pilihan teknisi TECHCARE, baterai awet dan layar bebas dead pixel.',
+    fitur: [
+      'Intel Core i5-1135G7 Gen-11 (4 Core / 8 Thread) + Intel Iris Xe Graphics',
+      'Layar 14" Full HD IPS Anti-Glare bezel tipis',
+      'Bodi CNC aluminium silver kokoh & ringan (1,35 kg) dengan keyboard backlit',
+      'Dual Thunderbolt 4, HDMI 2.0, USB-A, & Audio by Bang & Olufsen',
+      'Free instalasi OS bersih + pengecekan kesehatan SSD & baterai',
+      'Termasuk charger original & Garansi Toko TECHCARE 60 Hari'
+    ],
+    isBestseller: true,
+    rating: 4.9,
+    ulasan: 112
   }
 ];
 

@@ -33,6 +33,7 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
       title: 'Keyboard Mekanikal',
       subtitle: 'Keycaps bersih ultrasonic. Hot-swap responsif.',
       image: '/assets/tile-keyboard-dark.jpg',
+      imageZoomClass: 'scale-[1.24] sm:scale-[1.18] hover:scale-[1.28]',
       width: 1024,
       height: 768,
       onLearn: () => (keyboard && onSelectProduct ? onSelectProduct(keyboard) : onShopClick()),
@@ -106,14 +107,16 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
                   </div>
                 </div>
 
-                <div className="mt-6 h-[250px] sm:h-[300px] flex items-center justify-center">
+                <div className="mt-6 h-[250px] sm:h-[300px] flex items-center justify-center overflow-hidden">
                   <img
                     src={tile.image}
                     alt={tile.title}
                     width={tile.width}
                     height={tile.height}
                     loading="lazy"
-                    className="max-h-full max-w-[90%] object-contain select-none transition-transform duration-300 hover:scale-[1.03]"
+                    className={`max-h-full max-w-[90%] object-contain select-none transition-transform duration-300 ${
+                      tile.imageZoomClass || 'hover:scale-[1.03]'
+                    }`}
                   />
                 </div>
               </div>

@@ -50,14 +50,14 @@
 
 @layer components {
   .tc-hero-title {
-    font-size: clamp(40px, 8vw, 80px);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
+    font-size: clamp(32px, 5.2vw, 56px);
+    line-height: 1.07;
+    letter-spacing: -0.03em;
     font-weight: 600;
   }
 
   .tc-section-title {
-    font-size: clamp(28px, 5vw, 48px);
+    font-size: clamp(30px, 4.6vw, 48px);
     line-height: 1.08;
     letter-spacing: -0.03em;
     font-weight: 600;

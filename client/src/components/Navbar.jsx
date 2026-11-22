@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBag, Search, Menu, X, Heart, User, LayoutDashboard } from 'lucide-react';
+import { ShoppingBag, Search, X, Heart, User, LayoutDashboard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -168,7 +168,7 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
               )}
             </button>
 
-            {/* Hamburger (mobile only < 768px) opening Fullscreen White MenuOverlay */}
+            {/* Minimal Apple 2-line menu icon (mobile only < 768px) opening Fullscreen White MenuOverlay */}
             <button
               type="button"
               onClick={() => {
@@ -178,7 +178,10 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
               className="md:hidden w-9 h-9 -mr-1.5 flex items-center justify-center text-[#1D1D1F]"
               aria-label="Buka Menu"
             >
-              <Menu size={18} strokeWidth={1.7} />
+              <svg width="17" height="17" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <line x1="2" y1="6.25" x2="16" y2="6.25" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+                <line x1="2" y1="11.75" x2="16" y2="11.75" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
             </button>
           </div>
         </div>
