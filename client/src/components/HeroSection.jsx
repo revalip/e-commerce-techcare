@@ -76,21 +76,43 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             </button>
           </motion.div>
 
-          {/* Transparent PNG Flagship Laptop (No grey box, parallax <= 36px) */}
+          {/* Seamless 360° Studio Laptop Video (mix-blend-multiply blends pure white studio bg into #F5F5F7) */}
           <motion.div
             initial={shouldReduceMotion ? false : { opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.25, ease }}
             style={shouldReduceMotion ? undefined : { y: heroImgY }}
-            className="mt-10 sm:mt-14 flex justify-center"
+            className="mt-8 sm:mt-10 flex justify-center"
           >
-            <img
-              src="/assets/products/thinkpad-x1-carbon-front.png"
-              alt="Lenovo ThinkPad X1 Carbon Gen 9 terkurasi TechCare"
-              width={922}
-              height={720}
-              className="w-full max-w-[340px] sm:max-w-[540px] lg:max-w-[660px] h-auto object-contain select-none"
-            />
+            {shouldReduceMotion ? (
+              <img
+                src="/assets/products/thinkpad-x1-carbon-front.png"
+                alt="Laptop bisnis terkurasi TechCare"
+                width={922}
+                height={720}
+                className="w-full max-w-[340px] sm:max-w-[540px] lg:max-w-[660px] h-auto object-contain select-none"
+              />
+            ) : (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="/assets/products/thinkpad-x1-carbon-front.png"
+                width={1280}
+                height={960}
+                className="w-full max-w-[360px] sm:max-w-[560px] lg:max-w-[680px] h-auto object-contain mix-blend-multiply select-none pointer-events-none"
+              >
+                <source src="/assets/hero.mp4" type="video/mp4" />
+                <img
+                  src="/assets/products/thinkpad-x1-carbon-front.png"
+                  alt="Laptop bisnis terkurasi TechCare"
+                  width={922}
+                  height={720}
+                  className="w-full h-auto object-contain"
+                />
+              </video>
+            )}
           </motion.div>
         </div>
       </section>
