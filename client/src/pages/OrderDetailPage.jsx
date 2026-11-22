@@ -357,48 +357,64 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               </div>
             </div>
           ) : (
-            <div className="space-y-5">
+            <div className="space-y-4">
+              {/* Mobile summary label above track */}
+              <div className="flex items-center justify-between text-[13px] sm:hidden">
+                <span className="font-semibold text-[#1D1D1F]">{steps[currentStepIdx]?.label || 'Diproses'}</span>
+                <span className="text-[#6E6E73] tabular-nums">Tahap {currentStepIdx + 1} dari {steps.length}</span>
+              </div>
+
+              {/* Unified Apple Store 6-node horizontal progress track (aligned 1:1 on both Mobile & Desktop) */}
               <div className="relative pt-1">
-                <div className="flex items-center justify-between text-[12px] text-[#6E6E73] mb-2 sm:hidden">
-                  <span className="font-medium text-[#1D1D1F]">{steps[currentStepIdx]?.label || 'Diproses'}</span>
-                  <span className="tabular-nums">Tahap {currentStepIdx + 1} dari {steps.length}</span>
-                </div>
-                <div className="h-[3px] w-full bg-[#E8E8ED] rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#0071E3] transition-all duration-500 rounded-full"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-y-4 gap-x-2 mt-4">
+                <div className="relative flex items-center justify-between">
+                  {/* Track rail spanning center of first node to center of last node */}
+                  <div className="absolute left-[8.33%] right-[8.33%] top-1/2 -translate-y-1/2 h-[3px] bg-[#E8E8ED] rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-[#0071E3] transition-all duration-500 rounded-full"
+                      style={{ width: `${Math.round((currentStepIdx / (steps.length - 1)) * 100)}%` }}
+                    />
+                  </div>
+
                   {steps.map((step, idx) => {
-                    const done = currentStepIdx >= idx;
+                    const done = currentStepIdx > idx;
                     const current = currentStepIdx === idx;
                     const Icon = step.icon;
                     return (
-                      <div key={step.key} className="flex flex-col items-start sm:items-center sm:text-center gap-1">
-                        <Icon
-                          size={16}
-                          strokeWidth={1.7}
-                          className={
+                      <div key={step.key} className="relative z-10 flex-1 flex flex-col items-center">
+                        <div
+                          className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-colors ${
                             current
-                              ? 'text-[#0071E3]'
+                              ? 'bg-[#0071E3] text-white ring-4 ring-[#0071E3]/15'
                               : done
-                              ? 'text-[#1D1D1F]'
-                              : 'text-[#A1A1A6]'
-                          }
-                        />
-                        <span
-                          className={`text-[12px] leading-tight ${
-                            current
-                              ? 'text-[#0071E3] font-semibold'
-                              : done
-                              ? 'text-[#1D1D1F] font-medium'
-                              : 'text-[#86868B]'
+                              ? 'bg-[#1D1D1F] text-white'
+                              : 'bg-[#F5F5F7] text-[#A1A1A6]'
                           }`}
                         >
-                          {step.label}
-                        </span>
+                          {done ? <Check size={14} strokeWidth={2.4} /> : <Icon size={14} strokeWidth={1.8} />}
+                        </div>
                       </div>
+                    );
+                  })}
+                </div>
+
+                {/* Desktop 6-column labels directly centered beneath each node */}
+                <div className="hidden sm:grid sm:grid-cols-6 gap-2 mt-3">
+                  {steps.map((step, idx) => {
+                    const done = currentStepIdx >= idx;
+                    const current = currentStepIdx === idx;
+                    return (
+                      <span
+                        key={step.key}
+                        className={`text-[12px] text-center leading-tight ${
+                          current
+                            ? 'text-[#0071E3] font-semibold'
+                            : done
+                            ? 'text-[#1D1D1F] font-medium'
+                            : 'text-[#86868B]'
+                        }`}
+                      >
+                        {step.label}
+                      </span>
                     );
                   })}
                 </div>
@@ -408,11 +424,11 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
           {/* Courier & Resi Bar */}
           <div className="bg-[#F5F5F7] rounded-[20px] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-3.5 min-w-0">
               <Truck size={20} strokeWidth={1.6} className="text-[#1D1D1F] shrink-0" />
-              <div className="text-[14px]">
+              <div className="text-[14px] min-w-0">
                 <p className="font-semibold text-[#1D1D1F]">{order.kurir || 'JNE Reguler'}</p>
-                <p className="text-[#6E6E73] text-[13px]">
+                <p className="text-[#6E6E73] text-[13px] break-all sm:break-normal">
                   {order.resi ? `Resi: ${order.resi}` : 'Menunggu proses QC dan penyerahan ke kurir'}
                 </p>
               </div>
@@ -421,7 +437,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
               <button
                 type="button"
                 onClick={() => handleCopy(order.resi, 'resi')}
-                className="h-[36px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+                className="w-full sm:w-auto justify-center h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] font-medium inline-flex items-center gap-1.5 shrink-0 transition-colors cursor-pointer"
               >
                 {copiedField === 'resi' ? <Check size={13} /> : <Copy size={13} />}
                 <span>{copiedField === 'resi' ? 'Tersalin' : 'Salin Resi'}</span>

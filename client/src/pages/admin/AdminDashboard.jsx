@@ -193,16 +193,16 @@ export default function AdminDashboard({ onBackToShop }) {
   );
   const activeDiscountsCount = useMemo(() => discounts.filter((d) => d.aktif).length, [discounts]);
 
-  // Grafik 1: Distribusi Status Pesanan
+  // Grafik 1: Distribusi Status Pesanan (Apple palette)
   const orderStatusChart = useMemo(() => {
     const buckets = [
-      { key: 'pending', label: 'Menunggu Bayar', color: 'bg-amber-400', count: 0 },
-      { key: 'awaiting_verification', label: 'Verifikasi', color: 'bg-[#8692A3]', count: 0 },
-      { key: 'paid', label: 'Dibayar', color: 'bg-emerald-500', count: 0 },
-      { key: 'processing', label: 'Dikemas & QC', color: 'bg-[#4F627A]', count: 0 },
-      { key: 'shipped', label: 'Dikirim', color: 'bg-[#1D2129]', count: 0 },
-      { key: 'completed', label: 'Selesai', color: 'bg-emerald-700', count: 0 },
-      { key: 'cancelled', label: 'Dibatalkan', color: 'bg-[#8692A3]', count: 0 }
+      { key: 'pending', label: 'Menunggu Bayar', color: 'bg-[#B64400]', count: 0 },
+      { key: 'awaiting_verification', label: 'Verifikasi', color: 'bg-[#0071E3]', count: 0 },
+      { key: 'paid', label: 'Dibayar', color: 'bg-[#0071E3]', count: 0 },
+      { key: 'processing', label: 'Dikemas & QC', color: 'bg-[#424245]', count: 0 },
+      { key: 'shipped', label: 'Dikirim', color: 'bg-[#1D1D1F]', count: 0 },
+      { key: 'completed', label: 'Selesai', color: 'bg-[#1D7F3E]', count: 0 },
+      { key: 'cancelled', label: 'Dibatalkan', color: 'bg-[#D70015]', count: 0 }
     ];
     orders.forEach((o) => {
       const target = buckets.find((b) => b.key === (o.statusKey || 'pending'));
@@ -498,84 +498,97 @@ export default function AdminDashboard({ onBackToShop }) {
     }
   };
 
+  const getAppleStatusDot = (statusKey) => {
+    switch (statusKey) {
+      case 'completed':
+        return { dot: 'bg-[#1D7F3E]', text: 'text-[#1D7F3E]' };
+      case 'shipped':
+      case 'processing':
+      case 'paid':
+        return { dot: 'bg-[#0071E3]', text: 'text-[#0071E3]' };
+      case 'cancelled':
+        return { dot: 'bg-[#D70015]', text: 'text-[#D70015]' };
+      default:
+        return { dot: 'bg-[#B64400]', text: 'text-[#B64400]' };
+    }
+  };
+
   return (
-    <div className="bg-[#F7F8FA] min-h-screen py-6 sm:py-10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Top Navy Admin Header */}
-        <Reveal>
-          <div className="bg-[#1D1D1F] text-white rounded-[28px] p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative overflow-hidden">
-            <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-1 flex-wrap">
-                <span className="text-[11px] uppercase font-bold tracking-wider text-[#9BB0C9]">
-                  ADMIN DASHBOARD • TECHCARE
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#0071E3] text-white text-[10px] font-semibold">
-                  {user?.name || 'Admin'}
-                </span>
-              </div>
-              <h1 className="font-display text-2xl sm:text-3xl font-bold text-white">
-                Pusat Kontrol Toko &amp; Analitik
-              </h1>
-            </div>
-
-            <div className="relative z-10 flex items-center gap-2">
-              <button
-                onClick={loadData}
-                className="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white flex items-center justify-center transition-colors"
-                title="Refresh Data"
-                aria-label="Refresh Data"
-              >
-                <RefreshCw size={16} />
-              </button>
-              <button
-                onClick={onBackToShop}
-                className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-white text-[#1D2129] hover:bg-[#ECEFF4] text-xs font-bold transition-colors"
-              >
-                <ArrowLeft size={14} />
-                <span>Lihat Toko</span>
-              </button>
-              <button
-                onClick={logout}
-                className="w-11 h-11 rounded-xl bg-rose-500/20 hover:bg-rose-500 border border-rose-400/30 text-rose-200 hover:text-white flex items-center justify-center transition-colors"
-                title="Keluar"
-                aria-label="Keluar Admin"
-              >
-                <LogOut size={16} />
-              </button>
-            </div>
+    <div className="bg-white text-[#1D1D1F] min-h-screen pb-16">
+      {/* 1. Full-Width Apple Header Band (#F5F5F7) */}
+      <section className="w-full bg-[#F5F5F7] py-10 sm:py-14">
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row sm:items-end justify-between gap-5">
+          <div className="space-y-1.5">
+            <p className="text-[13px] font-medium text-[#6E6E73]">
+              Admin · {user?.name || 'TechCare'}
+            </p>
+            <h1 className="text-[30px] sm:text-[40px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
+              Ringkasan Toko
+            </h1>
+            <p className="text-[15px] text-[#6E6E73]">
+              Kelola pesanan, verifikasi pembayaran, inventaris unit, dan promo.
+            </p>
           </div>
-        </Reveal>
 
-        {/* Feedback Banner */}
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <button
+              type="button"
+              onClick={loadData}
+              className="h-[38px] w-[38px] rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] inline-flex items-center justify-center transition-colors cursor-pointer"
+              title="Muat ulang data"
+              aria-label="Refresh Data"
+            >
+              <RefreshCw size={15} strokeWidth={1.8} />
+            </button>
+            <button
+              type="button"
+              onClick={onBackToShop}
+              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[#1D1D1F] text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <ArrowLeft size={14} strokeWidth={1.8} />
+              <span>Lihat Toko</span>
+            </button>
+            <button
+              type="button"
+              onClick={logout}
+              className="h-[38px] px-4 rounded-[980px] bg-white hover:bg-[#D70015] text-[#D70015] hover:text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
+              title="Keluar"
+              aria-label="Keluar Admin"
+            >
+              <LogOut size={14} strokeWidth={1.8} />
+              <span>Keluar</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-[1180px] mx-auto px-4 sm:px-6 pt-8 sm:pt-10 space-y-8 sm:space-y-10">
+        {/* Feedback Toast */}
         <AnimatePresence>
           {feedback && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="bg-[#1D2129] text-white px-5 py-3.5 rounded-[20px] text-xs font-semibold flex items-center gap-2.5 shadow-md border border-[#323846]"
+              className="bg-[#1D1D1F] text-white px-5 py-3.5 rounded-[18px] text-[13px] flex items-center gap-2.5"
             >
-              <ShieldCheck size={17} className="text-emerald-400 shrink-0" />
+              <ShieldCheck size={16} className="text-[#30D158] shrink-0" />
               <span>{feedback}</span>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* 4 KPI Metric Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
-          <div className="bg-white rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
-                Total Omzet
-              </span>
-              <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
-                <TrendingUp size={17} />
-              </span>
+        {/* 2. 4 Borderless Apple KPI Tiles (#F5F5F7) */}
+        <section className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-5">
+          <div className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[12px] font-medium text-[#6E6E73]">Total Omzet</span>
+              <TrendingUp size={16} strokeWidth={1.6} className="text-[#86868B] shrink-0" />
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] truncate tabular-nums">
+            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] truncate tabular-nums">
               {formatIDR(totalOmzet)}
             </p>
-            <span className="text-[11px] text-[#647082] block">{orders.length} pesanan masuk</span>
+            <span className="text-[12px] text-[#6E6E73] block">{orders.length} pesanan tercatat</span>
           </div>
 
           <button
@@ -584,90 +597,81 @@ export default function AdminDashboard({ onBackToShop }) {
               setActiveTab('orders');
               setOrderStatusFilter('awaiting_verification');
             }}
-            className="text-left bg-white hover:border-[#1D2129] rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
+            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
-                Verifikasi Bayar
-              </span>
-              <span className="w-9 h-9 rounded-xl bg-[#ECEFF4] text-[#1D2129] flex items-center justify-center">
-                <Clock size={17} />
-              </span>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[12px] font-medium text-[#6E6E73]">Verifikasi Bayar</span>
+              <Clock size={16} strokeWidth={1.6} className="text-[#0071E3] shrink-0" />
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] tabular-nums">
+            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
               {awaitingCount} Pesanan
             </p>
-            <span className="text-[11px] text-[#647082] block">Klik untuk cek bukti →</span>
+            <span className="text-[12px] text-[#0071E3] block">Periksa bukti ›</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('products')}
-            className="text-left bg-white hover:border-rose-400 rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
+            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
           >
             <div className="flex items-center justify-between gap-2">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
-                Stok Menipis
-              </span>
-              <span className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                <AlertTriangle size={17} />
-              </span>
+              <span className="text-[12px] font-medium text-[#6E6E73]">Stok Menipis</span>
+              <AlertTriangle
+                size={16}
+                strokeWidth={1.6}
+                className={lowStockProducts.length > 0 ? 'text-[#D70015] shrink-0' : 'text-[#1D7F3E] shrink-0'}
+              />
             </div>
             <p
-              className={`font-display text-lg sm:text-2xl font-bold tabular-nums ${
-                lowStockProducts.length > 0 ? 'text-rose-600' : 'text-emerald-600'
+              className={`text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] tabular-nums ${
+                lowStockProducts.length > 0 ? 'text-[#D70015]' : 'text-[#1D7F3E]'
               }`}
             >
               {lowStockProducts.length} Produk
             </p>
-            <span className="text-[11px] text-[#647082] block">≤ 5 unit · dari {products.length} aktif</span>
+            <span className="text-[12px] text-[#6E6E73] block">≤ 5 unit · dari {products.length} aktif</span>
           </button>
 
           <button
             type="button"
             onClick={() => setActiveTab('users')}
-            className="text-left bg-white hover:border-[#1D2129] rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
+            className="text-left bg-[#F5F5F7] hover:bg-[#EFEFF2] rounded-[24px] p-5 sm:p-6 space-y-2 transition-colors cursor-pointer"
           >
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
-                Pengguna &amp; Promo
-              </span>
-              <span className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Users size={17} />
-              </span>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[12px] font-medium text-[#6E6E73]">Akun &amp; Promo</span>
+              <Users size={16} strokeWidth={1.6} className="text-[#86868B] shrink-0" />
             </div>
-            <p className="font-display text-lg sm:text-2xl font-bold text-[#1D2129] tabular-nums">
+            <p className="text-[20px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F] tabular-nums">
               {usersList.length} Akun
             </p>
-            <span className="text-[11px] text-[#647082] block">{activeDiscountsCount} kupon promo aktif</span>
+            <span className="text-[12px] text-[#6E6E73] block">{activeDiscountsCount} voucher aktif</span>
           </button>
-        </div>
+        </section>
 
-        {/* Analytics Charts Row (2 Responsive Visual Charts) */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* 3. Analytics Charts (2 Borderless Apple Panels) */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* Chart 1: Distribusi Status Pesanan */}
-          <div className="bg-white rounded-[20px] p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
-            <div className="flex items-center justify-between">
+          <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
+            <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 className="font-display text-sm sm:text-base font-bold text-[#1D2129] flex items-center gap-2">
-                  <BarChart3 size={16} className="text-[#1D2129]" />
-                  <span>Grafik Distribusi Status Pesanan</span>
+                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Distribusi Status Pesanan
                 </h2>
-                <p className="text-[11px] text-[#647082]">Ringkasan status transaksi secara real-time</p>
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">Ringkasan transaksi secara real-time</p>
               </div>
-              <span className="text-xs font-bold text-[#1D2129] bg-[#ECEFF4] px-2.5 py-1 rounded-lg tabular-nums">
-                {orders.length} Total
+              <span className="text-[13px] font-medium text-[#6E6E73] tabular-nums shrink-0">
+                {orders.length} total
               </span>
             </div>
 
-            <div className="space-y-2.5">
+            <div className="space-y-3">
               {orderStatusChart.map((row) => (
-                <div key={row.key} className="space-y-1">
-                  <div className="flex justify-between text-xs">
-                    <span className="font-medium text-[#323846]">{row.label}</span>
-                    <span className="font-bold text-[#1D2129] tabular-nums">{row.count}</span>
+                <div key={row.key} className="space-y-1.5">
+                  <div className="flex justify-between text-[13px]">
+                    <span className="text-[#424245]">{row.label}</span>
+                    <span className="font-semibold text-[#1D1D1F] tabular-nums">{row.count}</span>
                   </div>
-                  <div className="h-2 w-full bg-[#ECEFF4] rounded-full overflow-hidden">
+                  <div className="h-[5px] w-full bg-[#E5E5EA] rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${row.color}`}
                       style={{ width: `${row.count > 0 ? Math.max(8, row.pct) : 0}%` }}
@@ -678,33 +682,32 @@ export default function AdminDashboard({ onBackToShop }) {
             </div>
           </div>
 
-          {/* Chart 2: Stok & Produk per Kategori */}
-          <div className="bg-white rounded-[20px] p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-4">
-            <div className="flex items-center justify-between">
+          {/* Chart 2: Stok per Kategori */}
+          <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
+            <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 className="font-display text-sm sm:text-base font-bold text-[#1D2129] flex items-center gap-2">
-                  <FolderKanban size={16} className="text-[#1D2129]" />
-                  <span>Grafik Stok Inventaris per Kategori</span>
+                <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-[#1D1D1F]">
+                  Stok Inventaris per Kategori
                 </h2>
-                <p className="text-[11px] text-[#647082]">Jumlah unit stok tersedia di setiap kategori</p>
+                <p className="text-[13px] text-[#6E6E73] mt-0.5">Jumlah unit tersedia per kategori</p>
               </div>
-              <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg tabular-nums">
-                {products.reduce((s, p) => s + (Number(p.stok) || 0), 0)} Unit
+              <span className="text-[13px] font-semibold text-[#1D1D1F] tabular-nums shrink-0">
+                {products.reduce((s, p) => s + (Number(p.stok) || 0), 0)} unit
               </span>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3.5">
               {categoryStockChart.map((cat) => (
-                <div key={cat.name} className="space-y-1">
-                  <div className="flex justify-between text-xs gap-2">
-                    <span className="font-semibold text-[#323846] truncate">{cat.name}</span>
-                    <span className="text-[#647082] shrink-0 tabular-nums">
-                      <strong className="text-[#1D2129]">{cat.stock} unit</strong> ({cat.count} SKU)
+                <div key={cat.name} className="space-y-1.5">
+                  <div className="flex justify-between text-[13px] gap-2">
+                    <span className="text-[#1D1D1F] font-medium truncate">{cat.name}</span>
+                    <span className="text-[#6E6E73] shrink-0 tabular-nums">
+                      <strong className="text-[#1D1D1F] font-semibold">{cat.stock} unit</strong> · {cat.count} SKU
                     </span>
                   </div>
-                  <div className="h-2.5 w-full bg-[#ECEFF4] rounded-full overflow-hidden">
+                  <div className="h-[5px] w-full bg-[#E5E5EA] rounded-full overflow-hidden">
                     <div
-                      className="h-full rounded-full bg-[#1D2129] transition-all duration-500"
+                      className="h-full rounded-full bg-[#1D1D1F] transition-all duration-500"
                       style={{ width: `${cat.stock > 0 ? Math.max(8, cat.pct) : 0}%` }}
                     />
                   </div>
@@ -712,29 +715,30 @@ export default function AdminDashboard({ onBackToShop }) {
               ))}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Low Stock Alert Strip */}
+        {/* 4. Low Stock Quick Restock Strip */}
         {lowStockProducts.length > 0 && (
-          <div className="bg-[#ECEFF4] border border-[#D4DBE5] rounded-[20px] p-4 sm:p-5 space-y-2.5">
+          <section className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-3">
             <div className="flex items-center justify-between gap-2 flex-wrap">
-              <div className="flex items-center gap-2 text-xs font-bold text-[#323846] uppercase tracking-wider">
-                <AlertTriangle size={15} className="text-[#1D2129]" />
-                <span>Peringatan Stok Menipis ({lowStockProducts.length} produk)</span>
-              </div>
-              <span className="text-[11px] text-[#323846] font-medium">Klik produk untuk restok cepat</span>
+              <p className="text-[14px] font-semibold text-[#1D1D1F] flex items-center gap-2">
+                <AlertTriangle size={15} strokeWidth={1.8} className="text-[#D70015]" />
+                <span>Perlu restok ({lowStockProducts.length} produk)</span>
+              </p>
+              <span className="text-[12px] text-[#6E6E73]">Pilih produk untuk ubah stok</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {lowStockProducts.map((p) => (
                 <button
                   key={p.id}
+                  type="button"
                   onClick={() => openEditProduct(p)}
-                  className="inline-flex items-center gap-2 min-h-[38px] px-3 rounded-xl bg-white border border-[#D4DBE5] hover:border-[#1D2129] text-xs text-[#1D2129] transition-colors"
+                  className="inline-flex items-center gap-2 h-[36px] px-4 rounded-[980px] bg-white hover:bg-[#E8E8ED] text-[13px] text-[#1D1D1F] transition-colors cursor-pointer"
                 >
-                  <span className="font-semibold truncate max-w-[180px]">{p.nama}</span>
+                  <span className="truncate max-w-[180px]">{p.nama}</span>
                   <span
-                    className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                      Number(p.stok) === 0 ? 'bg-rose-100 text-rose-700' : 'bg-amber-100 text-amber-800'
+                    className={`text-[12px] font-semibold tabular-nums ${
+                      Number(p.stok) === 0 ? 'text-[#D70015]' : 'text-[#B64400]'
                     }`}
                   >
                     Sisa {p.stok}
@@ -742,63 +746,67 @@ export default function AdminDashboard({ onBackToShop }) {
                 </button>
               ))}
             </div>
-          </div>
+          </section>
         )}
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-          {[
-            { key: 'orders', label: `Pesanan (${orders.length})`, icon: Package },
-            { key: 'products', label: `Produk (${products.length})`, icon: ShoppingBag },
-            { key: 'categories', label: `Kategori (${collections.length})`, icon: FolderKanban },
-            { key: 'discounts', label: `Kupon (${discounts.length})`, icon: Tag },
-            { key: 'users', label: `Pengguna (${usersList.length})`, icon: Users }
-          ].map((tab) => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`inline-flex items-center gap-2 px-4 sm:px-5 min-h-[44px] rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
-                  activeTab === tab.key
-                    ? 'bg-[#1D2129] text-white'
-                    : 'bg-white border border-[#E2E7EE] text-[#4F627A] hover:border-[#1D2129] hover:text-[#1D2129]'
-                }`}
-              >
-                <Icon size={15} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
+        {/* 5. macOS-Style Segmented Navigation Bar */}
+        <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+          <div className="inline-flex items-center gap-1 p-1 rounded-[980px] bg-[#F5F5F7]">
+            {[
+              { key: 'orders', label: `Pesanan (${orders.length})`, icon: Package },
+              { key: 'products', label: `Produk (${products.length})`, icon: ShoppingBag },
+              { key: 'categories', label: `Kategori (${collections.length})`, icon: FolderKanban },
+              { key: 'discounts', label: `Kupon (${discounts.length})`, icon: Tag },
+              { key: 'users', label: `Pengguna (${usersList.length})`, icon: Users }
+            ].map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`inline-flex items-center gap-1.5 h-[38px] px-4 sm:px-5 rounded-[980px] text-[13px] whitespace-nowrap transition-all cursor-pointer ${
+                    isActive
+                      ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_4px_rgba(0,0,0,0.08)]'
+                      : 'text-[#6E6E73] hover:text-[#1D1D1F] font-normal'
+                  }`}
+                >
+                  <Icon size={14} strokeWidth={1.7} />
+                  <span>{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* TAB 1: ORDERS */}
         {activeTab === 'orders' && (
-          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
+          <section className="space-y-6">
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
-                  Manajemen Pesanan, Pembayaran &amp; Resi
-                </h3>
-                <p className="text-xs text-[#647082] mt-0.5">
-                  Periksa bukti bayar, setujui pembayaran, dan input resi pengiriman kurir.
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                  Pesanan &amp; Pembayaran
+                </h2>
+                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                  Periksa bukti transfer, verifikasi pembayaran, dan perbarui resi kurir.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-2">
+              <div className="flex flex-col sm:flex-row gap-2.5">
                 <div className="relative">
-                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8692A3]" />
+                  <Search size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6E6E73]" />
                   <input
                     type="text"
                     value={orderSearch}
                     onChange={(e) => setOrderSearch(e.target.value)}
-                    placeholder="Cari invoice, pembeli, resi..."
-                    className="tc-input sm:w-56 pl-9"
+                    placeholder="Cari invoice, nama, resi..."
+                    className="h-[40px] w-full sm:w-60 pl-9 pr-4 rounded-[980px] bg-[#F5F5F7] text-[13px] text-[#1D1D1F] placeholder:text-[#6E6E73] focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                   />
                 </div>
                 <select
                   value={orderStatusFilter}
                   onChange={(e) => setOrderStatusFilter(e.target.value)}
-                  className="tc-input sm:w-auto font-semibold cursor-pointer"
+                  className="h-[40px] px-4 rounded-[980px] bg-[#F5F5F7] text-[13px] font-medium text-[#1D1D1F] cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#0071E3]"
                 >
                   <option value="all">Semua Status</option>
                   <option value="pending">Menunggu Bayar</option>
@@ -813,85 +821,89 @@ export default function AdminDashboard({ onBackToShop }) {
             </div>
 
             {loading ? (
-              <p className="text-xs text-[#8692A3] py-10 text-center">Memuat data pesanan...</p>
+              <p className="text-[14px] text-[#6E6E73] py-12 text-center">Memuat data pesanan...</p>
             ) : filteredOrders.length === 0 ? (
-              <p className="text-xs text-[#647082] py-10 text-center">
+              <div className="bg-[#F5F5F7] rounded-[24px] py-12 px-6 text-center text-[14px] text-[#6E6E73]">
                 Tidak ada pesanan yang cocok dengan filter saat ini.
-              </p>
+              </div>
             ) : (
               <div className="space-y-4">
                 {filteredOrders.map((ord) => {
                   const badge = getStatusBadge(ord.statusKey || ord.paymentStatus);
+                  const stStyle = getAppleStatusDot(ord.statusKey || ord.paymentStatus);
+                  const isAwaiting = ord.paymentStatus === 'awaiting_verification';
                   return (
                     <div
                       key={ord.id}
-                      className="p-4 sm:p-5 rounded-[20px] border border-[#E2E7EE] hover:border-[#1D2129]/50 transition-colors space-y-3 bg-[#F7F8FA]"
+                      className="bg-[#F5F5F7] rounded-[24px] p-5 sm:p-6 space-y-4"
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-bold text-[#1D2129]">
-                            #{ord.nomorPesanan}
-                          </span>
-                          <span
-                            className={`px-2.5 py-0.5 rounded-lg text-[10px] font-bold border uppercase ${badge.bg}`}
-                          >
-                            {ord.status || badge.label}
-                          </span>
-                          <span className="text-[11px] text-[#8692A3]">{formatDate(ord.tanggal)}</span>
-                        </div>
-                        <div className="text-left sm:text-right">
-                          <span className="font-display text-sm sm:text-base font-bold text-[#1D2129] tabular-nums">
-                            {formatIDR(ord.total)}
-                          </span>
-                          {ord.uniqueCode > 0 && (
-                            <span className="block text-[10px] text-[#647082]">
-                              Kode unik +{ord.uniqueCode} • {ord.metodeBayar}
+                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                        <div className="space-y-1">
+                          <div className="flex items-center gap-3 flex-wrap">
+                            <span className="text-[16px] font-semibold tracking-[-0.01em] text-[#1D1D1F]">
+                              #{ord.nomorPesanan}
                             </span>
+                            <span className={`inline-flex items-center gap-1.5 text-[13px] font-medium ${stStyle.text}`}>
+                              <span className={`w-1.5 h-1.5 rounded-full ${stStyle.dot}`} />
+                              <span>{ord.status || badge.label}</span>
+                            </span>
+                          </div>
+                          <p className="text-[12px] text-[#6E6E73]">{formatDate(ord.tanggal)}</p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <p className="text-[17px] font-semibold text-[#1D1D1F] tabular-nums">
+                            {formatIDR(ord.total)}
+                          </p>
+                          {ord.uniqueCode > 0 && (
+                            <p className="text-[12px] text-[#6E6E73]">
+                              Kode unik +{ord.uniqueCode} · {ord.metodeBayar}
+                            </p>
                           )}
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs text-[#4F627A] pt-2 border-t border-[#ECEFF4]">
-                        <div>
-                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Pembeli</p>
-                          <p className="font-bold text-[#1D2129]">{ord.customer?.nama}</p>
-                          <p className="text-[11px] text-[#647082]">
-                            {ord.customer?.kota} • {ord.customer?.telepon}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-[13px] pt-4 border-t border-[#D2D2D7]/70">
+                        <div className="space-y-0.5">
+                          <p className="text-[11px] font-medium text-[#6E6E73]">Pembeli</p>
+                          <p className="font-semibold text-[#1D1D1F]">{ord.customer?.nama}</p>
+                          <p className="text-[12px] text-[#6E6E73]">
+                            {ord.customer?.kota} · {ord.customer?.telepon}
                           </p>
                         </div>
 
-                        <div>
-                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Unit &amp; Spec</p>
+                        <div className="space-y-0.5">
+                          <p className="text-[11px] font-medium text-[#6E6E73]">Perangkat</p>
                           {(ord.items || []).map((it, idx) => (
-                            <p key={idx} className="text-[#23272F]">
-                              <strong>{it.nama}</strong> ({it.jumlah}x)
+                            <p key={idx} className="text-[#1D1D1F]">
+                              <span className="font-semibold">{it.nama}</span> ({it.jumlah}×)
                               {it.specLabel && (
-                                <span className="block text-[10px] text-[#647082]">{it.specLabel}</span>
+                                <span className="block text-[12px] text-[#6E6E73]">{it.specLabel}</span>
                               )}
                             </p>
                           ))}
                         </div>
 
-                        <div>
-                          <p className="text-[10px] uppercase font-bold text-[#8692A3]">Ekspedisi &amp; Resi</p>
-                          <p className="text-[#23272F]">{ord.kurir || 'JNE Reguler'}</p>
-                          <p className="text-[11px] text-[#4F627A]">
-                            Resi: {ord.resi || <span className="italic text-[#8692A3]">Belum diinput</span>}
+                        <div className="space-y-0.5">
+                          <p className="text-[11px] font-medium text-[#6E6E73]">Pengiriman</p>
+                          <p className="text-[#1D1D1F]">{ord.kurir || 'JNE Reguler'}</p>
+                          <p className="text-[12px] text-[#6E6E73]">
+                            Resi: {ord.resi || 'Belum diinput'}
                           </p>
                         </div>
                       </div>
 
                       {ord.paymentProofUrl && (
-                        <div className="p-3 rounded-xl bg-[#ECEFF4]/60 border border-[#D4DBE5] flex items-center justify-between gap-3 flex-wrap">
+                        <div className="p-3.5 rounded-[18px] bg-white flex items-center justify-between gap-3 flex-wrap">
                           <div className="flex items-center gap-3 min-w-0">
                             <img
                               src={ord.paymentProofUrl}
                               alt="Bukti bayar"
-                              className="w-12 h-12 rounded-xl object-cover bg-white border border-[#E2E7EE] shrink-0"
+                              className="w-11 h-11 rounded-xl object-cover bg-[#F5F5F7] shrink-0"
                             />
-                            <div className="min-w-0 text-xs">
-                              <p className="font-bold text-[#1D2129]">Bukti Pembayaran Terlampir</p>
-                              <p className="text-[11px] text-[#4F627A] truncate">
+                            <div className="min-w-0 text-[13px]">
+                              <p className="font-semibold text-[#1D1D1F]">Bukti pembayaran terlampir</p>
+                              <p className="text-[12px] text-[#6E6E73] truncate">
                                 {ord.paymentNotes || 'Siap diperiksa oleh admin.'}
                               </p>
                             </div>
@@ -899,7 +911,7 @@ export default function AdminDashboard({ onBackToShop }) {
                           <button
                             type="button"
                             onClick={() => setPreviewProofModal(ord)}
-                            className="inline-flex items-center gap-1.5 min-h-[40px] px-3.5 rounded-xl bg-white border border-[#D4DBE5] hover:border-[#1D2129] text-xs font-bold text-[#1D2129]"
+                            className="h-[36px] px-4 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[13px] font-medium text-[#1D1D1F] inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                           >
                             <Eye size={14} />
                             <span>Lihat Bukti</span>
@@ -907,20 +919,22 @@ export default function AdminDashboard({ onBackToShop }) {
                         </div>
                       )}
 
-                      <div className="flex flex-wrap items-center justify-between gap-2 pt-3 border-t border-[#ECEFF4]">
+                      <div className="flex flex-wrap items-center justify-between gap-2.5 pt-3 border-t border-[#D2D2D7]/70">
                         <div className="flex flex-wrap items-center gap-2">
-                          {ord.paymentStatus === 'awaiting_verification' && (
+                          {isAwaiting && (
                             <>
                               <button
+                                type="button"
                                 onClick={() => handleVerifyPayment(ord.id, 'approve')}
-                                className="inline-flex items-center gap-1.5 min-h-[40px] px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold"
+                                className="h-[38px] px-4 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                               >
                                 <CheckCircle2 size={14} />
                                 <span>Setujui Bayar</span>
                               </button>
                               <button
+                                type="button"
                                 onClick={() => handleVerifyPayment(ord.id, 'reject')}
-                                className="inline-flex items-center gap-1.5 min-h-[40px] px-4 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold"
+                                className="h-[38px] px-4 rounded-[980px] border border-[#D70015] text-[#D70015] hover:bg-[#D70015] hover:text-white text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer"
                               >
                                 <XCircle size={14} />
                                 <span>Tolak Bukti</span>
@@ -930,8 +944,13 @@ export default function AdminDashboard({ onBackToShop }) {
                         </div>
 
                         <button
+                          type="button"
                           onClick={() => handleOpenTrackingModal(ord)}
-                          className="tc-btn-dark min-h-[40px] px-4 text-xs"
+                          className={`h-[38px] px-4 rounded-[980px] text-[13px] font-normal inline-flex items-center gap-1.5 transition-colors cursor-pointer ${
+                            isAwaiting
+                              ? 'bg-white hover:bg-[#E8E8ED] text-[#1D1D1F]'
+                              : 'bg-[#0071E3] hover:bg-[#0077ED] text-white'
+                          }`}
                         >
                           <Truck size={14} />
                           <span>Update Status &amp; Resi</span>
@@ -942,88 +961,96 @@ export default function AdminDashboard({ onBackToShop }) {
                 })}
               </div>
             )}
-          </div>
+          </section>
         )}
 
         {/* TAB 2: PRODUCTS */}
         {activeTab === 'products' && (
-          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
-                  Inventaris Perangkat IT
-                </h3>
-                <p className="text-xs text-[#647082]">
-                  Tambah, ubah detail lengkap (harga, stok, berat, kategori), atau hapus produk katalog.
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                  Inventaris Perangkat
+                </h2>
+                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                  Tambah, ubah harga dan stok, atau hapus produk dari katalog.
                 </p>
               </div>
-              <button onClick={() => setShowAddProductModal(true)} className="tc-btn-primary">
+              <button
+                type="button"
+                onClick={() => setShowAddProductModal(true)}
+                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+              >
                 <Plus size={15} />
                 <span>Tambah Produk</span>
               </button>
             </div>
 
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-xs min-w-[680px]">
+              <table className="w-full text-left text-[13px] min-w-[680px]">
                 <thead>
-                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
-                    <th className="py-3 pl-3">Produk</th>
-                    <th className="py-3">Kategori</th>
-                    <th className="py-3">Berat</th>
-                    <th className="py-3">Harga</th>
-                    <th className="py-3">Stok</th>
-                    <th className="py-3 pr-3 text-right">Aksi</th>
+                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px] font-medium">
+                    <th className="py-3 font-medium">Produk</th>
+                    <th className="py-3 font-medium">Kategori</th>
+                    <th className="py-3 font-medium">Berat</th>
+                    <th className="py-3 font-medium">Harga</th>
+                    <th className="py-3 font-medium">Stok</th>
+                    <th className="py-3 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#ECEFF4]">
+                <tbody className="divide-y divide-[#D2D2D7]/60">
                   {products.map((p) => (
-                    <tr key={p.id} className="hover:bg-[#F7F8FA]">
-                      <td className="py-3.5 pl-3 pr-3">
-                        <div className="flex items-center gap-3">
-                          <img
-                            src={p.gambar?.[0]}
-                            alt={p.nama}
-                            className="w-11 h-11 rounded-xl bg-[#ECEFF4] object-contain p-1 border border-[#E2E7EE] shrink-0"
-                          />
+                    <tr key={p.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
+                      <td className="py-4 pr-3">
+                        <div className="flex items-center gap-3.5">
+                          <div className="w-12 h-12 rounded-2xl bg-[#F5F5F7] p-1.5 flex items-center justify-center shrink-0">
+                            <img
+                              src={p.gambar?.[0]}
+                              alt={p.nama}
+                              className="max-h-full max-w-full object-contain"
+                            />
+                          </div>
                           <div>
-                            <p className="font-bold text-[#1D2129]">{p.nama}</p>
-                            <p className="text-[11px] text-[#647082]">
-                              <span className="text-[#1D2129] font-semibold">{p.brand}</span> • {p.kondisi || 'Grade A'}
+                            <p className="font-semibold text-[#1D1D1F]">{p.nama}</p>
+                            <p className="text-[12px] text-[#6E6E73]">
+                              {p.brand} · {p.kondisi || 'Grade A'}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3.5 text-[#4F627A]">{p.koleksi}</td>
-                      <td className="py-3.5 text-[#4F627A] tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
-                      <td className="py-3.5 font-display font-bold text-[#1D2129] tabular-nums">
+                      <td className="py-4 text-[#424245]">{p.koleksi}</td>
+                      <td className="py-4 text-[#6E6E73] tabular-nums">{formatWeight(p.beratGram || 1000)}</td>
+                      <td className="py-4 font-semibold text-[#1D1D1F] tabular-nums">
                         {formatIDR(p.harga)}
                       </td>
-                      <td className="py-3.5">
+                      <td className="py-4">
                         <span
-                          className={`px-2.5 py-1 rounded-lg text-[10px] font-bold tabular-nums ${
+                          className={`text-[13px] font-medium tabular-nums ${
                             Number(p.stok) === 0
-                              ? 'bg-rose-100 text-rose-700'
+                              ? 'text-[#D70015]'
                               : Number(p.stok) <= 5
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-emerald-50 text-emerald-700'
+                              ? 'text-[#B64400]'
+                              : 'text-[#1D7F3E]'
                           }`}
                         >
                           {p.stok} unit
                         </span>
                       </td>
-                      <td className="py-3.5 pr-3 text-right">
-                        <div className="inline-flex items-center gap-1.5">
+                      <td className="py-4 text-right">
+                        <div className="inline-flex items-center gap-1">
                           <button
+                            type="button"
                             onClick={() => openEditProduct(p)}
-                            className="w-9 h-9 rounded-xl hover:bg-[#ECEFF4] text-[#4F627A] hover:text-[#1D2129] inline-flex items-center justify-center"
+                            className="w-9 h-9 rounded-full hover:bg-[#F5F5F7] text-[#424245] hover:text-[#1D1D1F] inline-flex items-center justify-center transition-colors cursor-pointer"
                             title="Edit Produk"
                             aria-label={`Edit ${p.nama}`}
                           >
                             <Edit3 size={15} />
                           </button>
                           <button
+                            type="button"
                             onClick={() => handleDeleteProduct(p.id, p.nama)}
-                            className="w-9 h-9 rounded-xl hover:bg-rose-50 text-[#8692A3] hover:text-rose-600 inline-flex items-center justify-center"
+                            className="w-9 h-9 rounded-full hover:bg-[#F5F5F7] text-[#86868B] hover:text-[#D70015] inline-flex items-center justify-center transition-colors cursor-pointer"
                             title="Hapus Produk"
                             aria-label={`Hapus ${p.nama}`}
                           >
@@ -1036,22 +1063,26 @@ export default function AdminDashboard({ onBackToShop }) {
                 </tbody>
               </table>
             </div>
-          </div>
+          </section>
         )}
 
         {/* TAB 3: CATEGORIES */}
         {activeTab === 'categories' && (
-          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
-                  Manajemen Kategori Produk
-                </h3>
-                <p className="text-xs text-[#647082]">
-                  Kelola kategori katalog yang tampil di beranda dan filter pencarian.
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                  Kategori Produk
+                </h2>
+                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                  Kelola kategori yang tampil di beranda dan filter katalog.
                 </p>
               </div>
-              <button onClick={openAddCategory} className="tc-btn-primary">
+              <button
+                type="button"
+                onClick={openAddCategory}
+                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+              >
                 <Plus size={15} />
                 <span>Tambah Kategori</span>
               </button>
@@ -1063,34 +1094,36 @@ export default function AdminDashboard({ onBackToShop }) {
                 return (
                   <div
                     key={col.id}
-                    className="p-4 rounded-[20px] border border-[#E2E7EE] hover:border-[#1D2129] transition-colors flex items-start justify-between gap-3 bg-[#F7F8FA]"
+                    className="p-5 rounded-[24px] bg-[#F5F5F7] flex items-start justify-between gap-3"
                   >
-                    <div className="flex items-start gap-3 min-w-0">
-                      <img
-                        src={col.gambar}
-                        alt={col.nama}
-                        className="w-12 h-12 rounded-xl bg-[#ECEFF4] p-1.5 object-contain border border-[#E2E7EE] shrink-0"
-                      />
-                      <div className="min-w-0">
-                        <p className="font-display text-sm font-bold text-[#1D2129] truncate">{col.nama}</p>
-                        <p className="text-[10px] text-[#8692A3]">/{col.slug}</p>
-                        <p className="text-[11px] text-[#647082] line-clamp-2 mt-1">{col.tagline}</p>
-                        <span className="inline-block mt-2 px-2.5 py-0.5 rounded-lg bg-[#ECEFF4] text-[10px] font-bold text-[#1D2129]">
-                          {count} produk
-                        </span>
+                    <div className="flex items-start gap-3.5 min-w-0">
+                      <div className="w-12 h-12 rounded-2xl bg-white p-2 flex items-center justify-center shrink-0">
+                        <img
+                          src={col.gambar}
+                          alt={col.nama}
+                          className="max-h-full max-w-full object-contain"
+                        />
+                      </div>
+                      <div className="min-w-0 space-y-0.5">
+                        <p className="text-[15px] font-semibold text-[#1D1D1F] truncate">{col.nama}</p>
+                        <p className="text-[12px] text-[#86868B]">/{col.slug}</p>
+                        <p className="text-[12px] text-[#6E6E73] line-clamp-2 pt-0.5">{col.tagline}</p>
+                        <p className="text-[12px] font-medium text-[#1D1D1F] pt-1.5">{count} produk</p>
                       </div>
                     </div>
                     <div className="flex flex-col gap-1 shrink-0">
                       <button
+                        type="button"
                         onClick={() => openEditCategory(col)}
-                        className="w-9 h-9 rounded-xl hover:bg-[#ECEFF4] text-[#4F627A] hover:text-[#1D2129] flex items-center justify-center"
+                        className="w-8 h-8 rounded-full bg-white hover:bg-[#E8E8ED] text-[#424245] hover:text-[#1D1D1F] flex items-center justify-center transition-colors cursor-pointer"
                         title="Edit Kategori"
                       >
                         <Edit3 size={14} />
                       </button>
                       <button
+                        type="button"
                         onClick={() => handleDeleteCategory(col)}
-                        className="w-9 h-9 rounded-xl hover:bg-rose-50 text-[#8692A3] hover:text-rose-600 flex items-center justify-center"
+                        className="w-8 h-8 rounded-full bg-white hover:bg-[#E8E8ED] text-[#86868B] hover:text-[#D70015] flex items-center justify-center transition-colors cursor-pointer"
                         title="Hapus Kategori"
                       >
                         <Trash2 size={14} />
@@ -1100,59 +1133,66 @@ export default function AdminDashboard({ onBackToShop }) {
                 );
               })}
             </div>
-          </div>
+          </section>
         )}
 
         {/* TAB 4: DISCOUNTS */}
         {activeTab === 'discounts' && (
-          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
                   Kupon &amp; Voucher Promo
-                </h3>
-                <p className="text-xs text-[#647082]">Buat kode potongan untuk laptop, RAM, SSD, dan peripheral.</p>
+                </h2>
+                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                  Atur kode potongan harga untuk laptop, upgrade RAM/SSD, dan aksesori.
+                </p>
               </div>
-              <button onClick={() => setShowAddDiscountModal(true)} className="tc-btn-primary">
+              <button
+                type="button"
+                onClick={() => setShowAddDiscountModal(true)}
+                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
+              >
                 <Plus size={15} />
                 <span>Buat Kupon</span>
               </button>
             </div>
 
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-xs min-w-[600px]">
+              <table className="w-full text-left text-[13px] min-w-[600px]">
                 <thead>
-                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
-                    <th className="py-3 pl-3">Kode</th>
-                    <th className="py-3">Promo</th>
-                    <th className="py-3">Potongan</th>
-                    <th className="py-3">Min. Belanja</th>
-                    <th className="py-3">Status</th>
-                    <th className="py-3 pr-3 text-right">Aksi</th>
+                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px]">
+                    <th className="py-3 font-medium">Kode</th>
+                    <th className="py-3 font-medium">Promo</th>
+                    <th className="py-3 font-medium">Potongan</th>
+                    <th className="py-3 font-medium">Min. Belanja</th>
+                    <th className="py-3 font-medium">Status</th>
+                    <th className="py-3 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#ECEFF4]">
+                <tbody className="divide-y divide-[#D2D2D7]/60">
                   {discounts.map((d) => (
-                    <tr key={d.id} className="hover:bg-[#F7F8FA]">
-                      <td className="py-3.5 pl-3 font-bold text-[#1D2129]">{d.kode}</td>
-                      <td className="py-3.5 text-[#323846] font-medium">{d.nama}</td>
-                      <td className="py-3.5 font-bold text-[#1D2129] tabular-nums">
+                    <tr key={d.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
+                      <td className="py-4 font-semibold text-[#1D1D1F]">{d.kode}</td>
+                      <td className="py-4 text-[#424245]">{d.nama}</td>
+                      <td className="py-4 font-semibold text-[#1D1D1F] tabular-nums">
                         {d.tipe === 'persen' ? `${d.nilai}%` : formatIDR(d.nilai)}
                       </td>
-                      <td className="py-3.5 text-[#4F627A] tabular-nums">{formatIDR(d.minBelanja)}</td>
-                      <td className="py-3.5">
+                      <td className="py-4 text-[#6E6E73] tabular-nums">{formatIDR(d.minBelanja)}</td>
+                      <td className="py-4">
                         <span
-                          className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${
-                            d.aktif ? 'bg-emerald-50 text-emerald-700' : 'bg-[#ECEFF4] text-[#8692A3]'
+                          className={`text-[13px] font-medium ${
+                            d.aktif ? 'text-[#1D7F3E]' : 'text-[#86868B]'
                           }`}
                         >
                           {d.aktif ? 'Aktif' : 'Nonaktif'}
                         </span>
                       </td>
-                      <td className="py-3.5 pr-3 text-right">
+                      <td className="py-4 text-right">
                         <button
+                          type="button"
                           onClick={() => handleToggleDiscount(d.id)}
-                          className="text-xs font-semibold text-[#1D2129] hover:underline"
+                          className="text-[13px] font-medium text-[#0071E3] hover:underline cursor-pointer"
                         >
                           {d.aktif ? 'Nonaktifkan' : 'Aktifkan'}
                         </button>
@@ -1162,27 +1202,28 @@ export default function AdminDashboard({ onBackToShop }) {
                 </tbody>
               </table>
             </div>
-          </div>
+          </section>
         )}
 
         {/* TAB 5: USERS & ROLES */}
         {activeTab === 'users' && (
-          <div className="bg-white rounded-[24px] p-4 sm:p-7 border border-[#E2E7EE]/90 shadow-tc-studio space-y-5">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#ECEFF4] pb-4">
+          <section className="space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#D2D2D7]">
               <div>
-                <h3 className="font-display text-lg sm:text-xl font-bold text-[#1D2129]">
-                  Manajemen Pengguna &amp; Role
-                </h3>
-                <p className="text-xs text-[#647082]">
-                  Kelola hak akses Admin &amp; Buyer, status akun, atau tambah akun tim baru.
+                <h2 className="text-[22px] sm:text-[26px] font-semibold tracking-[-0.02em] text-[#1D1D1F]">
+                  Pengguna &amp; Hak Akses
+                </h2>
+                <p className="text-[14px] text-[#6E6E73] mt-0.5">
+                  Kelola role Admin dan Buyer, status akun, atau tambah akun tim baru.
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => {
                   setUserFormError('');
                   setShowAddUserModal(true);
                 }}
-                className="tc-btn-primary"
+                className="h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal inline-flex items-center gap-1.5 self-start sm:self-auto transition-colors cursor-pointer"
               >
                 <UserPlus size={15} />
                 <span>Tambah Pengguna</span>
@@ -1190,64 +1231,59 @@ export default function AdminDashboard({ onBackToShop }) {
             </div>
 
             <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
-              <table className="w-full text-left text-xs min-w-[620px]">
+              <table className="w-full text-left text-[13px] min-w-[620px]">
                 <thead>
-                  <tr className="bg-[#F7F8FA] border-y border-[#E2E7EE] text-[#647082] uppercase tracking-wider text-[10px]">
-                    <th className="py-3 pl-3">Nama &amp; Email</th>
-                    <th className="py-3">WhatsApp</th>
-                    <th className="py-3">Role</th>
-                    <th className="py-3">Status</th>
-                    <th className="py-3 pr-3 text-right">Aksi</th>
+                  <tr className="border-b border-[#D2D2D7] text-[#6E6E73] text-[12px]">
+                    <th className="py-3 font-medium">Nama &amp; Email</th>
+                    <th className="py-3 font-medium">WhatsApp</th>
+                    <th className="py-3 font-medium">Role</th>
+                    <th className="py-3 font-medium">Status</th>
+                    <th className="py-3 text-right font-medium">Aksi</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#ECEFF4]">
+                <tbody className="divide-y divide-[#D2D2D7]/60">
                   {usersList.map((u) => {
                     const isSelf = user && String(user.id) === String(u.id);
                     return (
-                      <tr key={u.id} className="hover:bg-[#F7F8FA]">
-                        <td className="py-3.5 pl-3 pr-3">
-                          <p className="font-bold text-[#1D2129]">
-                            {u.name} {isSelf && <span className="text-[10px] text-[#1D2129]">(Anda)</span>}
+                      <tr key={u.id} className="hover:bg-[#F5F5F7]/60 transition-colors">
+                        <td className="py-4 pr-3">
+                          <p className="font-semibold text-[#1D1D1F]">
+                            {u.name}{' '}
+                            {isSelf && <span className="text-[12px] font-normal text-[#6E6E73]">(Anda)</span>}
                           </p>
-                          <p className="text-[11px] text-[#647082]">{u.email}</p>
+                          <p className="text-[12px] text-[#6E6E73]">{u.email}</p>
                         </td>
-                        <td className="py-3.5 text-[#4F627A]">{u.phone || '-'}</td>
-                        <td className="py-3.5">
-                          <span
-                            className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase ${
-                              u.role === 'admin'
-                                ? 'bg-[#1D2129] text-white'
-                                : 'bg-[#ECEFF4] text-[#1D2129]'
-                            }`}
-                          >
+                        <td className="py-4 text-[#424245]">{u.phone || '—'}</td>
+                        <td className="py-4">
+                          <span className="text-[13px] font-medium text-[#1D1D1F] capitalize">
                             {u.role}
                           </span>
                         </td>
-                        <td className="py-3.5">
+                        <td className="py-4">
                           <span
-                            className={`px-2.5 py-1 rounded-lg text-[10px] font-bold ${
-                              u.isActive !== false
-                                ? 'bg-emerald-50 text-emerald-700'
-                                : 'bg-rose-50 text-rose-700'
+                            className={`text-[13px] font-medium ${
+                              u.isActive !== false ? 'text-[#1D7F3E]' : 'text-[#D70015]'
                             }`}
                           >
                             {u.isActive !== false ? 'Aktif' : 'Nonaktif'}
                           </span>
                         </td>
-                        <td className="py-3.5 pr-3 text-right">
+                        <td className="py-4 text-right">
                           {isSelf ? (
-                            <span className="text-[11px] text-[#8692A3] italic">Sesi aktif</span>
+                            <span className="text-[12px] text-[#86868B]">Sesi aktif</span>
                           ) : (
-                            <div className="inline-flex items-center gap-2">
+                            <div className="inline-flex items-center gap-3">
                               <button
+                                type="button"
                                 onClick={() => handleChangeUserRole(u)}
-                                className="min-h-[36px] px-3 rounded-xl bg-[#ECEFF4] hover:bg-[#1D2129] text-[#1D2129] hover:text-white text-[11px] font-bold transition-colors"
+                                className="h-[32px] px-3.5 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[#1D1D1F] text-[12px] font-medium transition-colors cursor-pointer"
                               >
                                 Jadikan {u.role === 'admin' ? 'Buyer' : 'Admin'}
                               </button>
                               <button
+                                type="button"
                                 onClick={() => handleToggleUserActive(u)}
-                                className="text-[11px] font-semibold text-[#647082] hover:text-rose-600 underline"
+                                className="text-[12px] font-medium text-[#D70015] hover:underline cursor-pointer"
                               >
                                 {u.isActive !== false ? 'Nonaktifkan' : 'Aktifkan'}
                               </button>
@@ -1260,7 +1296,7 @@ export default function AdminDashboard({ onBackToShop }) {
                 </tbody>
               </table>
             </div>
-          </div>
+          </section>
         )}
 
         {/* MODAL: PREVIEW BUKTI BAYAR */}
@@ -1315,22 +1351,24 @@ export default function AdminDashboard({ onBackToShop }) {
                   )}
                 </div>
                 {previewProofModal.paymentStatus === 'awaiting_verification' && (
-                  <div className="flex gap-2 pt-2">
+                  <div className="flex gap-2.5 pt-2">
                     <button
+                      type="button"
                       onClick={() => {
                         handleVerifyPayment(previewProofModal.id, 'approve');
                         setPreviewProofModal(null);
                       }}
-                      className="flex-1 min-h-[44px] rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold"
+                      className="flex-1 h-[42px] rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] font-normal transition-colors cursor-pointer"
                     >
                       Setujui Bayar
                     </button>
                     <button
+                      type="button"
                       onClick={() => {
                         handleVerifyPayment(previewProofModal.id, 'reject');
                         setPreviewProofModal(null);
                       }}
-                      className="flex-1 min-h-[44px] rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold"
+                      className="flex-1 h-[42px] rounded-[980px] border border-[#D70015] text-[#D70015] hover:bg-[#D70015] hover:text-white text-[13px] font-normal transition-colors cursor-pointer"
                     >
                       Tolak Bukti
                     </button>
@@ -1411,7 +1449,7 @@ export default function AdminDashboard({ onBackToShop }) {
                       type="text"
                       value={trackLocation}
                       onChange={(e) => setTrackLocation(e.target.value)}
-                      placeholder="Jakarta Barat (Workshop TECHCARE)"
+                      placeholder="Depok (Workshop TECHCARE)"
                       className="tc-input"
                     />
                   </div>
