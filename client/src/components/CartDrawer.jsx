@@ -100,7 +100,7 @@ export default function CartDrawer({ onCheckout, onContinueShopping }) {
                     <Truck size={14} className="text-[#0071E3] shrink-0" />
                     {remainingForFree === 0 ? (
                       <span className="text-emerald-700 font-semibold">
-                        Gratis Ongkir Jabodetabek (JNE Reg / J&amp;T) aktif!
+                        Gratis ongkir Jabodetabek aktif.
                       </span>
                     ) : (
                       <span>

@@ -43,7 +43,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: 'RAM 8-32GB • SSD 256GB-1TB',
-    deskripsi: 'Laptop bisnis flagship bekas korporat dengan bodi carbon fiber super ringan (1,13 kg). Sudah melalui pembersihan kipas, penggantian thermal paste baru oleh teknisi TECHCARE, dan pengecekan layar 100% bebas dead pixel.',
+    deskripsi: 'Laptop bisnis bekas korporat dengan bodi carbon fiber ringan (1,13 kg). Sudah melalui pembersihan kipas, penggantian thermal paste baru oleh teknisi TechCare, dan pengecekan layar menyeluruh.',
     fitur: [
       'Intel Core i5-1145G7 vPro (4 Core / 8 Thread, Turbo 4.4GHz)',
       'Layar 14" FHD+ (1920x1200) IPS Anti-Glare 16:10, 400 nits',
@@ -90,7 +90,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
-    deskripsi: 'MacBook Air M1 second pilihan terbaik untuk mahasiswa, programmer, dan kreator konten. Baterai super awet hingga 12 jam pemakaian nyata, hening tanpa kipas, dan telah lolos pengecekan iCloud Clean serta MDM Free oleh teknisi TECHCARE.',
+    deskripsi: 'MacBook Air M1 second pilihan tepat untuk mahasiswa, programmer, dan kreator. Baterai tahan hingga 12 jam pemakaian nyata, hening tanpa kipas, dan telah lolos pengecekan iCloud Clean serta MDM Free oleh teknisi TechCare.',
     fitur: [
       'Chip Apple M1 (8-Core CPU, 7-Core GPU, 16-Core Neural Engine)',
       'Layar 13.3" Retina Display P3 Wide Color dengan True Tone aktif',
@@ -185,7 +185,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: 'RAM 8-32GB • SSD 256GB-1TB',
-    deskripsi: 'Laptop ex-kantor kelas enterprise paling worth-it di bawah 6 jutaan. Tangguh dipakai coding, multitasking puluhan tab, dan kuliah harian. Sudah dibersihkan tuntas luar dalam oleh teknisi jasa IT TECHCARE.',
+    deskripsi: 'Laptop ex-kantor kelas bisnis di bawah 6 juta. Andal untuk coding, multitasking harian, dan kuliah. Sudah dibersihkan menyeluruh luar dan dalam oleh teknisi TechCare.',
     fitur: [
       'Intel Core i7-1185G7 (4 Core / 8 Thread, Turbo hingga 4.8GHz)',
       'Layar 14" Full HD IPS Anti-Glare nyaman untuk menatap layar lama',
@@ -278,7 +278,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: '8GB-32GB • DDR4 / DDR5',
-    deskripsi: 'Solusi paling hemat dan instan bikin laptop lemot jadi ngebut lagi! RAM laptop SODIMM second copotan unit grade A dengan fitur Plug N Play overclocking otomatis tanpa ribet setting BIOS.',
+    deskripsi: 'Cara praktis meningkatkan responsivitas laptop untuk multitasking harian. RAM laptop SODIMM second copotan unit grade A dengan dukungan Plug N Play otomatis tanpa perlu pengaturan BIOS.',
     fitur: [
       'Kompatibel untuk laptop ASUS, Lenovo ThinkPad, Dell, HP, Acer, & Mini PC',
       'Plug N Play otomatis berjalan di kecepatan optimal motherboard',
@@ -320,7 +320,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: '512GB / 1TB / 2TB NVMe',
-    deskripsi: 'SSD NVMe PCIe Gen4 kencang bekas pemakaian singkat dengan persentase kesehatan (Health) terverifikasi minimal 97% lewat CrystalDiskInfo & Samsung Magician. Ideal untuk upgrade laptop, PC desktop, atau PS5.',
+    deskripsi: 'SSD NVMe PCIe Gen4 berkecepatan tinggi bekas pemakaian singkat dengan kesehatan (Health) terverifikasi minimal 97% lewat CrystalDiskInfo dan Samsung Magician. Cocok untuk upgrade laptop, PC desktop, atau konsol.',
     fitur: [
       'Kecepatan baca hingga 7.450 MB/s & tulis hingga 6.900 MB/s',
       'Laporan screenshot CrystalDiskInfo & Health >97% disertakan di paket',
@@ -381,7 +381,7 @@ export const mockProducts = [
     tagline: 'PRODUCTIVITY MOUSE • GRADE A+',
     kondisi: 'Grade A+ • Karet Mulus',
     garansi: 'Garansi Toko 30 Hari',
-    qcSummary: 'Switch Normal Anti Double-Click • Scroll MagSpeed Halus • Sanitized',
+    qcSummary: 'Switch Teruji Responsif • Scroll MagSpeed Halus • Dibersihkan Menyeluruh',
     harga: 1090000,
     hargaCoret: 1689000,
     diskonPersen: 35,
@@ -398,7 +398,7 @@ export const mockProducts = [
       { nama: 'Pale Grey', hex: '#9ca3af' }
     ],
     specRangeLabel: 'Include Logi Bolt Receiver',
-    deskripsi: 'Mouse produktivitas favorit programmer dan editor video dalam kondisi second mulus Grade A+. Sudah dibersihkan higienis (ultrasonic sanitized), karet grip utuh tidak lengket, dan klik 100% aman dari double-click.',
+    deskripsi: 'Mouse produktivitas pilihan programmer dan editor video dalam kondisi second terawat Grade A+. Sudah dibersihkan menyeluruh, karet grip utuh, dan setiap tombol telah diuji responsnya.',
     fitur: [
       'Sensor Darkfield 8.000 DPI bekerja mulus di kaca maupun meja kayu',
       'Quiet Clicks & MagSpeed Electromagnetic Scroll 1.000 baris/detik',
@@ -435,10 +435,10 @@ export const mockProducts = [
       { nama: 'Ghost White', hex: '#f4f4f6' }
     ],
     specRangeLabel: 'Free New PTFE Skates',
-    deskripsi: 'Mouse gaming kompetitif super ringan 60 gram bekas pemakaian terawat. Telah dipasangi mouse feet PTFE baru oleh tim TECHCARE dan diuji tracking sensor HERO 2 tanpa spin-out.',
+    deskripsi: 'Mouse gaming ringan 60 gram bekas pemakaian terawat. Telah dipasangi mouse feet PTFE baru oleh tim TechCare dan diuji presisi sensor HERO 2.',
     fitur: [
       'Sensor HERO 2 hingga 44.000 DPI dengan dongle LIGHTSPEED USB-C',
-      'Switch hybrid optik-mekanikal LIGHTFORCE responsif anti double-click',
+      'Switch hybrid optik-mekanikal LIGHTFORCE presisi dan konsisten',
       'Sudah ganti PTFE mouse skates baru & dibersihkan menyeluruh',
       'Kelengkapan fullset kabel charging & dongle receiver original',
       'Garansi Toko TECHCARE 30 Hari'
@@ -455,7 +455,7 @@ export const mockProducts = [
     tagline: '75% GASKET OLED KEYBOARD • GRADE A+',
     kondisi: 'Grade A+ • Keycaps Bersih',
     garansi: 'Garansi Toko 30 Hari',
-    qcSummary: 'Semua Tombol & OLED Normal • Keycaps Ultrasonic Clean • Hot-Swap',
+    qcSummary: 'Semua Tombol & OLED Normal • Keycaps Bersih & Terawat • Hot-Swap',
     harga: 740000,
     hargaCoret: 1150000,
     diskonPersen: 36,
@@ -470,7 +470,7 @@ export const mockProducts = [
       { nama: 'Frost White PBT', hex: '#e2e8f0' }
     ],
     specRangeLabel: 'Tri-Mode • Hot-Swap 5-Pin',
-    deskripsi: 'Keyboard mekanikal 75% gasket mount dengan layar OLED mini & rotary knob dalam kondisi second sangat terawat. Keycaps sudah dicuci ultrasonic dan seluruh socket hot-swap teruji aktif 100%.',
+    deskripsi: 'Keyboard mekanikal 75% gasket mount dengan layar OLED mini dan rotary knob dalam kondisi second terawat. Keycaps sudah dibersihkan menyeluruh dan seluruh socket hot-swap teruji aktif.',
     fitur: [
       'Layar OLED 1" terang normal + knob volume aluminium lancar',
       'Koneksi Tri-Mode (2.4GHz Wireless, Bluetooth 5.0, Kabel USB-C)',
@@ -510,7 +510,7 @@ export const mockProducts = [
     deskripsi: 'Keyboard mekanikal kelas enthusiast dengan gasket silikon 3-lapis dan layar OLED 2 inci. Unit second mulus terawat, switch ROG NX linear terasa sangat halus, cocok untuk setup kerja maupun gaming minimalis.',
     fitur: [
       'Layar OLED 2" + 3-way control knob berfungsi 100%',
-      'Koneksi ROG SpeedNova 2.4GHz super irit baterai, Bluetooth, & USB-C',
+      'Koneksi ROG SpeedNova 2.4GHz hemat daya, Bluetooth, dan USB-C',
       'Switch ROG NX Red Linear pre-lubed halus tanpa chattering',
       'Kelengkapan kabel braided, dongle, & keycap puller lengkap',
       'Garansi Toko TECHCARE 30 Hari'
@@ -545,7 +545,7 @@ export const mockProducts = [
     deskripsi: 'Monitor lengkung ultrawide MSI 34 inci resolusi UWQHD (3440x1440) 175Hz bekas studio video editing. Telah lulus kalibrasi warna dan uji panel bebas dead pixel oleh tim teknisi TECHCARE.',
     fitur: [
       'Resolusi 3440x1440 (21:9) Curved 1800R untuk produktivitas multitasking',
-      'Refresh rate 175Hz 0.03ms GtG super mulus untuk kerja & gaming',
+      'Refresh rate 175Hz 0.03ms GtG mulus untuk kerja dan gaming',
       'Port HDMI 2.1, DisplayPort 1.4a, dan USB-C Power Delivery + KVM Switch',
       'Disertai laporan QC panel & packing kayu opsional untuk luar Jabodetabek',
       'Garansi Toko TECHCARE 60 Hari'
@@ -587,7 +587,7 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
-    deskripsi: 'ThinkPad T480 legendaris untuk mahasiswa dan pekerja kantoran dengan budget hemat di bawah 4 jutaan. Keyboard paling nyaman di kelasnya, mudah di-upgrade, dan sudah lolos 32 titik QC serta penggantian thermal paste baru di workshop TECHCARE.',
+    deskripsi: 'ThinkPad T480 seri bisnis yang dikenal tangguh untuk mahasiswa dan pekerja dengan anggaran di bawah 4 juta. Nyaman untuk mengetik lama, mudah di-upgrade, dan sudah lolos 32 titik QC serta penggantian thermal paste baru di workshop TechCare.',
     fitur: [
       'Intel Core i5-8350U (4 Core / 8 Thread, Turbo 3.6GHz)',
       'Layar 14" Full HD IPS Anti-Glare nyaman untuk mengetik dan kuliah',

@@ -39,8 +39,8 @@ export default function AboutPage({ onExploreShop }) {
     },
     {
       icon: Cpu,
-      title: 'Upgrade RAM & SSD Instan',
-      desc: 'Tersedia RAM DDR4/DDR5 dan SSD NVMe yang sudah lolos MemTest86 serta CrystalDiskInfo. Pasang langsung gratis di workshop.'
+      title: 'Upgrade RAM & SSD',
+      desc: 'Tersedia RAM DDR4/DDR5 dan SSD NVMe yang sudah lolos uji MemTest86 serta CrystalDiskInfo. Pemasangan gratis di workshop.'
     },
     {
       icon: HardDrive,

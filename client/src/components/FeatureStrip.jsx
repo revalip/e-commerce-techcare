@@ -21,7 +21,7 @@ const ASSURANCES = [
   {
     icon: CreditCard,
     title: 'QRIS & transfer bank',
-    desc: 'Pembayaran fleksibel lewat QRIS instan, BCA, atau Mandiri.'
+    desc: 'Pembayaran fleksibel lewat QRIS, BCA, atau Mandiri.'
   }
 ];
 
