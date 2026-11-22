@@ -124,10 +124,10 @@ export default function Navbar({ onNavigate, onQuickSearch, currentPage }) {
               <Heart
                 size={16}
                 strokeWidth={1.7}
-                className={wishlistCount > 0 ? 'fill-[#0071E3] text-[#0071E3]' : ''}
+                className={wishlistCount > 0 ? 'fill-[#FF3B30] text-[#FF3B30]' : ''}
               />
               {wishlistCount > 0 && (
-                <span className="absolute top-1 right-0.5 min-w-[14px] h-[14px] px-1 rounded-full bg-[#0071E3] text-white text-[9px] font-semibold flex items-center justify-center tabular-nums">
+                <span className="absolute top-1 right-0.5 min-w-[14px] h-[14px] px-1 rounded-full bg-[#D70015] text-white text-[9px] font-semibold flex items-center justify-center tabular-nums">
                   {wishlistCount}
                 </span>
               )}

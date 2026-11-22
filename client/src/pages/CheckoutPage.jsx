@@ -584,7 +584,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                             <p className="text-xs font-bold text-[#1D1D1F]">
                               Kupon <strong>{appliedVoucher.kode}</strong> Aktif
                             </p>
-                            <p className="text-[11px] text-[#0071E3]">
+                            <p className="text-[11px] text-[#D70015] font-medium">
                               Hemat {formatIDR(discountAmount)}
                             </p>
                           </div>
@@ -882,7 +882,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                   <span className="tabular-nums font-semibold">{formatIDR(subtotal)}</span>
                 </div>
                 {discountAmount > 0 && (
-                  <div className="flex justify-between text-emerald-700 font-semibold">
+                  <div className="flex justify-between text-[#D70015] font-semibold">
                     <span>Diskon ({appliedVoucher?.kode})</span>
                     <span className="tabular-nums">-{formatIDR(discountAmount)}</span>
                   </div>

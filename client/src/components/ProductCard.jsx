@@ -57,7 +57,7 @@ export default function ProductCard({ product, onSelect }) {
         <Heart
           size={18}
           strokeWidth={1.7}
-          className={wishlisted ? 'fill-[#0071E3] text-[#0071E3]' : ''}
+          className={wishlisted ? 'fill-[#FF3B30] text-[#FF3B30]' : ''}
         />
       </button>
 
@@ -80,7 +80,7 @@ export default function ProductCard({ product, onSelect }) {
           {(product.diskonPersen > 0 || lowStock || outOfStock) && (
             <div className="flex items-center gap-2.5 text-[12px] font-medium min-h-[18px]">
               {!outOfStock && product.diskonPersen > 0 && (
-                <span className="text-[#0071E3]">Hemat {product.diskonPersen}%</span>
+                <span className="text-[#D70015]">Hemat {product.diskonPersen}%</span>
               )}
               {outOfStock ? (
                 <span className="text-[#6E6E73]">Stok habis</span>

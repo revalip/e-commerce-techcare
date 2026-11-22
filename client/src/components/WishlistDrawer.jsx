@@ -74,8 +74,8 @@ export default function WishlistDrawer({ onSelectProduct, onExploreShop }) {
               {/* Header */}
               <div className="px-6 py-4 border-b border-[#D2D2D7]/70 flex items-center justify-between bg-white">
                 <div className="flex items-center gap-3">
-                  <span className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#0071E3] flex items-center justify-center">
-                    <Heart size={16} className="fill-[#0071E3]" />
+                  <span className="w-9 h-9 rounded-full bg-[#F5F5F7] text-[#FF3B30] flex items-center justify-center">
+                    <Heart size={16} className="fill-[#FF3B30]" />
                   </span>
                   <div>
                     <h2 className="text-[17px] font-semibold text-[#1D1D1F] leading-tight">

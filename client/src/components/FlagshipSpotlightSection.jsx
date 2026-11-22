@@ -120,47 +120,6 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
             </Reveal>
           ))}
         </div>
-
-        {/* 5th Full-Width Tile (#F5F5F7): Headset & Audio */}
-        <Reveal>
-          <div className="bg-[#F5F5F7] text-[#1D1D1F] min-h-[480px] sm:min-h-[540px] flex flex-col justify-between py-12 sm:py-16 px-4 sm:px-6 text-center overflow-hidden">
-            <div className="max-w-lg mx-auto space-y-2">
-              <h2 className="text-[28px] sm:text-[40px] font-semibold tracking-[-0.03em] leading-[1.08]">
-                Headset &amp; Aksesori Kerja
-              </h2>
-              <p className="text-[16px] sm:text-[19px] text-[#6E6E73]">
-                Audio jernih untuk rapat, belajar, dan fokus seharian.
-              </p>
-              <div className="pt-3 flex items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => (onSelectCollection ? onSelectCollection('peripherals') : onShopClick())}
-                  className="min-h-[38px] px-5 rounded-[980px] bg-[#0071E3] hover:bg-[#0077ED] text-white text-[13px] sm:text-[14px] font-normal transition-colors cursor-pointer"
-                >
-                  Selengkapnya
-                </button>
-                <button
-                  type="button"
-                  onClick={() => (onSelectCollection ? onSelectCollection('peripherals') : onShopClick())}
-                  className="min-h-[38px] px-5 rounded-[980px] border border-[#0071E3] text-[#0071E3] hover:bg-[#0071E3] hover:text-white text-[13px] sm:text-[14px] font-normal transition-colors cursor-pointer"
-                >
-                  Beli
-                </button>
-              </div>
-            </div>
-
-            <div className="mt-8 h-[210px] sm:h-[260px] flex items-center justify-center">
-              <img
-                src="/assets/studio-headset.png"
-                alt="Headset & Aksesori Kerja TechCare"
-                width={666}
-                height={1000}
-                loading="lazy"
-                className="max-h-full max-w-[75%] object-contain transition-transform duration-300 hover:scale-[1.04]"
-              />
-            </div>
-          </div>
-        </Reveal>
       </div>
     </section>
   );

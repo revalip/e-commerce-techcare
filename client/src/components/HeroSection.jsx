@@ -1,25 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
-import { RotateCcw } from 'lucide-react';
 
 /**
  * Apple.com/id Beranda Top Stack:
- * - Light Hero (#F5F5F7) with 1-shot ThinkPad X1 Carbon studio reveal video (/assets/hero.mp4, 385 KB)
- *   blended seamlessly onto #F5F5F7 via pure-white mix-blend-multiply (no loop, stops dead-center).
+ * - Light Hero (#F5F5F7) with 1-shot ThinkPad X1 Carbon lid-opening video (/assets/hero-thinkpad-open.mp4)
+ *   blended seamlessly onto #F5F5F7 via pure-white mix-blend-multiply (plays once, stops cleanly open, no replay button).
  * - Synchronized Apple iPhone Duo-style subtitle reveal:
  *   "Laptop bekas." -> "Laptop bekas. Rasa baru."
  * - Consistent Apple pill CTAs: "Selengkapnya" (solid blue) + "Beli" (blue outline).
- * - Subtle "Putar ulang" control to replay the 1-shot reveal anytime.
  */
 export default function HeroSection({ onShopClick, onLearnClick, onAboutClick }) {
   const darkRef = useRef(null);
-  const videoRef = useRef(null);
   const shouldReduceMotion = useReducedMotion();
 
   const [isRevealed, setIsRevealed] = useState(Boolean(shouldReduceMotion));
-  const [videoEnded, setVideoEnded] = useState(false);
   const [videoError, setVideoError] = useState(false);
-  const [replayKey, setReplayKey] = useState(0);
 
   useEffect(() => {
     if (shouldReduceMotion || videoError) {
@@ -29,7 +24,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
     // Fallback timer in case mobile battery-saver pauses autoplay
     const fallbackTimer = setTimeout(() => setIsRevealed(true), 2400);
     return () => clearTimeout(fallbackTimer);
-  }, [replayKey, shouldReduceMotion, videoError]);
+  }, [shouldReduceMotion, videoError]);
 
   const { scrollYProgress: darkScroll } = useScroll({
     target: darkRef,
@@ -45,21 +40,6 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
 
   const handleVideoEnded = () => {
     setIsRevealed(true);
-    setVideoEnded(true);
-  };
-
-  const handleReplay = () => {
-    setIsRevealed(false);
-    setVideoEnded(false);
-    setReplayKey((k) => k + 1);
-    const vid = videoRef.current;
-    if (vid) {
-      vid.currentTime = 0;
-      const playPromise = vid.play();
-      if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => setIsRevealed(true));
-      }
-    }
   };
 
   return (
@@ -82,7 +62,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             <AnimatePresence initial={false}>
               {isRevealed && (
                 <motion.span
-                  key={`sub-${replayKey}`}
+                  key="sub-rasa-baru"
                   initial={shouldReduceMotion ? { opacity: 1, width: 'auto' } : { opacity: 0, width: 0 }}
                   animate={{ opacity: 1, width: 'auto' }}
                   exit={{ opacity: 0, width: 0 }}
@@ -126,9 +106,8 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             />
           ) : (
             <video
-              ref={videoRef}
-              src="/assets/hero.mp4"
-              poster="/assets/hero-poster.jpg"
+              src="/assets/hero-thinkpad-open.mp4"
+              poster="/assets/hero-thinkpad-open-poster.jpg"
               autoPlay
               muted
               playsInline
@@ -141,21 +120,6 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             />
           )}
         </div>
-
-        {/* Subtle Apple-style corner Replay pill (does not push video off bottom edge) */}
-        {!shouldReduceMotion && !videoError && (
-          <button
-            type="button"
-            onClick={handleReplay}
-            aria-label="Putar ulang animasi hero"
-            className={`absolute bottom-3.5 right-3.5 sm:bottom-5 sm:right-5 z-10 inline-flex items-center gap-1.5 text-[12px] text-[#6E6E73] hover:text-[#1D1D1F] bg-white/75 backdrop-blur-md border border-[#D2D2D7]/60 transition-opacity duration-300 py-1.5 px-3 rounded-full cursor-pointer ${
-              videoEnded ? 'opacity-100' : 'opacity-65 hover:opacity-100'
-            }`}
-          >
-            <RotateCcw size={12} strokeWidth={1.8} />
-            <span>Putar ulang</span>
-          </button>
-        )}
       </section>
 
       {/* 2. TILE BESAR HITAM (#000000): Upgrade RAM & SSD (Apple iPhone Pro Full-Bleed Style) */}

@@ -173,7 +173,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
             >
               <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2">
                 {product.diskonPersen > 0 && (
-                  <span className="bg-white/95 text-[#0071E3] text-[12px] font-medium px-3 py-1 rounded-[980px]">
+                  <span className="bg-white/95 text-[#D70015] text-[12px] font-medium px-3 py-1 rounded-[980px]">
                     Hemat {product.diskonPersen}%
                   </span>
                 )}
@@ -466,7 +466,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                 >
                   <Heart
                     size={18}
-                    className={wishlisted ? 'fill-[#0071E3] text-[#0071E3]' : 'text-[#6E6E73]'}
+                    className={wishlisted ? 'fill-[#FF3B30] text-[#FF3B30]' : 'text-[#6E6E73]'}
                   />
                 </button>
               </div>

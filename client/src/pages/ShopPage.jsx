@@ -295,12 +295,15 @@ export default function ShopPage({
               ) : (
                 <>
                   <span>
-                    Pakai kode <strong>{currentPromo.kode}</strong>, hemat{' '}
-                    {currentPromo.tipe === 'persen'
-                      ? `${currentPromo.nilai}%`
-                      : formatIDR(currentPromo.nilai)}
+                    Pakai kode <strong>{currentPromo.kode}</strong>,{' '}
+                    <span className="text-[#D70015] font-medium">
+                      hemat{' '}
+                      {currentPromo.tipe === 'persen'
+                        ? `${currentPromo.nilai}%`
+                        : formatIDR(currentPromo.nilai)}
+                    </span>
                   </span>
-                  <ChevronRight size={14} className="text-[#0071E3] shrink-0" />
+                  <ChevronRight size={14} className="text-[#D70015] shrink-0" />
                 </>
               )}
             </button>
