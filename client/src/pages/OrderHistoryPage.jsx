@@ -230,31 +230,39 @@ export default function OrderHistoryPage({ onSelectOrder, onBackToShop }) {
           </section>
         ) : (
           <div className="space-y-4">
-            {/* Compact iOS Filter Strip */}
-            <div className="relative min-w-0">
-              <div className="flex items-center gap-2 overflow-x-auto py-1 pr-5 sm:pr-0 no-scrollbar">
-                {statusTabs.map((tab) => {
+            {/* Native iOS UISegmentedControl Status Strip */}
+            <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+              <div
+                role="tablist"
+                aria-label="Filter Status Pesanan"
+                className="inline-flex min-w-full sm:min-w-0 items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px]"
+              >
+                {statusTabs.map((tab, idx) => {
                   const active = statusFilter === tab.key;
+                  const nextActive = idx < statusTabs.length - 1 && statusFilter === statusTabs[idx + 1].key;
+                  const showDivider = idx < statusTabs.length - 1 && !active && !nextActive;
                   return (
-                    <button
-                      key={tab.key}
-                      type="button"
-                      onClick={() => setStatusFilter(tab.key)}
-                      className={`px-3.5 h-[36px] rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer border ${
-                        active
-                          ? 'bg-[#1D1D1F] text-white border-[#1D1D1F] font-medium'
-                          : 'bg-white text-[#1D1D1F] border-black/[0.06] hover:bg-[#ECECEF]'
-                      }`}
-                    >
-                      {tab.label}
-                    </button>
+                    <React.Fragment key={tab.key}>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        onClick={() => setStatusFilter(tab.key)}
+                        className={`flex-1 sm:flex-none h-[32px] sm:h-[34px] px-3.5 rounded-[7px] text-[13px] whitespace-nowrap transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                          active
+                            ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
+                            : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
+                        }`}
+                      >
+                        {tab.label}
+                      </button>
+                      {showDivider && (
+                        <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
+                      )}
+                    </React.Fragment>
                   );
                 })}
               </div>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-[#F5F5F7] to-transparent sm:hidden"
-              />
             </div>
 
             {loading ? (

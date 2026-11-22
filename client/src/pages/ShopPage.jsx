@@ -312,46 +312,45 @@ export default function ShopPage({
           </div>
         </header>
 
-        {/* 3. Concise Full-Width Apple Category Pills */}
+        {/* 3. Native iOS UISegmentedControl Category Strip */}
         <section aria-label="Kategori Katalog">
-          <div className="relative min-w-0">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 pr-5 sm:pr-0">
-              <button
-                type="button"
-                onClick={() => {
-                  onSelectCategory('');
-                  setVisibleCount(12);
-                }}
-                className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                  !selectedCategory
-                    ? 'bg-[#1D1D1F] text-white font-medium'
-                    : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-                }`}
-              >
-                Semua
-              </button>
-              {collections.map((col) => (
-                <button
-                  key={col.slug}
-                  type="button"
-                  onClick={() => {
-                    onSelectCategory(col.slug);
-                    setVisibleCount(12);
-                  }}
-                  className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                    selectedCategory === col.slug
-                      ? 'bg-[#1D1D1F] text-white font-medium'
-                      : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-                  }`}
-                >
-                  {shortCategoryLabel(col)}
-                </button>
-              ))}
-            </div>
+          <div className="overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
             <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 right-0 w-4 bg-gradient-to-l from-white to-transparent sm:hidden"
-            />
+              role="tablist"
+              aria-label="Kategori Produk"
+              className="inline-flex min-w-full sm:min-w-0 items-center bg-[#767680]/[0.12] p-[3px] rounded-[10px]"
+            >
+              {[{ slug: '', label: 'Semua' }, ...collections.map((col) => ({ slug: col.slug, label: shortCategoryLabel(col) }))].map(
+                (item, idx, arr) => {
+                  const isActive = selectedCategory === item.slug;
+                  const nextIsActive = idx < arr.length - 1 && selectedCategory === arr[idx + 1].slug;
+                  const showDivider = idx < arr.length - 1 && !isActive && !nextIsActive;
+                  return (
+                    <React.Fragment key={item.slug || 'all'}>
+                      <button
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => {
+                          onSelectCategory(item.slug);
+                          setVisibleCount(12);
+                        }}
+                        className={`flex-1 sm:flex-none h-[32px] sm:h-[34px] px-3.5 sm:px-4 rounded-[7px] text-[13px] whitespace-nowrap transition-all cursor-pointer focus-visible:ring-0 focus-visible:ring-offset-0 ${
+                          isActive
+                            ? 'bg-white text-[#1D1D1F] font-semibold shadow-[0_1px_3px_rgba(0,0,0,0.12),0_1px_1px_rgba(0,0,0,0.04)]'
+                            : 'text-[#1D1D1F]/80 hover:text-[#1D1D1F] font-normal'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                      {showDivider && (
+                        <span aria-hidden="true" className="w-px h-3.5 bg-[#8E8E93]/25 shrink-0" />
+                      )}
+                    </React.Fragment>
+                  );
+                }
+              )}
+            </div>
           </div>
         </section>
 
