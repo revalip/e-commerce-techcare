@@ -157,28 +157,12 @@ File `vercel.json` sudah tersedia di root repo.
 
 ---
 
-## Tim Pengembang (Kelompok 7 Anggota — Teknik Informatika)
-
-> Isi kolom Nama Lengkap & NIM sebelum pengumpulan tugas. Panduan pembagian tugas & alur Git tersedia di [CONTRIBUTING.md](CONTRIBUTING.md).
-
-| No | Nama Lengkap | NIM | Akun GitHub | Paket Tugas |
-| :---: | :--- | :--- | :--- | :--- |
-| 1 | `[Nama Anggota 1 — Tech Lead]` | `[NIM]` | `@revalip` | Setup Repo, Arsitektur, Review PR & Deploy |
-| 2 | `[Nama Anggota 2]` | `[NIM]` | `@username2` | Modul Katalog, Pencarian, Filter Brand/Harga & Detail Produk |
-| 3 | `[Nama Anggota 3]` | `[NIM]` | `@username3` | Modul Keranjang, Wishlist, Checkout & Voucher Promo |
-| 4 | `[Nama Anggota 4]` | `[NIM]` | `@username4` | Modul Pembayaran Lokal (QRIS/Transfer Simulasi, Kode Unik, Bukti Bayar) |
-| 5 | `[Nama Anggota 5]` | `[NIM]` | `@username5` | Modul Ekspedisi (JNE/J&T/SiCepat, Tarif Lokal, Tracking & Resi) |
-| 6 | `[Nama Anggota 6]` | `[NIM]` | `@username6` | Modul Admin Dashboard (CRUD Produk, Kategori & Stok Menipis) |
-| 7 | `[Nama Anggota 7]` | `[NIM]` | `@username7` | Modul Admin Pesanan, Kelola User/Role, Testing & Video Demo YouTube |
-
----
-
 ## Dokumentasi Terkait
-- [CONTRIBUTING.md](CONTRIBUTING.md) — Panduan kolaborasi GitHub, alur PR, pembagian tugas 7 anggota, dan panduan pemula Git.
-- [VIDEO-DEMO-SCRIPT.md](VIDEO-DEMO-SCRIPT.md) — Naskah lengkap video demo YouTube (3–5 menit).
-- [LAPORAN-PENGERJAAN.md](LAPORAN-PENGERJAAN.md) — Laporan audit, checklist syarat dosen, dan pengujian.
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Panduan kolaborasi GitHub & alur pengembangan tim.
+- [VIDEO-DEMO-SCRIPT.md](VIDEO-DEMO-SCRIPT.md) — Naskah lengkap video demo YouTube.
+- [LAPORAN-PENGERJAAN.md](LAPORAN-PENGERJAAN.md) — Laporan audit, checklist fitur, dan pengujian.
 
 ---
 
 ## Lisensi
-Hak Cipta © 2026 Kelompok TechCare — Tugas Kuliah Teknik Informatika. Digunakan untuk pembelajaran dan demonstrasi e-commerce UMKM.
+Hak Cipta © 2026 TechCare Indonesia. Digunakan untuk pembelajaran dan demonstrasi e-commerce UMKM.
