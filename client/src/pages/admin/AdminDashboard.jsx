@@ -605,11 +605,11 @@ export default function AdminDashboard({ onBackToShop }) {
             onClick={() => setActiveTab('products')}
             className="text-left bg-white hover:border-rose-400 rounded-[20px] p-4 sm:p-5 border border-[#E2E7EE]/90 shadow-tc-studio space-y-2 transition-colors"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#647082]">
-                Stok Menipis (≤ 5)
+                Stok Menipis
               </span>
-              <span className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
+              <span className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
                 <AlertTriangle size={17} />
               </span>
             </div>
@@ -620,7 +620,7 @@ export default function AdminDashboard({ onBackToShop }) {
             >
               {lowStockProducts.length} Produk
             </p>
-            <span className="text-[11px] text-[#647082] block">dari {products.length} katalog aktif</span>
+            <span className="text-[11px] text-[#647082] block">≤ 5 unit · dari {products.length} aktif</span>
           </button>
 
           <button

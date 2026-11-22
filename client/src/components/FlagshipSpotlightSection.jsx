@@ -96,10 +96,10 @@ export default function FlagshipSpotlightSection({ onSelectProduct, onSelectColl
                     <button
                       type="button"
                       onClick={tile.onBuy}
-                      className={`min-h-[38px] px-5 rounded-[980px] border border-[#0071E3] text-[13px] sm:text-[14px] font-normal transition-colors cursor-pointer ${
+                      className={`min-h-[38px] px-5 rounded-[980px] border text-[13px] sm:text-[14px] font-normal transition-colors cursor-pointer ${
                         tile.dark
-                          ? 'text-[#2997FF] hover:bg-[#0071E3] hover:text-white'
-                          : 'text-[#0071E3] hover:bg-[#0071E3] hover:text-white'
+                          ? 'border-[#2997FF] text-[#2997FF] hover:bg-[#0071E3] hover:border-[#0071E3] hover:text-white'
+                          : 'border-[#0071E3] text-[#0071E3] hover:bg-[#0071E3] hover:text-white'
                       }`}
                     >
                       Beli

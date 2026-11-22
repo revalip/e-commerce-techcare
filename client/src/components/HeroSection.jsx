@@ -144,7 +144,7 @@ export default function HeroSection({ onShopClick, onLearnClick, onAboutClick })
             <button
               type="button"
               onClick={onShopClick}
-              className="h-[36px] sm:h-[42px] px-4 sm:px-5 rounded-[980px] border border-[#0071E3] text-[#2997FF] hover:bg-[#0071E3] hover:text-white text-[14px] sm:text-[17px] font-normal transition-colors cursor-pointer"
+              className="h-[36px] sm:h-[42px] px-4 sm:px-5 rounded-[980px] border border-[#2997FF] text-[#2997FF] hover:bg-[#0071E3] hover:border-[#0071E3] hover:text-white text-[14px] sm:text-[17px] font-normal transition-colors cursor-pointer"
             >
               Beli
             </button>

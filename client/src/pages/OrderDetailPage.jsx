@@ -264,7 +264,11 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
     completed: 5
   };
   const currentStepIdx = isCancelled ? -1 : statusOrderIndex[order.statusKey] ?? 0;
-  const progressPercent = isCancelled ? 0 : Math.round((currentStepIdx / (steps.length - 1)) * 100);
+  const progressPercent = isCancelled
+    ? 0
+    : currentStepIdx >= steps.length - 1
+    ? 100
+    : Math.round(((currentStepIdx + 0.5) / steps.length) * 100);
   const statusColor = getStatusColorClass(order.statusKey || order.paymentStatus);
 
   return (
@@ -355,6 +359,10 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
           ) : (
             <div className="space-y-5">
               <div className="relative pt-1">
+                <div className="flex items-center justify-between text-[12px] text-[#6E6E73] mb-2 sm:hidden">
+                  <span className="font-medium text-[#1D1D1F]">{steps[currentStepIdx]?.label || 'Diproses'}</span>
+                  <span className="tabular-nums">Tahap {currentStepIdx + 1} dari {steps.length}</span>
+                </div>
                 <div className="h-[3px] w-full bg-[#E8E8ED] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#0071E3] transition-all duration-500 rounded-full"
@@ -446,7 +454,7 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
 
         {/* 3. Payment & Proof Upload (Owner/Admin ONLY when unpaid) */}
         {canUploadProof && (
-          <section className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <section className="grid grid-cols-1 md:grid-cols-2 items-start gap-5">
             {/* Payment Instructions */}
             <div className="bg-[#F5F5F7] rounded-[24px] p-6 space-y-5">
               <div className="flex items-center justify-between gap-2">
