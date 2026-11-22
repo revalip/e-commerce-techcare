@@ -45,14 +45,14 @@ export default function ProductCard({ product, onSelect }) {
   return (
     <article
       onClick={() => onSelect(product)}
-      className="relative bg-[#F5F5F7] rounded-[28px] p-5 sm:p-6 flex flex-col justify-between group cursor-pointer h-full transition-colors duration-300"
+      className="relative bg-[#F5F5F7] rounded-[24px] sm:rounded-[28px] p-4 sm:p-6 flex flex-col justify-between group cursor-pointer h-full transition-colors duration-300"
     >
       {/* Heart Icon in Top-Right Corner (>= 44x44px Apple HIG tap target) */}
       <button
         type="button"
         onClick={handleToggleHeart}
         aria-label={wishlisted ? 'Hapus dari favorit' : 'Simpan ke favorit'}
-        className="absolute top-2.5 right-2.5 z-10 w-11 h-11 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F] transition-colors cursor-pointer"
+        className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 z-10 w-11 h-11 flex items-center justify-center text-[#6E6E73] hover:text-[#1D1D1F] transition-colors cursor-pointer"
       >
         <Heart
           size={18}
@@ -62,20 +62,20 @@ export default function ProductCard({ product, onSelect }) {
       </button>
 
       {/* Uniform-Height Transparent PNG Product Stage */}
-      <div className="h-44 sm:h-52 w-full flex items-center justify-center px-2 pt-2 pb-4 overflow-hidden">
+      <div className="h-36 sm:h-52 w-full flex items-center justify-center px-2 pt-1 pb-2 sm:pt-2 sm:pb-4 overflow-hidden">
         <img
           src={images[0]}
           alt={product.nama}
           width={480}
           height={360}
           loading="lazy"
-          className="max-h-full max-w-[88%] object-contain select-none transition-transform duration-300 group-hover:scale-[1.04]"
+          className="max-h-full max-w-[86%] sm:max-w-[88%] object-contain select-none transition-transform duration-300 group-hover:scale-[1.04]"
         />
       </div>
 
       {/* Clean Minimal Info */}
-      <div className="flex-1 flex flex-col justify-between gap-4 pt-2">
-        <div className="space-y-1.5">
+      <div className="flex-1 flex flex-col justify-between gap-3 sm:gap-4 pt-1.5 sm:pt-2">
+        <div className="space-y-1 sm:space-y-1.5">
           {/* Finish / Color preview dots (Apple Store concept) */}
           {product.varianWarna && product.varianWarna.length > 0 && (
             <div className="flex items-center gap-1.5 pb-0.5" aria-label="Pilihan warna">
@@ -104,7 +104,7 @@ export default function ProductCard({ product, onSelect }) {
             </div>
           )}
 
-          <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-[#1D1D1F] leading-[1.25] line-clamp-2 min-h-[2.5em]">
+          <h3 className="text-[17px] font-semibold tracking-[-0.015em] text-[#1D1D1F] leading-[1.25] line-clamp-2 sm:min-h-[2.5em]">
             {product.nama}
           </h3>
 

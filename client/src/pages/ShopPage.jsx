@@ -221,17 +221,17 @@ export default function ShopPage({
         </div>
       )}
 
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-8 sm:pt-14 space-y-7 sm:space-y-9">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 pt-5 sm:pt-14 space-y-5 sm:space-y-9">
         {/* 2. Iconic Apple Store Editorial Header + Compact Right Search/Filter */}
-        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
-          <div className="max-w-2xl space-y-1.5">
-            <h1 className="text-[32px] sm:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
+        <header className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-5">
+          <div className="max-w-2xl space-y-1">
+            <h1 className="text-[28px] sm:text-[44px] font-semibold tracking-[-0.03em] leading-[1.08] text-[#1D1D1F]">
               Katalog.{' '}
               <span className="text-[#6E6E73]">
                 Perangkat pilihan, siap kerja.
               </span>
             </h1>
-            <p className="text-[14px] text-[#6E6E73] tabular-nums">
+            <p className="text-[13px] sm:text-[14px] text-[#6E6E73] tabular-nums">
               {filteredProducts.length} unit tersedia · Lulus 32 titik QC
             </p>
           </div>
@@ -271,45 +271,51 @@ export default function ShopPage({
           </div>
         </header>
 
-        {/* 3. Concise Apple Category Pills + Grid/List Toggle */}
+        {/* 3. Concise Apple Category Pills + Desktop Grid/List Toggle */}
         <section aria-label="Kategori Katalog">
           <div className="flex items-center justify-between gap-3 min-w-0">
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar flex-1 min-w-0 py-0.5">
-              <button
-                type="button"
-                onClick={() => {
-                  onSelectCategory('');
-                  setVisibleCount(12);
-                }}
-                className={`min-h-[38px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                  !selectedCategory
-                    ? 'bg-[#1D1D1F] text-white font-medium'
-                    : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
-                }`}
-              >
-                Semua
-              </button>
-              {collections.map((col) => (
+            <div className="relative flex-1 min-w-0">
+              <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5 pr-6 sm:pr-0">
                 <button
-                  key={col.slug}
                   type="button"
                   onClick={() => {
-                    onSelectCategory(col.slug);
+                    onSelectCategory('');
                     setVisibleCount(12);
                   }}
-                  className={`min-h-[38px] px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
-                    selectedCategory === col.slug
+                  className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                    !selectedCategory
                       ? 'bg-[#1D1D1F] text-white font-medium'
                       : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
                   }`}
                 >
-                  {shortCategoryLabel(col)}
+                  Semua
                 </button>
-              ))}
+                {collections.map((col) => (
+                  <button
+                    key={col.slug}
+                    type="button"
+                    onClick={() => {
+                      onSelectCategory(col.slug);
+                      setVisibleCount(12);
+                    }}
+                    className={`min-h-[36px] sm:min-h-[38px] px-3.5 sm:px-4 rounded-[980px] text-[13px] whitespace-nowrap transition-colors cursor-pointer ${
+                      selectedCategory === col.slug
+                        ? 'bg-[#1D1D1F] text-white font-medium'
+                        : 'bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E8E8ED]'
+                    }`}
+                  >
+                    {shortCategoryLabel(col)}
+                  </button>
+                ))}
+              </div>
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 w-7 bg-gradient-to-l from-white to-transparent sm:hidden"
+              />
             </div>
 
-            {/* 44x44px Grid/List Toggle Icons */}
-            <div className="flex items-center gap-1 shrink-0" role="group" aria-label="Mode Tampilan">
+            {/* 44x44px Grid/List Toggle Icons (Desktop/Tablet only, Apple Store mobile stays full-bleed) */}
+            <div className="hidden sm:flex items-center gap-1 shrink-0" role="group" aria-label="Mode Tampilan">
               <button
                 type="button"
                 onClick={() => setViewMode('img')}
