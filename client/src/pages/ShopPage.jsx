@@ -141,7 +141,11 @@ export default function ShopPage({
             ? price < 1000000
             : priceRange === '1to5'
             ? price >= 1000000 && price <= 5000000
-            : price > 5000000;
+            : priceRange === '5to10'
+            ? price > 5000000 && price <= 10000000
+            : priceRange === 'over10'
+            ? price > 10000000
+            : true;
 
         const matchesFav = !onlyFavorites || isWishlisted(item.id);
         return matchesCategory && matchesBrand && matchesSearch && matchesPrice && matchesFav;

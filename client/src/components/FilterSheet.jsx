@@ -42,7 +42,8 @@ export default function FilterSheet({
     { value: 'all', label: 'Semua Harga' },
     { value: 'under1', label: 'Di bawah Rp 1 Juta' },
     { value: '1to5', label: 'Rp 1 – 5 Juta' },
-    { value: '5to10', label: 'Rp 5 – 10 Juta' }
+    { value: '5to10', label: 'Rp 5 – 10 Juta' },
+    { value: 'over10', label: 'Di atas Rp 10 Juta' }
   ];
 
   const sortOptions = [
