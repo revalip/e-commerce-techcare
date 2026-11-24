@@ -55,3 +55,21 @@ test('calculateCartWeightGram and getBillableWeightKg calculates ceiling kg', ()
 test('getBillableWeightKg floors minimum at 1kg', () => {
   assert.strictEqual(getBillableWeightKg(350), 1);
 });
+
+test('calculateSubtotal accurately computes Kingston FURY 512k and Foresee OEM SSD 350k combination', () => {
+  // Kingston FURY Impact 8GB (512.000) + Foresee OEM SSD 128GB (350.000)
+  const bundle = [
+    { harga: 512000, ramPriceDelta: 0, ssdPriceDelta: 0, beratGram: 150, quantity: 1 },
+    { harga: 350000, ramPriceDelta: 0, ssdPriceDelta: 0, beratGram: 50, quantity: 1 }
+  ];
+  assert.strictEqual(calculateSubtotal(bundle), 862000);
+  assert.strictEqual(calculateCartWeightGram(bundle), 200);
+  assert.strictEqual(getBillableWeightKg(calculateCartWeightGram(bundle)), 1);
+
+  // Upgraded: Kingston FURY 16GB (+338.000 = 850k) + Foresee 256GB (+275.000 = 625k)
+  const upgradedBundle = [
+    { harga: 512000, ramPriceDelta: 338000, ssdPriceDelta: 0, beratGram: 150, quantity: 1 },
+    { harga: 350000, ramPriceDelta: 0, ssdPriceDelta: 275000, beratGram: 50, quantity: 1 }
+  ];
+  assert.strictEqual(calculateSubtotal(upgradedBundle), 1475000);
+});
