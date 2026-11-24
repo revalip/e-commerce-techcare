@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (15/15 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, RAM second terkalibrasi & keamanan sanitasi PASS 100%).
+- **Automated Testing**: `npm test` (16/16 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, RAM second terkalibrasi & aset foto fisik real 100% PASS).
 
 ---
 
@@ -136,7 +136,7 @@ npm run dev      # Frontend aktif di http://localhost:5173
 **Langkah C: Menjalankan Pengujian Otomatis (Test Suite)**
 ```bash
 cd client
-npm test         # Menjalankan 15/15 unit test bawaan Node.js
+npm test         # Menjalankan 16/16 unit test bawaan Node.js
 ```
 
 #### Matriks Pengujian Otomatis (Automated Unit Testing Matrix):
@@ -153,6 +153,7 @@ npm test         # Menjalankan 15/15 unit test bawaan Node.js
 | **Catalog** | Laptop Hero Perspective | Foto utama katalog mempertahankan sudut pandang tegap 3/4 | ✅ PASS |
 | **Catalog** | SATA SSD (RX7, KYO, V-GeN)| Kapasitas 128GB - 1TB dengan rentang harga pasar nyata | ✅ PASS |
 | **Pricing** | RAM Second 8GB - 32GB | Kalibrasi harga pasar Tokopedia/Shopee (Rp 195rb - Rp 880rb) | ✅ PASS |
+| **Catalog** | Authentic Photo Assets | Memastikan aset hardware berupa foto fisik asli (.jpg/.webp) | ✅ PASS |
 | **Security** | Email regex validation | Validasi format email RFC standard & domain check | ✅ PASS |
 | **Security** | Indonesian Phone sanitization | Validasi panjang nomor 9–15 digit dan prefix `08` / `+62` | ✅ PASS |
 | **Security** | XSS sanitization | Pembersihan tag `<script>` dan pemotongan teks batas aman | ✅ PASS |
@@ -167,6 +168,17 @@ npm test         # Menjalankan 15/15 unit test bawaan Node.js
    - **RX7 SATA III (ODM Value Budget):** 128GB (Rp 175rb), 256GB (Rp 285rb), 512GB (Rp 515rb), 1TB (Rp 1.095rb).
    - **KYO Kaizen SATA III (ODM Metal Casing):** 128GB (Rp 195rb), 256GB (Rp 320rb), 512GB (Rp 585rb), 1TB (Rp 1.180rb).
    - **V-GeN Platinum (Brand Terpercaya Garansi 3 Tahun):** 128GB (Rp 245rb), 256GB (Rp 390rb), 512GB (Rp 640rb), 1TB (Rp 1.080rb).
+
+#### 📸 Pembuktian Sumber Aset Foto Fisik Asli (Non-AI Generated):
+| Nama Perangkat | Sumber Aset Fisik | Tipe Foto |
+| :--- | :--- | :--- |
+| **RX7 SATA III SSD** | Tokopedia & Shopee Partner Store (`aphluv / ACECOMPUTER`) | Unit fisik depan & retail box asli |
+| **KYO Kaizen SATA SSD** | Shopee Indonesia Official Partner Listing | Casing metal gunmetal & retail blister pack |
+| **V-GeN Platinum SSD** | Tokopedia V-GeN Official Partner & Shopee Listing | Bodi SSD platinum navy & kemasan retail box |
+| **Samsung OEM SODIMM** | Dokumentasi modul RAM copotan laptop bisnis ThinkPad | Modul PCB hijau asli dengan stiker part number Samsung |
+| **SK Hynix OEM SODIMM** | Dokumentasi modul RAM copotan laptop Dell Latitude | Modul PCB hijau asli dengan stiker part number SK Hynix |
+| **Kingston FURY Impact**| Shopee Official Partner Store | Modul SODIMM hitam dengan label FURY |
+| **Corsair Vengeance LPX**| Corsair Official Product Gallery CDN & studio photography | Heatsink aluminium anodized black |
 
 Buka peramban Anda di **`http://localhost:5173`**.
 
