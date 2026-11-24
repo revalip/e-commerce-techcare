@@ -350,6 +350,51 @@ export const mockProducts = [
     ulasan: 142
   },
   {
+    id: 19,
+    brand: 'SAMSUNG / HYNIX',
+    nama: 'Samsung & SK Hynix Laptop SODIMM RAM Second',
+    slug: 'samsung-sk-hynix-sodimm-ram-second',
+    tagline: 'ORIGINAL OEM COPOTAN • TESTED 100%',
+    kondisi: 'Second Tested 100%',
+    garansi: 'Garansi Tukar Unit 90 Hari',
+    qcSummary: 'Lulus MemTest86 4-Pass 0 Error • Chip BGA Original • Kompatibilitas 100%',
+    harga: 195000,
+    hargaCoret: 260000,
+    diskonPersen: 25,
+    stok: 60,
+    beratGram: 120,
+    koleksi: 'RAM & Memori',
+    koleksiSlug: 'ram-memori',
+    gambar: [
+      '/assets/products/samsung-hynix-sodimm-ram.svg'
+    ],
+    varianWarna: [
+      { nama: 'Classic Green PCB', hex: '#15803d' }
+    ],
+    specOptions: {
+      ram: [
+        { label: '8GB DDR4 3200MHz', priceDelta: 0 },
+        { label: '16GB DDR4 3200MHz', priceDelta: 210000 },
+        { label: '32GB Kit (2x16GB)', priceDelta: 615000 }
+      ],
+      tier: [
+        { label: '1.2V Low Voltage', priceDelta: 0 }
+      ]
+    },
+    specRangeLabel: '8GB - 32GB DDR4 3200MHz',
+    deskripsi: 'RAM laptop SODIMM second original copotan unit laptop bisnis (ThinkPad, Dell Latitude, HP EliteBook) dari brand tier-1 Samsung & SK Hynix. Pilihan paling hemat dan stabil untuk upgrade RAM laptop kerja maupun kantor.',
+    fitur: [
+      'Original copotan laptop bisnis Grade A (bukan rekondisi / bukan chip abal-abal)',
+      'Lolos pengujian MemTest86 4-pass tanpa error sebelum masuk inventori',
+      'Kompatibel dengan semua laptop DDR4 (ASUS, Lenovo, Dell, HP, Acer, Toshiba)',
+      'Tegangan standar 1.2V hemat daya dan menjaga suhu laptop tetap dingin',
+      'Garansi Tukar Unit Langsung 90 Hari dari TECHCARE'
+    ],
+    isBestseller: true,
+    rating: 5.0,
+    ulasan: 412
+  },
+  {
     id: 7,
     brand: 'SAMSUNG',
     nama: 'Samsung 990 PRO NVMe M.2 SSD',
