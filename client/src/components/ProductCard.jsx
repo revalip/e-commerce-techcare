@@ -69,6 +69,7 @@ export default function ProductCard({ product, onSelect }) {
           width={480}
           height={360}
           loading="lazy"
+          decoding="async"
           className="max-h-full max-w-[86%] sm:max-w-[88%] object-contain select-none transition-transform duration-300 group-hover:scale-[1.04]"
         />
       </div>
