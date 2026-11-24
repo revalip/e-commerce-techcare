@@ -308,6 +308,12 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                   <span>{formatWeight(product.beratGram || 1000)}</span>
                 </span>
               </div>
+              {!outOfStock && Number(product.stok) <= 4 && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF2EB] text-[#B64400] text-[12px] font-medium mt-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#B64400] animate-pulse" />
+                  <span>Stok terbatas — tersisa {product.stok} unit</span>
+                </div>
+              )}
             </div>
 
             {/* Color Selector */}
