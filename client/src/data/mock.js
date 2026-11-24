@@ -73,42 +73,45 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/assets/products/macbook-air-space-gray-open.jpg',
+      '/assets/products/macbook-air-space-gray.png',
+      '/assets/products/macbook-air-silver.png',
+      '/assets/products/macbook-air-gold.png',
       '/assets/products/macbook-air-space-gray.jpg',
-      '/assets/products/macbook-air-silver-open.jpg',
       '/assets/products/macbook-air-silver.jpg',
-      '/assets/products/macbook-air-gold-open.jpg',
-      '/assets/products/macbook-air-gold.jpg'
+      '/assets/products/macbook-air-gold.jpg',
+      '/assets/products/macbook-air-space-gray-open.jpg',
+      '/assets/products/macbook-air-silver-open.jpg',
+      '/assets/products/macbook-air-gold-open.jpg'
     ],
     varianWarna: [
       {
         nama: 'Space Gray',
         hex: '#4a4a4e',
-        gambar: '/assets/products/macbook-air-space-gray-open.jpg',
+        gambar: '/assets/products/macbook-air-space-gray.png',
         gallery: [
-          '/assets/products/macbook-air-space-gray-open.jpg',
+          '/assets/products/macbook-air-space-gray.png',
           '/assets/products/macbook-air-space-gray.jpg',
-          '/assets/products/macbook-air-space-gray.png'
+          '/assets/products/macbook-air-space-gray-open.jpg'
         ]
       },
       {
         nama: 'Silver',
         hex: '#d4d4d8',
-        gambar: '/assets/products/macbook-air-silver-open.jpg',
+        gambar: '/assets/products/macbook-air-silver.png',
         gallery: [
-          '/assets/products/macbook-air-silver-open.jpg',
+          '/assets/products/macbook-air-silver.png',
           '/assets/products/macbook-air-silver.jpg',
-          '/assets/products/macbook-air-silver.png'
+          '/assets/products/macbook-air-silver-open.jpg'
         ]
       },
       {
         nama: 'Gold',
         hex: '#e8d3c5',
-        gambar: '/assets/products/macbook-air-gold-open.jpg',
+        gambar: '/assets/products/macbook-air-gold.png',
         gallery: [
-          '/assets/products/macbook-air-gold-open.jpg',
+          '/assets/products/macbook-air-gold.png',
           '/assets/products/macbook-air-gold.jpg',
-          '/assets/products/macbook-air-gold.png'
+          '/assets/products/macbook-air-gold-open.jpg'
         ]
       }
     ],
