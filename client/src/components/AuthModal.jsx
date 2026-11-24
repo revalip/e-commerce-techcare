@@ -11,7 +11,9 @@ export default function AuthModal() {
     setAuthModalTab,
     authNotice,
     login,
-    register
+    register,
+    loginAsAdminDemo,
+    loginAsBuyerDemo
   } = useAuth();
 
   const [email, setEmail] = useState('');
@@ -216,6 +218,48 @@ export default function AuthModal() {
                 ? 'Masuk'
                 : 'Buat Akun'}
             </button>
+
+            {authModalTab === 'login' && (
+              <div className="pt-3 border-t border-[#D2D2D7]/60 space-y-2">
+                <p className="text-[12px] text-center text-[#86868B] font-medium">
+                  Akses Cepat Pengujian (Evaluasi Dosen / Demo):
+                </p>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        setLoading(true);
+                        await loginAsAdminDemo();
+                      } catch (err) {
+                        setError(err.message);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="h-[36px] rounded-[10px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] font-medium text-[#1D1D1F] transition-colors cursor-pointer"
+                  >
+                    Demo Admin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        setLoading(true);
+                        await loginAsBuyerDemo();
+                      } catch (err) {
+                        setError(err.message);
+                      } finally {
+                        setLoading(false);
+                      }
+                    }}
+                    className="h-[36px] rounded-[10px] bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] font-medium text-[#1D1D1F] transition-colors cursor-pointer"
+                  >
+                    Demo Pembeli
+                  </button>
+                </div>
+              </div>
+            )}
           </form>
         </div>
       </motion.div>
