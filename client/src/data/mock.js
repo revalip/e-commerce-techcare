@@ -435,6 +435,49 @@ export const mockProducts = [
     ulasan: 289
   },
   {
+    id: 17,
+    brand: 'KYO',
+    nama: 'KYO Kaizen SATA III 2.5" SSD',
+    slug: 'kyo-kaizen-sata-iii-ssd',
+    tagline: 'ULTRA SLIM 7MM • METAL CASING',
+    kondisi: 'Baru • Garansi Resmi 3 Tahun',
+    garansi: 'Garansi Resmi KYO Indonesia 3 Tahun',
+    qcSummary: 'Metal Heat Dissipation • Read 550MB/s • S.M.A.R.T & TRIM Aktif',
+    harga: 195000,
+    hargaCoret: 260000,
+    diskonPersen: 25,
+    stok: 38,
+    beratGram: 130,
+    koleksi: 'SSD & Storage',
+    koleksiSlug: 'ssd-storage',
+    gambar: [
+      '/assets/products/kyo-sata-ssd.svg'
+    ],
+    varianWarna: [
+      { nama: 'Gunmetal Metal Grey', hex: '#334155' }
+    ],
+    specOptions: {
+      ssd: [
+        { label: '128GB SATA', priceDelta: 0 },
+        { label: '256GB SATA', priceDelta: 125000 },
+        { label: '512GB SATA', priceDelta: 390000 },
+        { label: '1TB SATA', priceDelta: 985000 }
+      ]
+    },
+    specRangeLabel: '128GB - 1TB SATA III',
+    deskripsi: 'SSD SATA 2.5" seri Kaizen dari KYO dengan body logam (metal casing) kokoh yang membantu pelepasan panas lebih baik dibanding SSD plastik. Pilihan ideal untuk upgrade laptop harian, PC kasir, dan PC gaming budget.',
+    fitur: [
+      'Bodi aluminium metalik kokoh dengan pembuangan panas lebih cepat',
+      'Kecepatan Read hingga 550 MB/s & Write hingga 480 MB/s',
+      'Mendukung TRIM & S.M.A.R.T command untuk menjaga performa stabil jangka panjang',
+      'Konsumsi daya rendah, tidak membuat laptop cepat panas',
+      'Garansi Resmi KYO Indonesia 3 Tahun (Ganti Baru)'
+    ],
+    isBestseller: false,
+    rating: 4.8,
+    ulasan: 176
+  },
+  {
     id: 8,
     brand: 'LG ULTRAGEAR',
     nama: 'LG UltraGear 27" IPS 144Hz Monitor',
