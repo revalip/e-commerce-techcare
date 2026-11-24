@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (8/8 pengujian keamanan, kalkulasi ongkir, format, dan katalog PASS).
+- **Automated Testing**: `npm test` (13/13 pengujian unit testing keranjang, varian multi-sudut Digimap/ASUS, keamanan sanitasi & integritas katalog PASS 100%).
 
 ---
 
@@ -133,10 +133,28 @@ npm install
 npm run dev      # Frontend aktif di http://localhost:5173
 ```
 
-**Langkah C: Menjalankan Pengujian Otomatis**
+**Langkah C: Menjalankan Pengujian Otomatis (Test Suite)**
 ```bash
-npm test         # Menjalankan 8/8 pengujian otomatis
+cd client
+npm test         # Menjalankan 13/13 unit test bawaan Node.js
 ```
+
+#### Matriks Pengujian Otomatis (Automated Unit Testing Matrix):
+| Modul Pengujian | Kasus Uji (Test Case) | Ekspektasi | Hasil |
+| :--- | :--- | :--- | :---: |
+| **Cart & Pricing** | Base price calculation | Mengembalikan harga standar unit tanpa upgrade | ✅ PASS |
+| **Cart & Pricing** | RAM & SSD Price Delta | Menghitung harga unit + variasi RAM/SSD dinamis | ✅ PASS |
+| **Cart & Pricing** | Multi-item Subtotal | Akumulasi subtotal beberapa produk dengan kuantitas | ✅ PASS |
+| **Shipping** | Cart Weight & Billable Kg | Konversi gramasi ke kilogram dengan pembulatan ke atas | ✅ PASS |
+| **Shipping** | Floor minimum weight 1kg | Pembulatan berat minimal 1 kg untuk kurir ekspedisi | ✅ PASS |
+| **Catalog** | Active products structure | Seluruh produk memiliki ID unik, nama, harga, dan gambar | ✅ PASS |
+| **Catalog** | MacBook Air M1 Galleries | 3 Varian (Space Gray, Silver, Gold) memiliki galeri multi-sudut | ✅ PASS |
+| **Catalog** | ASUS ZenBook 14 Galleries | 2 Varian (Aqua Celadon, Ponder Blue) memiliki galeri multi-sudut | ✅ PASS |
+| **Catalog** | Laptop Hero Perspective | Foto utama katalog mempertahankan sudut pandang tegap 3/4 | ✅ PASS |
+| **Security** | Email regex validation | Validasi format email RFC standard & domain check | ✅ PASS |
+| **Security** | Indonesian Phone sanitization | Validasi panjang nomor 9–15 digit dan prefix `08` / `+62` | ✅ PASS |
+| **Security** | XSS sanitization | Pembersihan tag `<script>` dan pemotongan teks batas aman | ✅ PASS |
+| **Security** | Password hashing & salt | Enkripsi salted SHA-256 dan verifikasi cocok/salah | ✅ PASS |
 
 Buka peramban Anda di **`http://localhost:5173`**.
 
