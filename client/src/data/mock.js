@@ -392,6 +392,49 @@ export const mockProducts = [
     ulasan: 118
   },
   {
+    id: 16,
+    brand: 'RX7',
+    nama: 'RX7 SATA III 2.5" SSD Internal',
+    slug: 'rx7-sata-iii-25-ssd',
+    tagline: 'BUDGET VALUE KING • 3D NAND FLASH',
+    kondisi: 'Baru • Garansi Resmi 3 Tahun',
+    garansi: 'Garansi Resmi Distributor 3 Tahun',
+    qcSummary: 'Read 520MB/s • Write 450MB/s • Plug & Play SATA 6Gbps',
+    harga: 175000,
+    hargaCoret: 230000,
+    diskonPersen: 24,
+    stok: 45,
+    beratGram: 120,
+    koleksi: 'SSD & Storage',
+    koleksiSlug: 'ssd-storage',
+    gambar: [
+      '/assets/products/rx7-sata-ssd.svg'
+    ],
+    varianWarna: [
+      { nama: 'Matte Black Red', hex: '#1c1c1f' }
+    ],
+    specOptions: {
+      ssd: [
+        { label: '128GB SATA', priceDelta: 0 },
+        { label: '256GB SATA', priceDelta: 110000 },
+        { label: '512GB SATA', priceDelta: 340000 },
+        { label: '1TB SATA', priceDelta: 920000 }
+      ]
+    },
+    specRangeLabel: '128GB - 1TB SATA III',
+    deskripsi: 'SSD internal 2.5 inci SATA III 6Gbps merk RX7 dengan harga paling ramah di kantong untuk menghidupkan kembali laptop atau PC lama yang masih memakai harddisk lemot (HDD). Kecepatan hingga 10x lipat dibanding HDD konvensional.',
+    fitur: [
+      'Kecepatan Read hingga 520 MB/s & Write hingga 450 MB/s',
+      'Form factor standar 2.5" ketebalan 7mm, muat di semua laptop dan PC',
+      'Menggunakan teknologi 3D NAND Flash hemat daya (kurang dari 2W)',
+      'Gratis jasa pasang dan cloning Windows jika datang ke workshop TECHCARE',
+      'Garansi Resmi Distributor 3 Tahun Ganti Baru'
+    ],
+    isBestseller: true,
+    rating: 4.8,
+    ulasan: 289
+  },
+  {
     id: 8,
     brand: 'LG ULTRAGEAR',
     nama: 'LG UltraGear 27" IPS 144Hz Monitor',
