@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (16/16 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, RAM second terkalibrasi & aset foto fisik real 100% PASS).
+- **Automated Testing**: `npm test` (18/18 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, Foresee NVMe OEM 128/256GB, RAM second terkalibrasi & aset foto fisik real 100% PASS).
 
 ---
 
@@ -152,8 +152,10 @@ npm test         # Menjalankan 16/16 unit test bawaan Node.js
 | **Catalog** | ASUS ZenBook 14 Galleries | 2 Varian (Aqua Celadon, Ponder Blue) memiliki galeri multi-sudut | ✅ PASS |
 | **Catalog** | Laptop Hero Perspective | Foto utama katalog mempertahankan sudut pandang tegap 3/4 | ✅ PASS |
 | **Catalog** | SATA SSD (RX7, KYO, V-GeN)| Kapasitas 128GB - 1TB dengan rentang harga pasar nyata | ✅ PASS |
-| **Pricing** | RAM Second 8GB - 32GB | Kalibrasi harga pasar Tokopedia/Shopee (Rp 195rb - Rp 880rb) | ✅ PASS |
+| **Catalog** | Foresee OEM SSD 128/256GB | Verifikasi harga 128GB (350k) dan 256GB (625k) serta delta | ✅ PASS |
+| **Pricing** | RAM Second 8GB - 32GB | Kalibrasi harga pasar Tokopedia/Shopee & Kingston 512k | ✅ PASS |
 | **Catalog** | Authentic Photo Assets | Memastikan aset hardware berupa foto fisik asli (.jpg/.webp) | ✅ PASS |
+| **Security** | Zero Third-Party Watermarks | Verifikasi tidak ada nama toko luar & seluruh file aset ada di disk | ✅ PASS |
 | **Security** | Email regex validation | Validasi format email RFC standard & domain check | ✅ PASS |
 | **Security** | Indonesian Phone sanitization | Validasi panjang nomor 9–15 digit dan prefix `08` / `+62` | ✅ PASS |
 | **Security** | XSS sanitization | Pembersihan tag `<script>` dan pemotongan teks batas aman | ✅ PASS |
