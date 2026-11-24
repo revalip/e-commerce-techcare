@@ -274,10 +274,19 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
-      '/assets/products/corsair-vengeance-ram.png'
+      '/assets/products/corsair-vengeance-lpx.webp',
+      '/images/products/corsair-vengeance-ram.jpg'
     ],
     varianWarna: [
-      { nama: 'Anodized Matte Black', hex: '#18181b' }
+      {
+        nama: 'Anodized Matte Black',
+        hex: '#18181b',
+        gambar: '/assets/products/corsair-vengeance-lpx.webp',
+        gallery: [
+          '/assets/products/corsair-vengeance-lpx.webp',
+          '/images/products/corsair-vengeance-ram.jpg'
+        ]
+      }
     ],
     specOptions: {
       ram: [
@@ -320,10 +329,19 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
+      '/assets/products/kingston-fury-impact.jpg',
       '/assets/products/kingston-fury-sodimm-ram.png'
     ],
     varianWarna: [
-      { nama: 'FURY Stealth Black', hex: '#141416' }
+      {
+        nama: 'FURY Stealth Black',
+        hex: '#141416',
+        gambar: '/assets/products/kingston-fury-impact.jpg',
+        gallery: [
+          '/assets/products/kingston-fury-impact.jpg',
+          '/assets/products/kingston-fury-sodimm-ram.png'
+        ]
+      }
     ],
     specOptions: {
       ram: [
