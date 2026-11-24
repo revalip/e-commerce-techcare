@@ -179,7 +179,7 @@ npm test         # Menjalankan 16/16 unit test bawaan Node.js
 | Nama Perangkat | Sumber Aset Fisik | Tipe Foto |
 | :--- | :--- | :--- |
 | **Foresee OEM M.2 NVMe SSD** | Dokumentasi unit copotan laptop OEM Lenovo/HP/ASUS (Shopee Verified) | Modul fisik depan M.2 2280 & foto close-up label part number |
-| **Kingston FURY Impact**| Kingston Official Authorized Distributor CDN (`kingstonmemoryshop.co.uk`) | Foto resmi modul SODIMM hitam bersih tanpa watermark toko |
+| **Kingston FURY Impact**| Studio Macro Hardware Photography (Wikimedia Commons Archive) | Modul depan (2116x2116) & belakang PCB chip (2599x2599) bersih tanpa watermark toko |
 | **RX7 SATA III SSD** | Tokopedia & Shopee Partner Store (`aphluv / ACECOMPUTER`) | Unit fisik depan & retail box asli |
 | **KYO Kaizen SATA SSD** | Shopee Indonesia Official Partner Listing | Casing metal gunmetal & retail blister pack |
 | **V-GeN Platinum SSD** | Tokopedia V-GeN Official Partner & Shopee Listing | Bodi SSD platinum navy & kemasan retail box |
