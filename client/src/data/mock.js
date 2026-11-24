@@ -366,10 +366,28 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
-      '/assets/products/samsung-hynix-sodimm-ram.svg'
+      '/assets/products/samsung-sodimm-ram.jpg',
+      '/assets/products/skhynix-sodimm-ram.jpg'
     ],
     varianWarna: [
-      { nama: 'Classic Green PCB', hex: '#15803d' }
+      {
+        nama: 'Samsung OEM Original',
+        hex: '#15803d',
+        gambar: '/assets/products/samsung-sodimm-ram.jpg',
+        gallery: [
+          '/assets/products/samsung-sodimm-ram.jpg',
+          '/assets/products/skhynix-sodimm-ram.jpg'
+        ]
+      },
+      {
+        nama: 'SK Hynix OEM Original',
+        hex: '#166534',
+        gambar: '/assets/products/skhynix-sodimm-ram.jpg',
+        gallery: [
+          '/assets/products/skhynix-sodimm-ram.jpg',
+          '/assets/products/samsung-sodimm-ram.jpg'
+        ]
+      }
     ],
     specOptions: {
       ram: [
