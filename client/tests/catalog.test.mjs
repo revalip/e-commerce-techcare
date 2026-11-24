@@ -90,6 +90,9 @@ test('RAM second products have calibrated market pricing across 8GB-32GB tiers',
       // Kingston FURY Impact high-performance gaming SODIMM calibrated to official 512k benchmark
       assert.strictEqual(ram.harga, 512000, `Kingston FURY Impact must be 512.000: ${ram.harga}`);
       assert.strictEqual(ram.hargaCoret, 620000, `Kingston FURY original price must be 620.000`);
+      // Verify front and rear genuine macro photography assets
+      assert.ok(ram.gambar.includes('/assets/products/kingston-fury-impact.jpg'), 'Missing front macro photo');
+      assert.ok(ram.gambar.includes('/assets/products/kingston-fury-rear.jpg'), 'Missing rear PCB macro photo');
     } else {
       // Standard OEM and Corsair DDR4 modules calibrated to market rate 180k - 260k
       assert.ok(ram.harga >= 180000 && ram.harga <= 260000, `RAM ${ram.nama} base price unrealistic: ${ram.harga}`);
