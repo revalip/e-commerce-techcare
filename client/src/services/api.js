@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v9) mencakup SATA SSD (RX7, KYO, V-GeN) & RAM second terkalibrasi
+// Versioned storage keys (v10) mencakup foto real fisik marketplace SSD SATA & RAM SODIMM OEM
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v9',
-  COLLECTIONS: 'techcare_collections_v9',
-  DISCOUNTS: 'techcare_discounts_v9',
-  ORDERS: 'techcare_orders_v9'
+  PRODUCTS: 'techcare_products_v10',
+  COLLECTIONS: 'techcare_collections_v10',
+  DISCOUNTS: 'techcare_discounts_v10',
+  ORDERS: 'techcare_orders_v10'
 };
 
 function getStored(key, fallback) {
