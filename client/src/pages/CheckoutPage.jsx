@@ -85,11 +85,19 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
   const selectedZone =
     SHIPPING_ZONES.find((z) => z.id === zoneId) || SHIPPING_ZONES[0];
 
+  const handlePhoneChange = (e) => {
+    const raw = e.target.value;
+    const sanitized = raw.replace(/[^\d+]/g, '');
+    setPhone(sanitized);
+    if (errors.phone) setErrors((prev) => ({ ...prev, phone: '' }));
+  };
+
   const validateStep1 = () => {
     const errs = {};
     if (!name.trim() || name.trim().length < 2) errs.name = 'Nama lengkap penerima wajib diisi.';
     if (!isValidEmail(email)) errs.email = 'Alamat email tidak valid.';
-    if (!isValidPhone(phone)) errs.phone = 'Nomor WhatsApp harus 9–15 digit angka.';
+    const cleanPhone = phone.replace(/[^\d+]/g, '');
+    if (!isValidPhone(cleanPhone)) errs.phone = 'Nomor WhatsApp harus 9–15 digit angka (contoh: 081234567890).';
     if (!address.trim() || address.trim().length < 8)
       errs.address = 'Alamat lengkap pengiriman wajib diisi.';
     if (!city.trim()) errs.city = 'Kota / Kabupaten tujuan wajib diisi.';
@@ -410,7 +418,7 @@ export default function CheckoutPage({ onBackToCart, onOrderCompleted }) {
                         <input
                           type="tel"
                           value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          onChange={handlePhoneChange}
                           placeholder="081234567890"
                           className={`w-full min-h-[44px] px-4 rounded-[12px] bg-white text-[14px] text-[#1D1D1F] placeholder:text-[#86868B] focus:outline-none focus:ring-2 focus:ring-[#0071E3] ${
                             errors.phone ? 'ring-2 ring-[#D70015]' : ''
