@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (19/19 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, Foresee NVMe OEM 128/256GB, RAM second terkalibrasi & aset foto fisik real 100% PASS).
+- **Automated Testing**: `npm test` (20/20 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, Foresee NVMe OEM 128/256GB, RAM second terkalibrasi & aset foto fisik real 100% PASS).
 
 ---
 
@@ -145,6 +145,7 @@ npm test         # Menjalankan 16/16 unit test bawaan Node.js
 | **Cart & Pricing** | Base price calculation | Mengembalikan harga standar unit tanpa upgrade | ✅ PASS |
 | **Cart & Pricing** | RAM & SSD Price Delta | Menghitung harga unit + variasi RAM/SSD dinamis | ✅ PASS |
 | **Cart & Pricing** | Multi-item Subtotal | Akumulasi subtotal beberapa produk dengan kuantitas | ✅ PASS |
+| **Cart & Pricing** | Kingston 512k & Foresee 350k Bundle | Akumulasi subtotal paket RAM + NVMe dan berat billing 1kg | ✅ PASS |
 | **Shipping** | Cart Weight & Billable Kg | Konversi gramasi ke kilogram dengan pembulatan ke atas | ✅ PASS |
 | **Shipping** | Floor minimum weight 1kg | Pembulatan berat minimal 1 kg untuk kurir ekspedisi | ✅ PASS |
 | **Catalog** | Active products structure | Seluruh produk memiliki ID unik, nama, harga, dan gambar | ✅ PASS |
