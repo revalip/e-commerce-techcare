@@ -453,10 +453,19 @@ export const mockProducts = [
     koleksi: 'SSD & Storage',
     koleksiSlug: 'ssd-storage',
     gambar: [
-      '/assets/products/rx7-sata-ssd.svg'
+      '/assets/products/rx7-sata-ssd-front.webp',
+      '/assets/products/rx7-sata-ssd-box.jpg'
     ],
     varianWarna: [
-      { nama: 'Matte Black Red', hex: '#1c1c1f' }
+      {
+        nama: 'Matte Black Red',
+        hex: '#1c1c1f',
+        gambar: '/assets/products/rx7-sata-ssd-front.webp',
+        gallery: [
+          '/assets/products/rx7-sata-ssd-front.webp',
+          '/assets/products/rx7-sata-ssd-box.jpg'
+        ]
+      }
     ],
     specOptions: {
       ssd: [
