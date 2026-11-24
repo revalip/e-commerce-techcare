@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'novaire-api',
+      name: 'techcare-api',
       script: 'src/index.js',
       cwd: './',
       instances: 1,

@@ -2,11 +2,11 @@
   <rect width="400" height="480" fill="#ffffff" rx="16"/>
   <!-- Header -->
   <rect x="24" y="24" width="352" height="64" rx="8" fill="#111113"/>
-  <text x="200" y="52" fill="#ffffff" font-family="'Playfair Display', serif" font-size="20" font-weight="bold" text-anchor="middle" letter-spacing="4">NOVAIRE</text>
+  <text x="200" y="52" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="20" font-weight="bold" text-anchor="middle" letter-spacing="4">TECHCARE</text>
   <text x="200" y="72" fill="#a1a1aa" font-family="sans-serif" font-size="10" text-anchor="middle" letter-spacing="1">QRIS PEMBAYARAN NASIONAL</text>
   
   <!-- Merchant Info -->
-  <text x="200" y="115" fill="#111113" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">PT NOVAIRE INDONESIA</text>
+  <text x="200" y="115" fill="#111113" font-family="sans-serif" font-size="14" font-weight="700" text-anchor="middle">PT TECHCARE INDONESIA</text>
   <text x="200" y="132" fill="#71717a" font-family="sans-serif" font-size="11" text-anchor="middle">NMID: ID1020261117948</text>
   
   <!-- QR Border Box -->
@@ -40,7 +40,7 @@
     <!-- Center QRIS badge inside QR -->
     <rect x="160" y="252" width="80" height="72" rx="8" fill="#111113"/>
     <circle cx="200" cy="288" r="24" fill="#ffffff"/>
-    <text x="200" y="293" fill="#111113" font-family="'Playfair Display', serif" font-size="12" font-weight="900" text-anchor="middle">N</text>
+    <text x="200" y="293" fill="#111113" font-family="-apple-system, sans-serif" font-size="11" font-weight="900" text-anchor="middle">TC</text>
 
     <!-- Bottom Right Data Dots -->
     <rect x="264" y="260" width="24" height="24" rx="2"/>
