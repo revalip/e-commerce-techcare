@@ -105,3 +105,13 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  header, footer, nav, .print\:hidden {
+    display: none !important;
+  }
+}

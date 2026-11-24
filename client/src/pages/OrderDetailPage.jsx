@@ -8,7 +8,8 @@ import {
   AlertCircle,
   ChevronLeft,
   XCircle,
-  Lock
+  Lock,
+  Printer
 } from 'lucide-react';
 import {
   getOrderByNumber,
@@ -329,6 +330,15 @@ export default function OrderDetailPage({ orderNumber, onBackToOrders, onBackToS
                 </button>
                 <span>·</span>
                 <span>{formatDate(order.tanggal)}</span>
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="inline-flex items-center gap-1 text-[12px] text-[#1D1D1F] hover:text-[#0071E3] ml-1 px-2.5 py-0.5 rounded-[980px] bg-[#F5F5F7] hover:bg-[#E8E8ED] transition-colors cursor-pointer print:hidden"
+                  title="Cetak Invoice Pesanan"
+                >
+                  <Printer size={12} />
+                  <span>Cetak</span>
+                </button>
               </div>
             </div>
 
