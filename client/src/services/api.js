@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v12) memuat foto makro resmi Kingston FURY (front/rear 2K) & Foresee OEM SSD
+// Versioned storage keys (v13) cache-busting URL baru Kingston FURY Module & V-GeN Platinum Clean
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v12',
-  COLLECTIONS: 'techcare_collections_v12',
-  DISCOUNTS: 'techcare_discounts_v12',
-  ORDERS: 'techcare_orders_v12'
+  PRODUCTS: 'techcare_products_v13',
+  COLLECTIONS: 'techcare_collections_v13',
+  DISCOUNTS: 'techcare_discounts_v13',
+  ORDERS: 'techcare_orders_v13'
 };
 
 function getStored(key, fallback) {

@@ -329,16 +329,16 @@ export const mockProducts = [
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
     gambar: [
-      '/assets/products/kingston-fury-impact.jpg',
+      '/assets/products/kingston-fury-impact-module.jpg',
       '/assets/products/kingston-fury-rear.jpg'
     ],
     varianWarna: [
       {
         nama: 'FURY Stealth Black',
         hex: '#141416',
-        gambar: '/assets/products/kingston-fury-impact.jpg',
+        gambar: '/assets/products/kingston-fury-impact-module.jpg',
         gallery: [
-          '/assets/products/kingston-fury-impact.jpg',
+          '/assets/products/kingston-fury-impact-module.jpg',
           '/assets/products/kingston-fury-rear.jpg'
         ]
       }
@@ -593,16 +593,16 @@ export const mockProducts = [
     koleksi: 'SSD & Storage',
     koleksiSlug: 'ssd-storage',
     gambar: [
-      '/assets/products/vgen-platinum-sata-ssd.jpg',
+      '/assets/products/vgen-platinum-sata-clean.jpg',
       '/assets/products/vgen-platinum-box.jpg'
     ],
     varianWarna: [
       {
         nama: 'Platinum Sapphire Navy',
         hex: '#1e1e24',
-        gambar: '/assets/products/vgen-platinum-sata-ssd.jpg',
+        gambar: '/assets/products/vgen-platinum-sata-clean.jpg',
         gallery: [
-          '/assets/products/vgen-platinum-sata-ssd.jpg',
+          '/assets/products/vgen-platinum-sata-clean.jpg',
           '/assets/products/vgen-platinum-box.jpg'
         ]
       }
