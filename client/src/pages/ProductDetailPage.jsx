@@ -43,15 +43,71 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
   const [showStickyBar, setShowStickyBar] = useState(false);
   const actionBtnRef = useRef(null);
 
+  const uniqueImages = useMemo(() => {
+    const list = [];
+    if (product?.varianWarna && product.varianWarna.length > 0) {
+      product.varianWarna.forEach((v) => {
+        if (v.gambar && !list.includes(v.gambar)) {
+          list.push(v.gambar);
+        }
+      });
+    }
+    if (product?.gambar && Array.isArray(product.gambar)) {
+      product.gambar.forEach((g) => {
+        if (g && !list.includes(g)) {
+          list.push(g);
+        }
+      });
+    }
+    return list.filter(Boolean);
+  }, [product]);
+
+  const images =
+    uniqueImages.length > 0
+      ? uniqueImages
+      : ['/assets/products/thinkpad-x1-carbon-front.png'];
+
   useEffect(() => {
-    setSelectedColor(product?.varianWarna?.[0]?.nama || 'Standard');
+    const initialVariant = product?.varianWarna?.[0];
+    const initialColor = initialVariant?.nama || 'Standard';
+    setSelectedColor(initialColor);
     setSelectedRamIdx(0);
     setSelectedSsdIdx(0);
     setSelectedTierIdx(0);
-    setActiveImageIdx(0);
+
+    if (initialVariant?.gambar) {
+      const idx = images.indexOf(initialVariant.gambar);
+      setActiveImageIdx(idx !== -1 ? idx : 0);
+    } else {
+      setActiveImageIdx(0);
+    }
     setQuantity(1);
     setLightboxOpen(false);
-  }, [product?.id]);
+  }, [product?.id, images]);
+
+  const handleSelectColor = (v) => {
+    setSelectedColor(v.nama);
+    if (v.gambar) {
+      const idx = images.indexOf(v.gambar);
+      if (idx !== -1) {
+        setActiveImageIdx(idx);
+      }
+    } else {
+      const vIdx = (product?.varianWarna || []).findIndex((item) => item.nama === v.nama);
+      if (vIdx !== -1 && images[vIdx]) {
+        setActiveImageIdx(vIdx);
+      }
+    }
+  };
+
+  const handleSelectThumbnail = (i) => {
+    setActiveImageIdx(i);
+    const targetImg = images[i];
+    const match = (product?.varianWarna || []).find((v) => v.gambar === targetImg);
+    if (match) {
+      setSelectedColor(match.nama);
+    }
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -97,11 +153,9 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
 
   const wishlisted = isWishlisted(product.id);
   const outOfStock = Number(product.stok) <= 0;
-  const uniqueImages = Array.from(new Set((product.gambar || []).filter(Boolean)));
-  const images =
-    uniqueImages.length > 0
-      ? uniqueImages
-      : ['/assets/products/thinkpad-x1-carbon-front.png'];
+
+  const activeColorObj = (product?.varianWarna || []).find((v) => v.nama === selectedColor);
+  const selectedGambar = activeColorObj?.gambar || images[activeImageIdx] || images[0];
 
   const handleAddToCart = () => {
     if (outOfStock) return;
@@ -110,7 +164,8 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
       ssd: activeSsd?.label || null,
       tier: activeTier?.label || null,
       specLabel,
-      harga: computedPrice
+      harga: computedPrice,
+      gambar: selectedGambar
     });
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 1100);
@@ -123,7 +178,8 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
       ssd: activeSsd?.label || null,
       tier: activeTier?.label || null,
       specLabel,
-      harga: computedPrice
+      harga: computedPrice,
+      gambar: selectedGambar
     });
     if (isGuest) {
       openAuthModal(
@@ -205,7 +261,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                   <button
                     key={i}
                     type="button"
-                    onClick={() => setActiveImageIdx(i)}
+                    onClick={() => handleSelectThumbnail(i)}
                     className={`w-20 h-20 rounded-2xl bg-[#F5F5F7] border p-2 shrink-0 transition-all ${
                       activeImageIdx === i
                         ? 'border-[#0071E3] ring-2 ring-[#0071E3]/20'
@@ -293,7 +349,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                     <button
                       key={v.nama}
                       type="button"
-                      onClick={() => setSelectedColor(v.nama)}
+                      onClick={() => handleSelectColor(v)}
                       aria-label={`Pilih warna ${v.nama}`}
                       className="w-11 h-11 rounded-full flex items-center justify-center transition-transform cursor-pointer hover:scale-105"
                       title={v.nama}

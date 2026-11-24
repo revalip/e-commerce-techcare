@@ -73,11 +73,14 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/assets/products/macbook-air-m1.png'
+      '/assets/products/macbook-air-space-gray.png',
+      '/assets/products/macbook-air-silver.png',
+      '/assets/products/macbook-air-gold.png'
     ],
     varianWarna: [
-      { nama: 'Space Gray', hex: '#4a4a4e' },
-      { nama: 'Silver', hex: '#d4d4d8' }
+      { nama: 'Space Gray', hex: '#4a4a4e', gambar: '/assets/products/macbook-air-space-gray.png' },
+      { nama: 'Silver', hex: '#d4d4d8', gambar: '/assets/products/macbook-air-silver.png' },
+      { nama: 'Gold', hex: '#e8d3c5', gambar: '/assets/products/macbook-air-gold.png' }
     ],
     specOptions: {
       ram: [
@@ -394,8 +397,8 @@ export const mockProducts = [
       '/images/products/logitech-mx-master-3s-grey.png'
     ],
     varianWarna: [
-      { nama: 'Graphite Black', hex: '#1f2937' },
-      { nama: 'Pale Grey', hex: '#9ca3af' }
+      { nama: 'Graphite Black', hex: '#1f2937', gambar: '/images/products/logitech-mx-master-3s-graphite.png' },
+      { nama: 'Pale Grey', hex: '#9ca3af', gambar: '/images/products/logitech-mx-master-3s-grey.png' }
     ],
     specRangeLabel: 'Include Logi Bolt Receiver',
     deskripsi: 'Mouse produktivitas pilihan programmer dan editor video dalam kondisi second terawat Grade A+. Sudah dibersihkan menyeluruh, karet grip utuh, dan setiap tombol telah diuji responsnya.',
@@ -431,8 +434,8 @@ export const mockProducts = [
       '/images/products/logitech-superlight-2-dex-white.png'
     ],
     varianWarna: [
-      { nama: 'Matte Black', hex: '#111113' },
-      { nama: 'Ghost White', hex: '#f4f4f6' }
+      { nama: 'Matte Black', hex: '#111113', gambar: '/images/products/logitech-superlight-2-dex-black.png' },
+      { nama: 'Ghost White', hex: '#f4f4f6', gambar: '/images/products/logitech-superlight-2-dex-white.png' }
     ],
     specRangeLabel: 'Free New PTFE Skates',
     deskripsi: 'Mouse gaming ringan 60 gram bekas pemakaian terawat. Telah dipasangi mouse feet PTFE baru oleh tim TechCare dan diuji presisi sensor HERO 2.',
@@ -499,12 +502,12 @@ export const mockProducts = [
     koleksi: 'Peripherals Second',
     koleksiSlug: 'peripherals',
     gambar: [
-      '/images/products/asus-rog-azoth-2.png',
-      '/images/products/asus-rog-azoth.png'
+      '/images/products/asus-rog-azoth.png',
+      '/images/products/asus-rog-azoth-2.png'
     ],
     varianWarna: [
-      { nama: 'Gunmetal Gray', hex: '#374151' },
-      { nama: 'Moonlight White', hex: '#f3f4f6' }
+      { nama: 'Gunmetal Gray', hex: '#374151', gambar: '/images/products/asus-rog-azoth.png' },
+      { nama: 'Moonlight White', hex: '#f3f4f6', gambar: '/images/products/asus-rog-azoth-2.png' }
     ],
     specRangeLabel: 'OLED 2" • ROG NX Red',
     deskripsi: 'Keyboard mekanikal kelas enthusiast dengan gasket silikon 3-lapis dan layar OLED 2 inci. Unit second mulus terawat, switch ROG NX linear terasa sangat halus, cocok untuk setup kerja maupun gaming minimalis.',

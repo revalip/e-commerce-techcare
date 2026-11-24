@@ -102,7 +102,7 @@ export function CartProvider({ children }) {
           harga: unitPrice,
           beratGram: Number(product.beratGram) || 1000,
           stokTersedia: availableStock,
-          gambar: product.gambar ? product.gambar[0] : '/assets/products/thinkpad-x1-carbon-front.png',
+          gambar: options.gambar || (product.gambar ? product.gambar[0] : '/assets/products/thinkpad-x1-carbon-front.png'),
           warna: selectedColor,
           specLabel,
           kondisi: product.kondisi || 'Second Grade A',

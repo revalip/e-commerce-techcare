@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v4) mencakup berat produk, MSI, kategori dinamis, kode unik & deadline bayar
+// Versioned storage keys (v5) mencakup dynamic real photo color variant switching
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v4',
-  COLLECTIONS: 'techcare_collections_v4',
-  DISCOUNTS: 'techcare_discounts_v4',
-  ORDERS: 'techcare_orders_v4'
+  PRODUCTS: 'techcare_products_v5',
+  COLLECTIONS: 'techcare_collections_v5',
+  DISCOUNTS: 'techcare_discounts_v5',
+  ORDERS: 'techcare_orders_v5'
 };
 
 function getStored(key, fallback) {
