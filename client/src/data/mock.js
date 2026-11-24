@@ -629,6 +629,60 @@ export const mockProducts = [
     ulasan: 342
   },
   {
+    id: 20,
+    brand: 'FORESEE',
+    nama: 'Foresee OEM M.2 NVMe PCIe SSD (Copotan Laptop Second)',
+    slug: 'foresee-oem-m2-nvme-ssd-second',
+    tagline: 'SSD NVMe OEM COPOTAN LAPTOP • HEALTH 100%',
+    kondisi: 'Second Copotan Laptop (Health 98-100%)',
+    garansi: 'Garansi Toko TECHCARE 60 Hari',
+    qcSummary: 'CrystalDiskInfo Health 100% • Read 2100MB/s • Low Power Draw',
+    harga: 350000,
+    hargaCoret: 435000,
+    diskonPersen: 20,
+    stok: 28,
+    beratGram: 50,
+    koleksi: 'SSD & Storage',
+    koleksiSlug: 'ssd-storage',
+    gambar: [
+      '/assets/products/foresee-nvme-ssd.jpg',
+      '/assets/products/foresee-ssd-label.jpg'
+    ],
+    varianWarna: [
+      {
+        nama: 'OEM Factory Matte PCB',
+        hex: '#1e293b',
+        gambar: '/assets/products/foresee-nvme-ssd.jpg',
+        gallery: [
+          '/assets/products/foresee-nvme-ssd.jpg',
+          '/assets/products/foresee-ssd-label.jpg'
+        ]
+      }
+    ],
+    specOptions: {
+      ssd: [
+        { label: '128GB NVMe', priceDelta: 0 },
+        { label: '256GB NVMe', priceDelta: 275000 }
+      ],
+      tier: [
+        { label: 'PCIe 3.0 x4 M.2 2280', priceDelta: 0 }
+      ]
+    },
+    specRangeLabel: '128GB - 256GB M.2 NVMe',
+    deskripsi: 'SSD M.2 NVMe PCIe OEM Foresee original copotan laptop Lenovo, ASUS, HP, dan Acer saat unit di-upgrade customer. Kondisi prima dengan indikator CrystalDiskInfo Health 98%-100%, tanpa bad sector, dan suhu operasional dingin.',
+    fitur: [
+      'Original OEM factory drive copotan langsung dari unit laptop baru/upgrade',
+      'Kesehatan prima (CrystalDiskInfo Health 98% - 100%, 0 Bad Sector)',
+      'Kecepatan Read hingga 2.100 MB/s & Write hingga 1.200 MB/s (PCIe 3.0 x4 NVMe)',
+      'Form factor standar M.2 2280 cocok untuk laptop, PC desktop, maupun enclosure NVMe',
+      'Gratis instalasi OS Windows 11/10 bersih jika pasang langsung di toko TECHCARE',
+      'Garansi Tukar Unit TECHCARE 60 Hari'
+    ],
+    isBestseller: true,
+    rating: 4.8,
+    ulasan: 86
+  },
+  {
     id: 8,
     brand: 'LG ULTRAGEAR',
     nama: 'LG UltraGear 27" IPS 144Hz Monitor',
