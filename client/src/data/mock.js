@@ -505,10 +505,19 @@ export const mockProducts = [
     koleksi: 'SSD & Storage',
     koleksiSlug: 'ssd-storage',
     gambar: [
-      '/assets/products/kyo-sata-ssd.svg'
+      '/assets/products/kyo-kaizen-ssd.jpg',
+      '/assets/products/kyo-kaizen-box.jpg'
     ],
     varianWarna: [
-      { nama: 'Gunmetal Metal Grey', hex: '#334155' }
+      {
+        nama: 'Gunmetal Metal Grey',
+        hex: '#334155',
+        gambar: '/assets/products/kyo-kaizen-ssd.jpg',
+        gallery: [
+          '/assets/products/kyo-kaizen-ssd.jpg',
+          '/assets/products/kyo-kaizen-box.jpg'
+        ]
+      }
     ],
     specOptions: {
       ssd: [
