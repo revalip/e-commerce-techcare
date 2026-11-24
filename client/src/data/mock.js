@@ -266,9 +266,9 @@ export const mockProducts = [
     kondisi: 'Second Tested 100%',
     garansi: 'Garansi Tukar Unit 90 Hari',
     qcSummary: 'Lulus MemTest86 4-Pass 0 Error • Pin Emas Bersih • XMP Stabil',
-    harga: 385000,
-    hargaCoret: 520000,
-    diskonPersen: 26,
+    harga: 225000,
+    hargaCoret: 295000,
+    diskonPersen: 24,
     stok: 24,
     beratGram: 180,
     koleksi: 'RAM & Memori',
@@ -282,12 +282,12 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: '8GB (1x8GB)', priceDelta: 0 },
-        { label: '16GB (2x8GB Dual)', priceDelta: 340000 },
-        { label: '32GB (2x16GB Dual)', priceDelta: 865000 }
+        { label: '16GB (2x8GB Dual)', priceDelta: 195000 },
+        { label: '32GB (2x16GB Dual)', priceDelta: 625000 }
       ],
       tier: [
         { label: 'DDR4 3200MHz', priceDelta: 0 },
-        { label: 'DDR5 5200MHz', priceDelta: 320000 }
+        { label: 'DDR5 5200MHz', priceDelta: 250000 }
       ]
     },
     specRangeLabel: '8GB-32GB • DDR4 / DDR5',
