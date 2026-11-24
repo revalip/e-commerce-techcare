@@ -355,13 +355,13 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: '8GB-32GB • DDR4 / DDR5',
-    deskripsi: 'Modul memori laptop performa tinggi Kingston FURY Impact SODIMM dirancang untuk meminimalkan lag dan memaksimalkan FPS laptop gaming serta workstation. Dilengkapi fitur Plug N Play otomatis overclocking pada frekuensi 3200MT/s CL20 pada tegangan hemat daya 1.2V, kompatibel penuh dengan platform Intel Core dan AMD Ryzen.',
+    deskripsi: 'Modul memori laptop performa tinggi Kingston FURY Impact SODIMM dirancang untuk meminimalkan lag dan memaksimalkan FPS laptop gaming serta mobile workstation. Mengusung teknologi Plug N Play otomatis overclocking pada frekuensi 3200MT/s CL20-22-22 pada tegangan hemat daya 1.2V, kompatibel penuh dengan platform prosesor Intel Core dan AMD Ryzen.',
     fitur: [
-      'Official Kingston FURY Impact SODIMM 3200MT/s CL20 Low Latency',
-      'Plug N Play otomatis berjalan pada kecepatan tertinggi yang didukung BIOS/sistem',
-      'Intel XMP-Ready & AMD Ryzen Ready untuk kestabilan performa gaming',
-      'Tegangan hemat daya 1.2V menjaga laptop tetap dingin dan baterai lebih awet',
-      'Lulus uji ketat MemTest86 4-pass tanpa error dengan garansi tukar unit 90 hari'
+      'Official Kingston FURY Impact SODIMM 3200MT/s (Timing CL20-22-22 @ 1.2V)',
+      'Plug N Play otomatis berjalan pada frekuensi tertinggi yang diizinkan BIOS tanpa setting manual',
+      'Intel XMP 2.0 Ready & AMD Ryzen Ready untuk kestabilan gaming dan rendering berat',
+      'Desain low-profile dengan thermal label hitam ramping, cocok untuk laptop tipis & Mini PC',
+      'Lulus pengujian MemTest86 4-pass tanpa error dengan garansi tukar unit 90 hari TECHCARE'
     ],
     isBestseller: false,
     rating: 4.9,
