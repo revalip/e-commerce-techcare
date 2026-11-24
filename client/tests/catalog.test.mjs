@@ -1,6 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { mockProducts } from '../src/data/mock.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 test('catalog contains active products with valid structures', () => {
   assert.ok(Array.isArray(mockProducts));
@@ -128,4 +134,39 @@ test('Foresee OEM SSD (id: 20) meets 128GB (350k) and 256GB (625k) pricing requi
   assert.ok(foresee.gambar.includes('/assets/products/foresee-nvme-ssd.jpg'), 'Missing primary Foresee module photo');
   assert.ok(foresee.gambar.includes('/assets/products/foresee-ssd-label.jpg'), 'Missing Foresee label detail photo');
   assert.ok(foresee.qcSummary.includes('Health'), 'Foresee qcSummary must include health metrics');
+});
+
+test('all catalog image assets exist on disk with zero external store watermarks or invalid paths', () => {
+  const forbiddenStoreWatermarks = ['yooung', 'tokopedia-seller', 'shopee-watermark', 'lazada-watermark'];
+
+  for (const product of mockProducts) {
+    const allImgs = [...(product.gambar || [])];
+    if (product.varianWarna) {
+      product.varianWarna.forEach((v) => {
+        if (v.gambar) allImgs.push(v.gambar);
+        if (v.gallery) allImgs.push(...v.gallery);
+      });
+    }
+
+    for (const img of allImgs) {
+      assert.ok(
+        img.startsWith('/assets/') || img.startsWith('/images/'),
+        `Product ${product.nama} image ${img} must start with /assets/ or /images/`
+      );
+
+      const filePath = path.join(__dirname, '../public', img);
+      assert.ok(
+        fs.existsSync(filePath),
+        `Product ${product.nama} image file missing on disk: ${filePath}`
+      );
+
+      const lowerImg = img.toLowerCase();
+      for (const watermark of forbiddenStoreWatermarks) {
+        assert.ok(
+          !lowerImg.includes(watermark),
+          `Product ${product.nama} image ${img} contains forbidden third-party store watermark: ${watermark}`
+        );
+      }
+    }
+  }
 });
