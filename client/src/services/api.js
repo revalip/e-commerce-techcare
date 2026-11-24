@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v5) mencakup dynamic real photo color variant switching
+// Versioned storage keys (v6) mencakup Digimap-style multi-angle color gallery
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v5',
-  COLLECTIONS: 'techcare_collections_v5',
-  DISCOUNTS: 'techcare_discounts_v5',
-  ORDERS: 'techcare_orders_v5'
+  PRODUCTS: 'techcare_products_v6',
+  COLLECTIONS: 'techcare_collections_v6',
+  DISCOUNTS: 'techcare_discounts_v6',
+  ORDERS: 'techcare_orders_v6'
 };
 
 function getStored(key, fallback) {

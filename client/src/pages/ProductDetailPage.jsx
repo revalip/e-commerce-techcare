@@ -43,70 +43,44 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
   const [showStickyBar, setShowStickyBar] = useState(false);
   const actionBtnRef = useRef(null);
 
-  const uniqueImages = useMemo(() => {
-    const list = [];
-    if (product?.varianWarna && product.varianWarna.length > 0) {
-      product.varianWarna.forEach((v) => {
-        if (v.gambar && !list.includes(v.gambar)) {
-          list.push(v.gambar);
-        }
-      });
-    }
-    if (product?.gambar && Array.isArray(product.gambar)) {
-      product.gambar.forEach((g) => {
-        if (g && !list.includes(g)) {
-          list.push(g);
-        }
-      });
-    }
-    return list.filter(Boolean);
-  }, [product]);
+  // Varian warna aktif saat ini
+  const activeColorVariant = useMemo(() => {
+    if (!product?.varianWarna || product.varianWarna.length === 0) return null;
+    return (
+      product.varianWarna.find((v) => v.nama === selectedColor) ||
+      product.varianWarna[0]
+    );
+  }, [product, selectedColor]);
 
-  const images =
-    uniqueImages.length > 0
-      ? uniqueImages
+  // Gallery foto aktif sesuai varian warna yang dipilih (persis konsep Digimap & Apple Store)
+  const activeGallery = useMemo(() => {
+    if (activeColorVariant?.gallery && activeColorVariant.gallery.length > 0) {
+      return activeColorVariant.gallery;
+    }
+    if (activeColorVariant?.gambar) {
+      return [activeColorVariant.gambar];
+    }
+    return product?.gambar && product.gambar.length > 0
+      ? product.gambar
       : ['/assets/products/thinkpad-x1-carbon-front.png'];
+  }, [activeColorVariant, product]);
+
+  const currentMainImage = activeGallery[activeImageIdx] || activeGallery[0];
 
   useEffect(() => {
     const initialVariant = product?.varianWarna?.[0];
-    const initialColor = initialVariant?.nama || 'Standard';
-    setSelectedColor(initialColor);
+    setSelectedColor(initialVariant?.nama || 'Standard');
     setSelectedRamIdx(0);
     setSelectedSsdIdx(0);
     setSelectedTierIdx(0);
-
-    if (initialVariant?.gambar) {
-      const idx = images.indexOf(initialVariant.gambar);
-      setActiveImageIdx(idx !== -1 ? idx : 0);
-    } else {
-      setActiveImageIdx(0);
-    }
+    setActiveImageIdx(0);
     setQuantity(1);
     setLightboxOpen(false);
-  }, [product?.id, images]);
+  }, [product?.id]);
 
   const handleSelectColor = (v) => {
     setSelectedColor(v.nama);
-    if (v.gambar) {
-      const idx = images.indexOf(v.gambar);
-      if (idx !== -1) {
-        setActiveImageIdx(idx);
-      }
-    } else {
-      const vIdx = (product?.varianWarna || []).findIndex((item) => item.nama === v.nama);
-      if (vIdx !== -1 && images[vIdx]) {
-        setActiveImageIdx(vIdx);
-      }
-    }
-  };
-
-  const handleSelectThumbnail = (i) => {
-    setActiveImageIdx(i);
-    const targetImg = images[i];
-    const match = (product?.varianWarna || []).find((v) => v.gambar === targetImg);
-    if (match) {
-      setSelectedColor(match.nama);
-    }
+    setActiveImageIdx(0); // Tampilkan foto pertama dari varian warna yang diklik
   };
 
   useEffect(() => {
@@ -153,9 +127,7 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
 
   const wishlisted = isWishlisted(product.id);
   const outOfStock = Number(product.stok) <= 0;
-
-  const activeColorObj = (product?.varianWarna || []).find((v) => v.nama === selectedColor);
-  const selectedGambar = activeColorObj?.gambar || images[activeImageIdx] || images[0];
+  const selectedGambar = currentMainImage;
 
   const handleAddToCart = () => {
     if (outOfStock) return;
@@ -243,32 +215,32 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
 
               <AnimatePresence mode="wait">
                 <motion.img
-                  key={activeImageIdx}
-                  src={images[activeImageIdx]}
-                  alt={product.nama}
+                  key={`${selectedColor}-${activeImageIdx}-${currentMainImage}`}
+                  src={currentMainImage}
+                  alt={`${product.nama} - ${selectedColor}`}
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: isZoomed ? 1.06 : 1 }}
                   exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.24 }}
+                  transition={{ duration: 0.22 }}
                   className="max-h-full max-w-[90%] object-contain"
                 />
               </AnimatePresence>
             </div>
 
-            {images.length > 1 && (
+            {activeGallery.length > 1 && (
               <div className="flex items-center gap-2.5 overflow-x-auto pb-1">
-                {images.map((img, i) => (
+                {activeGallery.map((img, i) => (
                   <button
                     key={i}
                     type="button"
-                    onClick={() => handleSelectThumbnail(i)}
+                    onClick={() => setActiveImageIdx(i)}
                     className={`w-20 h-20 rounded-2xl bg-[#F5F5F7] border p-2 shrink-0 transition-all ${
                       activeImageIdx === i
                         ? 'border-[#0071E3] ring-2 ring-[#0071E3]/20'
                         : 'border-[#E2E7EE] opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt={`Sudut ${i + 1}`} className="w-full h-full object-contain" />
+                    <img src={img} alt={`${product.nama} ${selectedColor} sudut ${i + 1}`} className="w-full h-full object-contain" />
                   </button>
                 ))}
               </div>
@@ -674,8 +646,8 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
               <X size={20} />
             </button>
             <img
-              src={images[activeImageIdx]}
-              alt={product.nama}
+              src={currentMainImage}
+              alt={`${product.nama} - ${selectedColor}`}
               onClick={(e) => e.stopPropagation()}
               className="max-h-[85vh] max-w-[92vw] object-contain rounded-[24px] bg-white p-6"
             />
