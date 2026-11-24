@@ -92,8 +92,8 @@ test('RAM second products have calibrated market pricing across 8GB-32GB tiers',
 });
 
 test('SATA SSD and RAM products use verified authentic photography assets (.webp / .jpg / .png)', () => {
-  const hardwareItems = mockProducts.filter((p) => [5, 6, 16, 17, 18, 19].includes(p.id));
-  assert.strictEqual(hardwareItems.length, 6, 'Expected 6 hardware products with authentic photos');
+  const hardwareItems = mockProducts.filter((p) => [5, 6, 16, 17, 18, 19, 20].includes(p.id));
+  assert.strictEqual(hardwareItems.length, 7, 'Expected 7 hardware products with authentic photos');
 
   const validPhotoExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
   for (const item of hardwareItems) {
@@ -103,4 +103,29 @@ test('SATA SSD and RAM products use verified authentic photography assets (.webp
       assert.ok(hasValidExt, `Item ${item.nama} image ${img} is not an authentic photograph asset`);
     }
   }
+});
+
+test('Foresee OEM SSD (id: 20) meets 128GB (350k) and 256GB (625k) pricing requirements', () => {
+  const foresee = mockProducts.find((p) => p.id === 20);
+  assert.ok(foresee, 'Foresee OEM SSD must exist in catalog');
+  assert.strictEqual(foresee.brand, 'FORESEE');
+  assert.strictEqual(foresee.koleksiSlug, 'ssd-storage');
+  assert.strictEqual(foresee.harga, 350000, 'Base 128GB price must be 350.000 (350k)');
+
+  const ssdOptions = foresee.specOptions?.ssd;
+  assert.ok(Array.isArray(ssdOptions), 'Foresee must have ssd specOptions');
+  assert.strictEqual(ssdOptions.length, 2, 'Foresee must have 2 capacity options (128GB, 256GB)');
+
+  const opt128 = ssdOptions.find((o) => o.label.includes('128GB'));
+  const opt256 = ssdOptions.find((o) => o.label.includes('256GB'));
+  assert.ok(opt128, '128GB option must exist');
+  assert.ok(opt256, '256GB option must exist');
+
+  assert.strictEqual(foresee.harga + opt128.priceDelta, 350000, '128GB total price must equal 350.000');
+  assert.strictEqual(foresee.harga + opt256.priceDelta, 625000, '256GB total price must equal 625.000');
+
+  // Verify authentic photography assets
+  assert.ok(foresee.gambar.includes('/assets/products/foresee-nvme-ssd.jpg'), 'Missing primary Foresee module photo');
+  assert.ok(foresee.gambar.includes('/assets/products/foresee-ssd-label.jpg'), 'Missing Foresee label detail photo');
+  assert.ok(foresee.qcSummary.includes('Health'), 'Foresee qcSummary must include health metrics');
 });
