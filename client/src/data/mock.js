@@ -1011,7 +1011,7 @@ export const mockCollections = [
     id: 2,
     nama: 'RAM & Memori',
     slug: 'ram-memori',
-    tagline: 'Corsair Vengeance & Kingston FURY DDR4/DDR5 Tested',
+    tagline: 'Kingston FURY Impact, Corsair & Samsung/Hynix SODIMM Tested',
     gambar: '/assets/products/corsair-vengeance-ram.png',
     buttonText: 'LIHAT RAM →'
   },
@@ -1019,7 +1019,7 @@ export const mockCollections = [
     id: 3,
     nama: 'SSD & Storage',
     slug: 'ssd-storage',
-    tagline: 'Samsung NVMe PCIe Gen4 Health 97%+ Siap Upgrade',
+    tagline: 'Samsung 990, Foresee NVMe Copotan Laptop & SATA SSD Health 100%',
     gambar: '/images/products/samsung-990-pro-heatsink.png',
     buttonText: 'LIHAT SSD →'
   },
