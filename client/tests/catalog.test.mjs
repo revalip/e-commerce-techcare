@@ -83,3 +83,17 @@ test('RAM second products have calibrated market pricing across 8GB-32GB tiers',
     assert.ok(Array.isArray(ram.specOptions?.ram), `RAM ${ram.nama} missing specOptions.ram`);
   }
 });
+
+test('SATA SSD and RAM products use verified authentic photography assets (.webp / .jpg / .png)', () => {
+  const hardwareItems = mockProducts.filter((p) => [5, 6, 16, 17, 18, 19].includes(p.id));
+  assert.strictEqual(hardwareItems.length, 6, 'Expected 6 hardware products with authentic photos');
+
+  const validPhotoExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
+  for (const item of hardwareItems) {
+    assert.ok(Array.isArray(item.gambar) && item.gambar.length >= 1, `Item ${item.nama} missing images`);
+    for (const img of item.gambar) {
+      const hasValidExt = validPhotoExtensions.some((ext) => img.toLowerCase().endsWith(ext));
+      assert.ok(hasValidExt, `Item ${item.nama} image ${img} is not an authentic photograph asset`);
+    }
+  }
+});
