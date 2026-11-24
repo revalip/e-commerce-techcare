@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v10) mencakup foto real fisik marketplace SSD SATA & RAM SODIMM OEM
+// Versioned storage keys (v11) mencakup Foresee OEM SSD (128GB/256GB), kalibrasi Kingston FURY 512k & foto unwatermarked
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v10',
-  COLLECTIONS: 'techcare_collections_v10',
-  DISCOUNTS: 'techcare_discounts_v10',
-  ORDERS: 'techcare_orders_v10'
+  PRODUCTS: 'techcare_products_v11',
+  COLLECTIONS: 'techcare_collections_v11',
+  DISCOUNTS: 'techcare_discounts_v11',
+  ORDERS: 'techcare_orders_v11'
 };
 
 function getStored(key, fallback) {
