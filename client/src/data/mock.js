@@ -478,6 +478,49 @@ export const mockProducts = [
     ulasan: 176
   },
   {
+    id: 18,
+    brand: 'V-GEN',
+    nama: 'V-GeN Platinum SATA III 2.5" SSD',
+    slug: 'vgen-platinum-sata-iii-ssd',
+    tagline: 'HIGH RELIABILITY • OFFICIAL WARRANTY',
+    kondisi: 'Baru • Garansi Resmi V-GeN 3 Tahun',
+    garansi: 'Garansi Resmi V-GeN Indonesia 3 Tahun (Service Center Seluruh Kota)',
+    qcSummary: 'Controller Silicon Motion • Garansi Resmi Mudah • Read 550MB/s',
+    harga: 245000,
+    hargaCoret: 320000,
+    diskonPersen: 23,
+    stok: 52,
+    beratGram: 130,
+    koleksi: 'SSD & Storage',
+    koleksiSlug: 'ssd-storage',
+    gambar: [
+      '/assets/products/vgen-platinum-sata-ssd.svg'
+    ],
+    varianWarna: [
+      { nama: 'Platinum Sapphire Navy', hex: '#1e1e24' }
+    ],
+    specOptions: {
+      ssd: [
+        { label: '128GB SATA', priceDelta: 0 },
+        { label: '256GB SATA', priceDelta: 145000 },
+        { label: '512GB SATA', priceDelta: 395000 },
+        { label: '1TB SATA', priceDelta: 835000 }
+      ]
+    },
+    specRangeLabel: '128GB - 1TB SATA III',
+    deskripsi: 'SSD SATA 2.5" kelas premium lokal paling terpercaya di Indonesia dari V-GeN seri Platinum. Menggunakan controller Silicon Motion andal dan didukung jaringan service center V-GeN resmi di hampir semua kota besar Indonesia dengan klaim garansi ganti unit langsung yang sangat mudah.',
+    fitur: [
+      'Controller Silicon Motion SMI2258XT dengan stabilitas baca/tulis konsisten',
+      'Kecepatan Read hingga 550 MB/s & Write hingga 500 MB/s',
+      'Jaringan Service Center resmi V-GeN terluas di seluruh Indonesia',
+      'Dukungan fitur Smart ECC & Wear Leveling untuk proteksi data jangka panjang',
+      'Garansi Resmi V-GeN Indonesia 3 Tahun (One-to-One Replacement)'
+    ],
+    isBestseller: true,
+    rating: 4.9,
+    ulasan: 342
+  },
+  {
     id: 8,
     brand: 'LG ULTRAGEAR',
     nama: 'LG UltraGear 27" IPS 144Hz Monitor',
