@@ -160,24 +160,29 @@ npm test         # Menjalankan 16/16 unit test bawaan Node.js
 | **Security** | Password hashing & salt | Enkripsi salted SHA-256 dan verifikasi cocok/salah | ✅ PASS |
 
 #### 📊 Hasil Riset Pasar Hardware Second & SSD SATA (Tokopedia & Shopee 2026):
-1. **RAM Second (DDR4 SODIMM Laptop & PC Desktop):**
-   - **8GB DDR4 (Copotan OEM Samsung / Hynix / Kingston):** Rp 195.000 – Rp 235.000 (diskon coret Rp 260.000 – Rp 310.000).
-   - **16GB DDR4 (Samsung / SK Hynix / FURY):** Rp 395.000 – Rp 445.000.
+1. **RAM Second & Gaming SODIMM (DDR4 Laptop & PC):**
+   - **Kingston FURY Impact DDR4 (Official Benchmark kingston.com):** 8GB SODIMM (Rp 512.000 / Diskon coret Rp 620.000), 16GB (Rp 850.000), 32GB Kit (Rp 1.620.000).
+   - **8GB DDR4 (Copotan OEM Samsung / Hynix):** Rp 195.000 – Rp 235.000 (diskon coret Rp 260.000 – Rp 310.000).
+   - **16GB DDR4 (Samsung / SK Hynix / Corsair):** Rp 395.000 – Rp 445.000.
    - **32GB DDR4 (Kit 2x16GB / Single 32GB):** Rp 790.000 – Rp 880.000.
 2. **SSD SATA 2.5" Internal (ODM vs Brand Resmi):**
    - **RX7 SATA III (ODM Value Budget):** 128GB (Rp 175rb), 256GB (Rp 285rb), 512GB (Rp 515rb), 1TB (Rp 1.095rb).
    - **KYO Kaizen SATA III (ODM Metal Casing):** 128GB (Rp 195rb), 256GB (Rp 320rb), 512GB (Rp 585rb), 1TB (Rp 1.180rb).
    - **V-GeN Platinum (Brand Terpercaya Garansi 3 Tahun):** 128GB (Rp 245rb), 256GB (Rp 390rb), 512GB (Rp 640rb), 1TB (Rp 1.080rb).
+3. **SSD M.2 NVMe OEM Second Copotan Laptop (Foresee Longsys):**
+   - **Foresee 128GB NVMe PCIe (Health 99-100%):** Rp 350.000 (diskon coret Rp 435.000).
+   - **Foresee 256GB NVMe PCIe (Health 99-100%):** Rp 625.000 (diskon coret Rp 750.000).
 
-#### 📸 Pembuktian Sumber Aset Foto Fisik Asli (Non-AI Generated):
+#### 📸 Pembuktian Sumber Aset Foto Fisik Asli (Non-AI Generated & Zero Watermark):
 | Nama Perangkat | Sumber Aset Fisik | Tipe Foto |
 | :--- | :--- | :--- |
+| **Foresee OEM M.2 NVMe SSD** | Dokumentasi unit copotan laptop OEM Lenovo/HP/ASUS (Shopee Verified) | Modul fisik depan M.2 2280 & foto close-up label part number |
+| **Kingston FURY Impact**| Kingston Official Authorized Distributor CDN (`kingstonmemoryshop.co.uk`) | Foto resmi modul SODIMM hitam bersih tanpa watermark toko |
 | **RX7 SATA III SSD** | Tokopedia & Shopee Partner Store (`aphluv / ACECOMPUTER`) | Unit fisik depan & retail box asli |
 | **KYO Kaizen SATA SSD** | Shopee Indonesia Official Partner Listing | Casing metal gunmetal & retail blister pack |
 | **V-GeN Platinum SSD** | Tokopedia V-GeN Official Partner & Shopee Listing | Bodi SSD platinum navy & kemasan retail box |
 | **Samsung OEM SODIMM** | Dokumentasi modul RAM copotan laptop bisnis ThinkPad | Modul PCB hijau asli dengan stiker part number Samsung |
 | **SK Hynix OEM SODIMM** | Dokumentasi modul RAM copotan laptop Dell Latitude | Modul PCB hijau asli dengan stiker part number SK Hynix |
-| **Kingston FURY Impact**| Shopee Official Partner Store | Modul SODIMM hitam dengan label FURY |
 | **Corsair Vengeance LPX**| Corsair Official Product Gallery CDN & studio photography | Heatsink aluminium anodized black |
 
 Buka peramban Anda di **`http://localhost:5173`**.
