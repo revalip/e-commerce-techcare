@@ -234,13 +234,13 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: 'RAM 8GB', priceDelta: 0 },
-        { label: 'RAM 16GB', priceDelta: 450000 },
-        { label: 'RAM 32GB', priceDelta: 1050000 }
+        { label: 'RAM 16GB', priceDelta: 220000 },
+        { label: 'RAM 32GB', priceDelta: 650000 }
       ],
       ssd: [
         { label: 'SSD 256GB NVMe', priceDelta: 0 },
-        { label: 'SSD 512GB NVMe', priceDelta: 300000 },
-        { label: 'SSD 1TB NVMe', priceDelta: 700000 }
+        { label: 'SSD 512GB NVMe', priceDelta: 280000 },
+        { label: 'SSD 1TB NVMe', priceDelta: 650000 }
       ]
     },
     specRangeLabel: 'RAM 8-32GB • SSD 256GB-1TB',
@@ -812,11 +812,11 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: 'RAM 8GB', priceDelta: 0 },
-        { label: 'RAM 16GB', priceDelta: 350000 }
+        { label: 'RAM 16GB', priceDelta: 220000 }
       ],
       ssd: [
         { label: 'SSD 256GB NVMe', priceDelta: 0 },
-        { label: 'SSD 512GB NVMe', priceDelta: 300000 }
+        { label: 'SSD 512GB NVMe', priceDelta: 280000 }
       ]
     },
     specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',
@@ -858,11 +858,11 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: 'RAM 8GB', priceDelta: 0 },
-        { label: 'RAM 16GB', priceDelta: 400000 }
+        { label: 'RAM 16GB', priceDelta: 220000 }
       ],
       ssd: [
         { label: 'SSD 256GB NVMe', priceDelta: 0 },
-        { label: 'SSD 512GB NVMe', priceDelta: 300000 }
+        { label: 'SSD 512GB NVMe', priceDelta: 280000 }
       ]
     },
     specRangeLabel: 'RAM 8-16GB • SSD 256-512GB',

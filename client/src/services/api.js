@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v8) mencakup ASUS ZenBook 14 OLED multi-angle variant galleries
+// Versioned storage keys (v9) mencakup SATA SSD (RX7, KYO, V-GeN) & RAM second terkalibrasi
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v8',
-  COLLECTIONS: 'techcare_collections_v8',
-  DISCOUNTS: 'techcare_discounts_v8',
-  ORDERS: 'techcare_orders_v8'
+  PRODUCTS: 'techcare_products_v9',
+  COLLECTIONS: 'techcare_collections_v9',
+  DISCOUNTS: 'techcare_discounts_v9',
+  ORDERS: 'techcare_orders_v9'
 };
 
 function getStored(key, fallback) {
