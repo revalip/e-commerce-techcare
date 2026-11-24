@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (13/13 pengujian unit testing keranjang, varian multi-sudut Digimap/ASUS, keamanan sanitasi & integritas katalog PASS 100%).
+- **Automated Testing**: `npm test` (15/15 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, RAM second terkalibrasi & keamanan sanitasi PASS 100%).
 
 ---
 
@@ -136,7 +136,7 @@ npm run dev      # Frontend aktif di http://localhost:5173
 **Langkah C: Menjalankan Pengujian Otomatis (Test Suite)**
 ```bash
 cd client
-npm test         # Menjalankan 13/13 unit test bawaan Node.js
+npm test         # Menjalankan 15/15 unit test bawaan Node.js
 ```
 
 #### Matriks Pengujian Otomatis (Automated Unit Testing Matrix):
@@ -151,10 +151,22 @@ npm test         # Menjalankan 13/13 unit test bawaan Node.js
 | **Catalog** | MacBook Air M1 Galleries | 3 Varian (Space Gray, Silver, Gold) memiliki galeri multi-sudut | ✅ PASS |
 | **Catalog** | ASUS ZenBook 14 Galleries | 2 Varian (Aqua Celadon, Ponder Blue) memiliki galeri multi-sudut | ✅ PASS |
 | **Catalog** | Laptop Hero Perspective | Foto utama katalog mempertahankan sudut pandang tegap 3/4 | ✅ PASS |
+| **Catalog** | SATA SSD (RX7, KYO, V-GeN)| Kapasitas 128GB - 1TB dengan rentang harga pasar nyata | ✅ PASS |
+| **Pricing** | RAM Second 8GB - 32GB | Kalibrasi harga pasar Tokopedia/Shopee (Rp 195rb - Rp 880rb) | ✅ PASS |
 | **Security** | Email regex validation | Validasi format email RFC standard & domain check | ✅ PASS |
 | **Security** | Indonesian Phone sanitization | Validasi panjang nomor 9–15 digit dan prefix `08` / `+62` | ✅ PASS |
 | **Security** | XSS sanitization | Pembersihan tag `<script>` dan pemotongan teks batas aman | ✅ PASS |
 | **Security** | Password hashing & salt | Enkripsi salted SHA-256 dan verifikasi cocok/salah | ✅ PASS |
+
+#### 📊 Hasil Riset Pasar Hardware Second & SSD SATA (Tokopedia & Shopee 2026):
+1. **RAM Second (DDR4 SODIMM Laptop & PC Desktop):**
+   - **8GB DDR4 (Copotan OEM Samsung / Hynix / Kingston):** Rp 195.000 – Rp 235.000 (diskon coret Rp 260.000 – Rp 310.000).
+   - **16GB DDR4 (Samsung / SK Hynix / FURY):** Rp 395.000 – Rp 445.000.
+   - **32GB DDR4 (Kit 2x16GB / Single 32GB):** Rp 790.000 – Rp 880.000.
+2. **SSD SATA 2.5" Internal (ODM vs Brand Resmi):**
+   - **RX7 SATA III (ODM Value Budget):** 128GB (Rp 175rb), 256GB (Rp 285rb), 512GB (Rp 515rb), 1TB (Rp 1.095rb).
+   - **KYO Kaizen SATA III (ODM Metal Casing):** 128GB (Rp 195rb), 256GB (Rp 320rb), 512GB (Rp 585rb), 1TB (Rp 1.180rb).
+   - **V-GeN Platinum (Brand Terpercaya Garansi 3 Tahun):** 128GB (Rp 245rb), 256GB (Rp 390rb), 512GB (Rp 640rb), 1TB (Rp 1.080rb).
 
 Buka peramban Anda di **`http://localhost:5173`**.
 
