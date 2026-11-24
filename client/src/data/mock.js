@@ -557,10 +557,19 @@ export const mockProducts = [
     koleksi: 'SSD & Storage',
     koleksiSlug: 'ssd-storage',
     gambar: [
-      '/assets/products/vgen-platinum-sata-ssd.svg'
+      '/assets/products/vgen-platinum-sata-ssd.jpg',
+      '/assets/products/vgen-platinum-box.jpg'
     ],
     varianWarna: [
-      { nama: 'Platinum Sapphire Navy', hex: '#1e1e24' }
+      {
+        nama: 'Platinum Sapphire Navy',
+        hex: '#1e1e24',
+        gambar: '/assets/products/vgen-platinum-sata-ssd.jpg',
+        gallery: [
+          '/assets/products/vgen-platinum-sata-ssd.jpg',
+          '/assets/products/vgen-platinum-box.jpg'
+        ]
+      }
     ],
     specOptions: {
       ssd: [
