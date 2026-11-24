@@ -330,7 +330,7 @@ export const mockProducts = [
     koleksiSlug: 'ram-memori',
     gambar: [
       '/assets/products/kingston-fury-impact.jpg',
-      '/assets/products/kingston-fury-sodimm-ram.png'
+      '/assets/products/kingston-fury-rear.jpg'
     ],
     varianWarna: [
       {
@@ -339,7 +339,7 @@ export const mockProducts = [
         gambar: '/assets/products/kingston-fury-impact.jpg',
         gallery: [
           '/assets/products/kingston-fury-impact.jpg',
-          '/assets/products/kingston-fury-sodimm-ram.png'
+          '/assets/products/kingston-fury-rear.jpg'
         ]
       }
     ],
