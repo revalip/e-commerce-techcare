@@ -636,7 +636,7 @@ export const mockProducts = [
     tagline: 'SSD NVMe OEM COPOTAN LAPTOP • HEALTH 100%',
     kondisi: 'Second Copotan Laptop (Health 98-100%)',
     garansi: 'Garansi Toko TECHCARE 60 Hari',
-    qcSummary: 'CrystalDiskInfo Health 100% • Read 2100MB/s • Low Power Draw',
+    qcSummary: 'CrystalDiskInfo Health 99-100% • Read 2100MB/s • TBW Rendah (<10TB) • 0 Bad Sector',
     harga: 350000,
     hargaCoret: 435000,
     diskonPersen: 20,
@@ -669,14 +669,15 @@ export const mockProducts = [
       ]
     },
     specRangeLabel: '128GB - 256GB M.2 NVMe',
-    deskripsi: 'SSD M.2 NVMe PCIe OEM Foresee original copotan laptop Lenovo, ASUS, HP, dan Acer saat unit di-upgrade customer. Kondisi prima dengan indikator CrystalDiskInfo Health 98%-100%, tanpa bad sector, dan suhu operasional dingin.',
+    deskripsi: 'SSD M.2 NVMe PCIe OEM Foresee original copotan laptop Lenovo, ASUS, HP, dan Acer saat unit di-upgrade customer. Kondisi prima dengan indikator CrystalDiskInfo Health 98%-100%, total pemakaian (TBW) sangat minim, tanpa bad sector, dan suhu operasional dingin.',
     fitur: [
-      'Original OEM factory drive copotan langsung dari unit laptop baru/upgrade',
-      'Kesehatan prima (CrystalDiskInfo Health 98% - 100%, 0 Bad Sector)',
-      'Kecepatan Read hingga 2.100 MB/s & Write hingga 1.200 MB/s (PCIe 3.0 x4 NVMe)',
-      'Form factor standar M.2 2280 cocok untuk laptop, PC desktop, maupun enclosure NVMe',
-      'Gratis instalasi OS Windows 11/10 bersih jika pasang langsung di toko TECHCARE',
-      'Garansi Tukar Unit TECHCARE 60 Hari'
+      'Original OEM factory drive copotan langsung dari unit laptop baru/upgrade (Lenovo/HP/ASUS)',
+      'Kesehatan prima verified (CrystalDiskInfo Health 98% - 100%, 0 Reallocated Sectors)',
+      'Total Bytes Written (TBW) sangat rendah (<10 TBW), estimasi sisa usia pakai 95%+',
+      'Kecepatan Read hingga 2.100 MB/s & Write hingga 1.200 MB/s (PCIe 3.0 x4 NVMe 1.3)',
+      'Form factor standar M.2 2280 cocok untuk laptop, PC desktop, maupun enclosure NVMe portable',
+      'Gratis instalasi OS Windows 11/10 bersih jika pasang langsung di workshop TECHCARE',
+      'Garansi Tukar Unit TECHCARE 60 Hari dengan penanganan cepat'
     ],
     isBestseller: true,
     rating: 4.8,
