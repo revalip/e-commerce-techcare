@@ -140,7 +140,15 @@ test('Foresee OEM SSD (id: 20) meets 128GB (350k) and 256GB (625k) pricing requi
 });
 
 test('all catalog image assets exist on disk with zero external store watermarks or invalid paths', () => {
-  const forbiddenStoreWatermarks = ['yooung', 'tokopedia-seller', 'shopee-watermark', 'lazada-watermark'];
+  const forbiddenStoreWatermarks = [
+    'yooung',
+    'youngs',
+    'young-computer',
+    'toko-orang',
+    'tokopedia-seller',
+    'shopee-watermark',
+    'lazada-watermark'
+  ];
 
   for (const product of mockProducts) {
     const allImgs = [...(product.gambar || [])];
@@ -170,6 +178,19 @@ test('all catalog image assets exist on disk with zero external store watermarks
           `Product ${product.nama} image ${img} contains forbidden third-party store watermark: ${watermark}`
         );
       }
+    }
+  }
+});
+
+test('catalog descriptions and titles contain zero references to external store entities', () => {
+  const forbiddenStoreKeywords = ['yooung', 'youngs computer', 'toko orang', 'shopee official store'];
+  for (const product of mockProducts) {
+    const textToCheck = `${product.nama} ${product.tagline} ${product.deskripsi} ${product.qcSummary}`.toLowerCase();
+    for (const kw of forbiddenStoreKeywords) {
+      assert.ok(
+        !textToCheck.includes(kw),
+        `Product ${product.nama} contains third-party store reference: ${kw}`
+      );
     }
   }
 });
