@@ -156,11 +156,34 @@ export const mockProducts = [
     koleksi: 'Laptop Second',
     koleksiSlug: 'laptop-second',
     gambar: [
-      '/assets/products/asus-zenbook-14-oled.png'
+      '/assets/products/asus-zenbook-14-oled.png',
+      '/assets/products/asus-zenbook-14-ponder-blue.png',
+      '/assets/products/asus-zenbook-14-aqua-celadon-lid.png',
+      '/assets/products/asus-zenbook-14-ponder-blue-lid.png',
+      '/assets/products/asus-zenbook-14-aqua-celadon-side.png',
+      '/assets/products/asus-zenbook-14-ponder-blue-side.png'
     ],
     varianWarna: [
-      { nama: 'Aqua Celadon Silver', hex: '#cbd5e1' },
-      { nama: 'Ponder Blue', hex: '#283446' }
+      {
+        nama: 'Aqua Celadon Silver',
+        hex: '#cbd5e1',
+        gambar: '/assets/products/asus-zenbook-14-aqua-celadon.png',
+        gallery: [
+          '/assets/products/asus-zenbook-14-aqua-celadon.png',
+          '/assets/products/asus-zenbook-14-aqua-celadon-lid.png',
+          '/assets/products/asus-zenbook-14-aqua-celadon-side.png'
+        ]
+      },
+      {
+        nama: 'Ponder Blue',
+        hex: '#283446',
+        gambar: '/assets/products/asus-zenbook-14-ponder-blue.png',
+        gallery: [
+          '/assets/products/asus-zenbook-14-ponder-blue.png',
+          '/assets/products/asus-zenbook-14-ponder-blue-lid.png',
+          '/assets/products/asus-zenbook-14-ponder-blue-side.png'
+        ]
+      }
     ],
     specOptions: {
       ram: [

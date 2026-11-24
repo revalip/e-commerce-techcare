@@ -23,12 +23,12 @@ const delay = (min = 120, max = 240) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
-// Versioned storage keys (v7) mencakup upright 3/4 perspective primary image & Digimap gallery
+// Versioned storage keys (v8) mencakup ASUS ZenBook 14 OLED multi-angle variant galleries
 const STORAGE_KEYS = {
-  PRODUCTS: 'techcare_products_v7',
-  COLLECTIONS: 'techcare_collections_v7',
-  DISCOUNTS: 'techcare_discounts_v7',
-  ORDERS: 'techcare_orders_v7'
+  PRODUCTS: 'techcare_products_v8',
+  COLLECTIONS: 'techcare_collections_v8',
+  DISCOUNTS: 'techcare_discounts_v8',
+  ORDERS: 'techcare_orders_v8'
 };
 
 function getStored(key, fallback) {
