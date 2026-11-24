@@ -356,6 +356,74 @@ export default function ShopPage({
           </div>
         </section>
 
+        {/* Active Filter Chips Bar */}
+        {activeFilterCount > 0 && (
+          <div className="flex flex-wrap items-center gap-2 pt-1 pb-1">
+            <span className="text-[12px] text-[#8E8E93] mr-1">Filter aktif:</span>
+            {selectedBrand && (
+              <button
+                type="button"
+                onClick={() => setSelectedBrand('')}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] text-[#1D1D1F] transition-colors"
+              >
+                <span>Brand: {selectedBrand}</span>
+                <X size={12} className="text-[#8E8E93]" />
+              </button>
+            )}
+            {priceRange !== 'all' && (
+              <button
+                type="button"
+                onClick={() => setPriceRange('all')}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] text-[#1D1D1F] transition-colors"
+              >
+                <span>
+                  {priceRange === 'under1'
+                    ? '< Rp 1 Juta'
+                    : priceRange === '1to5'
+                    ? 'Rp 1 – 5 Juta'
+                    : priceRange === '5to10'
+                    ? 'Rp 5 – 10 Juta'
+                    : '> Rp 10 Juta'}
+                </span>
+                <X size={12} className="text-[#8E8E93]" />
+              </button>
+            )}
+            {sortBy !== 'featured' && (
+              <button
+                type="button"
+                onClick={() => setSortBy('featured')}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] text-[#1D1D1F] transition-colors"
+              >
+                <span>
+                  {sortBy === 'price_asc'
+                    ? 'Harga Terendah'
+                    : sortBy === 'price_desc'
+                    ? 'Harga Tertinggi'
+                    : 'Terbaru'}
+                </span>
+                <X size={12} className="text-[#8E8E93]" />
+              </button>
+            )}
+            {onlyFavorites && (
+              <button
+                type="button"
+                onClick={() => setOnlyFavorites(false)}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F5F5F7] hover:bg-[#E8E8ED] text-[12px] text-[#1D1D1F] transition-colors"
+              >
+                <span>Favorit Saya</span>
+                <X size={12} className="text-[#8E8E93]" />
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={resetAllFilters}
+              className="text-[12px] text-[#0071E3] hover:underline ml-1 cursor-pointer"
+            >
+              Hapus Semua
+            </button>
+          </div>
+        )}
+
         {/* Error State */}
         {error && (
           <div className="bg-[#F5F5F7] rounded-[28px] p-8 text-center space-y-3">
