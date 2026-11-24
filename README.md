@@ -55,7 +55,7 @@ Proyek ini dibangun dengan pendekatan *mobile-first* & **PWA**, estetika monokro
 ### Deployment, Testing & Server
 - **Live Hosting**: Deployed di **aaPanel / Ubuntu Server** (`https://techcare.lippsrv.my.id`) dengan Nginx + Cloudflare, sekaligus dilengkapi konfigurasi **Netlify** (`netlify.toml`) & **Vercel** (`vercel.json`).
 - **Process Manager**: PM2 (`ecosystem.config.js`).
-- **Automated Testing**: `npm test` (18/18 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, Foresee NVMe OEM 128/256GB, RAM second terkalibrasi & aset foto fisik real 100% PASS).
+- **Automated Testing**: `npm test` (19/19 pengujian unit testing keranjang, varian multi-sudut, SSD SATA ODM, Foresee NVMe OEM 128/256GB, RAM second terkalibrasi & aset foto fisik real 100% PASS).
 
 ---
 
@@ -156,6 +156,7 @@ npm test         # Menjalankan 16/16 unit test bawaan Node.js
 | **Pricing** | RAM Second 8GB - 32GB | Kalibrasi harga pasar Tokopedia/Shopee & Kingston 512k | ✅ PASS |
 | **Catalog** | Authentic Photo Assets | Memastikan aset hardware berupa foto fisik asli (.jpg/.webp) | ✅ PASS |
 | **Security** | Zero Third-Party Watermarks | Verifikasi tidak ada nama toko luar & seluruh file aset ada di disk | ✅ PASS |
+| **Security** | Zero Store Blacklist Check | Verifikasi nol teks nama toko luar pada deskripsi & nama produk | ✅ PASS |
 | **Security** | Email regex validation | Validasi format email RFC standard & domain check | ✅ PASS |
 | **Security** | Indonesian Phone sanitization | Validasi panjang nomor 9–15 digit dan prefix `08` / `+62` | ✅ PASS |
 | **Security** | XSS sanitization | Pembersihan tag `<script>` dan pemotongan teks batas aman | ✅ PASS |
