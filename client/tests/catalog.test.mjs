@@ -78,9 +78,16 @@ test('RAM second products have calibrated market pricing across 8GB-32GB tiers',
 
   for (const ram of secondRams) {
     assert.ok(ram.koleksiSlug === 'ram-memori', `RAM ${ram.nama} must belong to ram-memori`);
-    // Base 8GB price between 180k and 260k
-    assert.ok(ram.harga >= 180000 && ram.harga <= 260000, `RAM ${ram.nama} base price unrealistic: ${ram.harga}`);
     assert.ok(Array.isArray(ram.specOptions?.ram), `RAM ${ram.nama} missing specOptions.ram`);
+
+    if (ram.id === 6) {
+      // Kingston FURY Impact high-performance gaming SODIMM calibrated to official 512k benchmark
+      assert.strictEqual(ram.harga, 512000, `Kingston FURY Impact must be 512.000: ${ram.harga}`);
+      assert.strictEqual(ram.hargaCoret, 620000, `Kingston FURY original price must be 620.000`);
+    } else {
+      // Standard OEM and Corsair DDR4 modules calibrated to market rate 180k - 260k
+      assert.ok(ram.harga >= 180000 && ram.harga <= 260000, `RAM ${ram.nama} base price unrealistic: ${ram.harga}`);
+    }
   }
 });
 
