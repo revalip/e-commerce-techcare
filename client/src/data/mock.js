@@ -317,14 +317,14 @@ export const mockProducts = [
     brand: 'KINGSTON FURY',
     nama: 'Kingston FURY Impact Laptop SODIMM RAM',
     slug: 'kingston-fury-impact-sodimm-ram',
-    tagline: 'UPGRADE RAM LAPTOP • PLUG N PLAY',
-    kondisi: 'Second Tested 100%',
+    tagline: 'PERFORMANCE GAMING SODIMM • INTEL XMP & RYZEN READY',
+    kondisi: 'Second Like-New Tested 100%',
     garansi: 'Garansi Tukar Unit 90 Hari',
-    qcSummary: 'Lulus MemTest86 0 Error • Low Voltage 1.2V • Kompatibel Luas',
-    harga: 235000,
-    hargaCoret: 310000,
-    diskonPersen: 24,
-    stok: 30,
+    qcSummary: 'Lulus MemTest86 4-Pass 0 Error • CL20 Low Latency 1.2V • Plug N Play PnP',
+    harga: 512000,
+    hargaCoret: 620000,
+    diskonPersen: 17,
+    stok: 24,
     beratGram: 150,
     koleksi: 'RAM & Memori',
     koleksiSlug: 'ram-memori',
@@ -346,22 +346,22 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: '8GB SODIMM', priceDelta: 0 },
-        { label: '16GB SODIMM', priceDelta: 210000 },
-        { label: '32GB (2x16GB Kit)', priceDelta: 645000 }
+        { label: '16GB SODIMM', priceDelta: 338000 },
+        { label: '32GB (2x16GB Kit)', priceDelta: 1108000 }
       ],
       tier: [
         { label: 'DDR4 3200MHz', priceDelta: 0 },
-        { label: 'DDR5 4800MHz', priceDelta: 260000 }
+        { label: 'DDR5 4800MHz', priceDelta: 180000 }
       ]
     },
     specRangeLabel: '8GB-32GB • DDR4 / DDR5',
-    deskripsi: 'Cara praktis meningkatkan responsivitas laptop untuk multitasking harian. RAM laptop SODIMM second copotan unit grade A dengan dukungan Plug N Play otomatis tanpa perlu pengaturan BIOS.',
+    deskripsi: 'Modul memori laptop performa tinggi Kingston FURY Impact SODIMM dirancang untuk meminimalkan lag dan memaksimalkan FPS laptop gaming serta workstation. Dilengkapi fitur Plug N Play otomatis overclocking pada frekuensi 3200MT/s CL20 pada tegangan hemat daya 1.2V, kompatibel penuh dengan platform Intel Core dan AMD Ryzen.',
     fitur: [
-      'Kompatibel untuk laptop ASUS, Lenovo ThinkPad, Dell, HP, Acer, & Mini PC',
-      'Plug N Play otomatis berjalan di kecepatan optimal motherboard',
-      'Konsumsi daya rendah (1.2V / 1.1V) menjaga baterai laptop tetap awet',
-      'Gratis jasa pemasangan + pembersihan slot RAM jika ambil di workshop TECHCARE',
-      'Garansi Tukar Unit Langsung 90 Hari dari TECHCARE'
+      'Official Kingston FURY Impact SODIMM 3200MT/s CL20 Low Latency',
+      'Plug N Play otomatis berjalan pada kecepatan tertinggi yang didukung BIOS/sistem',
+      'Intel XMP-Ready & AMD Ryzen Ready untuk kestabilan performa gaming',
+      'Tegangan hemat daya 1.2V menjaga laptop tetap dingin dan baterai lebih awet',
+      'Lulus uji ketat MemTest86 4-pass tanpa error dengan garansi tukar unit 90 hari'
     ],
     isBestseller: false,
     rating: 4.9,
