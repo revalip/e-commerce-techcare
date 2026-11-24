@@ -218,6 +218,8 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                   key={`${selectedColor}-${activeImageIdx}-${currentMainImage}`}
                   src={currentMainImage}
                   alt={`${product.nama} - ${selectedColor}`}
+                  loading="eager"
+                  decoding="async"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: isZoomed ? 1.06 : 1 }}
                   exit={{ opacity: 0, scale: 0.96 }}
@@ -240,7 +242,13 @@ export default function ProductDetailPage({ product, onBack, onDirectCheckout, o
                         : 'border-[#E2E7EE] opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt={`${product.nama} ${selectedColor} sudut ${i + 1}`} className="w-full h-full object-contain" />
+                    <img
+                      src={img}
+                      alt={`${product.nama} ${selectedColor} sudut ${i + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-contain"
+                    />
                   </button>
                 ))}
               </div>
