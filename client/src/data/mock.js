@@ -312,9 +312,9 @@ export const mockProducts = [
     kondisi: 'Second Tested 100%',
     garansi: 'Garansi Tukar Unit 90 Hari',
     qcSummary: 'Lulus MemTest86 0 Error • Low Voltage 1.2V • Kompatibel Luas',
-    harga: 345000,
-    hargaCoret: 475000,
-    diskonPersen: 27,
+    harga: 235000,
+    hargaCoret: 310000,
+    diskonPersen: 24,
     stok: 30,
     beratGram: 150,
     koleksi: 'RAM & Memori',
@@ -328,12 +328,12 @@ export const mockProducts = [
     specOptions: {
       ram: [
         { label: '8GB SODIMM', priceDelta: 0 },
-        { label: '16GB SODIMM', priceDelta: 310000 },
-        { label: '32GB (2x16GB Kit)', priceDelta: 890000 }
+        { label: '16GB SODIMM', priceDelta: 210000 },
+        { label: '32GB (2x16GB Kit)', priceDelta: 645000 }
       ],
       tier: [
         { label: 'DDR4 3200MHz', priceDelta: 0 },
-        { label: 'DDR5 4800MHz', priceDelta: 290000 }
+        { label: 'DDR5 4800MHz', priceDelta: 260000 }
       ]
     },
     specRangeLabel: '8GB-32GB • DDR4 / DDR5',
